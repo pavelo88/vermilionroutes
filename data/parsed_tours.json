@@ -1,0 +1,682 @@
+[
+  {
+    "id": "andean-world",
+    "title": "ANDEAN WORLD",
+    "destination": "Peru",
+    "duration": "10 DAYS / 9 NIGHTS",
+    "price": 1999,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 14,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Lima",
+      "Cusco",
+      "Sacred Valley",
+      "Macchu Picchu",
+      "Pisac Ruins"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "andes-amazon-jungle-galapagos",
+    "title": "ANDES, AMAZON JUNGLE + GALAPAGOS",
+    "destination": "Peru",
+    "duration": "12 DAYS / 11 NIGHTS",
+    "price": 2731,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 17,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Quito City Tour",
+      "Mitad del Mundo",
+      "Termas Papallacta",
+      "Tena",
+      "Animal Rescue Center"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "cusco-inca-trail-machu-picchu",
+    "title": "CUSCO INCA TRAIL MACHU PICCHU",
+    "destination": "Peru",
+    "duration": "14 DAYS/ 13 NIGHTS",
+    "price": 2600,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 27,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Cusco",
+      "Urubamba Valley",
+      "Chinchero",
+      "Maras Salt Flats",
+      "Pichingoto"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "ecuador-andes-and-jungle-of-the-amazon",
+    "title": "ECUADOR ANDES AND JUNGLE OF THE AMAZON",
+    "destination": "Peru",
+    "duration": "14 DAYS/ 13 NIGHTS",
+    "price": 1307,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 44,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Quito",
+      "Mitad del Mundo",
+      "Papallacta",
+      "Tena",
+      "Misahualli"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "ecuador-snow-and-waterfalls",
+    "title": "ECUADOR SNOW AND WATERFALLS",
+    "destination": "Peru",
+    "duration": "14 DAYS/ 13 NIGHTS",
+    "price": 1102,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 51,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Quito",
+      "Baños",
+      "Puyo",
+      "Amazonas Jungle",
+      "Quilotoa"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "ecuador-volcanoes-and-rivers",
+    "title": "ECUADOR VOLCANOES AND RIVERS",
+    "destination": "Peru",
+    "duration": "8 DAYS / 7 NIGHTS",
+    "price": 1543,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 33,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Quito",
+      "Mitad del Mundo",
+      "Papallacta",
+      "Puyo",
+      "Tena"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "enchanted-islands-san-cristobal-santa-cruz-isabela",
+    "title": "ENCHANTED ISLANDS SANTA FE / SANTA CRUZ",
+    "destination": "Peru",
+    "duration": "7 DAYS / 6 NIGHTS",
+    "price": 1799,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 39,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "La Lobería",
+      "Scientific Station",
+      "Grietas",
+      "Estación Beach",
+      "Tortuga Bay Beach"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "fantastic-ecuador",
+    "title": "FANTASTIC ECUADOR",
+    "destination": "Peru",
+    "duration": "14 DAYS/ 13 NIGHTS",
+    "price": 1512,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 36,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Quito",
+      "Otavalo",
+      "Mitad del Mundo",
+      "Baños",
+      "Riobamba"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "full-galapagos-san-cristobal-santa-cruz-isabela",
+    "title": "FULL GALÁPAGOS SAN CRISTOBAL / SANTA CRUZ / ISABELA",
+    "destination": "Peru",
+    "duration": "9 DAYS/ 8 NIGHTS",
+    "price": 2300,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 20,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Bahía Tour",
+      "Tintoreras",
+      "Galapaguera",
+      "Tijeretas Hill",
+      "Mann Beach"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "galapagos-islands-economic-tour",
+    "title": "GALAPAGOS ISLANDS ECONOMIC TOUR",
+    "destination": "Peru",
+    "duration": "7 DAYS / 6 NIGHTS",
+    "price": 1399,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 22,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Twin Craters",
+      "Charles Darwin Station",
+      "Tortuga Bay Beach",
+      "Lava Tunnels",
+      "Primicias Ranch"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "galapagos-islands-santa-cruz-premium-service",
+    "title": "GALAPAGOS ISLANDS SANTA CRUZ PREMIUM SERVICE",
+    "destination": "Peru",
+    "duration": "14 DAYS/ 13 NIGHTS",
+    "price": 2345,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 40,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Bahía Tour",
+      "Tintoreras",
+      "Galapaguera",
+      "Tijeretas Hill",
+      "Mann Hill"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "galapagos-santa-cruz-isabela-premium-service",
+    "title": "GALÁPAGOS SANTA CRUZ / ISABELA PREMIUM SERVICE",
+    "destination": "Peru",
+    "duration": "9 DAYS / 8 NIGHTS",
+    "price": 2747,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 41,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Bahía Tour",
+      "Tintoreras",
+      "Galapaguera",
+      "Tijeretas Hill",
+      "Mann Beach"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "mysteries-of-peru",
+    "title": "MYSTERIES OF PERU",
+    "destination": "Peru",
+    "duration": "11 DAYS / 10 NIGHTS",
+    "price": 2399,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 24,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Lima",
+      "Paracas",
+      "Ballestas Islands",
+      "Cusco",
+      "Sacred Valley"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "peru-cusco-machu-picchu",
+    "title": "PERÚ, CUSCO MACHU PICCHU",
+    "destination": "Peru",
+    "duration": "7 DAYS/6 NIGHTS",
+    "price": 2400,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 34,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Cusco",
+      "Urubamba Valley",
+      "Chinchero",
+      "Maras Salt Flats",
+      "Pichingoto"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "peru-essential",
+    "title": "PERU ESSENTIAL",
+    "destination": "Peru",
+    "duration": "6 DAYS / 5 NIGHTS",
+    "price": 1499,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 45,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Lima",
+      "Cusco",
+      "Sacred Valley",
+      "Macchu Picchu",
+      "Pisac Ruins"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "quito-galapagos-cusco-machu-picchu",
+    "title": "QUITO, GALÁPAGOS, CUSCO, MACHU PICCHU",
+    "destination": "Peru",
+    "duration": "13 DAYS / 12 NIGHTS",
+    "price": 3899,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 38,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Quito",
+      "Mitad del Mundo",
+      "Santa Cruz Island",
+      "Santa Fe Island",
+      "Cusco"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  },
+  {
+    "id": "snow-and-waterfalls-full-galapagos-islands",
+    "title": "SNOW AND WATERFALLS + ENCHANTED ISLANDS",
+    "destination": "Peru",
+    "duration": "11 DAYS / 10 NIGHTS",
+    "price": 2526,
+    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80",
+    "rating": 5,
+    "reviewsCount": 33,
+    "category": "Private Expedition",
+    "description": "Private guided exploration of Peru. Journey through beautiful landscapes, rich culture, and historic places.",
+    "highlights": [
+      "Quito",
+      "Baños",
+      "Puyo",
+      "Pailón del diablo",
+      "“Hola vida” Waterfall"
+    ],
+    "inclusions": [
+      "Private English speaking guide",
+      "Accommodations",
+      "Transfers"
+    ],
+    "exclusions": [
+      "International flights",
+      "Tips"
+    ],
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Day 1: Arrival & Transfer",
+        "description": "Airport pick up and transfer to your hotel."
+      },
+      {
+        "day": 2,
+        "title": "Day 2: Highlights Tour",
+        "description": "Explore the main historic sights."
+      }
+    ]
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "name": "Vermilion Routes",
+  "description": "Vermilion Routes travel agency website featuring tour packages in Galapagos, Ecuador, Peru, and South America.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
