@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { getToursFromFirestore } from '@/lib/tours';
 import { Tour } from '@/types';
 import { Search, MapPin, Calendar, Compass, Sparkles, X, ArrowRight, Star, Clock } from 'lucide-react';
+import { TourModal } from '@/components/tours/TourModal';
 
 interface SmartSearchProps {
   onSearchSelect?: (destination: string, duration: string) => void;
@@ -17,6 +18,7 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
   const [selectedDestination, setSelectedDestination] = useState('all');
   const [selectedDuration, setSelectedDuration] = useState('all');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedTour, setSelectedTour] = useState<Tour | null>(null);
 
   useEffect(() => {
     getToursFromFirestore().then((data) => setTours(data));
@@ -181,11 +183,13 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {filteredTours.slice(0, 6).map((tour) => (
-                  <Link
+                  <button
                     key={tour.id}
-                    href={`/tours/${tour.id}`}
-                    onClick={() => setIsDropdownOpen(false)}
-                    className="flex items-center gap-3.5 p-3 rounded-2xl hover:bg-emerald-50/70 border border-transparent hover:border-emerald-200 transition-all group"
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      setSelectedTour(tour);
+                    }}
+                    className="flex items-center gap-3.5 p-3 rounded-2xl hover:bg-emerald-50/70 border border-transparent hover:border-emerald-200 transition-all group text-left cursor-pointer w-full outline-none"
                   >
                     <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 shadow-sm">
                       <Image
@@ -219,7 +223,7 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
                         </span>
                       </div>
                     </div>
-                  </Link>
+                  </button>
                 ))}
               </div>
             )}
@@ -238,6 +242,13 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
           </div>
         )}
       </div>
+
+      {/* Global Tour Modal for Search Results */}
+      <TourModal 
+        tour={selectedTour} 
+        isOpen={!!selectedTour} 
+        onClose={() => setSelectedTour(null)} 
+      />
     </div>
   );
 }

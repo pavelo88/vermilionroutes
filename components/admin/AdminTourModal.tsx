@@ -136,9 +136,9 @@ export function AdminTourModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-zinc-900 border border-zinc-800 rounded-3xl w-full max-w-3xl p-6 sm:p-8 space-y-6 my-8 text-left text-white shadow-2xl relative">
-        <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl sm:rounded-3xl w-full max-w-5xl h-[95vh] flex flex-col text-left text-white shadow-2xl relative">
+        <div className="flex-none flex items-center justify-between border-b border-zinc-800 p-6">
           <h3 className="font-serif text-xl font-bold text-white flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-emerald-400" />
             <span>{formData.id ? 'Edit Tour Package' : 'Create Tour Package'}</span>
@@ -163,8 +163,10 @@ export function AdminTourModal({
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-5 text-xs">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex-1 overflow-y-auto p-6" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <style dangerouslySetInnerHTML={{__html: `div::-webkit-scrollbar { display: none; }`}} />
+          <form id="tour-form" onSubmit={handleSubmit} className="space-y-8 text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
               <label className="block text-zinc-400 font-semibold uppercase tracking-wider">
                 Tour ID / Slug *
@@ -248,10 +250,10 @@ export function AdminTourModal({
                 className="w-full p-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-white focus:border-emerald-500 focus:outline-none"
               />
             </div>
-          </div>
+            </div>
 
-          {/* MAIN HERO IMAGE UPLOAD & URL */}
-          <div className="space-y-2 bg-zinc-950/70 p-4 rounded-2xl border border-zinc-800">
+            {/* MAIN HERO IMAGE UPLOAD & URL */}
+            <div className="space-y-3 bg-zinc-950/70 p-6 rounded-2xl border border-zinc-800">
             <div className="flex items-center justify-between">
               <label className="text-zinc-300 font-semibold uppercase tracking-wider flex items-center gap-2">
                 <ImageIcon className="w-4 h-4 text-emerald-400" />
@@ -342,10 +344,10 @@ export function AdminTourModal({
                 </div>
               </div>
             )}
-          </div>
+            </div>
 
-          {/* GALLERY IMAGES UPLOAD SECTION */}
-          <div className="space-y-2 bg-zinc-950/70 p-4 rounded-2xl border border-zinc-800">
+            {/* GALLERY IMAGES UPLOAD SECTION */}
+            <div className="space-y-3 bg-zinc-950/70 p-6 rounded-2xl border border-zinc-800">
             <div className="flex items-center justify-between">
               <label className="text-zinc-300 font-semibold uppercase tracking-wider flex items-center gap-2">
                 <Plus className="w-4 h-4 text-emerald-400" />
@@ -421,22 +423,24 @@ export function AdminTourModal({
                 ))}
               </div>
             )}
-          </div>
+            </div>
 
-          <div className="space-y-1">
-            <label className="block text-zinc-400 font-semibold uppercase tracking-wider">
-              Description
-            </label>
-            <textarea
-              rows={4}
-              value={formData.description || ''}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              placeholder="Comprehensive description of the tour package..."
-              className="w-full p-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-white leading-relaxed focus:border-emerald-500 focus:outline-none"
-            />
-          </div>
+            <div className="space-y-1">
+              <label className="block text-zinc-400 font-semibold uppercase tracking-wider">
+                Description
+              </label>
+              <textarea
+                rows={4}
+                value={formData.description || ''}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                placeholder="Comprehensive description of the tour package..."
+                className="w-full p-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-white leading-relaxed focus:border-emerald-500 focus:outline-none"
+              />
+            </div>
+          </form>
+        </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-zinc-800">
+        <div className="flex-none flex justify-end gap-3 p-6 border-t border-zinc-800 bg-zinc-900 rounded-b-3xl">
             <Button
               type="button"
               variant="outline"
@@ -447,14 +451,14 @@ export function AdminTourModal({
             </Button>
             <Button
               type="submit"
+              form="tour-form"
               variant="primary"
               disabled={saveLoading}
               className="gap-2 shadow-lg shadow-emerald-900/40 cursor-pointer"
             >
               {saveLoading ? 'Saving to Firestore...' : 'Save Package to Database'}
             </Button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );

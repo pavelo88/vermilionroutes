@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Tour } from '@/types';
 import { TourCard } from '@/components/ui/TourCard';
 import { ChevronLeft, ChevronRight, Sparkles, MapPin } from 'lucide-react';
@@ -16,6 +16,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
   // Touch Swipe handlers state
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   const categories = [
     { id: 'all', label: 'All Expeditions' },
@@ -40,6 +41,18 @@ export function TourCarousel({ tours }: TourCarouselProps) {
   const handleNext = () => {
     setCurrentIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
   };
+
+  useEffect(() => {
+    if (isHovered || total <= 1) return;
+    
+    const interval = setInterval(() => {
+      // Pause if a modal is open (TourModal sets body overflow to hidden)
+      if (document.body.style.overflow === 'hidden') return;
+      handleNext();
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [total, isHovered]);
 
   const handleFilterChange = (filterId: string) => {
     setActiveFilter(filterId);
@@ -107,6 +120,8 @@ export function TourCarousel({ tours }: TourCarouselProps) {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         {/* Prev Arrow Button */}
         <button

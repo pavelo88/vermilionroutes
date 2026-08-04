@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import {
-  Compass,
   Menu,
   X,
   Phone,
@@ -15,38 +14,54 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { useSettings } from '@/hooks/useSettings';
-import { useLanguage } from '@/context/LanguageContext';
+import Image from 'next/image';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [destinationsOpen, setDestinationsOpen] = useState(false);
   const { settings } = useSettings();
-  const { lang, toggleLang, t } = useLanguage();
+  const [lang, setLang] = useState('EN');
+
+  const toggleLanguage = () => {
+    const nextLang = lang === 'EN' ? 'ES' : 'EN';
+    setLang(nextLang);
+    if (typeof (window as any).doGTranslate === 'function') {
+      (window as any).doGTranslate(nextLang === 'EN' ? 'en|en' : 'en|es');
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
+    
+    // Check initial language from cookie
+    if (document.cookie.includes('googtrans=/en/es')) {
+      setLang('ES');
+    } else {
+      setLang('EN');
+    }
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { name: t('nav.home'), href: '/' },
+    { name: 'Home', href: '/' },
     {
-      name: t('nav.destinations'),
+      name: 'Destinations',
       href: '/#destinations',
       hasDropdown: true,
       subItems: [
-        { name: t('nav.galapagos'), href: '/#galapagos', desc: t('nav.galapagos.desc') },
-        { name: t('nav.ecuador'), href: '/#ecuador', desc: t('nav.ecuador.desc') },
-        { name: t('nav.peru'), href: '/#peru', desc: t('nav.peru.desc') },
+        { name: 'Galapagos Islands', href: '/#galapagos', desc: 'Luxury Cruises & Island Hopping' },
+        { name: 'Mainland Ecuador', href: '/#ecuador', desc: 'Avenue of Volcanoes & Amazon' },
+        { name: 'Mystical Peru', href: '/#peru', desc: 'Cusco, Sacred Valley & Machu Picchu' },
       ],
     },
-    { name: t('nav.tours'), href: '/#tours' },
-    { name: t('nav.about'), href: '/#about-us' },
-    { name: t('nav.contact'), href: '/#contact' },
+    { name: 'Featured Tours', href: '/#tours' },
+    { name: 'About Us', href: '/#about-us' },
+    { name: 'Contact', href: '/#contact' },
   ];
 
   return (
@@ -72,11 +87,11 @@ export function Navbar() {
           </div>
           <div className="flex items-center gap-4 text-xs">
             <span className="text-zinc-400 hidden lg:inline">
-              {t('nav.banner.tagline')}
+              Tailor-Made Expeditions & Private Small Groups
             </span>
             <div className="flex items-center gap-1 text-emerald-400 font-medium bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-800/60">
               <Sparkles className="w-3 h-3 text-emerald-400" />
-              <span>{t('nav.banner.badge')}</span>
+              <span>Exclusive Luxury Journeys</span>
             </div>
           </div>
         </div>
@@ -92,10 +107,12 @@ export function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white shadow-md shadow-emerald-600/25 group-hover:scale-105 transition-transform">
-              <Compass className="w-6 h-6 animate-pulse" />
-            </div>
+          <Link href="/" className="flex items-center gap-3 relative z-10 group notranslate">
+            <img 
+              src="/wp-content/uploads/2023/08/logo_vermilion-01.png" 
+              alt="Vermilion" 
+              className="h-9 sm:h-10 w-auto object-contain transition-transform group-hover:scale-105"
+            />
             <div className="flex flex-col">
               <span className="font-serif font-bold text-xl sm:text-2xl text-zinc-900 tracking-tight leading-none group-hover:text-emerald-600 transition-colors">
                 {settings?.footer?.logoText || 'VERMILION'}
@@ -170,11 +187,11 @@ export function Navbar() {
           {/* Action CTAs */}
           <div className="hidden md:flex items-center gap-3">
             <button
-              onClick={toggleLang}
+              onClick={toggleLanguage}
               className="flex items-center gap-2 px-3 py-2 text-xs font-semibold bg-white border border-zinc-200 hover:bg-zinc-50 rounded-xl cursor-pointer transition-colors"
             >
               <Globe className="w-3.5 h-3.5 text-emerald-600" />
-              <span>{lang.toUpperCase()} / USD</span>
+              <span>{lang} / USD</span>
             </button>
             <Button 
               variant="primary" 
@@ -182,7 +199,7 @@ export function Navbar() {
               className="shadow-md shadow-emerald-600/15"
               onClick={() => window.location.href = '/#contact'}
             >
-              {t('nav.quote')}
+              Request a Quote
             </Button>
           </div>
 

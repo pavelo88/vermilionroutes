@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Tour } from '@/types';
 import { Button } from '@/components/ui/Button';
+import { TourModal } from '@/components/tours/TourModal';
 import { Star, Clock, MapPin, ArrowRight, Check } from 'lucide-react';
 
 interface TourCardProps {
@@ -13,10 +14,21 @@ interface TourCardProps {
 }
 
 export function TourCard({ tour, className = '' }: TourCardProps) {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
   return (
-    <div
-      className={`group bg-white rounded-2xl border border-zinc-200/80 shadow-sm hover:shadow-2xl hover:border-emerald-500/40 transition-all duration-300 flex flex-col overflow-hidden relative ${className}`}
-    >
+    <>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => setIsModalOpen(true)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            setIsModalOpen(true);
+          }
+        }}
+        className={`group bg-white rounded-2xl border border-zinc-200/80 shadow-sm hover:shadow-2xl hover:border-emerald-500/40 transition-all duration-300 flex flex-col overflow-hidden relative text-left outline-none cursor-pointer ${className}`}
+      >
       {/* Image Banner Container */}
       <div className="relative h-64 w-full overflow-hidden bg-zinc-100">
         <Image
@@ -71,11 +83,11 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
             </span>
           )}
 
-          <Link href={`/tours/${tour.id}`}>
+          <div>
             <h3 className="font-serif font-bold text-xl text-zinc-900 group-hover:text-emerald-700 transition-colors leading-snug line-clamp-2">
               {tour.title}
             </h3>
-          </Link>
+          </div>
 
           {/* Highlights List */}
           {tour.highlights && tour.highlights.length > 0 && (
@@ -104,14 +116,25 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
             </div>
           </div>
 
-          <Link href={`/tours/${tour.id}`} className="shrink-0">
-            <Button variant="primary" size="sm" className="gap-1.5 text-xs">
-              <span>View Details</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
+          <Button 
+            variant="primary" 
+            size="sm" 
+            className="gap-1.5 text-xs shrink-0 pointer-events-none"
+            tabIndex={-1}
+          >
+            <span>View Details</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+          </Button>
         </div>
       </div>
-    </div>
+      </div>
+
+      {/* Premium Popup Modal */}
+      <TourModal 
+        tour={tour} 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
+    </>
   );
 }

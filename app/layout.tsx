@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import { ReactNode } from 'react';
-import { LanguageProvider } from '@/context/LanguageContext';
+import GTranslateWrapper from '@/components/ui/GTranslateWrapper';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -123,20 +123,19 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
+    <html lang="en" className={`${inter.variable} ${playfair.variable} scroll-smooth`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
         />
       </head>
-      <body className="bg-[#FAFAFA] text-[#09090B] font-sans antialiased selection:bg-emerald-600 selection:text-white flex flex-col min-h-screen">
-        <LanguageProvider>
-          <Navbar />
-          <main className="flex-1 w-full">{children}</main>
-          <ConciergeWidget />
-          <Footer />
-        </LanguageProvider>
+      <body className="bg-[#FAFAFA] text-[#09090B] font-sans antialiased selection:bg-emerald-600 selection:text-white flex flex-col min-h-screen" suppressHydrationWarning>
+        <GTranslateWrapper />
+        <Navbar />
+        <main className="flex-1 w-full">{children}</main>
+        <ConciergeWidget />
+        <Footer />
       </body>
     </html>
   );
