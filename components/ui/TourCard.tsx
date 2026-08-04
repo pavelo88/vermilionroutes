@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/Button';
 import { TourModal } from '@/components/tours/TourModal';
 import { Star, Clock, MapPin, ArrowRight, Check } from 'lucide-react';
 
+import { SparkleEffect } from '@/components/ui/SparkleEffect';
+
 interface TourCardProps {
   tour: Tour;
   className?: string;
@@ -30,7 +32,7 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
         className={`group bg-white rounded-2xl border border-zinc-200/80 shadow-sm hover:shadow-2xl hover:border-emerald-500/40 transition-all duration-300 flex flex-col overflow-hidden relative text-left outline-none cursor-pointer ${className}`}
       >
       {/* Image Banner Container */}
-      <div className="relative h-64 w-full overflow-hidden bg-zinc-100">
+      <SparkleEffect className="relative h-64 w-full bg-zinc-100">
         <Image
           src={tour.imageUrl}
           alt={tour.title}
@@ -72,7 +74,7 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
             )}
           </div>
         </div>
-      </div>
+      </SparkleEffect>
 
       {/* Card Content Body */}
       <div className="p-6 flex-1 flex flex-col justify-between space-y-4">

@@ -94,7 +94,8 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
   };
 
   const handleWhatsApp = () => {
-    const phoneNumber = settings?.contact?.whatsapp?.replace(/[^0-9]/g, '') || '593994048458';
+    const rawNumber = settings?.contact?.whatsappUrl || settings?.contact?.phone || '593994048458';
+    const phoneNumber = rawNumber.replace(/[^0-9]/g, '') || '593994048458';
     const message = encodeURIComponent(`Hello Vermilion Routes, I am interested in the "${tour.title}" tour and would like to request more information.`);
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
