@@ -139,7 +139,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
           {filteredTours.map((tour, idx) => (
             <div
               key={tour.id}
-              className="min-w-[280px] sm:min-w-[320px] md:min-w-[350px] snap-center shrink-0 transform transition-all duration-300 hover:-translate-y-2"
+              className="w-[85vw] sm:w-[320px] md:w-[350px] snap-center shrink-0 transform transition-all duration-300 hover:-translate-y-2"
             >
               <TourCard tour={tour} />
             </div>

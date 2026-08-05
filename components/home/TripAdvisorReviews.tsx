@@ -143,7 +143,7 @@ export function TripAdvisorReviews({
                 onClick={() => setActiveIdx(idx)}
                 className={`bg-white dark:bg-zinc-900/90 backdrop-blur-xl p-7 rounded-3xl border transition-all duration-300 flex flex-col justify-between space-y-6 relative group cursor-pointer ${
                   isCurrent
-                    ? 'border-emerald-500/80 shadow-xl ring-2 ring-emerald-500/20 scale-[1.02] z-20'
+                    ? 'border-emerald-500/80 shadow-xl ring-2 ring-emerald-500/20 scale-100 z-20'
                     : 'border-zinc-200/80 dark:border-zinc-800/80 shadow-sm opacity-80 md:opacity-100 hover:opacity-100 hidden md:flex'
                 }`}
               >
