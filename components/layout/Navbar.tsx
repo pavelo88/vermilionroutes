@@ -115,7 +115,7 @@ export function Navbar() {
           <Link href="/" className="flex items-center gap-3 relative z-10 group notranslate">
             <div className="relative w-10 h-10 shrink-0">
               <Image
-                src="/logo.png"
+                src="/icon.png"
                 alt="Vermilion"
                 fill
                 sizes="40px"
@@ -224,14 +224,26 @@ export function Navbar() {
             </Button>
           </div>
 
-          {/* Mobile Toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2.5 rounded-2xl text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 md:hidden border border-zinc-200/80 dark:border-zinc-700 cursor-pointer"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Actions */}
+          <div className="flex md:hidden items-center gap-2">
+            {mounted && (
+              <button
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                suppressHydrationWarning
+                className="p-2 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 rounded-xl cursor-pointer transition-colors"
+                aria-label="Toggle Theme"
+              >
+                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
+            )}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 cursor-pointer"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation Drawer */}
