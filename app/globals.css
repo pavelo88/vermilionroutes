@@ -28,7 +28,7 @@
 /* Aurora Gradient Background Component */
 .aurora-bg {
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--background);
   transition: background-color 0.3s ease;
 }
@@ -119,13 +119,13 @@ body {
   top: 0px !important;
   position: static !important;
   margin-top: 0px !important;
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   max-width: 100vw !important;
 }
 
 html {
   margin-top: 0px !important;
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   max-width: 100vw !important;
 }
 
