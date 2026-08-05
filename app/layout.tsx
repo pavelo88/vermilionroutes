@@ -140,13 +140,11 @@ export default function RootLayout({
       </head>
       <body className="aurora-bg text-zinc-900 dark:text-zinc-50 font-sans antialiased selection:bg-emerald-600 selection:text-white flex flex-col min-h-screen" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <div className="flex flex-col min-h-screen overflow-x-hidden w-full max-w-[100vw]">
-            <GTranslateWrapper />
-            <Navbar />
-            <main className="flex-1 w-full relative">{children}</main>
-            <ConciergeWidget />
-            <ConditionalFooter />
-          </div>
+          <GTranslateWrapper />
+          <Navbar />
+          <main className="flex-1 w-full relative">{children}</main>
+          <ConciergeWidget />
+          <ConditionalFooter />
         </ThemeProvider>
       </body>
     </html>
