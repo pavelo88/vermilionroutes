@@ -29,16 +29,16 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
             setIsModalOpen(true);
           }
         }}
-        className={`group bg-white rounded-2xl border border-zinc-200/80 shadow-sm hover:shadow-2xl hover:border-emerald-500/40 transition-all duration-300 flex flex-col overflow-hidden relative text-left outline-none cursor-pointer ${className}`}
+        className={`group bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm hover:shadow-2xl hover:border-emerald-500/40 dark:hover:border-emerald-500/40 transition-all duration-300 flex flex-col overflow-hidden relative text-left outline-none cursor-pointer ${className}`}
       >
       {/* Image Banner Container */}
-      <SparkleEffect className="relative h-64 w-full bg-zinc-100">
+      <div className="relative h-64 w-full overflow-hidden bg-zinc-100">
         <Image
           src={tour.imageUrl}
           alt={tour.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+          className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
           referrerPolicy="no-referrer"
         />
 
@@ -74,7 +74,7 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
             )}
           </div>
         </div>
-      </SparkleEffect>
+      </div>
 
       {/* Card Content Body */}
       <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
@@ -86,7 +86,7 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
           )}
 
           <div>
-            <h3 className="font-serif font-bold text-xl text-zinc-900 group-hover:text-emerald-700 transition-colors leading-snug line-clamp-2">
+            <h3 className="font-serif font-bold text-xl text-zinc-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors leading-snug line-clamp-2">
               {tour.title}
             </h3>
           </div>
@@ -95,7 +95,7 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
           {tour.highlights && tour.highlights.length > 0 && (
             <ul className="space-y-1.5 pt-1">
               {tour.highlights.slice(0, 3).map((highlight, idx) => (
-                <li key={idx} className="flex items-start gap-2 text-xs text-zinc-600">
+                <li key={idx} className="flex items-start gap-2 text-xs text-zinc-600 dark:text-zinc-400">
                   <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
                   <span className="line-clamp-1">{highlight}</span>
                 </li>
@@ -105,13 +105,13 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
         </div>
 
         {/* Footer Price & Action */}
-        <div className="pt-4 border-t border-zinc-100 flex items-center justify-between gap-3 mt-auto">
+        <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between gap-3 mt-auto">
           <div>
             <span className="text-[10px] uppercase tracking-wider font-medium text-zinc-400 block">
               From
             </span>
             <div className="flex items-baseline gap-1">
-              <span className="font-serif font-bold text-2xl text-zinc-900">
+              <span className="font-serif font-bold text-2xl text-zinc-900 dark:text-white">
                 ${tour.price.toLocaleString('en-US')}
               </span>
               <span className="text-xs text-zinc-500 font-normal">/ person</span>

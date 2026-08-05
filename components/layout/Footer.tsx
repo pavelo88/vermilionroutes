@@ -36,7 +36,7 @@ export function Footer() {
                   {settings?.footer?.logoText || 'VERMILION'}
                 </span>
                 <span className="text-[10px] uppercase font-semibold tracking-widest text-emerald-400">
-                  {settings?.footer?.logoSubtitle || 'Routes & Experiences'}
+                  {settings?.footer?.logoSubtitle || 'SOUTH AMERICAN ROUTES'}
                 </span>
               </div>
             </a>

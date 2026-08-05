@@ -80,6 +80,44 @@ export function AdminSettingsPanel() {
     }
   };
 
+  const handleHeroGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploadingField('hero-gallery');
+      const downloadURL = await uploadImage(file, 'hero');
+      
+      setLocalSettings((prev: any) => {
+        const currentImgs = prev.hero?.backgroundImages || [];
+        return {
+          ...prev,
+          hero: {
+            ...prev.hero,
+            backgroundImages: [...currentImgs, downloadURL]
+          }
+        };
+      });
+    } catch (err: any) {
+      alert('Failed to upload hero image: ' + err.message);
+    } finally {
+      setUploadingField(null);
+    }
+  };
+
+  const handleRemoveHeroImage = (indexToRemove: number) => {
+    setLocalSettings((prev: any) => {
+      const currentImgs = prev.hero?.backgroundImages || [];
+      return {
+        ...prev,
+        hero: {
+          ...prev.hero,
+          backgroundImages: currentImgs.filter((_: any, idx: number) => idx !== indexToRemove)
+        }
+      };
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -93,7 +131,7 @@ export function AdminSettingsPanel() {
 
   if (loading && !localSettings) {
     return (
-      <div className="p-8 text-center text-zinc-400">
+      <div className="p-8 text-center text-zinc-600 dark:text-zinc-400">
         <div className="flex items-center justify-center gap-3">
           <div className="w-5 h-5 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
           <span>Syncing settings with Firestore...</span>
@@ -103,11 +141,11 @@ export function AdminSettingsPanel() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-zinc-900/80 rounded-3xl border border-zinc-800 p-6 sm:p-8 space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
+    <form onSubmit={handleSubmit} className="bg-white dark:bg-zinc-900/80 rounded-3xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-4">
         <div>
-          <h2 className="text-xl font-serif font-bold text-white">Website CMS Configurator</h2>
-          <p className="text-xs text-zinc-400">Manage every section, image, and contact parameter on the landing page</p>
+          <h2 className="text-xl font-serif font-bold text-zinc-900 dark:text-white">Website CMS Configurator</h2>
+          <p className="text-xs text-zinc-600 dark:text-zinc-400">Manage every section, image, and contact parameter on the landing page</p>
         </div>
         <div className="flex items-center gap-2">
           {saveSuccess && (
@@ -121,13 +159,14 @@ export function AdminSettingsPanel() {
       </div>
 
       {/* Sub tabs navigation */}
-      <div className="flex flex-wrap items-center gap-2 bg-zinc-950 p-1.5 rounded-2xl border border-zinc-800/80">
+      <div className="flex flex-wrap items-center gap-2 bg-white dark:bg-transparent glass-input p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-800/80">
         <button
           type="button"
           onClick={() => setActiveSubTab('hero')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-            activeSubTab === 'hero' ? 'bg-emerald-600 text-white shadow' : 'text-zinc-400 hover:text-white'
-          }`}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${activeSubTab === 'hero'
+                  ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
+                  : 'border-transparent text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300'
+                }`}
         >
           <Layers className="w-3.5 h-3.5" />
           <span>Hero & Header</span>
@@ -135,9 +174,10 @@ export function AdminSettingsPanel() {
         <button
           type="button"
           onClick={() => setActiveSubTab('about')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-            activeSubTab === 'about' ? 'bg-emerald-600 text-white shadow' : 'text-zinc-400 hover:text-white'
-          }`}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${activeSubTab === 'about'
+                  ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
+                  : 'border-transparent text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300'
+                }`}
         >
           <Award className="w-3.5 h-3.5" />
           <span>About Us & Metrics</span>
@@ -145,9 +185,10 @@ export function AdminSettingsPanel() {
         <button
           type="button"
           onClick={() => setActiveSubTab('contact')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-            activeSubTab === 'contact' ? 'bg-emerald-600 text-white shadow' : 'text-zinc-400 hover:text-white'
-          }`}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${activeSubTab === 'contact'
+                  ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
+                  : 'border-transparent text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300'
+                }`}
         >
           <Phone className="w-3.5 h-3.5" />
           <span>Contact & Footer</span>
@@ -155,9 +196,10 @@ export function AdminSettingsPanel() {
         <button
           type="button"
           onClick={() => setActiveSubTab('faqs')}
-          className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-            activeSubTab === 'faqs' ? 'bg-emerald-600 text-white shadow' : 'text-zinc-400 hover:text-white'
-          }`}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold border-b-2 transition-colors ${activeSubTab === 'faqs'
+                  ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400'
+                  : 'border-transparent text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300'
+                }`}
         >
           <HelpCircle className="w-3.5 h-3.5" />
           <span>FAQs (Also Asked)</span>
@@ -171,118 +213,134 @@ export function AdminSettingsPanel() {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Top Eyebrow Badge</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Top Eyebrow Badge</label>
                 <input
                   type="text"
                   value={localSettings.hero?.badge || ''}
                   onChange={(e) => handleTextChange('hero', 'badge', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Hero Title (Normal Text)</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Hero Title (Normal Text)</label>
                 <input
                   type="text"
                   value={localSettings.hero?.title || ''}
                   onChange={(e) => handleTextChange('hero', 'title', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Hero Title (Gradient Highlight Text)</label>
+              <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Hero Title (Gradient Highlight Text)</label>
               <input
                 type="text"
                 value={localSettings.hero?.titleColored || ''}
                 onChange={(e) => handleTextChange('hero', 'titleColored', e.target.value)}
-                className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Hero Subtitle Paragraph</label>
+              <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Hero Subtitle Paragraph</label>
               <textarea
                 value={localSettings.hero?.subtitle || ''}
                 onChange={(e) => handleTextChange('hero', 'subtitle', e.target.value)}
                 rows={3}
-                className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
               />
             </div>
 
-            <div className="bg-zinc-950 p-5 rounded-2xl border border-zinc-800/80 space-y-4">
-              <div className="flex items-center justify-between">
+            <div className="glass-input p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800/80 space-y-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                  <h4 className="text-sm font-semibold text-white">Hero Background Image</h4>
-                  <p className="text-[11px] text-zinc-500">Upload an image file directly to Firebase Storage</p>
+                  <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">Hero Background Images (Bento Gallery)</h4>
+                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">Upload high-quality images. The first image spans larger. Multiple images automatically create a sliding carousel.</p>
                 </div>
-                <div className="relative">
+                <div className="relative shrink-0">
                   <input
                     type="file"
-                    accept="image/*"
-                    id="hero-bg-upload"
-                    onChange={(e) => handleFileUpload(e, 'hero', 'backgroundImage')}
+                    accept="image/jpeg,image/png,image/webp,image/avif"
+                    id="hero-gallery-upload"
+                    onChange={handleHeroGalleryUpload}
                     className="hidden"
                   />
                   <label
-                    htmlFor="hero-bg-upload"
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-medium cursor-pointer transition-colors"
+                    htmlFor="hero-gallery-upload"
+                    className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold cursor-pointer transition-all shadow-md shadow-emerald-900/20"
                   >
-                    <Upload className="w-3.5 h-3.5" />
-                    <span>{uploadingField === 'hero-backgroundImage' ? 'Uploading...' : 'Upload Image'}</span>
+                    <Upload className="w-4 h-4" />
+                    <span>{uploadingField === 'hero-gallery' ? 'Uploading...' : 'Add Photos'}</span>
                   </label>
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-center">
-                <div className="sm:col-span-3">
-                  <input
-                    type="text"
-                    readOnly
-                    value={localSettings.hero?.backgroundImage || ''}
-                    placeholder="Firebase Storage URL will populate here..."
-                    className="w-full px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-zinc-400 focus:outline-none"
-                  />
-                </div>
-                {localSettings.hero?.backgroundImage && (
-                  <div className="h-16 w-full relative rounded-lg overflow-hidden border border-zinc-800 bg-zinc-900 flex items-center justify-center">
-                    <img src={localSettings.hero.backgroundImage} alt="Preview" className="h-full w-full object-cover" />
+
+              {/* Bento Grid Gallery */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                {(localSettings.hero?.backgroundImages || []).length === 0 && localSettings.hero?.backgroundImage && (
+                  // Fallback for old data structure
+                  <div className="relative group rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 col-span-2 row-span-2 aspect-square">
+                    <img src={localSettings.hero.backgroundImage} alt="Hero bg" className="w-full h-full object-cover" />
                   </div>
                 )}
+                
+                {(localSettings.hero?.backgroundImages || []).map((imgUrl: string, idx: number) => {
+                  const isFeatured = idx === 0;
+                  return (
+                    <div 
+                      key={idx} 
+                      className={`relative group rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 ${isFeatured ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square'}`}
+                    >
+                      <img src={imgUrl} alt={`Hero ${idx + 1}`} className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveHeroImage(idx)}
+                          className="p-3 bg-rose-600 hover:bg-rose-500 text-white rounded-xl shadow-lg transform scale-90 group-hover:scale-100 transition-all"
+                          title="Remove image"
+                        >
+                          <Trash2 className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
             
             {/* SEO metadata section inside Hero */}
-            <div className="bg-zinc-950 p-5 rounded-2xl border border-zinc-800/80 space-y-4">
-              <h4 className="text-sm font-semibold text-white flex items-center gap-1.5">
+            <div className="glass-input p-5 rounded-2xl border border-zinc-800/80 space-y-4">
+              <h4 className="text-sm font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">
                 <Globe className="w-4 h-4 text-emerald-500" />
                 <span>SEO & Search Engine Metadata</span>
               </h4>
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Website SEO Title (Google Search Result)</label>
+                  <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Website SEO Title (Google Search Result)</label>
                   <input
                     type="text"
                     value={localSettings.seo?.title || ''}
                     onChange={(e) => handleTextChange('seo', 'title', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-zinc-900/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none"
+                    className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">SEO Meta Description</label>
+                  <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">SEO Meta Description</label>
                   <textarea
                     value={localSettings.seo?.description || ''}
                     onChange={(e) => handleTextChange('seo', 'description', e.target.value)}
                     rows={2}
-                    className="w-full px-4 py-2.5 bg-zinc-900/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none"
+                    className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">SEO Keywords (comma separated)</label>
+                  <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">SEO Keywords (comma separated)</label>
                   <input
                     type="text"
                     value={localSettings.seo?.keywords || ''}
                     onChange={(e) => handleTextChange('seo', 'keywords', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-zinc-900/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none"
+                    className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                   />
                 </div>
               </div>
@@ -295,49 +353,49 @@ export function AdminSettingsPanel() {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Section Title</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Section Title</label>
                 <input
                   type="text"
                   value={localSettings.about?.title || ''}
                   onChange={(e) => handleTextChange('about', 'title', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Section Subtitle</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Section Subtitle</label>
                 <input
                   type="text"
                   value={localSettings.about?.subtitle || ''}
                   onChange={(e) => handleTextChange('about', 'subtitle', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Paragraph 1</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Paragraph 1</label>
                 <textarea
                   value={localSettings.about?.paragraph1 || ''}
                   onChange={(e) => handleTextChange('about', 'paragraph1', e.target.value)}
                   rows={4}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Paragraph 2</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Paragraph 2</label>
                 <textarea
                   value={localSettings.about?.paragraph2 || ''}
                   onChange={(e) => handleTextChange('about', 'paragraph2', e.target.value)}
                   rows={4}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
 
             {/* Metrics Row */}
-            <div className="bg-zinc-950 p-5 rounded-2xl border border-zinc-800/80 space-y-4">
-              <h4 className="text-sm font-semibold text-white">Trust Metrics & Credentials</h4>
+            <div className="glass-input p-5 rounded-2xl border border-zinc-800/80 space-y-4">
+              <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">Trust Metrics & Credentials</h4>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-zinc-500">Metric 1 Val/Label</label>
@@ -345,13 +403,13 @@ export function AdminSettingsPanel() {
                     type="text"
                     value={localSettings.about?.metric1Val || ''}
                     onChange={(e) => handleTextChange('about', 'metric1Val', e.target.value)}
-                    className="w-full px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white"
+                    className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
                   />
                   <input
                     type="text"
                     value={localSettings.about?.metric1Lbl || ''}
                     onChange={(e) => handleTextChange('about', 'metric1Lbl', e.target.value)}
-                    className="w-full px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-zinc-400"
+                    className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-600 dark:text-zinc-400"
                   />
                 </div>
                 <div className="space-y-1">
@@ -360,13 +418,13 @@ export function AdminSettingsPanel() {
                     type="text"
                     value={localSettings.about?.metric2Val || ''}
                     onChange={(e) => handleTextChange('about', 'metric2Val', e.target.value)}
-                    className="w-full px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white"
+                    className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
                   />
                   <input
                     type="text"
                     value={localSettings.about?.metric2Lbl || ''}
                     onChange={(e) => handleTextChange('about', 'metric2Lbl', e.target.value)}
-                    className="w-full px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-zinc-400"
+                    className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-600 dark:text-zinc-400"
                   />
                 </div>
                 <div className="space-y-1">
@@ -375,13 +433,13 @@ export function AdminSettingsPanel() {
                     type="text"
                     value={localSettings.about?.metric3Val || ''}
                     onChange={(e) => handleTextChange('about', 'metric3Val', e.target.value)}
-                    className="w-full px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white"
+                    className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
                   />
                   <input
                     type="text"
                     value={localSettings.about?.metric3Lbl || ''}
                     onChange={(e) => handleTextChange('about', 'metric3Lbl', e.target.value)}
-                    className="w-full px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-zinc-400"
+                    className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-600 dark:text-zinc-400"
                   />
                 </div>
                 <div className="space-y-1">
@@ -390,22 +448,22 @@ export function AdminSettingsPanel() {
                     type="text"
                     value={localSettings.about?.metric4Val || ''}
                     onChange={(e) => handleTextChange('about', 'metric4Val', e.target.value)}
-                    className="w-full px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white"
+                    className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
                   />
                   <input
                     type="text"
                     value={localSettings.about?.metric4Lbl || ''}
                     onChange={(e) => handleTextChange('about', 'metric4Lbl', e.target.value)}
-                    className="w-full px-3 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-zinc-400"
+                    className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-600 dark:text-zinc-400"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="bg-zinc-950 p-5 rounded-2xl border border-zinc-800/80 space-y-4">
+            <div className="glass-input p-5 rounded-2xl border border-zinc-800/80 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-white">About Section Image</h4>
+                  <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">About Section Image</h4>
                   <p className="text-[11px] text-zinc-500">Upload a picture to display alongside the text</p>
                 </div>
                 <div className="relative">
@@ -418,7 +476,7 @@ export function AdminSettingsPanel() {
                   />
                   <label
                     htmlFor="about-img-upload"
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800 hover:bg-emerald-600 hover:text-white rounded-xl text-xs font-medium cursor-pointer transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800 hover:bg-emerald-600 hover:text-zinc-900 dark:text-white rounded-xl text-xs font-medium cursor-pointer transition-colors"
                   >
                     <Upload className="w-3.5 h-3.5" />
                     <span>{uploadingField === 'about-imageUrl' ? 'Uploading...' : 'Upload Image'}</span>
@@ -431,7 +489,7 @@ export function AdminSettingsPanel() {
                     type="text"
                     readOnly
                     value={localSettings.about?.imageUrl || ''}
-                    className="w-full px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-zinc-400 focus:outline-none"
+                    className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400 focus:outline-none"
                   />
                 </div>
                 {localSettings.about?.imageUrl && (
@@ -449,114 +507,114 @@ export function AdminSettingsPanel() {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Contact Phone</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Contact Phone</label>
                 <input
                   type="text"
                   value={localSettings.contact?.phone || ''}
                   onChange={(e) => handleTextChange('contact', 'phone', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Contact Email</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Contact Email</label>
                 <input
                   type="email"
                   value={localSettings.contact?.email || ''}
                   onChange={(e) => handleTextChange('contact', 'email', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">WhatsApp Link URL</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">WhatsApp Link URL</label>
                 <input
                   type="text"
                   value={localSettings.contact?.whatsappUrl || ''}
                   onChange={(e) => handleTextChange('contact', 'whatsappUrl', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Office Address</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Office Address</label>
                 <input
                   type="text"
                   value={localSettings.contact?.address || ''}
                   onChange={(e) => handleTextChange('contact', 'address', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">TripAdvisor Link</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">TripAdvisor Link</label>
                 <input
                   type="text"
                   value={localSettings.contact?.tripadvisor || ''}
                   onChange={(e) => handleTextChange('contact', 'tripadvisor', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Facebook Link</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Facebook Link</label>
                 <input
                   type="text"
                   value={localSettings.contact?.facebook || ''}
                   onChange={(e) => handleTextChange('contact', 'facebook', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Instagram Link</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Instagram Link</label>
                 <input
                   type="text"
                   value={localSettings.contact?.instagram || ''}
                   onChange={(e) => handleTextChange('contact', 'instagram', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-950/80 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
 
-            <div className="bg-zinc-950 p-5 rounded-2xl border border-zinc-800/80 space-y-4">
-              <h4 className="text-sm font-semibold text-white">Footer Information</h4>
+            <div className="glass-input p-5 rounded-2xl border border-zinc-800/80 space-y-4">
+              <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">Footer Information</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Footer Logo Title</label>
+                  <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Footer Logo Title</label>
                   <input
                     type="text"
                     value={localSettings.footer?.logoText || ''}
                     onChange={(e) => handleTextChange('footer', 'logoText', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none"
+                    className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Footer Logo Subtitle</label>
+                  <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Footer Logo Subtitle</label>
                   <input
                     type="text"
                     value={localSettings.footer?.logoSubtitle || ''}
                     onChange={(e) => handleTextChange('footer', 'logoSubtitle', e.target.value)}
-                    className="w-full px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none"
+                    className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                   />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Footer Description Copy</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Footer Description Copy</label>
                 <textarea
                   value={localSettings.footer?.description || ''}
                   onChange={(e) => handleTextChange('footer', 'description', e.target.value)}
                   rows={2}
-                  className="w-full px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Copyright Bar text</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Copyright Bar text</label>
                 <input
                   type="text"
                   value={localSettings.footer?.copyright || ''}
                   onChange={(e) => handleTextChange('footer', 'copyright', e.target.value)}
-                  className="w-full px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                 />
               </div>
             </div>
@@ -568,13 +626,13 @@ export function AdminSettingsPanel() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="text-sm font-semibold text-white">Interactive FAQs ("Also Asked" queries)</h4>
+                <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">Interactive FAQs ("Also Asked" queries)</h4>
                 <p className="text-[11px] text-zinc-500">Provide direct answers to high-intent questions from Google searches</p>
               </div>
               <button
                 type="button"
                 onClick={handleAddFAQ}
-                className="flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold cursor-pointer transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-zinc-900 dark:text-white rounded-xl text-xs font-semibold cursor-pointer transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add FAQ Item</span>
@@ -583,7 +641,7 @@ export function AdminSettingsPanel() {
 
             <div className="space-y-4">
               {(localSettings.faq || []).map((faqItem: any, index: number) => (
-                <div key={index} className="bg-zinc-950 p-4 rounded-2xl border border-zinc-800/80 space-y-3 relative group">
+                <div key={index} className="glass-input p-4 rounded-2xl border border-zinc-800/80 space-y-3 relative group">
                   <button
                     type="button"
                     onClick={() => handleRemoveFAQ(index)}
@@ -598,7 +656,7 @@ export function AdminSettingsPanel() {
                       type="text"
                       value={faqItem.question}
                       onChange={(e) => handleFAQChange(index, 'question', e.target.value)}
-                      className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-sm text-white focus:outline-none"
+                      className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm text-zinc-900 dark:text-white focus:outline-none"
                     />
                   </div>
 
@@ -608,7 +666,7 @@ export function AdminSettingsPanel() {
                       value={faqItem.answer}
                       onChange={(e) => handleFAQChange(index, 'answer', e.target.value)}
                       rows={2}
-                      className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-sm text-white focus:outline-none"
+                      className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm text-zinc-900 dark:text-white focus:outline-none"
                     />
                   </div>
                 </div>

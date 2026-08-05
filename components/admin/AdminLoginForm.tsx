@@ -37,8 +37,8 @@ export function AdminLoginForm() {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center px-4 py-16 bg-gradient-to-b from-zinc-950 via-zinc-900 to-emerald-950 text-white">
-      <div className="w-full max-w-md space-y-8 bg-zinc-900/90 backdrop-blur-2xl p-8 sm:p-10 rounded-3xl border border-zinc-800 shadow-2xl relative overflow-hidden">
+    <div className="min-h-[85vh] flex items-center justify-center px-4 py-16">
+      <div className="w-full max-w-md space-y-8 glass-panel p-8 sm:p-10 rounded-3xl relative overflow-hidden">
         <div className="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
 
         <div className="text-center space-y-3">
@@ -46,11 +46,11 @@ export function AdminLoginForm() {
             <Lock className="w-7 h-7" />
           </div>
 
-          <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-white">
+          <h1 className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
             Vermilion Routes Portal
           </h1>
 
-          <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
+          <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
             Administrative Management & Firebase Authentication Portal
           </p>
         </div>
@@ -63,7 +63,7 @@ export function AdminLoginForm() {
           )}
 
           <div className="space-y-1.5">
-            <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+            <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
               Admin Email
             </label>
             <div className="relative">
@@ -74,13 +74,13 @@ export function AdminLoginForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@vermilionroutes.com"
-                className="w-full pl-10 pr-4 py-3 bg-zinc-950/80 border border-zinc-800 rounded-2xl text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full pl-10 pr-4 py-3 glass-input rounded-2xl text-sm placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500 transition-colors"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-xs font-semibold text-zinc-300 uppercase tracking-wider">
+            <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
               Password
             </label>
             <div className="relative">
@@ -91,12 +91,12 @@ export function AdminLoginForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full pl-10 pr-10 py-3 bg-zinc-950/80 border border-zinc-800 rounded-2xl text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full pl-10 pr-10 py-3 glass-input rounded-2xl text-sm placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500 transition-colors"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>

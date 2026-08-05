@@ -28,9 +28,13 @@ export function TourCarousel({ tours }: TourCarouselProps) {
   const filteredTours =
     activeFilter === 'all'
       ? tours
-      : tours.filter((tour) =>
-          tour.destination.toLowerCase().includes(activeFilter.toLowerCase())
-        );
+      : tours.filter((tour) => {
+          const dest = tour.destination.toLowerCase();
+          if (activeFilter === 'Galapagos') return dest.includes('galapagos');
+          if (activeFilter === 'Ecuador') return dest.includes('ecuador');
+          if (activeFilter === 'Peru') return dest.includes('peru');
+          return false;
+        });
 
   const total = filteredTours.length;
 
@@ -52,7 +56,19 @@ export function TourCarousel({ tours }: TourCarouselProps) {
     }, 3000);
     
     return () => clearInterval(interval);
-  }, [total, isHovered]);
+  }, [total, isHovered, currentIndex]);
+
+  useEffect(() => {
+    const handleSelectFilter = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      if (customEvent.detail) {
+        setActiveFilter(customEvent.detail);
+        setCurrentIndex(0);
+      }
+    };
+    window.addEventListener('selectDestinationFilter', handleSelectFilter);
+    return () => window.removeEventListener('selectDestinationFilter', handleSelectFilter);
+  }, []);
 
   const handleFilterChange = (filterId: string) => {
     setActiveFilter(filterId);
@@ -96,7 +112,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
   const nextIndex = (currentIndex + 1) % total;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-2">
       {/* Filter Category Tabs */}
       <div className="flex flex-wrap items-center justify-center gap-2">
         {categories.map((cat) => (
@@ -106,7 +122,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
             className={`px-4 py-2 rounded-2xl text-xs font-semibold transition-all duration-300 cursor-pointer ${
               activeFilter === cat.id
                 ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 scale-105'
-                : 'bg-white text-zinc-600 hover:bg-zinc-100 border border-zinc-200/80'
+                : 'bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700'
             }`}
           >
             {cat.label}
@@ -114,87 +130,30 @@ export function TourCarousel({ tours }: TourCarouselProps) {
         ))}
       </div>
 
-      {/* 3D Carousel Stage */}
-      <div
-        className="relative min-h-[580px] flex items-center justify-center overflow-hidden py-6 px-2 sm:px-6"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Prev Arrow Button */}
-        <button
-          onClick={handlePrev}
-          aria-label="Previous tour"
-          className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-white/90 backdrop-blur-xl border border-zinc-200 shadow-xl flex items-center justify-center text-zinc-800 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
+      {/* Scrollable Carousel Stage */}
+      <div className="relative group/carousel">
+        <div
+          className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory py-6 px-2 sm:px-6 scrollbar-hide"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-
-        {/* Next Arrow Button */}
-        <button
-          onClick={handleNext}
-          aria-label="Next tour"
-          className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-white/90 backdrop-blur-xl border border-zinc-200 shadow-xl flex items-center justify-center text-zinc-800 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all duration-200 hover:scale-110 active:scale-95 cursor-pointer"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
-
-        {/* Desktop 3D Cards Layout (3 cards visible with perspective) */}
-        <div className="w-full max-w-6xl mx-auto hidden md:grid md:grid-cols-12 items-center gap-4 relative">
-          {/* Left Card (Previous) */}
-          <div
-            onClick={() => setCurrentIndex(prevIndex)}
-            className="col-span-3 transform transition-all duration-500 ease-out opacity-60 hover:opacity-90 scale-90 -rotate-2 cursor-pointer pointer-events-auto filter blur-[0.3px]"
-          >
-            <div className="pointer-events-none">
-              <TourCard tour={filteredTours[prevIndex]} />
+          {filteredTours.map((tour, idx) => (
+            <div
+              key={tour.id}
+              className="min-w-[280px] sm:min-w-[320px] md:min-w-[350px] snap-center shrink-0 transform transition-all duration-300 hover:-translate-y-2"
+            >
+              <TourCard tour={tour} />
             </div>
-          </div>
-
-          {/* Center Card (Active & Prominent) */}
-          <div className="col-span-6 z-30 transform transition-all duration-500 ease-out scale-100 lg:scale-105 shadow-2xl rounded-3xl ring-2 ring-emerald-500/40">
-            <TourCard tour={filteredTours[currentIndex]} />
-          </div>
-
-          {/* Right Card (Next) */}
-          <div
-            onClick={() => setCurrentIndex(nextIndex)}
-            className="col-span-3 transform transition-all duration-500 ease-out opacity-60 hover:opacity-90 scale-90 rotate-2 cursor-pointer pointer-events-auto filter blur-[0.3px]"
-          >
-            <div className="pointer-events-none">
-              <TourCard tour={filteredTours[nextIndex]} />
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* Mobile Single Card Layout with Smooth Slide Effect */}
-        <div className="w-full max-w-sm mx-auto md:hidden relative z-30 transition-all duration-300">
-          <TourCard tour={filteredTours[currentIndex]} />
-        </div>
-      </div>
-
-      {/* Pagination Dot Controls */}
-      <div className="flex items-center justify-center gap-2 pt-2">
-        {filteredTours.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCurrentIndex(idx)}
-            aria-label={`Go to slide ${idx + 1}`}
-            className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-              currentIndex === idx
-                ? 'w-8 bg-emerald-600 shadow-sm shadow-emerald-600/50'
-                : 'w-2.5 bg-zinc-300 hover:bg-zinc-400'
-            }`}
-          />
-        ))}
+        {/* Floating Gradient Edges for scroll indication */}
+        <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-r from-white dark:from-[#04080F] to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-l from-white dark:from-[#04080F] to-transparent pointer-events-none" />
       </div>
 
       {/* Tour Counter */}
-      <div className="text-center text-xs text-zinc-500 font-medium">
-        Showing <span className="font-bold text-zinc-800">{currentIndex + 1}</span> of{' '}
-        <span className="font-bold text-zinc-800">{total}</span> journeys
+      <div className="text-center text-xs text-zinc-500 dark:text-zinc-400 font-medium pt-4">
+        Showing <span className="font-bold text-zinc-800 dark:text-zinc-200">{total}</span> journeys matching your criteria
       </div>
     </div>
   );

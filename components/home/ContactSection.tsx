@@ -99,7 +99,7 @@ export function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-200/60">
+    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-200 dark:border-zinc-800/60">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         {/* Left Col Info */}
         <div className="lg:col-span-5 space-y-8">
@@ -107,10 +107,10 @@ export function ContactSection() {
             <span className="text-emerald-600 text-xs font-bold uppercase tracking-wider block">
               Dedicated 24/7 Specialist Concierge
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 tracking-tight">
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight">
               Let’s Craft Your Dream Journey
             </h2>
-            <p className="text-zinc-600 text-sm sm:text-base leading-relaxed">
+            <p className="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed">
               Fill out the custom inquiry form or reach out directly. A dedicated destination specialist will respond in under 2 hours with tailored proposal itineraries and pricing.
             </p>
           </div>
@@ -118,14 +118,14 @@ export function ContactSection() {
           <div className="space-y-4">
             <a
               href="tel:+593994048458"
-              className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-zinc-200/80 shadow-sm hover:border-emerald-500/50 hover:shadow-md transition-all group"
+              className="flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm hover:border-emerald-500/50 hover:shadow-md transition-all group"
             >
               <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 group-hover:scale-110 transition-transform">
                 <Phone className="w-5 h-5" />
               </div>
               <div>
                 <span className="text-xs text-zinc-400 font-medium block">Direct Call & WhatsApp</span>
-                <span className="font-semibold text-zinc-900 text-sm group-hover:text-emerald-600 transition-colors">
+                <span className="font-semibold text-zinc-900 dark:text-white text-sm group-hover:text-emerald-600 transition-colors">
                   +593 99 404 8458
                 </span>
               </div>
@@ -133,26 +133,26 @@ export function ContactSection() {
 
             <a
               href="mailto:info@vermilionroutes.com"
-              className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-zinc-200/80 shadow-sm hover:border-emerald-500/50 hover:shadow-md transition-all group"
+              className="flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm hover:border-emerald-500/50 hover:shadow-md transition-all group"
             >
               <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 group-hover:scale-110 transition-transform">
                 <Mail className="w-5 h-5" />
               </div>
               <div>
                 <span className="text-xs text-zinc-400 font-medium block">Email Address</span>
-                <span className="font-semibold text-zinc-900 text-sm group-hover:text-emerald-600 transition-colors">
+                <span className="font-semibold text-zinc-900 dark:text-white text-sm group-hover:text-emerald-600 transition-colors">
                   info@vermilionroutes.com
                 </span>
               </div>
             </a>
 
-            <div className="flex items-center gap-4 p-4 rounded-2xl bg-white border border-zinc-200/80 shadow-sm">
+            <div className="flex items-center gap-4 p-4 rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm">
               <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
                 <MapPin className="w-5 h-5" />
               </div>
               <div>
                 <span className="text-xs text-zinc-400 font-medium block">Headquarters</span>
-                <span className="font-semibold text-zinc-900 text-sm">
+                <span className="font-semibold text-zinc-900 dark:text-white text-sm">
                   Quito, Ecuador • Operations in Cusco, Peru
                 </span>
               </div>
@@ -161,16 +161,16 @@ export function ContactSection() {
         </div>
 
         {/* Right Col Form */}
-        <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-3xl border border-zinc-200/80 shadow-xl">
+        <div className="lg:col-span-7 bg-white dark:bg-zinc-900/80 p-8 sm:p-10 rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-xl">
           {submitted ? (
             <div className="text-center py-12 space-y-4 animate-in fade-in duration-300">
               <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-10 h-10" />
               </div>
-              <h3 className="font-serif text-2xl font-bold text-zinc-900">
+              <h3 className="font-serif text-2xl font-bold text-zinc-900 dark:text-white">
                 Quote Request Submitted Successfully!
               </h3>
-              <p className="text-zinc-600 text-sm max-w-md mx-auto">
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm max-w-md mx-auto">
                 Thank you, <span className="font-semibold">{formData.name}</span>. A Vermilion Routes travel specialist will be in touch shortly via email or WhatsApp to review your custom itinerary options.
               </p>
               <Button
@@ -193,8 +193,8 @@ export function ContactSection() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="flex items-center justify-between pb-2 border-b border-zinc-100">
-                <h3 className="font-serif font-bold text-xl text-zinc-900 flex items-center gap-2">
+              <div className="flex items-center justify-between pb-2 border-b border-zinc-100 dark:border-zinc-800/50">
+                <h3 className="font-serif font-bold text-xl text-zinc-900 dark:text-white flex items-center gap-2">
                   <MessageSquare className="w-5 h-5 text-emerald-600" />
                   <span>Request a Custom Quote</span>
                 </h3>
@@ -212,7 +212,7 @@ export function ContactSection() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700">Full Name *</label>
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Full Name *</label>
                   <input
                     type="text"
                     required
@@ -222,17 +222,17 @@ export function ContactSection() {
                       setFormData({ ...formData, name: e.target.value });
                       if (errors.name) setErrors((prev) => ({ ...prev, name: undefined }));
                     }}
-                    className={`w-full bg-zinc-50 border rounded-xl px-4 py-3 text-sm text-zinc-900 focus:outline-none transition-colors ${
+                    className={`w-full bg-zinc-50 dark:bg-zinc-900/50 border rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none transition-colors ${
                       errors.name
                         ? 'border-rose-400 bg-rose-50/40 focus:border-rose-500'
-                        : 'border-zinc-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
+                        : 'border-zinc-200 dark:border-zinc-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
                     }`}
                   />
                   {errors.name && <p className="text-[11px] text-rose-600 font-medium">{errors.name}</p>}
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700">Email Address *</label>
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Email Address *</label>
                   <input
                     type="email"
                     required
@@ -242,10 +242,10 @@ export function ContactSection() {
                       setFormData({ ...formData, email: e.target.value });
                       if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
                     }}
-                    className={`w-full bg-zinc-50 border rounded-xl px-4 py-3 text-sm text-zinc-900 focus:outline-none transition-colors ${
+                    className={`w-full bg-zinc-50 dark:bg-zinc-900/50 border rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none transition-colors ${
                       errors.email
                         ? 'border-rose-400 bg-rose-50/40 focus:border-rose-500'
-                        : 'border-zinc-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
+                        : 'border-zinc-200 dark:border-zinc-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
                     }`}
                   />
                   {errors.email && <p className="text-[11px] text-rose-600 font-medium">{errors.email}</p>}
@@ -254,27 +254,27 @@ export function ContactSection() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700">Phone / WhatsApp</label>
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Phone / WhatsApp</label>
                   <input
                     type="tel"
                     placeholder="+1 (555) 000-0000"
                     value={formData.phone}
                     onChange={handlePhoneChange}
-                    className={`w-full bg-zinc-50 border rounded-xl px-4 py-3 text-sm text-zinc-900 focus:outline-none transition-colors ${
+                    className={`w-full bg-zinc-50 dark:bg-zinc-900/50 border rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none transition-colors ${
                       errors.phone
                         ? 'border-rose-400 bg-rose-50/40 focus:border-rose-500'
-                        : 'border-zinc-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
+                        : 'border-zinc-200 dark:border-zinc-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
                     }`}
                   />
                   {errors.phone && <p className="text-[11px] text-rose-600 font-medium">{errors.phone}</p>}
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700">Primary Destination</label>
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Primary Destination</label>
                   <select
                     value={formData.destination}
                     onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
-                    className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-zinc-900 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+                    className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
                   >
                     <option value="Galapagos Islands">Galapagos Islands</option>
                     <option value="Mainland Ecuador">Mainland Ecuador</option>
@@ -284,11 +284,11 @@ export function ContactSection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700">Travelers</label>
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Travelers</label>
                   <select
                     value={formData.travelers}
                     onChange={(e) => setFormData({ ...formData, travelers: e.target.value })}
-                    className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-zinc-900 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+                    className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
                   >
                     <option value="1 Traveler">1 Traveler (Solo)</option>
                     <option value="2 Travelers">2 Travelers (Duo / Couple)</option>
@@ -299,7 +299,7 @@ export function ContactSection() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-zinc-700">
+                <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                   Tell us about your trip preferences (estimated dates, style, interest)
                 </label>
                 <textarea
@@ -307,7 +307,7 @@ export function ContactSection() {
                   placeholder="e.g. Planning to travel in October for 10 days, interested in a 5-day Galapagos luxury cruise and visiting Machu Picchu aboard the Vistadome train..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 text-sm text-zinc-900 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                 />
               </div>
 

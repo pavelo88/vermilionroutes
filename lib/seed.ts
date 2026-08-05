@@ -23,7 +23,8 @@ export const defaultSettings = {
     title: "Tailor-Made Luxury Expeditions",
     titleColored: "Crafted for Extraordinary Travel",
     subtitle: "Cruise the enchanted Galapagos Islands, trek the volcanic spine of the high Andes, explore the deep Amazon rainforest, and uncover the mysteries of Machu Picchu.",
-    backgroundImage: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1920&q=80"
+    backgroundImage: "",
+    backgroundImages: [] as string[]
   },
   about: {
     title: "Unrivaled Expertise, Uncompromised Luxury",
@@ -56,7 +57,7 @@ export const defaultSettings = {
   ],
   footer: {
     logoText: "VERMILION",
-    logoSubtitle: "ROUTES & EXPERIENCES",
+    logoSubtitle: "SOUTH AMERICAN ROUTES",
     description: "Premier boutique tour operator specializing in custom-crafted luxury travel itineraries across South America's most iconic wonders.",
     copyright: "© 2026 Vermilion Routes. All Rights Reserved."
   }

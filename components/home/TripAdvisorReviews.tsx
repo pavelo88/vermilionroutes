@@ -52,24 +52,24 @@ export function TripAdvisorReviews({
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
       {/* Header with TripAdvisor Badge */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-zinc-200/80 pb-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-zinc-200/80 dark:border-zinc-800/80 pb-8">
         <div className="space-y-3 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-xs font-semibold text-emerald-800">
             <Award className="w-4 h-4 text-emerald-600" />
             <span>TripAdvisor Travelers' Choice 2026 Winner</span>
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 tracking-tight">
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight">
             {title}
           </h2>
 
-          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed">
+          <p className="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed">
             {subtitle}
           </p>
         </div>
 
         {/* TripAdvisor Overall Score Banner */}
-        <div className="bg-white p-5 rounded-3xl border border-zinc-200/90 shadow-md flex items-center gap-4 shrink-0">
+        <div className="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-zinc-200 dark:border-zinc-800/90 shadow-md flex items-center gap-4 shrink-0">
           <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-serif font-bold text-xl shadow-md shadow-emerald-600/30">
             5.0
           </div>
@@ -79,7 +79,7 @@ export function TripAdvisorReviews({
                 <Star key={i} className="w-4 h-4 fill-emerald-500 text-emerald-500" />
               ))}
             </div>
-            <p className="text-xs font-bold text-zinc-900 mt-1">
+            <p className="text-xs font-bold text-zinc-900 dark:text-white mt-1">
               TripAdvisor Verified Rating
             </p>
             <p className="text-[11px] text-zinc-500">Based on 120+ 5-Star Reviews</p>
@@ -118,14 +118,14 @@ export function TripAdvisorReviews({
             <button
               onClick={handlePrev}
               aria-label="Previous review"
-              className="p-2.5 rounded-2xl bg-white border border-zinc-200 text-zinc-700 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all shadow-sm cursor-pointer"
+              className="p-2.5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all shadow-sm cursor-pointer"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={handleNext}
               aria-label="Next review"
-              className="p-2.5 rounded-2xl bg-white border border-zinc-200 text-zinc-700 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all shadow-sm cursor-pointer"
+              className="p-2.5 rounded-2xl bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all shadow-sm cursor-pointer"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -141,10 +141,10 @@ export function TripAdvisorReviews({
               <div
                 key={rev.id}
                 onClick={() => setActiveIdx(idx)}
-                className={`bg-white/90 backdrop-blur-xl p-7 rounded-3xl border transition-all duration-300 flex flex-col justify-between space-y-6 relative group cursor-pointer ${
+                className={`bg-white dark:bg-zinc-900/90 backdrop-blur-xl p-7 rounded-3xl border transition-all duration-300 flex flex-col justify-between space-y-6 relative group cursor-pointer ${
                   isCurrent
                     ? 'border-emerald-500/80 shadow-xl ring-2 ring-emerald-500/20 scale-[1.02] z-20'
-                    : 'border-zinc-200/80 shadow-sm opacity-80 md:opacity-100 hover:opacity-100 hidden md:flex'
+                    : 'border-zinc-200/80 dark:border-zinc-800/80 shadow-sm opacity-80 md:opacity-100 hover:opacity-100 hidden md:flex'
                 }`}
               >
                 <Quote className="w-10 h-10 text-emerald-100 absolute top-6 right-6 pointer-events-none group-hover:text-emerald-200 transition-colors" />
@@ -168,17 +168,17 @@ export function TripAdvisorReviews({
 
                   {/* Title & Comment */}
                   <div className="space-y-2">
-                    <h3 className="font-serif font-bold text-lg text-zinc-900 leading-snug">
+                    <h3 className="font-serif font-bold text-lg text-zinc-900 dark:text-white leading-snug">
                       "{rev.title}"
                     </h3>
-                    <p className="text-xs text-zinc-600 leading-relaxed italic">
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed italic">
                       "{rev.comment}"
                     </p>
                   </div>
                 </div>
 
                 {/* Author Footer */}
-                <div className="pt-4 border-t border-zinc-100 flex items-center gap-3.5 mt-auto relative z-10">
+                <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800/50 flex items-center gap-3.5 mt-auto relative z-10">
                   <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0 border border-emerald-500/30 shadow-sm">
                     <Image
                       src={rev.avatarUrl}
@@ -191,7 +191,7 @@ export function TripAdvisorReviews({
                   </div>
 
                   <div className="space-y-0.5">
-                    <p className="font-semibold text-sm text-zinc-900 leading-tight">
+                    <p className="font-semibold text-sm text-zinc-900 dark:text-white leading-tight">
                       {rev.author}
                     </p>
                     <p className="text-[11px] text-zinc-500">{rev.location}</p>

@@ -77,7 +77,7 @@ export function AdminBookingsTable() {
         );
       case 'cancelled':
         return (
-          <span className="inline-flex items-center gap-1 text-zinc-400 bg-zinc-900 border border-zinc-700 px-2.5 py-0.5 rounded-full text-[11px] font-semibold">
+          <span className="inline-flex items-center gap-1 text-zinc-600 dark:text-zinc-400 bg-zinc-900 border border-zinc-700 px-2.5 py-0.5 rounded-full text-[11px] font-semibold">
             <XCircle className="w-3 h-3" />
             Archived / Cancelled
           </span>
@@ -86,39 +86,38 @@ export function AdminBookingsTable() {
   };
 
   return (
-    <div className="bg-zinc-900/80 rounded-3xl border border-zinc-800 p-6 space-y-6">
+    <div className="bg-white dark:bg-zinc-900/80 rounded-3xl border border-zinc-200 dark:border-zinc-800 p-6 space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="font-serif text-xl font-bold text-white flex items-center gap-2">
+          <h2 className="font-serif text-xl font-bold text-zinc-900 dark:text-white flex items-center gap-2">
             <Inbox className="w-5 h-5 text-emerald-400" />
             <span>Incoming Booking Inquiries</span>
             <span className="text-xs font-sans font-bold bg-emerald-950 text-emerald-400 border border-emerald-800 px-2.5 py-0.5 rounded-full">
               {bookings.length} Total Requests
             </span>
           </h2>
-          <p className="text-xs text-zinc-400">
+          <p className="text-xs text-zinc-600 dark:text-zinc-400">
             Real-time traveler quote requests submitted via public website.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-          <div className="relative flex-1 sm:w-60">
-            <Search className="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <div className="relative w-full sm:w-72 mt-4 sm:mt-0">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
             <input
               type="text"
-              placeholder="Search by name, email, tour..."
+              placeholder="Search by name, email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500"
+              className="w-full pl-9 pr-4 py-2 bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-700 rounded-xl text-sm text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500/50"
             />
           </div>
-
-          <div className="flex items-center gap-1 bg-zinc-950 border border-zinc-800 rounded-xl px-2.5 py-1.5 text-xs text-zinc-400">
-            <Filter className="w-3.5 h-3.5 text-zinc-500" />
+          <div className="relative w-full sm:w-48">
+            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-transparent text-white focus:outline-none cursor-pointer"
+              className="w-full pl-9 pr-8 py-2 bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-700 rounded-xl text-sm text-zinc-900 dark:text-zinc-100 appearance-none focus:outline-none focus:border-emerald-500/50 cursor-pointer"
             >
               <option value="all">All Statuses</option>
               <option value="pending">Pending</option>
@@ -131,9 +130,9 @@ export function AdminBookingsTable() {
       </div>
 
       {/* Bookings Table */}
-      <div className="overflow-x-auto rounded-2xl border border-zinc-800">
-        <table className="w-full text-left text-xs text-zinc-300">
-          <thead className="bg-zinc-950 text-zinc-400 uppercase tracking-wider font-semibold border-b border-zinc-800">
+      <div className="overflow-x-auto rounded-2xl border border-zinc-200 dark:border-zinc-800">
+        <table className="w-full text-left text-xs text-zinc-700 dark:text-zinc-300">
+          <thead className="text-zinc-600 dark:text-zinc-400 uppercase tracking-widest font-bold border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
             <tr>
               <th className="p-4">Customer Details</th>
               <th className="p-4">Tour / Destination</th>
@@ -143,7 +142,7 @@ export function AdminBookingsTable() {
               <th className="p-4 text-right">Quick Contact & Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-800/80 bg-zinc-900/40">
+          <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800/80 bg-white dark:bg-zinc-900/40">
             {loading ? (
               <tr>
                 <td colSpan={6} className="p-8 text-center text-zinc-500">
@@ -161,16 +160,16 @@ export function AdminBookingsTable() {
               </tr>
             ) : (
               filteredBookings.map((b) => (
-                <tr key={b.id} className="hover:bg-zinc-800/50 transition-colors">
+                <tr key={b.id} className="border-b border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800/20 transition-colors group">
                   <td className="p-4 space-y-1">
-                    <p className="font-bold text-white text-sm">{b.customerName}</p>
-                    <div className="flex flex-col gap-0.5 text-[11px] text-zinc-400 font-mono">
-                      <span className="flex items-center gap-1 text-zinc-300">
+                    <p className="font-bold text-zinc-900 dark:text-white text-sm">{b.customerName}</p>
+                    <div className="flex flex-col gap-0.5 text-[11px] text-zinc-600 dark:text-zinc-400 font-mono">
+                      <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300">
                         <Mail className="w-3 h-3 text-emerald-400 shrink-0" />
                         {b.customerEmail}
                       </span>
                       {b.customerPhone && (
-                        <span className="flex items-center gap-1 text-zinc-300">
+                        <span className="flex items-center gap-1 text-zinc-700 dark:text-zinc-300">
                           <Phone className="w-3 h-3 text-emerald-400 shrink-0" />
                           {b.customerPhone}
                         </span>
@@ -178,19 +177,19 @@ export function AdminBookingsTable() {
                     </div>
                   </td>
                   <td className="p-4 space-y-1">
-                    <p className="font-semibold text-white line-clamp-1">{b.tourTitle}</p>
+                    <p className="font-semibold text-zinc-900 dark:text-white line-clamp-1">{b.tourTitle}</p>
                     {b.destination && (
                       <span className="inline-block text-[10px] text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full">
                         {b.destination}
                       </span>
                     )}
                     {b.message && (
-                      <p className="text-[11px] text-zinc-400 italic line-clamp-2 mt-1">
+                      <p className="text-[11px] text-zinc-600 dark:text-zinc-400 italic line-clamp-2 mt-1">
                         "{b.message}"
                       </p>
                     )}
                   </td>
-                  <td className="p-4 space-y-1 text-zinc-300 font-medium">
+                  <td className="p-4 space-y-1 text-zinc-700 dark:text-zinc-300 font-medium">
                     {b.travelDates && (
                       <span className="flex items-center gap-1 text-[11px]">
                         <Calendar className="w-3 h-3 text-zinc-500" />
@@ -212,7 +211,7 @@ export function AdminBookingsTable() {
                         onChange={(e) =>
                           handleStatusChange(b.id!, e.target.value as BookingRequest['status'])
                         }
-                        className="block w-full mt-1 bg-zinc-950 border border-zinc-800 text-[10px] text-zinc-300 rounded-lg p-1 focus:outline-none focus:border-emerald-500 cursor-pointer"
+                        className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-300 text-[10px] uppercase font-bold rounded-lg px-2 py-1.5 focus:outline-none focus:border-emerald-500 cursor-pointer"
                       >
                         <option value="pending">Mark Pending</option>
                         <option value="contacted">Mark Contacted</option>
@@ -221,7 +220,7 @@ export function AdminBookingsTable() {
                       </select>
                     </div>
                   </td>
-                  <td className="p-4 text-[11px] text-zinc-400 font-mono">
+                  <td className="p-4 text-[11px] text-zinc-600 dark:text-zinc-400 font-mono">
                     {b.createdAt ? new Date(b.createdAt).toLocaleDateString() : 'N/A'}
                   </td>
                   <td className="p-4 text-right space-x-2">
@@ -242,14 +241,14 @@ export function AdminBookingsTable() {
                       href={`mailto:${b.customerEmail}?subject=${encodeURIComponent(
                         `Vermilion Routes Quote Inquiry - ${b.tourTitle}`
                       )}`}
-                      className="inline-flex items-center gap-1 p-2 rounded-xl bg-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-700 transition-colors"
+                      className="inline-flex items-center gap-1 p-2 rounded-xl bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:text-white hover:bg-zinc-700 transition-colors"
                       title="Send Email"
                     >
                       <Mail className="w-3.5 h-3.5" />
                     </a>
                     <button
                       onClick={() => handleDelete(b.id!, b.customerName)}
-                      className="p-2 rounded-xl bg-zinc-800 text-zinc-300 hover:text-rose-400 hover:bg-rose-950/80 transition-colors cursor-pointer"
+                      className="p-2 rounded-xl bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-rose-400 hover:bg-rose-950/80 transition-colors cursor-pointer"
                       title="Delete Request"
                     >
                       <Trash2 className="w-3.5 h-3.5" />

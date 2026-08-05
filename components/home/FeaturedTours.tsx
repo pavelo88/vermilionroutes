@@ -10,17 +10,17 @@ export function FeaturedTours() {
   const { tours } = useToursData();
 
   return (
-    <section id="tours" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
+    <section id="tours" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-xs font-semibold text-emerald-800">
           <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
           <span>Interactive 3D Carousel Showcase</span>
         </div>
-        <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 tracking-tight">
+        <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight">
           Featured Signature Journeys
         </h2>
-        <p className="text-zinc-600 text-sm sm:text-base leading-relaxed">
+        <p className="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed">
           Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between luxury and adventure.
         </p>
       </div>

@@ -7,6 +7,20 @@ import { Button } from '@/components/ui/Button';
 import { Compass, ArrowRight, Sparkles } from 'lucide-react';
 
 export function DestinationsGrid() {
+  const handleDestinationClick = (destId: string) => {
+    const filterMap: Record<string, string> = {
+      galapagos: 'Galapagos',
+      ecuador: 'Ecuador',
+      peru: 'Peru',
+    };
+    const targetFilter = filterMap[destId.toLowerCase()] || 'all';
+    window.dispatchEvent(new CustomEvent('selectDestinationFilter', { detail: targetFilter }));
+    const toursSection = document.getElementById('tours');
+    if (toursSection) {
+      toursSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="destinations" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
@@ -15,10 +29,10 @@ export function DestinationsGrid() {
             <Compass className="w-3.5 h-3.5 text-emerald-600" />
             <span>Must-Visit Destinations</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 tracking-tight">
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight">
             Explore South America’s Most Extraordinary Regions
           </h2>
-          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed">
+          <p className="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed">
             From the unmatched evolutionary wonder of the Galapagos Archipelago to the dramatic Andean volcanism in Ecuador and ancient Inca sanctuaries in Peru.
           </p>
         </div>
@@ -35,7 +49,8 @@ export function DestinationsGrid() {
         {mockDestinations.map((dest) => (
           <div
             key={dest.id}
-            className="group relative h-[420px] rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col justify-end p-8 border border-zinc-200/50"
+            onClick={() => handleDestinationClick(dest.id)}
+            className="group relative h-[420px] rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end p-8 border border-zinc-200/50 cursor-pointer"
           >
             <Image
               src={dest.imageUrl}
@@ -66,11 +81,9 @@ export function DestinationsGrid() {
               </p>
 
               <div className="pt-2">
-                <a href="#tours">
-                  <span className="inline-flex items-center gap-2 text-xs font-semibold text-white group-hover:text-emerald-400 transition-colors">
-                    Explore Expeditions <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </a>
+                <span className="inline-flex items-center gap-2 text-xs font-semibold text-white group-hover:text-emerald-400 transition-colors">
+                  Explore Expeditions <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </span>
               </div>
             </div>
           </div>

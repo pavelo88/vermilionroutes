@@ -10,19 +10,21 @@ export function AboutSection() {
   const { settings } = useSettings();
 
   return (
-    <section id="about-us" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-200/60">
+    <section id="about-us" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-200/60 dark:border-zinc-800/60">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Column Image Mosaic */}
-        <div className="relative">
-          <div className="relative h-[480px] w-full rounded-3xl overflow-hidden shadow-2xl border border-zinc-200">
+        <div className="relative group cursor-pointer">
+          <div className="relative h-[480px] w-full rounded-3xl overflow-hidden shadow-2xl border border-zinc-200 dark:border-zinc-800">
             <Image
               src={settings?.about?.imageUrl || "https://images.unsplash.com/photo-1589802829985-817e51171b92?auto=format&fit=crop&w=1200&q=80"}
               alt="Vermilion Routes Expedition"
               fill
-              className="object-cover"
-              referrerPolicy="no-referrer"
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            {/* Subtle Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-700" />
           </div>
 
           {/* Floating Glass Card */}
@@ -44,11 +46,11 @@ export function AboutSection() {
             <span>{settings?.about?.subtitle || 'About Vermilion Routes'}</span>
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 tracking-tight leading-tight">
+          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight leading-tight">
             {settings?.about?.title || 'Crafting Unforgettable Expeditions in the Heart of South America'}
           </h2>
 
-          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed">
+          <p className="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed">
             {settings?.about?.paragraph1 || 'Vermilion Routes was founded with a passion to elevate how discerning global travelers discover Ecuador, the Galapagos, and Peru. We craft bespoke journeys that manage every logistical detail seamlessly—pairing boutique luxury with deep, respectful cultural and wildlife immersion.'}
           </p>
 
@@ -57,7 +59,7 @@ export function AboutSection() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-            <div className="p-4 rounded-2xl bg-white border border-zinc-200/80 shadow-sm space-y-1">
+            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-800/50 border border-zinc-200/80 dark:border-zinc-700/50 shadow-sm space-y-1">
               <div className="flex items-center gap-2 text-emerald-600 font-bold text-sm">
                 <ShieldCheck className="w-4 h-4" />
                 <span>{settings?.about?.metric1Lbl || 'Guaranteed & Flexible Travel'}</span>
@@ -67,7 +69,7 @@ export function AboutSection() {
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white border border-zinc-200/80 shadow-sm space-y-1">
+            <div className="p-4 rounded-2xl bg-white dark:bg-zinc-800/50 border border-zinc-200/80 dark:border-zinc-700/50 shadow-sm space-y-1">
               <div className="flex items-center gap-2 text-emerald-600 font-bold text-sm">
                 <Heart className="w-4 h-4" />
                 <span>{settings?.about?.metric2Lbl || 'Sustainable Local Impact'}</span>

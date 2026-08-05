@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/Button';
 import {
   Menu,
@@ -11,7 +12,9 @@ import {
   ChevronDown,
   Globe,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { useSettings } from '@/hooks/useSettings';
 import Image from 'next/image';
@@ -22,6 +25,8 @@ export function Navbar() {
   const [destinationsOpen, setDestinationsOpen] = useState(false);
   const { settings } = useSettings();
   const [lang, setLang] = useState('EN');
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   const toggleLanguage = () => {
     const nextLang = lang === 'EN' ? 'ES' : 'EN';
@@ -32,18 +37,19 @@ export function Navbar() {
   };
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
-    
+
     // Check initial language from cookie
     if (document.cookie.includes('googtrans=/en/es')) {
       setLang('ES');
     } else {
       setLang('EN');
     }
-    
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -99,26 +105,29 @@ export function Navbar() {
 
       {/* Main Sticky Header */}
       <header
-        className={`sticky top-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? 'bg-white/90 backdrop-blur-md shadow-md border-b border-zinc-200/80 py-3'
-            : 'bg-white/80 backdrop-blur-sm border-b border-zinc-200/50 py-4'
-        }`}
+        className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled
+          ? 'glass-panel shadow-md border-b border-zinc-200/80 dark:border-zinc-800/80 py-3'
+          : 'bg-white/70 dark:bg-zinc-950/50 backdrop-blur-sm border-b border-zinc-200/50 dark:border-zinc-800/50 py-4'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 relative z-10 group notranslate">
-            <img 
-              src="/wp-content/uploads/2023/08/logo_vermilion-01.png" 
-              alt="Vermilion" 
-              className="h-9 sm:h-10 w-auto object-contain transition-transform group-hover:scale-105"
-            />
+            <div className="relative w-10 h-10 shrink-0">
+              <Image
+                src="/logo.png"
+                alt="Vermilion"
+                fill
+                sizes="40px"
+                className="object-contain transition-transform group-hover:scale-105 invert dark:invert-0"
+              />
+            </div>
             <div className="flex flex-col">
-              <span className="font-serif font-bold text-xl sm:text-2xl text-zinc-900 tracking-tight leading-none group-hover:text-emerald-600 transition-colors">
+              <span className="font-serif font-bold text-xl sm:text-2xl text-zinc-900 dark:text-white tracking-tight leading-none group-hover:text-emerald-600 transition-colors">
                 {settings?.footer?.logoText || 'VERMILION'}
               </span>
-              <span className="text-[10px] uppercase font-semibold tracking-widest text-emerald-600 leading-tight">
-                {settings?.footer?.logoSubtitle || 'Routes & Experiences'}
+              <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-600 leading-tight">
+                {settings?.footer?.logoSubtitle || 'SOUTH AMERICAN ROUTES'}
               </span>
             </div>
           </Link>
@@ -136,25 +145,24 @@ export function Navbar() {
                   >
                     <a
                       href={link.href}
-                      className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-zinc-700 hover:text-emerald-600 rounded-xl hover:bg-zinc-100/70 transition-colors"
+                      className="flex items-center gap-1 px-3 py-2 text-[11px] uppercase tracking-widest font-bold text-zinc-800 dark:text-zinc-200 hover:text-emerald-600 rounded-xl hover:bg-zinc-100/70 dark:hover:bg-zinc-800/50 transition-colors"
                     >
                       {link.name}
                       <ChevronDown
-                        className={`w-4 h-4 transition-transform duration-200 ${
-                          destinationsOpen ? 'rotate-180 text-emerald-600' : ''
-                        }`}
+                        className={`w-4 h-4 transition-transform duration-200 ${destinationsOpen ? 'rotate-180 text-emerald-600' : ''
+                          }`}
                       />
                     </a>
 
                     {/* Dropdown Menu */}
                     {destinationsOpen && (
                       <div className="absolute top-full left-0 w-80 pt-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                        <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-2.5 shadow-2xl border border-zinc-200/90 ring-1 ring-black/5">
+                        <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-2.5 shadow-2xl border border-zinc-200/90 dark:border-zinc-800 ring-1 ring-black/5">
                           {link.subItems?.map((sub) => (
                             <a
                               key={sub.name}
                               href={sub.href}
-                              className="flex flex-col gap-0.5 p-3 rounded-xl hover:bg-emerald-50/80 text-zinc-800 hover:text-emerald-700 transition-colors group"
+                              className="flex flex-col gap-0.5 p-3 rounded-xl hover:bg-emerald-50/80 dark:hover:bg-emerald-900/30 text-zinc-800 dark:text-zinc-200 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors group"
                             >
                               <span className="text-sm font-semibold flex items-center justify-between">
                                 {sub.name}
@@ -176,7 +184,7 @@ export function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="px-3 py-2 text-sm font-medium text-zinc-700 hover:text-emerald-600 rounded-xl hover:bg-zinc-100/70 transition-colors"
+                  className="px-3 py-2 text-[11px] uppercase tracking-widest font-bold text-zinc-800 dark:text-zinc-200 hover:text-emerald-600 rounded-xl hover:bg-zinc-100/70 dark:hover:bg-zinc-800/50 transition-colors"
                 >
                   {link.name}
                 </a>
@@ -186,16 +194,29 @@ export function Navbar() {
 
           {/* Action CTAs */}
           <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center gap-2 px-3 py-2 text-xs font-semibold bg-white border border-zinc-200 hover:bg-zinc-50 rounded-xl cursor-pointer transition-colors"
-            >
-              <Globe className="w-3.5 h-3.5 text-emerald-600" />
-              <span>{lang} / USD</span>
-            </button>
-            <Button 
-              variant="primary" 
-              size="sm" 
+            {mounted && (
+              <>
+                <button
+                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                  suppressHydrationWarning
+                  className="p-2 text-zinc-600 dark:text-zinc-300 hover:text-emerald-600 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 rounded-xl cursor-pointer transition-colors"
+                  aria-label="Toggle Theme"
+                >
+                  {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                </button>
+                <button
+                  onClick={toggleLanguage}
+                  suppressHydrationWarning
+                  className="flex items-center gap-2 px-3 py-2 text-xs font-semibold bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 rounded-xl cursor-pointer transition-colors"
+                >
+                  <Globe className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>{lang} / USD</span>
+                </button>
+              </>
+            )}
+            <Button
+              variant="primary"
+              size="sm"
               className="shadow-md shadow-emerald-600/15"
               onClick={() => window.location.href = '/#contact'}
             >
@@ -206,7 +227,7 @@ export function Navbar() {
           {/* Mobile Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2.5 rounded-2xl text-zinc-700 hover:bg-zinc-100 md:hidden border border-zinc-200/80 cursor-pointer"
+            className="p-2.5 rounded-2xl text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 md:hidden border border-zinc-200/80 dark:border-zinc-700 cursor-pointer"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -215,7 +236,7 @@ export function Navbar() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-b border-zinc-200 bg-white/95 backdrop-blur-xl px-4 pt-3 pb-6 mt-2 space-y-3 shadow-xl">
+          <div className="md:hidden border-b border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl px-4 pt-3 pb-6 mt-2 space-y-3 shadow-xl">
 
             <nav className="flex flex-col gap-1">
               {navLinks.map((link) => (
@@ -246,8 +267,8 @@ export function Navbar() {
             </nav>
 
             <div className="pt-3 border-t border-zinc-100 flex flex-col gap-2.5">
-              <Button 
-                variant="primary" 
+              <Button
+                variant="primary"
                 className="w-full"
                 onClick={() => {
                   setMobileMenuOpen(false);

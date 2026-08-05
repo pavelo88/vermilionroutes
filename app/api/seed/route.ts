@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase';
 import { collection, doc, setDoc } from 'firebase/firestore';
-import { mockTours, mockDestinations } from '@/data/mock';
+import { mockDestinations } from '@/data/mock';
+import parsedTours from '@/data/parsed_tours.json';
 
 export async function GET() {
   try {
@@ -9,7 +10,7 @@ export async function GET() {
     const seededDestinations: string[] = [];
 
     // Seed Tours
-    for (const tour of mockTours) {
+    for (const tour of parsedTours) {
       const tourRef = doc(db, 'tours', tour.id);
       await setDoc(tourRef, tour, { merge: true });
       seededTours.push(tour.id);

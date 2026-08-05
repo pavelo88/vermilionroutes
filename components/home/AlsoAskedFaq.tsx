@@ -19,7 +19,7 @@ export function AlsoAskedFaq() {
           <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
           <span>Common Traveler Searches - Also Asked</span>
         </div>
-        <h2 className="font-serif text-3xl sm:text-4xl font-bold text-zinc-900 tracking-tight">
+        <h2 className="font-serif text-3xl sm:text-4xl font-bold text-zinc-900 dark:text-white tracking-tight">
           Planning Your South America Journey
         </h2>
         <p className="text-sm text-zinc-500 max-w-xl mx-auto">
@@ -33,11 +33,11 @@ export function AlsoAskedFaq() {
           return (
             <div
               key={idx}
-              className="bg-white rounded-3xl border border-zinc-200/80 shadow-sm overflow-hidden transition-all duration-300"
+              className="bg-white dark:bg-zinc-900/80 rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm overflow-hidden transition-all duration-300"
             >
               <button
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
-                className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left font-semibold text-zinc-900 hover:text-emerald-700 transition-colors cursor-pointer"
+                className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left font-semibold text-zinc-900 dark:text-white hover:text-emerald-700 transition-colors cursor-pointer"
               >
                 <span className="flex items-center gap-3 text-sm sm:text-base">
                   <HelpCircle className="w-5 h-5 text-emerald-600 shrink-0" />
@@ -52,10 +52,10 @@ export function AlsoAskedFaq() {
 
               <div
                 className={`transition-all duration-300 ease-in-out ${
-                  isOpen ? 'max-h-[300px] border-t border-zinc-100 opacity-100' : 'max-h-0 opacity-0'
+                  isOpen ? 'max-h-[300px] border-t border-zinc-100 dark:border-zinc-800/50 opacity-100' : 'max-h-0 opacity-0'
                 } overflow-hidden`}
               >
-                <div className="p-6 text-zinc-600 text-sm leading-relaxed bg-zinc-50/50">
+                <div className="p-6 text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed bg-zinc-50 dark:bg-zinc-900/50/50">
                   {item.answer}
                 </div>
               </div>

@@ -33,25 +33,6 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
         if (img && !imgs.includes(img)) imgs.push(img);
       });
     }
-    // Add destination fallback gallery images if only 1 image is present
-    if (imgs.length === 1) {
-      if (tour.destination.toLowerCase().includes('galapagos')) {
-        imgs.push(
-          'https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Ffull-galapagos-3-islands-hero.jpg?alt=media',
-          'https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fgalapagos-santa-cruz-isabela-premium-hero.jpg?alt=media'
-        );
-      } else if (tour.destination.toLowerCase().includes('peru')) {
-        imgs.push(
-          'https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fmisterios-del-peru-hero.jpg?alt=media',
-          'https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fcusco-inca-trail-hero.jpg?alt=media'
-        );
-      } else {
-        imgs.push(
-          'https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Ffantastic-ecuador-hero.jpg?alt=media',
-          'https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fsnow-waterfalls-galapagos-hero.jpg?alt=media'
-        );
-      }
-    }
     return imgs;
   }, [tour]);
 
@@ -60,21 +41,19 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
     setCurrentImgIndex(0);
   }, [tour?.id]);
 
-  // Auto carousel rotation
+  // Auto carousel rotation (resets on manual click because currentImgIndex is a dependency)
   useEffect(() => {
     if (!isOpen || galleryImages.length <= 1) return;
     const timer = setInterval(() => {
       setCurrentImgIndex((prev) => (prev + 1) % galleryImages.length);
-    }, 4000);
+    }, 3000);
     return () => clearInterval(timer);
-  }, [isOpen, galleryImages.length]);
+  }, [isOpen, galleryImages.length, currentImgIndex]);
 
-  // Prevent background scrolling when modal is open
+  // Lock body scroll when open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
     }
     return () => {
       document.body.style.overflow = 'unset';
@@ -114,7 +93,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
           />
 
           {/* Modal Container */}
-          <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 pointer-events-none">
+          <div className="fixed inset-0 z-[10000] flex items-center justify-center p-0 sm:p-4 pointer-events-none">
             <motion.div
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -122,12 +101,12 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               onPointerDown={(e) => e.stopPropagation()}
               onTouchStart={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl shadow-2xl w-full max-w-5xl max-h-[85vh] sm:max-h-[90vh] overflow-hidden flex flex-col md:flex-row relative pointer-events-auto border border-white/20"
+              className="glass-panel rounded-none sm:rounded-3xl shadow-2xl w-full h-full sm:h-auto max-w-5xl max-h-[100dvh] sm:max-h-[90vh] overflow-hidden flex flex-col md:flex-row relative pointer-events-auto border-0 sm:border border-zinc-200 dark:border-zinc-800"
             >
-              {/* Close Button */}
+              {/* Close Button - positioned in right panel on desktop, over image on mobile */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 sm:top-5 sm:right-5 z-50 p-2 sm:p-2.5 rounded-full backdrop-blur-md transition-all cursor-pointer shadow-md md:bg-zinc-100 md:hover:bg-zinc-200 md:text-zinc-600 md:border-none bg-black/30 hover:bg-black/50 text-white border border-white/20 hover:scale-110"
+                className="absolute top-4 right-4 z-[60] p-2 rounded-full transition-all cursor-pointer bg-black/40 hover:bg-black/60 text-white backdrop-blur-md shadow-sm md:bg-transparent md:hover:bg-zinc-100 md:text-zinc-500 md:hover:text-zinc-900 dark:md:text-zinc-400 dark:md:hover:text-white dark:md:hover:bg-zinc-800 md:shadow-none"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -206,10 +185,10 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                       <MapPin className="w-3.5 h-3.5" />
                       {tour.destination}
                     </span>
-                    <h2 className="font-serif text-2xl md:text-3xl font-bold leading-tight mb-2">
+                    <h2 className="font-serif text-xl md:text-2xl font-bold leading-tight mb-2">
                       {tour.title}
                     </h2>
-                    <div className="flex flex-wrap items-center gap-4 text-sm font-medium text-zinc-200">
+                    <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-zinc-200">
                       <span className="flex items-center gap-1.5">
                         <Clock className="w-4 h-4 text-emerald-400" />
                         {tour.duration}
@@ -224,30 +203,30 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
               </div>
 
               {/* Right Side - Content & Actions */}
-              <div className="w-full md:w-3/5 flex flex-col h-full max-h-[calc(100vh-16rem)] md:max-h-[90vh] bg-[#FAFAFA] overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="w-full md:w-3/5 flex flex-col h-full max-h-[calc(100vh-16rem)] md:max-h-[90vh] bg-white/50 dark:bg-zinc-900/50 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <style dangerouslySetInnerHTML={{__html: `div::-webkit-scrollbar { display: none; }`}} />
-                <div className="p-6 md:p-8 space-y-6 md:space-y-8 flex-1 pb-24 sm:pb-8">
+                <div className="p-4 md:p-5 space-y-4 md:space-y-5 flex-1 pb-8 sm:pb-6">
                   
                   {/* Price Banner */}
                   <motion.div 
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="flex flex-wrap items-center justify-between gap-4 bg-emerald-50 rounded-2xl p-4 border border-emerald-100"
+                    className="flex flex-wrap items-center justify-between gap-3 bg-emerald-50 rounded-2xl p-3 border border-emerald-100"
                   >
                     <div>
-                      <span className="text-xs uppercase font-bold text-emerald-700 tracking-wider">Starting from</span>
+                      <span className="text-[10px] uppercase font-bold text-emerald-700 dark:text-emerald-400 tracking-wider">Starting from</span>
                       <div className="flex items-baseline gap-1.5">
-                        <span className="font-serif font-bold text-3xl text-zinc-900">${tour.price.toLocaleString('en-US')}</span>
-                        <span className="text-zinc-600 text-sm">/ person</span>
+                        <span className="font-serif font-bold text-2xl text-zinc-900 dark:text-white">${tour.price.toLocaleString('en-US')}</span>
+                        <span className="text-zinc-600 dark:text-zinc-400 text-xs">/ person</span>
                       </div>
                     </div>
                     <Button 
                       variant="primary" 
-                      className="gap-2 shadow-lg shadow-emerald-600/20 px-6 py-2.5"
+                      className="gap-1.5 shadow-lg shadow-emerald-600/20 px-4 py-2 text-xs"
                       onClick={handleWhatsApp}
                     >
-                      <MessageCircle className="w-4 h-4" />
+                      <MessageCircle className="w-3.5 h-3.5" />
                       Book via WhatsApp
                     </Button>
                   </motion.div>
@@ -258,8 +237,8 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4 }}
                   >
-                    <h3 className="font-serif text-xl font-bold text-zinc-900 mb-3">About this experience</h3>
-                    <p className="text-zinc-600 leading-relaxed text-sm md:text-base">
+                    <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white mb-2">About this experience</h3>
+                    <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed text-sm md:text-base">
                       {tour.description}
                     </p>
                   </motion.div>
@@ -271,17 +250,17 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.5 }}
                     >
-                      <h3 className="font-serif text-xl font-bold text-zinc-900 mb-4 flex items-center gap-2">
-                        <Star className="w-5 h-5 text-amber-500" />
+                      <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
+                        <Star className="w-4 h-4 text-amber-500" />
                         Highlights
                       </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {tour.highlights.map((highlight, idx) => (
-                          <div key={idx} className="flex items-start gap-2.5 bg-white p-3 rounded-xl border border-zinc-100 shadow-sm">
-                            <div className="mt-0.5 bg-emerald-100 rounded-full p-1 shrink-0">
-                              <Check className="w-3 h-3 text-emerald-600" />
+                          <div key={idx} className="flex items-start gap-2 bg-white/60 dark:bg-zinc-800/60 p-2.5 rounded-xl border border-zinc-100 dark:border-zinc-700/50 shadow-sm">
+                            <div className="mt-0.5 bg-emerald-100 dark:bg-emerald-900/50 rounded-full p-1 shrink-0">
+                              <Check className="w-2.5 h-2.5 text-emerald-600 dark:text-emerald-400" />
                             </div>
-                            <span className="text-sm text-zinc-700 leading-snug">{highlight}</span>
+                            <span className="text-xs text-zinc-700 dark:text-zinc-300 leading-snug">{highlight}</span>
                           </div>
                         ))}
                       </div>
@@ -293,31 +272,31 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                   >
                     <div>
-                      <h3 className="font-serif text-lg font-bold text-zinc-900 mb-3 flex items-center gap-2">
-                        <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                      <h3 className="font-serif text-base font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4 text-emerald-600" />
                         Included
                       </h3>
-                      <ul className="space-y-2">
+                      <ul className="space-y-1.5">
                         {tour.inclusions?.map((inc, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-zinc-600">
-                            <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                          <li key={i} className="flex items-start gap-1.5 text-xs text-zinc-600 dark:text-zinc-400">
+                            <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
                             <span>{inc}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
                     <div>
-                      <h3 className="font-serif text-lg font-bold text-zinc-900 mb-3 flex items-center gap-2">
-                        <X className="w-5 h-5 text-red-500" />
+                      <h3 className="font-serif text-base font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2">
+                        <X className="w-4 h-4 text-red-500" />
                         Not Included
                       </h3>
-                      <ul className="space-y-2">
+                      <ul className="space-y-1.5">
                         {tour.exclusions?.map((exc, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-zinc-600">
-                            <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                          <li key={i} className="flex items-start gap-1.5 text-xs text-zinc-600 dark:text-zinc-400">
+                            <X className="w-3.5 h-3.5 text-red-400 shrink-0 mt-0.5" />
                             <span>{exc}</span>
                           </li>
                         ))}
