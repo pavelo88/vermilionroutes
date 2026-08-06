@@ -8,6 +8,11 @@ import { Sparkles, Users, CheckCircle2 } from 'lucide-react';
 
 // Subtle Sparkle particle component
 const SparkleOverlay = () => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  
+  if (!mounted) return null;
+
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-40">
       {[...Array(20)].map((_, i) => (
@@ -34,7 +39,7 @@ export function HeroSection() {
   // Get background images array
   const bgImages = settings?.hero?.backgroundImages && settings.hero.backgroundImages.length > 0 
     ? settings.hero.backgroundImages 
-    : (settings?.hero?.backgroundImage ? [settings.hero.backgroundImage] : ['/images/tours/andean-world-hero.jpg']);
+    : (settings?.hero?.backgroundImage ? [settings.hero.backgroundImage] : ['/images/hero/hero_galapagos.png', '/images/hero/hero_machu_picchu.png']);
 
   useEffect(() => {
     if (bgImages.length <= 1) return;
@@ -94,15 +99,15 @@ export function HeroSection() {
         </div>
 
         {/* Hero Title */}
-        <h1 className={`font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] select-none ${hasBg ? 'text-white drop-shadow-xl' : 'text-zinc-900'}`}>
+        <h1 className={`font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] ${hasBg ? 'text-white [text-shadow:0_4px_12px_rgba(0,0,0,0.5)]' : 'text-zinc-900'}`}>
           {settings?.hero?.title || 'Tailor-Made Luxury Expeditions'} <br />
-          <span className="bg-gradient-to-r from-emerald-400 via-amber-200 to-emerald-300 bg-clip-text text-transparent drop-shadow-md">
+          <span className="bg-gradient-to-r from-emerald-400 via-amber-200 to-emerald-300 bg-clip-text text-transparent relative z-10">
             {settings?.hero?.titleColored || 'Crafted for Extraordinary Travel'}
           </span>
         </h1>
 
         {/* Hero Subtitle */}
-        <p className={`text-base sm:text-xl max-w-2xl mx-auto font-normal leading-relaxed select-none ${hasBg ? 'text-zinc-200 drop-shadow-lg' : 'text-zinc-600'}`}>
+        <p className={`text-base sm:text-xl max-w-2xl mx-auto font-normal leading-relaxed ${hasBg ? 'text-zinc-200 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]' : 'text-zinc-600'}`}>
           {settings?.hero?.subtitle || 'Cruise the enchanted Galapagos Islands, trek the volcanic spine of the high Andes, explore the deep Amazon rainforest, and uncover the mysteries of Machu Picchu.'}
         </p>
 

@@ -81,12 +81,14 @@ export function AdminSettingsPanel() {
   };
 
   const handleHeroGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
 
     try {
       setUploadingField('hero-gallery');
-      const downloadURL = await uploadImage(file, 'hero');
+      
+      const uploadPromises = files.map(file => uploadImage(file, 'hero'));
+      const downloadURLs = await Promise.all(uploadPromises);
       
       setLocalSettings((prev: any) => {
         const currentImgs = prev.hero?.backgroundImages || [];
@@ -94,14 +96,15 @@ export function AdminSettingsPanel() {
           ...prev,
           hero: {
             ...prev.hero,
-            backgroundImages: [...currentImgs, downloadURL]
+            backgroundImages: [...currentImgs, ...downloadURLs]
           }
         };
       });
     } catch (err: any) {
-      alert('Failed to upload hero image: ' + err.message);
+      alert('Failed to upload hero image(s): ' + err.message);
     } finally {
       setUploadingField(null);
+      e.target.value = ''; // Reset input
     }
   };
 
@@ -261,6 +264,7 @@ export function AdminSettingsPanel() {
                 <div className="relative shrink-0">
                   <input
                     type="file"
+                    multiple
                     accept="image/jpeg,image/png,image/webp,image/avif"
                     id="hero-gallery-upload"
                     onChange={handleHeroGalleryUpload}

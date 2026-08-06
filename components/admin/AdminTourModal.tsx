@@ -67,25 +67,43 @@ export function AdminTourModal({
   };
 
   // Handle Uploading Gallery Image
-  const handleGalleryImageUpload = async (file: File) => {
+  const handleGalleryImageUpload = async (files: FileList | File[]) => {
     setUploadError(null);
-    const validation = validateImageFile(file);
-    if (!validation.valid) {
-      setUploadError(validation.error || 'Invalid file.');
-      return;
+    const fileArray = Array.from(files);
+    if (fileArray.length === 0) return;
+
+    for (const file of fileArray) {
+      const validation = validateImageFile(file);
+      if (!validation.valid) {
+        setUploadError(`Invalid file ${file.name}: ${validation.error}`);
+        return;
+      }
     }
 
     try {
       setGalleryUploadProgress(0);
-      const url = await uploadTourImageToStorage(file, tourId, (percent) => {
-        setGalleryUploadProgress(percent);
+      
+      const uploadedUrls: string[] = [];
+      let completed = 0;
+      
+      const uploadPromises = fileArray.map(file => {
+        return uploadTourImageToStorage(file, tourId, (percent) => {
+          // Progress can fluctuate slightly, but average/latest gives user feedback
+        }).then(url => {
+          completed++;
+          setGalleryUploadProgress(Math.round((completed / fileArray.length) * 100));
+          return url;
+        });
       });
+      
+      const newUrls = await Promise.all(uploadPromises);
+      
       setFormData((prev) => ({
         ...prev,
-        gallery: [...(prev.gallery || []), url]
+        gallery: [...(prev.gallery || []), ...newUrls]
       }));
     } catch (err: any) {
-      console.error('Failed to upload gallery image:', err);
+      console.error('Failed to upload gallery image(s):', err);
       setUploadError(err.message || 'Gallery upload failed.');
     } finally {
       setGalleryUploadProgress(null);
@@ -381,8 +399,8 @@ export function AdminTourModal({
                 onDrop={(e) => {
                   e.preventDefault();
                   setIsDraggingGallery(false);
-                  if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                    handleGalleryImageUpload(e.dataTransfer.files[0]);
+                  if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    handleGalleryImageUpload(e.dataTransfer.files);
                   }
                 }}
                 className={`border-2 border-dashed rounded-xl p-3 text-center transition-colors relative cursor-pointer ${isDraggingGallery
@@ -392,10 +410,11 @@ export function AdminTourModal({
               >
                 <input
                   type="file"
+                  multiple
                   accept="image/jpeg,image/png,image/webp,image/avif"
                   onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      handleGalleryImageUpload(e.target.files[0]);
+                    if (e.target.files && e.target.files.length > 0) {
+                      handleGalleryImageUpload(e.target.files);
                     }
                   }}
                   className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
