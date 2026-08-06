@@ -127,7 +127,7 @@ export function HeroSection() {
         </div>
 
         {/* Feature Pills */}
-        <div className={`flex flex-wrap items-center justify-center gap-6 pt-6 text-xs sm:text-sm font-medium ${settings?.hero?.backgroundImage ? 'text-zinc-300' : 'text-zinc-600'}`}>
+        <div className="flex flex-wrap items-center justify-center gap-6 pt-6 text-xs sm:text-sm font-medium text-zinc-100">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />
             <span>Certified Multilingual Naturalist Guides</span>

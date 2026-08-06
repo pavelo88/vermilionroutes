@@ -49,6 +49,7 @@ export function DestinationsGrid() {
         {mockDestinations.map((dest) => (
           <div
             key={dest.id}
+            id={dest.id.toLowerCase()}
             onClick={() => handleDestinationClick(dest.id)}
             className="group relative h-[420px] rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col justify-end p-8 border border-zinc-200/50 cursor-pointer"
           >
