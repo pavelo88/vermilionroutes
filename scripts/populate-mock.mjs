@@ -1,4 +1,9 @@
-import { Destination, Tour, Review } from '@/types';
+import fs from 'fs';
+import path from 'path';
+
+const mockTsPath = path.join(process.cwd(), 'data', 'mock.ts');
+
+const newMockContent = `import { Destination, Tour, Review } from '@/types';
 
 export const mockDestinations: Destination[] = [
   {
@@ -162,58 +167,14 @@ export const mockReviews: Review[] = [
     location: "New York, USA",
     avatarUrl: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
     rating: 5,
-    date: "August 2026",
+    date: "August 2024",
     tourTitle: "FANTASTIC ECUADOR",
     title: "An unforgettable ultra-luxury experience",
-    comment: "From the moment we arrived in Quito, the Vermilion team anticipated our every need. The private access to the Carondelet Palace and our bilingual guide in the Cloud Forest exceeded all expectations. Flawless execution.",
-    verifiedTripAdvisor: true
-  },
-  {
-    id: "r2",
-    author: "Elena M.",
-    location: "Madrid, Spain",
-    avatarUrl: "https://i.pravatar.cc/150?u=b042581f4e29026704e",
-    rating: 5,
-    date: "July 2026",
-    tourTitle: "ENCHANTED ISLANDS",
-    title: "The Galapagos in absolute style",
-    comment: "We were hesitant about a crowded cruise, but Vermilion arranged a private yacht hopping experience that was pristine. We snorkeled with penguins and returned to 5-star boutique hospitality every evening.",
-    verifiedTripAdvisor: true
-  },
-  {
-    id: "r3",
-    author: "The Kensington Family",
-    location: "London, UK",
-    avatarUrl: "https://i.pravatar.cc/150?u=c042581f4e29026704f",
-    rating: 5,
-    date: "September 2026",
-    tourTitle: "PERUVIAN HIGHLANDS",
-    title: "White-glove service in Machu Picchu",
-    comment: "Taking the Vistadome Observatory train was spectacular. Our historian guide, Carlos, made the Inca ruins come alive. Vermilion handled our luggage seamlessly from Cusco to the Sacred Valley.",
-    verifiedTripAdvisor: true
-  },
-  {
-    id: "r4",
-    author: "Marcus W.",
-    location: "Sydney, Australia",
-    avatarUrl: "https://i.pravatar.cc/150?u=d042581f4e29026704a",
-    rating: 5,
-    date: "October 2026",
-    tourTitle: "AMAZON EXPEDITION",
-    title: "Immersive nature without sacrificing comfort",
-    comment: "Deep in the Amazon rainforest, we still enjoyed gourmet dining and air-conditioned suites. A perfect balance of rugged adventure and premium relaxation. Highly recommended.",
-    verifiedTripAdvisor: true
-  },
-  {
-    id: "r5",
-    author: "Claire & Henri",
-    location: "Paris, France",
-    avatarUrl: "https://i.pravatar.cc/150?u=e042581f4e29026704b",
-    rating: 5,
-    date: "November 2026",
-    tourTitle: "GALAPAGOS ADVENTURE",
-    title: "Seamless logistics and breathtaking wildlife",
-    comment: "Vermilion Routes took care of absolutely everything, from the VIP lounge at the airport to the private snorkeling sessions. It felt like we had the islands entirely to ourselves.",
+    comment: "From the moment we arrived in Quito, the Vermilion team anticipated our every need. The private access to the Carondelet Palace and our bilingual guide in the Cloud Forest exceeded all expectations.",
     verifiedTripAdvisor: true
   }
 ];
+`;
+
+fs.writeFileSync(mockTsPath, newMockContent, 'utf8');
+console.log('mock.ts updated with parsed Google Docs data and bilingual structure.');

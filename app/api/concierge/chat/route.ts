@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateConciergeReply, ChatMessage } from '@/lib/ai-providers';
 import { db } from '@/lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_fake', {
+  apiVersion: '2026-07-29.dahlia' as any,
+});
 
 export async function POST(req: NextRequest) {
   try {
@@ -60,6 +65,48 @@ export async function POST(req: NextRequest) {
         } catch (err) {
           console.warn('Auto lead save from AI Concierge failed:', err);
         }
+      }
+    }
+
+    // Auto-generate Stripe Payment Link if AI detected a payment intent
+    if (conciergeResponse.paymentIntent && conciergeResponse.paymentIntent.clientEmail) {
+      try {
+        const { tourId, clientEmail, customerName } = conciergeResponse.paymentIntent;
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+        
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          line_items: [
+            {
+              price_data: {
+                currency: 'usd',
+                product_data: {
+                  name: 'Vermilion Routes - Itinerary Reservation Deposit',
+                  description: `Guaranteed reservation deposit for tour ID: ${tourId || 'Custom Trip'}`,
+                },
+                unit_amount: 50000,
+              },
+              quantity: 1,
+            },
+          ],
+          mode: 'payment',
+          customer_email: clientEmail,
+          success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `${baseUrl}/tours/${tourId}`,
+          metadata: {
+            tourId: tourId || 'custom-itinerary',
+            depositAmount: '500',
+            customLinkId: `ai-agent-${Date.now()}`,
+          },
+        });
+
+        if (session.url) {
+          // Append the generated link to the AI's message
+          conciergeResponse.message += `\n\n🔒 **Secure Payment Link Generated:** [Click here to pay the $500 reservation deposit](${session.url})`;
+        }
+      } catch (stripeErr) {
+        console.error('Failed to auto-generate Stripe link via AI:', stripeErr);
+        conciergeResponse.message += `\n\n*(Note: I tried to generate a secure payment link, but encountered an error. Our concierge team will email it to you shortly!)*`;
       }
     }
 

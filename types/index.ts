@@ -1,17 +1,24 @@
 export interface ItineraryDay {
   day: number;
   title: string;
+  titleEs?: string;
   description: string;
+  descriptionEs?: string;
   highlights?: string[];
+  highlightsEs?: string[];
   meals?: string;
+  mealsEs?: string;
   accommodation?: string;
+  accommodationEs?: string;
 }
 
 export interface Tour {
   id: string;
   title: string;
+  titleEs?: string;
   destination: string;
   duration: string;
+  durationEs?: string;
   durationDays?: number;
   price: number;
   priceFromUSD?: number;
@@ -20,14 +27,22 @@ export interface Tour {
   rating: number;
   reviewsCount?: number;
   category?: string;
+  categoryEs?: string;
   highlights?: string[];
+  highlightsEs?: string[];
   isPopular?: boolean;
+  isUpcoming?: boolean;
   description?: string;
+  descriptionEs?: string;
   shortDescription?: string;
+  shortDescriptionEs?: string;
   gallery?: string[];
   itinerary?: ItineraryDay[];
+  itineraryEs?: ItineraryDay[];
   inclusions?: string[];
+  inclusionsEs?: string[];
   exclusions?: string[];
+  exclusionsEs?: string[];
   groupPrice?: number;
   pdfUrl?: string;
   availabilityInfo?: string;

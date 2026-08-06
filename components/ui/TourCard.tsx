@@ -29,7 +29,8 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
             setIsModalOpen(true);
           }
         }}
-        className={`group bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm hover:shadow-2xl hover:border-emerald-500/40 dark:hover:border-emerald-500/40 transition-all duration-300 flex flex-col overflow-hidden relative text-left outline-none cursor-pointer ${className}`}
+        suppressHydrationWarning
+        className={`group bg-white dark:bg-zinc-900/80 backdrop-blur-sm rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm hover:shadow-2xl hover:border-emerald-500/40 dark:hover:border-emerald-500/40 transition-all duration-300 flex flex-col overflow-hidden relative text-left outline-none cursor-pointer ${className || ''}`}
       >
       {/* Image Banner Container */}
       <div className="relative h-64 w-full overflow-hidden bg-zinc-100">

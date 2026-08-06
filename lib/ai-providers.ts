@@ -19,6 +19,11 @@ export interface ConciergeResponse {
     travelers?: string;
     travelDates?: string;
   };
+  paymentIntent?: {
+    tourId?: string;
+    clientEmail?: string;
+    customerName?: string;
+  };
 }
 
 /**
@@ -77,7 +82,9 @@ ${catalog}
    - Approximate Travel Month / Dates
 5. **Structured Lead Output**: IF the customer provides their contact info (name AND email or phone), include a JSON block at the very end of your response on a new line like this:
 [[LEAD_DATA: {"customerName":"...", "customerEmail":"...", "customerPhone":"...", "destination":"...", "travelers":"...", "travelDates":"..."}]]
-6. Keep responses elegant, structured with bullet points, warm, and highly professional. Avoid dry robotic text.
+6. **Payment Link Generation**: IF the customer explicitly states they want to book, pay the deposit, or make a reservation right now, AND you have their email address, output this intent block at the end so the system can generate a Stripe link for them:
+[[PAYMENT_INTENT: {"tourId":"tour-id-from-catalog", "clientEmail":"...", "customerName":"..."}]]
+7. Keep responses elegant, structured with bullet points, warm, and highly professional. Avoid dry robotic text.
 `;
 }
 
@@ -238,14 +245,25 @@ export async function generateConciergeReply(
 function parseResponseText(fullText: string, providerName: string): ConciergeResponse {
   let cleanMessage = fullText;
   let detectedLead: ConciergeResponse['detectedLead'] = undefined;
+  let paymentIntent: ConciergeResponse['paymentIntent'] = undefined;
 
   const leadMatch = fullText.match(/\[\[LEAD_DATA:\s*(\{.*?\})\s*\]\]/s);
   if (leadMatch && leadMatch[1]) {
     try {
       detectedLead = JSON.parse(leadMatch[1]);
-      cleanMessage = fullText.replace(/\[\[LEAD_DATA:\s*\{.*?\}\s*\]\]/s, '').trim();
+      cleanMessage = cleanMessage.replace(/\[\[LEAD_DATA:\s*\{.*?\}\s*\]\]/s, '').trim();
     } catch (e) {
       console.warn('Failed to parse lead JSON from AI output:', e);
+    }
+  }
+
+  const paymentMatch = fullText.match(/\[\[PAYMENT_INTENT:\s*(\{.*?\})\s*\]\]/s);
+  if (paymentMatch && paymentMatch[1]) {
+    try {
+      paymentIntent = JSON.parse(paymentMatch[1]);
+      cleanMessage = cleanMessage.replace(/\[\[PAYMENT_INTENT:\s*\{.*?\}\s*\]\]/s, '').trim();
+    } catch (e) {
+      console.warn('Failed to parse payment intent from AI output:', e);
     }
   }
 
@@ -253,6 +271,7 @@ function parseResponseText(fullText: string, providerName: string): ConciergeRes
     message: cleanMessage,
     providerUsed: providerName,
     detectedLead,
+    paymentIntent,
   };
 }
 

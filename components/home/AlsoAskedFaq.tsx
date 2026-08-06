@@ -37,6 +37,7 @@ export function AlsoAskedFaq() {
             >
               <button
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
+                suppressHydrationWarning
                 className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left font-semibold text-zinc-900 dark:text-white hover:text-emerald-700 transition-colors cursor-pointer"
               >
                 <span className="flex items-center gap-3 text-sm sm:text-base">

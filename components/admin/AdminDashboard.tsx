@@ -8,7 +8,8 @@ import { useToursData } from '@/hooks/useToursData';
 import { useBookingsData } from '@/hooks/useBookingsData';
 import { AdminHeader } from './AdminHeader';
 import { AdminMetrics } from './AdminMetrics';
-import { CheckCircle2, X, Database, Inbox, Layers } from 'lucide-react';
+import { AdminPaymentLinks } from './AdminPaymentLinks';
+import { CheckCircle2, X, Database, Inbox, Layers, Link as LinkIcon } from 'lucide-react';
 
 // Lazy loading heavy components for performance & small bundle sizes
 const AdminTourTable = dynamic(
@@ -57,7 +58,7 @@ export function AdminDashboard({ user, onSignOut }: AdminDashboardProps) {
   const { tours, loading: toursLoading, saveTour, deleteTour, seedDatabase } = useToursData();
   const { pendingCount, bookings } = useBookingsData();
 
-  const [activeTab, setActiveTab] = useState<'tours' | 'bookings' | 'settings'>('tours');
+  const [activeTab, setActiveTab] = useState<'tours' | 'bookings' | 'settings' | 'links'>('tours');
   const [seedSuccessMsg, setSeedSuccessMsg] = useState('');
   const [isReseeding, setIsReseeding] = useState(false);
 
@@ -186,6 +187,18 @@ export function AdminDashboard({ user, onSignOut }: AdminDashboardProps) {
             <Layers className="w-4 h-4" />
             <span>Site CMS Settings</span>
           </button>
+
+          <button
+            onClick={() => setActiveTab('links')}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-semibold text-xs transition-all cursor-pointer relative ${
+              activeTab === 'links'
+                ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/40'
+                : 'bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800'
+            }`}
+          >
+            <LinkIcon className="w-4 h-4" />
+            <span>Payment Links</span>
+          </button>
         </div>
 
         {/* Dynamic Table Section */}
@@ -199,6 +212,8 @@ export function AdminDashboard({ user, onSignOut }: AdminDashboardProps) {
           />
         ) : activeTab === 'bookings' ? (
           <AdminBookingsTable />
+        ) : activeTab === 'links' ? (
+          <AdminPaymentLinks tours={tours} />
         ) : (
           <AdminSettingsPanel />
         )}

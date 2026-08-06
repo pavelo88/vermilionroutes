@@ -119,6 +119,43 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
     }
   };
 
+  const handleCheckout = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    setErrors({});
+
+    try {
+      const res = await fetch('/api/checkout/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tourId: tour.id,
+          clientEmail: formData.email,
+          customerName: formData.name,
+          customerPhone: formData.phone,
+          travelDates: formData.date || 'Flexible',
+          guestsCount: formData.travelers,
+          customLinkId: 'direct-web'
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || 'Failed to initialize checkout session.');
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err: any) {
+      console.error('Checkout error:', err);
+      setErrors({ submit: err.message || 'Failed to proceed to checkout. Please try again.' });
+      setIsSubmitting(false);
+    }
+  };
+
   const whatsappMessage = encodeURIComponent(
     `Hello Vermilion Routes! I am interested in the tour "${tour.title}" (${tour.duration}) for ${formData.travelers}. Could you please send me a custom quote and departure availability?`
   );
@@ -171,7 +208,7 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
           </button>
         </div>
       ) : (
-        <form onSubmit={handleRequestQuote} className="space-y-4">
+        <form onSubmit={tour.isUpcoming ? handleRequestQuote : handleCheckout} className="space-y-4">
           {errors.submit && (
             <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
@@ -288,12 +325,17 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
             {isSubmitting ? (
               <span className="flex items-center gap-2">
                 <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                <span>Sending Quote Request...</span>
+                <span>Processing...</span>
               </span>
+            ) : tour.isUpcoming ? (
+              <>
+                <Send className="w-4 h-4" />
+                <span>Join Waitlist / Request Info</span>
+              </>
             ) : (
               <>
                 <Send className="w-4 h-4" />
-                <span>Request Custom Quote</span>
+                <span>Secure Reservation ($500 Deposit)</span>
               </>
             )}
           </Button>

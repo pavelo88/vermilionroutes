@@ -10,40 +10,20 @@ export function AboutSection() {
   const { settings } = useSettings();
 
   return (
-    <section id="about-us" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-200/60 dark:border-zinc-800/60">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        {/* Left Column Image Mosaic */}
-        <div className="relative group cursor-pointer">
-          <div className="relative h-[480px] w-full rounded-3xl overflow-hidden shadow-2xl border border-zinc-200 dark:border-zinc-800">
-            <Image
-              src={settings?.about?.imageUrl || "https://images.unsplash.com/photo-1589802829985-817e51171b92?auto=format&fit=crop&w=1200&q=80"}
-              alt="Vermilion Routes Expedition"
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-110"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority
-            />
-            {/* Subtle Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-700" />
-          </div>
-
-          {/* Floating Glass Card */}
-          <div className="absolute -bottom-6 -right-2 sm:right-6 bg-white/90 backdrop-blur-xl p-6 rounded-2xl shadow-xl border border-zinc-200/80 max-w-xs space-y-2">
-            <div className="flex items-center gap-2 text-emerald-600 font-bold text-sm">
-              <Award className="w-5 h-5" />
+    <section id="about-us" className="w-full">
+      <div className="flex flex-col gap-8 items-start">
+        {/* Text Content */}
+        <div className="space-y-6">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-xs font-semibold text-emerald-800">
+              <Compass className="w-3.5 h-3.5 text-emerald-600" />
+              <span>{settings?.about?.subtitle || 'About Vermilion Routes'}</span>
+            </div>
+            
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/80 text-xs font-semibold text-zinc-800 dark:text-zinc-200">
+              <Award className="w-3.5 h-3.5 text-emerald-600" />
               <span>Certified Destination Operator</span>
             </div>
-            <p className="text-xs text-zinc-600 leading-relaxed">
-              Official Ministry of Tourism license and international credentials to operate in protected National Parks.
-            </p>
-          </div>
-        </div>
-
-        {/* Right Column Content */}
-        <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-xs font-semibold text-emerald-800">
-            <Compass className="w-3.5 h-3.5 text-emerald-600" />
-            <span>{settings?.about?.subtitle || 'About Vermilion Routes'}</span>
           </div>
 
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight leading-tight">

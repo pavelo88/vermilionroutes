@@ -24,33 +24,24 @@ export function TripAdvisorReviews({
 
   const total = reviews.length;
 
-  const handlePrev = () => {
-    setActiveIdx((prev) => (prev === 0 ? total - 1 : prev - 1));
-  };
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const handleNext = () => {
-    setActiveIdx((prev) => (prev === total - 1 ? 0 : prev + 1));
+    if (scrollContainerRef.current) {
+      const cardWidth = scrollContainerRef.current.clientWidth;
+      scrollContainerRef.current.scrollBy({ left: cardWidth, behavior: 'smooth' });
+    }
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return;
-    const distance = touchStartX.current - touchEndX.current;
-    if (distance > 40) handleNext();
-    if (distance < -40) handlePrev();
-    touchStartX.current = null;
-    touchEndX.current = null;
+  const handlePrev = () => {
+    if (scrollContainerRef.current) {
+      const cardWidth = scrollContainerRef.current.clientWidth;
+      scrollContainerRef.current.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+    }
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
+    <section className="w-full space-y-8">
       {/* Header with TripAdvisor Badge */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-zinc-200/80 dark:border-zinc-800/80 pb-8">
         <div className="space-y-3 max-w-2xl">
@@ -108,11 +99,11 @@ export function TripAdvisorReviews({
       </div>
 
       {/* Reviews Carousel Stage */}
-      <div className="relative" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
+      <div className="relative">
         {/* Controls */}
         <div className="flex items-center justify-between mb-4">
           <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
-            Review {activeIdx + 1} of {total}
+            Swipe to see more
           </span>
           <div className="flex items-center gap-2">
             <button
@@ -132,20 +123,19 @@ export function TripAdvisorReviews({
           </div>
         </div>
 
-        {/* Carousel Cards Layout: On Desktop shows all cards or active focused, on Mobile shows single card */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Carousel Cards Layout: Horizontal scroll snap container */}
+        <div 
+          ref={scrollContainerRef}
+          className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           {reviews.map((rev, idx) => {
             const isCurrent = idx === activeIdx;
 
             return (
               <div
                 key={rev.id}
-                onClick={() => setActiveIdx(idx)}
-                className={`bg-white dark:bg-zinc-900/90 backdrop-blur-xl p-7 rounded-3xl border transition-all duration-300 flex flex-col justify-between space-y-6 relative group cursor-pointer ${
-                  isCurrent
-                    ? 'border-emerald-500/80 shadow-xl ring-2 ring-emerald-500/20 scale-100 z-20'
-                    : 'border-zinc-200/80 dark:border-zinc-800/80 shadow-sm opacity-80 md:opacity-100 hover:opacity-100 hidden md:flex'
-                }`}
+                className="bg-white dark:bg-zinc-900/90 backdrop-blur-xl p-7 rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm transition-all duration-300 flex flex-col justify-between space-y-6 relative group w-full shrink-0 snap-center"
               >
                 <Quote className="w-10 h-10 text-emerald-100 absolute top-6 right-6 pointer-events-none group-hover:text-emerald-200 transition-colors" />
 
@@ -205,20 +195,8 @@ export function TripAdvisorReviews({
           })}
         </div>
 
-        {/* Dots Pagination */}
-        <div className="flex items-center justify-center gap-2 mt-8">
-          {reviews.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActiveIdx(idx)}
-              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                activeIdx === idx
-                  ? 'w-8 bg-emerald-600 shadow-sm shadow-emerald-600/40'
-                  : 'w-2.5 bg-zinc-300 hover:bg-zinc-400'
-              }`}
-            />
-          ))}
-        </div>
+        {/* Note: The dots are removed because the container is now a native scroll container to act like a real carousel.
+            If programmatic scrolling is needed, a useRef on the container can be added, similar to TourCarousel. */}
       </div>
     </section>
   );

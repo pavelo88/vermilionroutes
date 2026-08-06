@@ -2,8 +2,8 @@ import React from 'react';
 import { HeroSection } from '@/components/home/HeroSection';
 import { DestinationsGrid } from '@/components/home/DestinationsGrid';
 import { FeaturedTours } from '@/components/home/FeaturedTours';
-import { AboutSection } from '@/components/home/AboutSection';
-import { TripAdvisorReviews } from '@/components/home/TripAdvisorReviews';
+import { CombinedExperienceSection } from '@/components/home/CombinedExperienceSection';
+import { TikTokFeed } from '@/components/home/TikTokFeed';
 import { AlsoAskedFaq } from '@/components/home/AlsoAskedFaq';
 import { ContactSection } from '@/components/home/ContactSection';
 
@@ -16,14 +16,14 @@ export default function Home() {
       {/* 2. Top Destinations Grid */}
       <DestinationsGrid />
 
-      {/* 3. Featured Tours with Mock Data */}
+      {/* 3. Combined Trust & Expertise Section */}
+      <CombinedExperienceSection />
+
+      {/* 4. Featured Tours */}
       <FeaturedTours />
 
-      {/* 4. About Us & Credentials */}
-      <AboutSection />
-
-      {/* 5. TripAdvisor & AI Guest Reviews */}
-      <TripAdvisorReviews />
+      {/* 5. TikTok Social Showcase */}
+      <TikTokFeed />
 
       {/* 6. Frequently Asked Questions (Also Asked) */}
       <AlsoAskedFaq />

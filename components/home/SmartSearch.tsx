@@ -87,6 +87,7 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
                 onFocus={() => setIsDropdownOpen(true)}
                 placeholder="e.g. Galapagos cruise, Machu Picchu..."
                 className="w-full bg-transparent text-sm font-semibold text-zinc-800 focus:outline-none placeholder:text-zinc-400 placeholder:font-normal"
+                suppressHydrationWarning
               />
               {query && (
                 <button
@@ -113,6 +114,7 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
                   setIsDropdownOpen(true);
                 }}
                 className="w-full bg-transparent text-sm font-semibold text-zinc-800 focus:outline-none cursor-pointer"
+                suppressHydrationWarning
               >
                 <option value="all">All Destinations</option>
                 <option value="galapagos">Galapagos Islands</option>
@@ -136,6 +138,7 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
                   setIsDropdownOpen(true);
                 }}
                 className="w-full bg-transparent text-sm font-semibold text-zinc-800 focus:outline-none cursor-pointer"
+                suppressHydrationWarning
               >
                 <option value="all">Any Duration</option>
                 <option value="short">Short Expeditions (1 - 6 Days)</option>
@@ -149,6 +152,7 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
           <div className="lg:col-span-2">
             <button
               onClick={handleSearchClick}
+              suppressHydrationWarning
               className="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white rounded-2xl font-semibold text-sm shadow-md shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Sparkles className="w-4 h-4" />

@@ -222,6 +222,7 @@ export function ContactSection() {
                       setFormData({ ...formData, name: e.target.value });
                       if (errors.name) setErrors((prev) => ({ ...prev, name: undefined }));
                     }}
+                    suppressHydrationWarning
                     className={`w-full bg-zinc-50 dark:bg-zinc-900/50 border rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none transition-colors ${
                       errors.name
                         ? 'border-rose-400 bg-rose-50/40 focus:border-rose-500'
@@ -242,6 +243,7 @@ export function ContactSection() {
                       setFormData({ ...formData, email: e.target.value });
                       if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
                     }}
+                    suppressHydrationWarning
                     className={`w-full bg-zinc-50 dark:bg-zinc-900/50 border rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none transition-colors ${
                       errors.email
                         ? 'border-rose-400 bg-rose-50/40 focus:border-rose-500'
@@ -260,6 +262,7 @@ export function ContactSection() {
                     placeholder="+1 (555) 000-0000"
                     value={formData.phone}
                     onChange={handlePhoneChange}
+                    suppressHydrationWarning
                     className={`w-full bg-zinc-50 dark:bg-zinc-900/50 border rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none transition-colors ${
                       errors.phone
                         ? 'border-rose-400 bg-rose-50/40 focus:border-rose-500'
@@ -274,6 +277,7 @@ export function ContactSection() {
                   <select
                     value={formData.destination}
                     onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
+                    suppressHydrationWarning
                     className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
                   >
                     <option value="Galapagos Islands">Galapagos Islands</option>
@@ -288,6 +292,7 @@ export function ContactSection() {
                   <select
                     value={formData.travelers}
                     onChange={(e) => setFormData({ ...formData, travelers: e.target.value })}
+                    suppressHydrationWarning
                     className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
                   >
                     <option value="1 Traveler">1 Traveler (Solo)</option>

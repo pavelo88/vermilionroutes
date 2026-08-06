@@ -21,6 +21,8 @@ interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
   providerUsed?: string;
+  id?: string;
+  timestamp?: Date;
 }
 
 export function ConciergeWidget() {
@@ -28,9 +30,11 @@ export function ConciergeWidget() {
   const [isOpenChat, setIsOpenChat] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
+      id: '1',
       role: 'assistant',
       content:
-        'Hello! I am **Valentina**, Lead Luxury Concierge at Vermilion Routes.\n\nWhether you are planning a **Galapagos Yacht Cruise**, exploring the **Amazon Rainforest**, or taking the panoramic train to **Machu Picchu**, I am here to assist you instantly with itineraries and prices.\n\nHow can I help customize your journey today?',
+        'Hello! I am **Valentina**, Lead Concierge at Vermilion Routes.\n\nWhether you are planning a **Galapagos Yacht Cruise**, exploring the **Amazon Rainforest**, or taking the panoramic train to **Machu Picchu**, I am here to assist you instantly with itineraries and prices.\n\nHow can I help customize your journey today?',
+      timestamp: new Date(),
     },
   ]);
   const [inputMessage, setInputMessage] = useState('');
@@ -50,6 +54,47 @@ export function ConciergeWidget() {
       scrollToBottom();
     }
   }, [messages, isOpenChat]);
+
+  // Listen for external "book tour" events
+  useEffect(() => {
+    const handleOpenTour = (e: Event) => {
+      const customEvent = e as CustomEvent<{ tourTitle: string }>;
+      if (customEvent.detail?.tourTitle) {
+        setIsOpenMenu(false);
+        setIsOpenChat(true);
+        const title = customEvent.detail.tourTitle;
+        const initialMsg = `I am interested in booking the "${title}" expedition. Could you help me with the availability and details?`;
+        
+        // Auto-send the message on behalf of the user
+        setTimeout(() => {
+          // This calls the API directly because handleSendMessage might not have latest state in this closure
+          setMessages((prev) => [...prev, { role: 'user', content: initialMsg }]);
+          setIsLoading(true);
+          fetch('/api/concierge/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              messages: [...messages, { role: 'user', content: initialMsg }].map((m) => ({ role: m.role, content: m.content })),
+              provider: selectedProvider,
+            }),
+          })
+            .then(res => res.json())
+            .then(data => {
+              if (data.success) {
+                setMessages((prev) => [...prev, { role: 'assistant', content: data.message, providerUsed: data.providerUsed }]);
+              }
+            })
+            .catch(() => {
+              setMessages((prev) => [...prev, { role: 'assistant', content: 'I apologize. Would you like me to connect you with a live specialist via WhatsApp?', providerUsed: 'Fallback' }]);
+            })
+            .finally(() => setIsLoading(false));
+        }, 500);
+      }
+    };
+
+    window.addEventListener('open-tour-chat', handleOpenTour);
+    return () => window.removeEventListener('open-tour-chat', handleOpenTour);
+  }, [messages, selectedProvider]);
 
   const handleSendMessage = async (textToSend?: string) => {
     const query = textToSend || inputMessage.trim();
@@ -106,14 +151,14 @@ export function ConciergeWidget() {
     const defaultText = customText
       ? encodeURIComponent(customText)
       : encodeURIComponent(
-          'Hello Vermilion Routes! I would like to speak with a human travel specialist about planning a luxury itinerary in South America.'
+          'Hello Vermilion Routes! I would like to speak with a human travel specialist about planning a itinerary in South America.'
         );
     return `https://wa.me/${phoneNumber}?text=${defaultText}`;
   };
 
   const transferChatToWhatsApp = () => {
     const lastUserMsgs = messages.filter((m) => m.role === 'user').map((m) => m.content).join(' | ');
-    const summary = `Hello Vermilion Routes! I was chatting with Valentina AI on your website about: "${lastUserMsgs || 'Luxury Expeditions'}". Can a travel advisor assist me?`;
+    const summary = `Hello Vermilion Routes! I was chatting with Valentina AI on your website about: "${lastUserMsgs || 'Expeditions'}". Can a travel advisor assist me?`;
     window.open(getWhatsAppLink(summary), '_blank');
   };
 
@@ -137,6 +182,7 @@ export function ConciergeWidget() {
                 </div>
               </div>
               <button
+                suppressHydrationWarning
                 onClick={() => setIsOpenMenu(false)}
                 className="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-zinc-800 transition-colors"
                 aria-label="Close menu"
@@ -148,6 +194,7 @@ export function ConciergeWidget() {
             <div className="mt-3 space-y-2">
               {/* Option 1: AI Concierge */}
               <button
+                suppressHydrationWarning
                 onClick={() => {
                   setIsOpenMenu(false);
                   setIsOpenChat(true);
@@ -160,7 +207,7 @@ export function ConciergeWidget() {
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
                     <span className="font-medium text-xs text-amber-200 flex items-center gap-1.5">
-                      AI Luxury Concierge <span className="text-[10px] bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded-md">24/7 Instant</span>
+                      AI Concierge <span className="text-[10px] bg-amber-400/20 text-amber-300 px-1.5 py-0.5 rounded-md">24/7 Instant</span>
                     </span>
                     <ChevronRight className="w-4 h-4 text-amber-400 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -197,7 +244,7 @@ export function ConciergeWidget() {
 
             <div className="mt-3 pt-2 border-t border-zinc-800/80 flex items-center justify-between text-[10px] text-zinc-400">
               <span className="flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3 text-amber-400" /> Authorized Luxury Operator
+                <ShieldCheck className="w-3 h-3 text-amber-400" /> Authorized Operator
               </span>
               <span className="text-zinc-500">Response time: &lt; 1 min</span>
             </div>
@@ -207,6 +254,7 @@ export function ConciergeWidget() {
         {/* TRIGGER BUTTON */}
         {!isOpenChat && (
           <button
+            suppressHydrationWarning
             onClick={() => setIsOpenMenu(!isOpenMenu)}
             className="relative flex items-center justify-center w-14 h-14 bg-gradient-to-tr from-amber-600 to-emerald-600 hover:from-amber-500 hover:to-emerald-500 text-white rounded-full shadow-2xl shadow-amber-900/40 hover:scale-105 active:scale-95 transition-all duration-300 group border-2 border-white/20"
             aria-label="Open Concierge Assistant Menu"
@@ -256,40 +304,8 @@ export function ConciergeWidget() {
             </div>
 
             <div className="flex items-center gap-1">
-              {/* Provider Selector Menu */}
-              <div className="relative group">
-                <button
-                  className="p-1.5 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 text-[10px] flex items-center gap-1 border border-zinc-700"
-                  title="Switch AI Engine"
-                >
-                  <Cpu className="w-3.5 h-3.5 text-amber-400" />
-                  <span className="capitalize hidden sm:inline">{selectedProvider}</span>
-                </button>
-                <div className="absolute right-0 top-full mt-1 hidden group-hover:block bg-zinc-900 border border-zinc-800 rounded-xl shadow-xl p-1.5 z-50 text-[11px] w-36">
-                  <p className="text-[10px] text-zinc-500 px-2 py-1 font-semibold">Select AI Model:</p>
-                  {[
-                    { id: 'nvidia', label: 'NVIDIA Llama-3' },
-                    { id: 'gemini', label: 'Google Gemini' },
-                    { id: 'deepseek', label: 'DeepSeek V3' },
-                    { id: 'glm', label: 'GLM-4 Flash' },
-                  ].map((prov) => (
-                    <button
-                      key={prov.id}
-                      onClick={() => setSelectedProvider(prov.id)}
-                      className={`w-full text-left px-2 py-1 rounded-lg flex items-center justify-between text-xs transition-colors ${
-                        selectedProvider === prov.id
-                          ? 'bg-amber-500/20 text-amber-300 font-medium'
-                          : 'text-zinc-300 hover:bg-zinc-800'
-                      }`}
-                    >
-                      {prov.label}
-                      {selectedProvider === prov.id && <CheckCircle2 className="w-3 h-3 text-amber-400" />}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               <button
+                suppressHydrationWarning
                 onClick={() => setIsOpenChat(false)}
                 className="text-zinc-400 hover:text-white p-1.5 rounded-lg hover:bg-zinc-800 transition-colors"
                 aria-label="Close Chat"
@@ -305,18 +321,21 @@ export function ConciergeWidget() {
               <Sparkles className="w-3 h-3 text-amber-400" /> Suggestions:
             </span>
             <button
+              suppressHydrationWarning
               onClick={() => handleSendMessage('Recommend top Galapagos cruise itineraries and prices')}
               className="text-[11px] whitespace-nowrap bg-zinc-800 hover:bg-amber-950/50 hover:border-amber-500/40 border border-zinc-700/60 text-zinc-200 px-2.5 py-1 rounded-full transition-colors"
             >
               🏝️ Galapagos Cruises
             </button>
             <button
+              suppressHydrationWarning
               onClick={() => handleSendMessage('How to combine Galapagos and Machu Picchu in one trip?')}
               className="text-[11px] whitespace-nowrap bg-zinc-800 hover:bg-amber-950/50 hover:border-amber-500/40 border border-zinc-700/60 text-zinc-200 px-2.5 py-1 rounded-full transition-colors"
             >
               ⛰️ Galapagos + Peru
             </button>
             <button
+              suppressHydrationWarning
               onClick={() => handleSendMessage('I want to request a custom travel quote for 2 people')}
               className="text-[11px] whitespace-nowrap bg-zinc-800 hover:bg-amber-950/50 hover:border-amber-500/40 border border-zinc-700/60 text-zinc-200 px-2.5 py-1 rounded-full transition-colors"
             >
@@ -387,6 +406,7 @@ export function ConciergeWidget() {
           <div className="bg-zinc-900/90 px-3 py-2 border-t border-zinc-800 flex items-center justify-between">
             <span className="text-[11px] text-zinc-400">Prefer human response?</span>
             <button
+              suppressHydrationWarning
               onClick={transferChatToWhatsApp}
               className="text-[11px] font-medium bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1.5"
             >
@@ -408,12 +428,14 @@ export function ConciergeWidget() {
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
               placeholder="Ask Valentina about tours, dates, prices..."
+              suppressHydrationWarning
               className="flex-1 bg-zinc-950 border border-zinc-800 text-white placeholder-zinc-500 text-xs sm:text-sm rounded-xl px-3 py-2.5 focus:outline-none focus:border-amber-500 transition-colors"
               disabled={isLoading}
             />
             <button
               type="submit"
               disabled={isLoading || !inputMessage.trim()}
+              suppressHydrationWarning
               className="bg-amber-500 hover:bg-amber-400 disabled:opacity-50 disabled:hover:bg-amber-500 text-zinc-950 font-bold p-2.5 rounded-xl transition-transform active:scale-95 shadow-md flex items-center justify-center shrink-0"
               aria-label="Send message"
             >

@@ -1,49 +1,51 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase';
-import { collection, doc, setDoc } from 'firebase/firestore';
-import { mockDestinations } from '@/data/mock';
-import parsedTours from '@/data/parsed_tours.json';
+import { doc, collection, writeBatch, serverTimestamp } from 'firebase/firestore';
+import { mockTours, mockDestinations } from '@/data/mock';
 
-export async function GET() {
+export async function POST(request: Request) {
   try {
-    const seededTours: string[] = [];
-    const seededDestinations: string[] = [];
+    const authHeader = request.headers.get('authorization');
+    const seedSecret = process.env.SEED_SECRET_KEY || 'vermilion2026';
+    
+    // Uncomment for production security:
+    // if (authHeader !== `Bearer ${seedSecret}`) {
+    //   return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
+    // }
 
-    // Seed Tours
-    for (const tour of parsedTours) {
-      const tourRef = doc(db, 'tours', tour.id);
-      await setDoc(tourRef, tour, { merge: true });
-      seededTours.push(tour.id);
-    }
+    const batch = writeBatch(db);
 
     // Seed Destinations
     for (const dest of mockDestinations) {
       const destRef = doc(db, 'destinations', dest.id);
-      await setDoc(destRef, dest, { merge: true });
-      seededDestinations.push(dest.id);
+      batch.set(destRef, dest, { merge: true });
     }
 
-    return NextResponse.json({
-      success: true,
-      message: 'Firestore database successfully populated with initial data.',
-      seededToursCount: seededTours.length,
-      seededDestinationsCount: seededDestinations.length,
-      tourIds: seededTours,
-      destinationIds: seededDestinations,
-      timestamp: new Date().toISOString()
-    });
+    // Seed Tours and their Itineraries as subcollections
+    for (const tour of mockTours) {
+      const { itinerary, itineraryEs, ...tourData } = tour;
+      const tourRef = doc(db, 'tours', tour.id);
+      
+      batch.set(tourRef, {
+        ...tourData,
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
+
+      if (itinerary && itinerary.length > 0) {
+        itinerary.forEach((item, index) => {
+          const itineraryRef = doc(collection(tourRef, 'itineraries'), `day-${item.day || index + 1}`);
+          batch.set(itineraryRef, item, { merge: true });
+        });
+      }
+    }
+
+    await batch.commit();
+    return NextResponse.json({ success: true, message: 'Seeding completed successfully' });
   } catch (error: any) {
-    console.error('Error in /api/seed route:', error);
-    return NextResponse.json(
-      {
-        success: false,
-        error: error.message || 'Failed to seed database'
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-export async function POST() {
-  return GET();
+export async function GET(request: Request) {
+  return POST(request);
 }

@@ -12,6 +12,7 @@ interface TourCarouselProps {
 export function TourCarousel({ tours }: TourCarouselProps) {
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Touch Swipe handlers state
   const touchStartX = useRef<number | null>(null);
@@ -36,14 +37,16 @@ export function TourCarousel({ tours }: TourCarouselProps) {
           return false;
         });
 
-  const total = filteredTours.length;
+  // Create a massive continuous track to simulate infinite looping
+  const duplicatedTours = Array(20).fill(filteredTours).flat();
+  const total = duplicatedTours.length;
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? total - 1 : prev - 1));
+    setCurrentIndex((prev) => Math.max(0, prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === total - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev + 1 < total ? prev + 1 : 0));
   };
 
   useEffect(() => {
@@ -53,10 +56,27 @@ export function TourCarousel({ tours }: TourCarouselProps) {
       // Pause if a modal is open (TourModal sets body overflow to hidden)
       if (document.body.style.overflow === 'hidden') return;
       handleNext();
-    }, 3000);
+    }, 3500); // slightly longer so user can read
     
     return () => clearInterval(interval);
   }, [total, isHovered, currentIndex]);
+
+  // Sync scroll position with currentIndex
+  useEffect(() => {
+    if (!scrollContainerRef.current) return;
+    
+    const container = scrollContainerRef.current;
+    // Get the first child to determine card width, roughly 350px + gap
+    const cardElement = container.children[0] as HTMLElement;
+    if (cardElement) {
+      // card width + gap (which is ~24px for sm:gap-6)
+      const scrollAmount = cardElement.offsetWidth + 24;
+      container.scrollTo({
+        left: currentIndex * scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  }, [currentIndex]);
 
   useEffect(() => {
     const handleSelectFilter = (e: Event) => {
@@ -119,6 +139,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
           <button
             key={cat.id}
             onClick={() => handleFilterChange(cat.id)}
+            suppressHydrationWarning
             className={`px-4 py-2 rounded-2xl text-xs font-semibold transition-all duration-300 cursor-pointer ${
               activeFilter === cat.id
                 ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 scale-105'
@@ -131,14 +152,22 @@ export function TourCarousel({ tours }: TourCarouselProps) {
       </div>
 
       {/* Scrollable Carousel Stage */}
-      <div className="relative group/carousel">
+      <div 
+        className="relative group/carousel"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <div
+          ref={scrollContainerRef}
           className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory py-6 px-2 sm:px-6 scrollbar-hide"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {filteredTours.map((tour, idx) => (
+          {duplicatedTours.map((tour, idx) => (
             <div
-              key={tour.id}
+              key={`${tour.id}-${idx}`}
               className="w-[85vw] sm:w-[320px] md:w-[350px] snap-center shrink-0 transform transition-all duration-300 hover:-translate-y-2"
             >
               <TourCard tour={tour} />
@@ -153,7 +182,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
       {/* Tour Counter */}
       <div className="text-center text-xs text-zinc-500 dark:text-zinc-400 font-medium pt-4">
-        Showing <span className="font-bold text-zinc-800 dark:text-zinc-200">{total}</span> journeys matching your criteria
+        Showing <span className="font-bold text-zinc-800 dark:text-zinc-200">{filteredTours.length}</span> journeys matching your criteria
       </div>
     </div>
   );

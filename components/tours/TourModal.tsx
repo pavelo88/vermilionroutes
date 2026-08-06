@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, Clock, Star, Check, ArrowRight, ShieldCheck, Ship, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, MapPin, Clock, Star, Check, ArrowRight, ShieldCheck, Ship, MessageCircle, ChevronLeft, ChevronRight, Download, Sparkles } from 'lucide-react';
 import { Tour } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { useSettings } from '@/hooks/useSettings';
@@ -19,6 +19,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
   const { settings } = useSettings();
   const [mounted, setMounted] = useState(false);
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
+  const [showBookingOptions, setShowBookingOptions] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -36,9 +37,10 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
     return imgs;
   }, [tour]);
 
-  // Reset index when tour changes
+  // Reset index and options when tour changes
   useEffect(() => {
     setCurrentImgIndex(0);
+    setShowBookingOptions(false);
   }, [tour?.id]);
 
   // Auto carousel rotation (resets on manual click because currentImgIndex is a dependency)
@@ -75,8 +77,14 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
   const handleWhatsApp = () => {
     const rawNumber = settings?.contact?.whatsappUrl || settings?.contact?.phone || '593994048458';
     const phoneNumber = rawNumber.replace(/[^0-9]/g, '') || '593994048458';
-    const message = encodeURIComponent(`Hello Vermilion Routes, I am interested in the "${tour.title}" tour and would like to request more information.`);
+    const message = encodeURIComponent(`Hello Vermilion Routes, I am interested in booking the "${tour.title}" tour.`);
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  };
+
+  const handleAIBooking = () => {
+    onClose();
+    // Dispatch event to open ConciergeWidget and send message
+    window.dispatchEvent(new CustomEvent('open-tour-chat', { detail: { tourTitle: tour.title } }));
   };
 
   const modalContent = (
@@ -106,7 +114,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
               {/* Close Button - positioned in right panel on desktop, over image on mobile */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 z-[60] p-2 rounded-full transition-all cursor-pointer bg-black/40 hover:bg-black/60 text-white backdrop-blur-md shadow-sm md:bg-transparent md:hover:bg-zinc-100 md:text-zinc-500 md:hover:text-zinc-900 dark:md:text-zinc-400 dark:md:hover:text-white dark:md:hover:bg-zinc-800 md:shadow-none"
+                className="absolute top-3 right-3 md:top-5 md:right-5 z-[60] p-2 rounded-full transition-all cursor-pointer bg-black/40 hover:bg-black/60 text-white backdrop-blur-md shadow-sm md:bg-zinc-100 md:text-zinc-500 md:hover:text-zinc-900 dark:md:text-zinc-400 dark:md:hover:text-white dark:md:bg-zinc-800"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -205,7 +213,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
               {/* Right Side - Content & Actions */}
               <div className="w-full md:w-3/5 flex flex-col h-full max-h-[calc(100vh-16rem)] md:max-h-[90vh] bg-white/50 dark:bg-zinc-900/50 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <style dangerouslySetInnerHTML={{__html: `div::-webkit-scrollbar { display: none; }`}} />
-                <div className="p-4 md:p-5 space-y-4 md:space-y-5 flex-1 pb-8 sm:pb-6">
+                <div className="p-4 md:p-6 md:pt-16 space-y-5 md:space-y-6 flex-1 pb-8 sm:pb-6">
                   
                   {/* Price Banner */}
                   <motion.div 
@@ -221,14 +229,45 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                         <span className="text-zinc-600 dark:text-zinc-400 text-xs">/ person</span>
                       </div>
                     </div>
-                    <Button 
-                      variant="primary" 
-                      className="gap-1.5 shadow-lg shadow-emerald-600/20 px-4 py-2 text-xs"
-                      onClick={handleWhatsApp}
-                    >
-                      <MessageCircle className="w-3.5 h-3.5" />
-                      Book via WhatsApp
-                    </Button>
+                    <div className="flex flex-col sm:flex-row gap-2 mt-2 sm:mt-0 w-full sm:w-auto">
+                      <Button 
+                        variant="outline" 
+                        className="gap-1.5 px-3 py-1.5 text-xs border-emerald-200 dark:border-emerald-900/50 text-emerald-700 dark:text-emerald-400 w-full sm:w-auto justify-center"
+                        onClick={() => window.open(tour.pdfUrl || 'https://drive.google.com/drive/folders/1DfBnCx-TbKK9FuuKTy-7q6yaCeSzveM3', '_blank')}
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        PDF Itinerary
+                      </Button>
+                      
+                      {!showBookingOptions ? (
+                        <Button 
+                          variant="primary" 
+                          className="gap-1.5 shadow-lg shadow-emerald-600/20 px-6 py-1.5 text-xs w-full sm:w-auto justify-center"
+                          onClick={() => setShowBookingOptions(true)}
+                        >
+                          Reservar
+                        </Button>
+                      ) : (
+                        <div className="flex items-center gap-2 animate-in fade-in zoom-in duration-200">
+                          <Button 
+                            variant="primary" 
+                            className="gap-1.5 px-3 py-1.5 text-xs w-full sm:w-auto justify-center bg-zinc-900 hover:bg-zinc-800 text-white"
+                            onClick={handleAIBooking}
+                          >
+                            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                            Con IA
+                          </Button>
+                          <Button 
+                            variant="primary" 
+                            className="gap-1.5 px-3 py-1.5 text-xs w-full sm:w-auto justify-center bg-[#25D366] hover:bg-[#20bd5a] text-white"
+                            onClick={handleWhatsApp}
+                          >
+                            <MessageCircle className="w-3.5 h-3.5" />
+                            WhatsApp
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   </motion.div>
 
                   {/* Description */}

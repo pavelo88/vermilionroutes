@@ -153,10 +153,11 @@ export function Footer() {
                 <input
                   type="email"
                   placeholder="Your email address"
+                  suppressHydrationWarning
                   className="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
                 />
               </div>
-              <Button variant="primary" size="sm" className="w-full text-xs">
+              <Button variant="primary" size="sm" className="w-full text-xs" suppressHydrationWarning>
                 <Send className="w-3.5 h-3.5 mr-1" /> Subscribe
               </Button>
             </form>
