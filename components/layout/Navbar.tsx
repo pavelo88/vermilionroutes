@@ -227,14 +227,24 @@ export function Navbar() {
           {/* Mobile Actions */}
           <div className="flex md:hidden items-center gap-2">
             {mounted && (
-              <button
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                suppressHydrationWarning
-                className="p-2 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 rounded-xl cursor-pointer transition-colors"
-                aria-label="Toggle Theme"
-              >
-                {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </button>
+              <>
+                <button
+                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                  suppressHydrationWarning
+                  className="p-2 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 rounded-xl cursor-pointer transition-colors"
+                  aria-label="Toggle Theme"
+                >
+                  {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                </button>
+                <button
+                  onClick={toggleLanguage}
+                  suppressHydrationWarning
+                  className="flex items-center gap-1.5 p-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 rounded-xl cursor-pointer transition-colors"
+                >
+                  <Globe className="w-4 h-4 text-emerald-600" />
+                  <span>{lang}</span>
+                </button>
+              </>
             )}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -256,18 +266,18 @@ export function Navbar() {
                   <a
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block px-4 py-2.5 rounded-xl text-base font-medium text-zinc-800 hover:bg-emerald-50 hover:text-emerald-700 transition-colors"
+                    className="block px-4 py-2.5 rounded-xl text-base font-medium text-zinc-800 dark:text-zinc-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
                   >
                     {link.name}
                   </a>
                   {link.subItems && (
-                    <div className="ml-4 pl-3 border-l-2 border-emerald-100 space-y-1 my-1">
+                    <div className="ml-4 pl-3 border-l-2 border-emerald-100 dark:border-emerald-900/50 space-y-1 my-1">
                       {link.subItems.map((sub) => (
                         <a
                           key={sub.name}
                           href={sub.href}
                           onClick={() => setMobileMenuOpen(false)}
-                          className="block px-3 py-1.5 rounded-lg text-sm text-zinc-600 hover:text-emerald-600"
+                          className="block px-3 py-1.5 rounded-lg text-sm text-zinc-600 dark:text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400"
                         >
                           {sub.name}
                         </a>
