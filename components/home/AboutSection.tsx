@@ -31,7 +31,7 @@ export function AboutSection() {
           </h2>
 
           <p className="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed">
-            {settings?.about?.paragraph1 || 'Vermilion Routes was founded with a passion to elevate how discerning global travelers discover Ecuador, the Galapagos, and Peru. We craft bespoke journeys that manage every logistical detail seamlessly—pairing boutique luxury with deep, respectful cultural and wildlife immersion.'}
+            {settings?.about?.paragraph1 || 'Vermilion Routes was founded with a passion to elevate how discerning global travelers discover Ecuador, the Galapagos, and Peru. We craft bespoke journeys that manage every logistical detail seamlessly—pairing boutique exclusivity with deep, respectful cultural and wildlife immersion.'}
           </p>
 
           <p className="text-zinc-500 text-xs sm:text-sm leading-relaxed">

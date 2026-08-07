@@ -100,7 +100,7 @@ export function HeroSection() {
 
         {/* Hero Title */}
         <h1 className={`font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] ${hasBg ? 'text-white [text-shadow:0_4px_12px_rgba(0,0,0,0.5)]' : 'text-zinc-900'}`}>
-          {settings?.hero?.title || 'Tailor-Made Luxury Expeditions'} <br />
+          {settings?.hero?.title || 'Tailor-Made Premium Expeditions'} <br />
           <span className="bg-gradient-to-r from-emerald-400 via-amber-200 to-emerald-300 bg-clip-text text-transparent relative z-10">
             {settings?.hero?.titleColored || 'Crafted for Extraordinary Travel'}
           </span>

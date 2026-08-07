@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSettings } from '@/hooks/useSettings';
 
 const DEFAULT_DATA = [
@@ -51,9 +51,19 @@ const DEFAULT_DATA = [
 export function HeroSlider() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { settings, loading } = useSettings();
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (loading) return;
+    // If loading completes or a timeout of 1s passes, set ready
+    if (!loading) {
+      setIsReady(true);
+    }
+    const timer = setTimeout(() => setIsReady(true), 1500);
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  useEffect(() => {
+    if (!isReady) return;
     
     const slidesData = settings?.hero?.slides?.length ? settings.hero.slides : DEFAULT_DATA;
     let order = slidesData.map((_, i) => i);
@@ -387,7 +397,7 @@ export function HeroSlider() {
     };
   }, []);
 
-  if (loading) {
+  if (!isReady) {
     return <div className="w-full h-[100svh] bg-zinc-950 flex items-center justify-center">
       <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
     </div>;

@@ -60,13 +60,13 @@ export function Navbar() {
       href: '/#destinations',
       hasDropdown: true,
       subItems: [
-        { name: 'Galapagos Islands', href: '/#galapagos', desc: 'Luxury Cruises & Island Hopping' },
+        { name: 'Galapagos Islands', href: '/#galapagos', desc: 'Premium Cruises & Island Hopping' },
         { name: 'Mainland Ecuador', href: '/#ecuador', desc: 'Avenue of Volcanoes & Amazon' },
         { name: 'Mystical Peru', href: '/#peru', desc: 'Cusco, Sacred Valley & Machu Picchu' },
       ],
     },
     { name: 'Featured Tours', href: '/#tours' },
-    { name: 'About Us', href: '/#about-us' },
+    { name: 'About Us', href: '/#experience' },
     { name: 'Contact', href: '/#contact' },
   ];
 
@@ -97,7 +97,7 @@ export function Navbar() {
             </span>
             <div className="flex items-center gap-1 text-emerald-400 font-medium bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-800/60">
               <Sparkles className="w-3 h-3 text-emerald-400" />
-              <span>Exclusive Luxury Journeys</span>
+              <span>Exclusive Premium Journeys</span>
             </div>
           </div>
         </div>

@@ -103,11 +103,11 @@ export function CombinedExperienceSection() {
                 </div>
                 
                 <h4 className="font-serif text-3xl font-bold text-white leading-snug">
-                  Experiencia inigualable, lujo sin concesiones
+                  Experiencia inigualable, excelencia sin concesiones
                 </h4>
                 
                 <p className="text-emerald-50/90 text-sm sm:text-base leading-relaxed">
-                  En Vermilion Routes, no solo reservamos tours. Creamos expediciones únicas e inolvidables, totalmente personalizadas, a través de los espectaculares paisajes de Ecuador, Galápagos y Perú. Como operadores locales directos, combinamos el conocimiento de la región con un lujo sin concesiones.
+                  En Vermilion Routes, no solo reservamos tours. Creamos expediciones únicas e inolvidables, totalmente personalizadas, a través de los espectaculares paisajes de Ecuador, Galápagos y Perú. Como operadores locales directos, combinamos el conocimiento de la región con una excelencia sin concesiones.
                 </p>
               </div>
 

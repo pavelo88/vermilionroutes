@@ -6,7 +6,7 @@ import { MessageCircle } from 'lucide-react';
 export function WhatsAppButton() {
   const phoneNumber = '593994048458';
   const defaultMessage = encodeURIComponent(
-    'Hello Vermilion Routes! I am interested in planning a luxury travel itinerary in South America.'
+    'Hello Vermilion Routes! I am interested in planning a premium travel itinerary in South America.'
   );
 
   return (

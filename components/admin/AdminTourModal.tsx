@@ -138,7 +138,7 @@ export function AdminTourModal({
         gallery: formData.gallery || [],
         rating: formData.rating || 5.0,
         reviewsCount: formData.reviewsCount || 10,
-        category: formData.category || 'Luxury Expedition',
+        category: formData.category || 'Premium Expedition',
         description: formData.description || '',
         highlights: formData.highlights || [],
         inclusions: formData.inclusions || [],
@@ -197,7 +197,7 @@ export function AdminTourModal({
                   required
                   value={formData.id || ''}
                   onChange={(e) => setFormData({ ...formData, id: e.target.value })}
-                  placeholder="e.g. galapagos-luxury-cruise"
+                  placeholder="e.g. galapagos-premium-cruise"
                   className="w-full p-2.5 glass-input rounded-xl font-mono focus:border-emerald-500 focus:outline-none"
                 />
               </div>
@@ -267,7 +267,7 @@ export function AdminTourModal({
                   type="text"
                   value={formData.category || ''}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  placeholder="Luxury Expedition"
+                  placeholder="Premium Expedition"
                   className="w-full p-2.5 glass-input rounded-xl focus:border-emerald-500 focus:outline-none"
                 />
               </div>

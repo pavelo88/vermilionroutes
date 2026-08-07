@@ -42,7 +42,7 @@ export function Footer() {
             </a>
 
             <p className="text-zinc-400 text-sm leading-relaxed max-w-sm">
-              {settings?.footer?.description || 'South America specialists crafting tailor-made private journeys, Galapagos luxury cruises, Amazon rainforest expeditions, and Andean cultural discoveries.'}
+              {settings?.footer?.description || 'South America specialists crafting tailor-made private journeys, Galapagos premium cruises, Amazon rainforest expeditions, and Andean cultural discoveries.'}
             </p>
 
             <div className="flex items-center gap-3 pt-2">
@@ -146,7 +146,7 @@ export function Footer() {
               Get Travel Updates
             </h4>
             <p className="text-xs text-zinc-400">
-              Subscribe to receive seasonal Galapagos luxury cruise promotions and curated travel guides.
+              Subscribe to receive seasonal Galapagos premium cruise promotions and curated travel guides.
             </p>
             <form onSubmit={(e) => e.preventDefault()} className="space-y-2">
               <div className="relative">

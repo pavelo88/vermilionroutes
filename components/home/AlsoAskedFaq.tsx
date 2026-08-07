@@ -23,7 +23,7 @@ export function AlsoAskedFaq() {
           Planning Your South America Journey
         </h2>
         <p className="text-sm text-zinc-500 max-w-xl mx-auto">
-          We answer the most common questions searched by luxury travelers planning expeditions to the Galapagos Islands, Ecuador, and Peru.
+          We answer the most common questions searched by premium travelers planning expeditions to the Galapagos Islands, Ecuador, and Peru.
         </p>
       </div>
 

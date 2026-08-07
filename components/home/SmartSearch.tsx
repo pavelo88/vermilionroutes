@@ -167,7 +167,7 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
             <div className="flex items-center justify-between pb-2 border-b border-zinc-100">
               <span className="text-xs font-bold text-zinc-500 uppercase tracking-wider flex items-center gap-1.5">
                 <Compass className="w-4 h-4 text-emerald-600" />
-                Matching Luxury Expeditions ({filteredTours.length})
+                Matching Premium Expeditions ({filteredTours.length})
               </span>
               <button
                 onClick={() => setIsDropdownOpen(false)}

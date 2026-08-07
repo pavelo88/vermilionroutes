@@ -76,9 +76,9 @@ export function AdminDashboard({ user, onSignOut }: AdminDashboardProps) {
       imageUrl: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80',
       rating: 5.0,
       reviewsCount: 1,
-      category: 'Luxury Expedition',
+      category: 'Premium Expedition',
       description: '',
-      highlights: ['Certified Naturalist Guide', 'Luxury Accommodation'],
+      highlights: ['Certified Naturalist Guide', 'Premium Accommodation'],
       inclusions: ['Breakfast & Lunch', 'Private transfers'],
       exclusions: ['International flights'],
       itinerary: [

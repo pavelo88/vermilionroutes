@@ -49,7 +49,7 @@ export function TourItinerary({ itinerary }: TourItineraryProps) {
             <span>Day-by-Day Itinerary</span>
           </h3>
           <p className="text-xs text-zinc-500">
-            Explore daily activities, luxury accommodations, and included dining experiences.
+            Explore daily activities, premium accommodations, and included dining experiences.
           </p>
         </div>
 

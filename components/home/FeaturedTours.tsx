@@ -21,7 +21,7 @@ export function FeaturedTours() {
           Featured Signature Journeys
         </h2>
         <p className="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed">
-          Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between luxury and adventure.
+          Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between exclusivity and adventure.
         </p>
       </div>
 
@@ -40,7 +40,7 @@ export function FeaturedTours() {
             We Design Your Tailor-Made Itinerary At No Extra Cost
           </h3>
           <p className="text-zinc-400 text-sm leading-relaxed">
-            Our destination specialists will customize travel dates, pacing, hotel luxury level, and private excursions tailored precisely to your preferences.
+            Our destination specialists will customize travel dates, pacing, hotel comfort level, and private excursions tailored precisely to your preferences.
           </p>
         </div>
 
