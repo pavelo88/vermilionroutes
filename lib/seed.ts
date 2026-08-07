@@ -28,31 +28,10 @@ export const defaultSettings = {
     slides: [
       {
         place: 'Galapagos - Archipelago',
-        title: 'ENCHANTED',
-        title2: 'ISLANDS',
-        description: 'A pristine natural sanctuary where sea lions, blue-footed boobies, and giant tortoises thrive in absolute harmony. Sail across volcanic landscapes and dive into an immersive, unforgettable experience.',
-        image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=2752&q=80'
-      },
-      {
-        place: 'Cotopaxi - Andes',
-        title: 'MAJESTIC',
-        title2: 'VOLCANO',
-        description: 'The perfect snow-capped cone rising proudly over the Ecuadorian Andes. Walk among mystical paramo highlands, witness the condor\'s flight, and behold the grandeur of the Avenue of the Volcanoes.',
-        image: 'https://images.unsplash.com/photo-1589802829985-817e51171b92?auto=format&fit=crop&w=2752&q=80'
-      },
-      {
-        place: 'Amazon - Orellana',
-        title: 'YASUNÍ',
-        title2: 'RAINFOREST',
-        description: 'The most biodiverse spot on Earth. Navigate winding rivers surrounded by untouched jungle, spot pink dolphins, and let the mystical magic of the deep Amazon captivate your senses.',
-        image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=2752&q=80'
-      },
-      {
-        place: 'Manabí - Pacific Coast',
-        title: 'FRAILES',
-        title2: 'BEACH',
-        description: 'A hidden jewel of crystal-clear waters and white sands within the Machalilla National Park. Surrounded by rugged cliffs and dry forests, it remains one of South America\'s most pristine coastal retreats.',
-        image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=2752&q=80'
+        title: 'SHARK',
+        title2: 'ENCOUNTER',
+        description: 'Dive into the pristine waters of the Galapagos Marine Reserve. Swim alongside hammerhead sharks, playful sea lions, and marine iguanas in one of the planet\'s most protected and spectacular underwater realms.',
+        image: 'https://images.unsplash.com/photo-1551244072-5d12893278ab?auto=format&fit=crop&w=2752&q=80'
       },
       {
         place: 'Pichincha - Quito',
@@ -62,25 +41,39 @@ export const defaultSettings = {
         image: 'https://images.unsplash.com/photo-1616089308119-971c2ba244d2?auto=format&fit=crop&w=2752&q=80'
       },
       {
+        place: 'Azuay - Cuenca',
+        title: 'COLONIAL',
+        title2: 'CHARM',
+        description: 'A deeply enchanting Andean city known for its stunning architecture, artisan traditions, and the picturesque Tomebamba river. Experience the soul of Ecuador in every cobblestone street.',
+        image: 'https://images.unsplash.com/photo-1616110978712-dfdfcce6b412?auto=format&fit=crop&w=2752&q=80'
+      },
+      {
+        place: 'Cotopaxi - Andes',
+        title: 'MAJESTIC',
+        title2: 'VOLCANO',
+        description: 'The perfect snow-capped cone rising proudly over the Ecuadorian Andes. Walk among mystical paramo highlands, witness the condor\'s flight, and behold the grandeur of the Avenue of the Volcanoes.',
+        image: 'https://images.unsplash.com/photo-1589802829985-817e51171b92?auto=format&fit=crop&w=2752&q=80'
+      },
+      {
+        place: 'Manabí - Pacific Coast',
+        title: 'FRAILES',
+        title2: 'BEACH',
+        description: 'A hidden jewel of crystal-clear waters and white sands within the Machalilla National Park. Surrounded by rugged cliffs and dry forests, it remains one of South America\'s most pristine coastal retreats.',
+        image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=2752&q=80'
+      },
+      {
+        place: 'Guayas - Guayaquil',
+        title: 'TROPICAL',
+        title2: 'PORT',
+        description: 'The economic heartbeat of Ecuador. Stroll the vibrant Malecón 2000, explore the colorful hillside neighborhood of Las Peñas, and feel the warm, energetic spirit of the Pacific coast.',
+        image: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&w=2752&q=80'
+      },
+      {
         place: 'Cusco - Peru',
         title: 'SACRED',
         title2: 'VALLEY',
         description: 'Journey into the heart of the Inca Empire. Traverse terraced hillsides, discover ancient citadels hidden in the mist, and connect with the timeless heritage of the Andean people.',
         image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2752&q=80'
-      },
-      {
-        place: 'Patagonia - Argentina',
-        title: 'PERITO',
-        title2: 'MORENO',
-        description: 'A colossal river of blue ice advancing into Lake Argentino. Listen to the thunderous roar of calving ice blocks in one of the most breathtaking natural spectacles on the planet.',
-        image: 'https://images.unsplash.com/photo-1549449179-8cb1f414e8c1?auto=format&fit=crop&w=2752&q=80'
-      },
-      {
-        place: 'Potosí - Bolivia',
-        title: 'UYUNI',
-        title2: 'SALT FLATS',
-        description: 'The world\'s largest salt flat, where the earth meets the sky in a mirror-like illusion. A surreal landscape of blinding white expanses, colorful lagoons, and dormant volcanoes.',
-        image: 'https://images.unsplash.com/photo-1533083161350-9c2f6d0fba75?auto=format&fit=crop&w=2752&q=80'
       }
     ]
   },

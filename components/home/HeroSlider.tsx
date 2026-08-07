@@ -119,11 +119,11 @@ export function HeroSlider() {
         const width = container.clientWidth || window.innerWidth;
         
         // Critical fix to prevent cards from overlaying text
-        offsetTop = height - 380;
+        offsetTop = (height * 0.75) - 340; 
         offsetLeft = Math.max(width - 830, 650); 
         
         const [active, ...rest] = order;
-        set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100vh", borderRadius: 0, scale: 1 });
+        set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", borderRadius: 0, scale: 1.05 });
         set(getCardContent(active), { opacity: 0 }); 
 
         rest.forEach((i, index) => {
@@ -144,7 +144,7 @@ export function HeroSlider() {
       function init() {
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
-        offsetTop = height - 380;
+        offsetTop = (height * 0.75) - 340;
         offsetLeft = Math.max(width - 830, 650);
         
         const [active, ...rest] = order;
@@ -152,7 +152,8 @@ export function HeroSlider() {
         const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
 
         set("#pagination", { top: offsetTop + cardHeight + 20, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
-        set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100vh", zIndex: 20 });
+        set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", zIndex: 20 });
+        gsap.to(container.querySelectorAll(getCard(active)), { scale: 1.05, duration: 5.7, ease: "none" }); // Initial slow zoom
         set(getCardContent(active), { opacity: 0 });
 
         set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
@@ -256,7 +257,7 @@ export function HeroSlider() {
               x: 0,
               y: 0,
               width: "100vw",
-              height: "100vh",
+              height: "75vh",
               borderRadius: 0,
               ease,
               duration: 1.2,
@@ -282,6 +283,8 @@ export function HeroSlider() {
                 if (clicks > 0) step();
               }
             });
+            // Background slow zoom (Ken Burns) that runs alongside and past the expansion
+            gsap.to(cActive, { scale: 1.05, duration: 5.7, ease: "none" });
           }
 
           set(detailsActive, { zIndex: 22 });
@@ -345,7 +348,7 @@ export function HeroSlider() {
 
   if (!isReady) {
     return (
-      <div className="w-full h-[85svh] min-h-[600px] bg-zinc-950 flex items-center justify-center">
+      <div className="w-full h-[75svh] min-h-[550px] bg-zinc-950 flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
       </div>
     );
@@ -355,7 +358,7 @@ export function HeroSlider() {
   const initialData = slidesData[0];
 
   return (
-    <div ref={containerRef} className="relative w-full h-[85svh] min-h-[600px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
+    <div ref={containerRef} className="relative w-full h-[75svh] min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
       
       {/* Indicator */}
       <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
@@ -455,7 +458,7 @@ export function HeroSlider() {
       </div>
 
       {/* Cover Intro */}
-      <div className="cover absolute top-0 left-0 w-[100vw] h-[100vh] bg-zinc-950 z-[100]" />
+      <div className="cover absolute top-0 left-0 w-[100vw] h-[75vh] bg-zinc-950 z-[100]" />
     </div>
   );
 }
