@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { Lock, Mail, KeyRound, Eye, EyeOff, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { auth } from '@/lib/firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export function AdminLoginForm() {
-  const [email, setEmail] = useState(process.env.NEXT_PUBLIC_ADMIN_EMAIL || '');
-  const [password, setPassword] = useState(process.env.NEXT_PUBLIC_ADMIN_PASSWORD || '');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [authError, setAuthError] = useState('');
@@ -22,15 +22,8 @@ export function AdminLoginForm() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (err: any) {
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-        try {
-          await createUserWithEmailAndPassword(auth, email, password);
-        } catch (createErr: any) {
-          setAuthError('Authentication failed: ' + (createErr.message || 'Check credentials'));
-        }
-      } else {
-        setAuthError(err.message || 'Authentication error');
-      }
+      // Mostrar mensaje genérico — no revelar si el email existe o no (OWASP)
+      setAuthError('Invalid credentials. Please check your email and password.');
     } finally {
       setLoginLoading(false);
     }

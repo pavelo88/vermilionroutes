@@ -1,30 +1,29 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Tour } from '@/types';
 import { TourCard } from '@/components/ui/TourCard';
-import { ChevronLeft, ChevronRight, Sparkles, MapPin } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Compass } from 'lucide-react';
 
 interface TourCarouselProps {
   tours: Tour[];
 }
 
+const CATEGORIES = [
+  { id: 'all', label: 'All Expeditions' },
+  { id: 'Galapagos', label: '🌊 Galapagos' },
+  { id: 'Ecuador', label: '🏔️ Ecuador' },
+  { id: 'Peru', label: '🦙 Peru' },
+];
+
 export function TourCarousel({ tours }: TourCarouselProps) {
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  // Touch Swipe handlers state
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const categories = [
-    { id: 'all', label: 'All Expeditions' },
-    { id: 'Galapagos', label: 'Galapagos Islands' },
-    { id: 'Ecuador', label: 'Mainland Ecuador' },
-    { id: 'Peru', label: 'Cusco & Peru' },
-  ];
 
   const filteredTours =
     activeFilter === 'all'
@@ -39,25 +38,28 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
   const total = filteredTours.length;
 
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + total) % total);
-  };
+  const goTo = useCallback((idx: number) => {
+    if (isAnimating || total === 0) return;
+    setIsAnimating(true);
+    setCurrentIndex(((idx % total) + total) % total);
+    setTimeout(() => setIsAnimating(false), 520);
+  }, [isAnimating, total]);
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % total);
-  };
+  const handlePrev = useCallback(() => goTo(currentIndex - 1), [goTo, currentIndex]);
+  const handleNext = useCallback(() => goTo(currentIndex + 1), [goTo, currentIndex]);
 
+  // Auto-play
   useEffect(() => {
     if (isHovered || total <= 1) return;
-    
-    const interval = setInterval(() => {
-      if (document.body.style.overflow === 'hidden') return;
-      handleNext();
-    }, 2700); 
-    
-    return () => clearInterval(interval);
-  }, [total, isHovered]);
+    autoPlayRef.current = setInterval(() => {
+      if (!document.hidden) handleNext();
+    }, 3500);
+    return () => {
+      if (autoPlayRef.current) clearInterval(autoPlayRef.current);
+    };
+  }, [handleNext, isHovered, total]);
 
+  // Listen for filter events from DestinationsGrid
   useEffect(() => {
     const handleSelectFilter = (e: Event) => {
       const customEvent = e as CustomEvent<string>;
@@ -70,32 +72,25 @@ export function TourCarousel({ tours }: TourCarouselProps) {
     return () => window.removeEventListener('selectDestinationFilter', handleSelectFilter);
   }, []);
 
+  // Reset index when filter changes
   const handleFilterChange = (filterId: string) => {
     setActiveFilter(filterId);
     setCurrentIndex(0);
   };
 
+  // Touch swipe
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.targetTouches[0].clientX;
     setIsHovered(true);
   };
-
   const handleTouchMove = (e: React.TouchEvent) => {
     touchEndX.current = e.targetTouches[0].clientX;
   };
-
   const handleTouchEnd = () => {
     if (!touchStartX.current || !touchEndX.current) return;
     const distance = touchStartX.current - touchEndX.current;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      handleNext();
-    } else if (isRightSwipe) {
-      handlePrev();
-    }
-
+    if (distance > 50) handleNext();
+    else if (distance < -50) handlePrev();
     touchStartX.current = null;
     touchEndX.current = null;
     setIsHovered(false);
@@ -103,29 +98,31 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
   if (total === 0) {
     return (
-      <div className="text-center py-12 text-zinc-500">
-        No tours available for this category.
+      <div className="text-center py-20 text-zinc-500 dark:text-zinc-400">
+        <Compass className="w-12 h-12 mx-auto mb-4 opacity-30" />
+        <p className="font-semibold">No expeditions found for this destination.</p>
+        <p className="text-sm mt-1">Try a different filter above.</p>
       </div>
     );
   }
 
-  // Calculate indices for 3D layout
-  const prevIndex = (currentIndex - 1 + total) % total;
-  const nextIndex = (currentIndex + 1) % total;
+  // Visible card indices: prev, current, next (3 at once on desktop)
+  const prevIdx = (currentIndex - 1 + total) % total;
+  const nextIdx = (currentIndex + 1) % total;
 
   return (
-    <div className="space-y-2">
-      {/* Filter Category Tabs */}
-      <div className="flex flex-wrap items-center justify-center gap-2">
-        {categories.map((cat) => (
+    <div className="space-y-6">
+      {/* ── Filter Category Tabs ── */}
+      <div className="flex flex-wrap items-center justify-center gap-2 px-4">
+        {CATEGORIES.map((cat) => (
           <button
             key={cat.id}
             onClick={() => handleFilterChange(cat.id)}
             suppressHydrationWarning
-            className={`px-4 py-2 rounded-2xl text-xs font-semibold transition-all duration-300 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-full text-xs font-semibold transition-all duration-300 cursor-pointer border ${
               activeFilter === cat.id
-                ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 scale-105'
-                : 'bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200/80 dark:border-zinc-700'
+                ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 scale-105 border-emerald-600'
+                : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 border-zinc-200 dark:border-zinc-700 hover:border-emerald-400 dark:hover:border-emerald-500'
             }`}
           >
             {cat.label}
@@ -133,37 +130,55 @@ export function TourCarousel({ tours }: TourCarouselProps) {
         ))}
       </div>
 
-      {/* Strict 1-by-1 Infinite Carousel Stage */}
-      <div 
-        className="relative group/carousel w-full h-[520px] sm:h-[550px] overflow-hidden flex items-center justify-center mt-6"
+      {/* ── Carousel Stage ── */}
+      <div
+        className="relative group/carousel overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="relative w-full max-w-[350px] h-full mx-auto">
-          {filteredTours.map((tour, idx) => {
-            // Determine position
-            const isCurrent = idx === currentIndex;
-            const isPrev = idx === (currentIndex - 1 + total) % total;
-            const isNext = idx === (currentIndex + 1) % total;
-            
-            // Default: hidden far right
-            let positionClass = "translate-x-[200%] opacity-0 z-0 scale-90 pointer-events-none";
-            
-            if (isCurrent) {
-              positionClass = "translate-x-0 opacity-100 z-20 scale-100";
-            } else if (isPrev) {
-              positionClass = "-translate-x-[110%] sm:-translate-x-[115%] opacity-40 z-10 scale-95 pointer-events-none";
-            } else if (isNext) {
-              positionClass = "translate-x-[110%] sm:translate-x-[115%] opacity-40 z-10 scale-95 pointer-events-none";
-            }
+        {/* Desktop: 3-card layout */}
+        <div className="hidden md:flex items-stretch justify-center gap-6 px-20 py-4">
+          {/* Prev card — dimmed */}
+          <div
+            className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-50 scale-95 blur-[0.5px] transition-all duration-500 ease-out cursor-pointer hover:opacity-70"
+            onClick={handlePrev}
+            style={{ transformOrigin: 'right center' }}
+          >
+            <TourCard tour={filteredTours[prevIdx]} className="h-[520px] pointer-events-none" />
+          </div>
 
+          {/* Active card — full focus */}
+          <div className="w-[320px] lg:w-[360px] xl:w-[380px] shrink-0 z-10 transition-all duration-500 ease-out drop-shadow-2xl">
+            <TourCard tour={filteredTours[currentIndex]} className="h-[560px] ring-2 ring-emerald-500/30 ring-offset-4 ring-offset-transparent" />
+          </div>
+
+          {/* Next card — dimmed */}
+          <div
+            className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-50 scale-95 blur-[0.5px] transition-all duration-500 ease-out cursor-pointer hover:opacity-70"
+            onClick={handleNext}
+            style={{ transformOrigin: 'left center' }}
+          >
+            <TourCard tour={filteredTours[nextIdx]} className="h-[520px] pointer-events-none" />
+          </div>
+        </div>
+
+        {/* Mobile: single card with CSS slide */}
+        <div className="md:hidden relative w-full max-w-[340px] mx-auto h-[540px]">
+          {filteredTours.map((tour, idx) => {
+            const isCurrent = idx === currentIndex;
+            const isPrev = idx === prevIdx;
+            const isNext = idx === nextIdx;
+            let cls = 'translate-x-[150%] opacity-0 z-0 scale-90 pointer-events-none';
+            if (isCurrent) cls = 'translate-x-0 opacity-100 z-20 scale-100';
+            else if (isPrev) cls = '-translate-x-[115%] opacity-30 z-10 scale-95 pointer-events-none';
+            else if (isNext) cls = 'translate-x-[115%] opacity-30 z-10 scale-95 pointer-events-none';
             return (
               <div
                 key={`${tour.id}-${idx}`}
-                className={`absolute top-0 left-0 w-full h-full transform transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${positionClass}`}
+                className={`absolute top-0 left-0 w-full h-full transform transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${cls}`}
               >
                 <TourCard tour={tour} className="h-full" />
               </div>
@@ -171,24 +186,49 @@ export function TourCarousel({ tours }: TourCarouselProps) {
           })}
         </div>
 
-        {/* Navigation Arrows for Desktop */}
-        <button 
+        {/* ── Navigation Arrows ── */}
+        <button
           onClick={handlePrev}
-          className="absolute left-2 sm:left-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 dark:bg-zinc-900/90 rounded-full shadow-lg border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-800 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:scale-110 transition-all z-30 opacity-0 group-hover/carousel:opacity-100 hidden sm:flex"
+          aria-label="Previous expedition"
+          className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-all duration-200 z-30 opacity-0 group-hover/carousel:opacity-100"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5" />
         </button>
-        <button 
+        <button
           onClick={handleNext}
-          className="absolute right-2 sm:right-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 dark:bg-zinc-900/90 rounded-full shadow-lg border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-800 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:scale-110 transition-all z-30 opacity-0 group-hover/carousel:opacity-100 hidden sm:flex"
+          aria-label="Next expedition"
+          className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-all duration-200 z-30 opacity-0 group-hover/carousel:opacity-100"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5" />
         </button>
       </div>
 
-      {/* Tour Counter */}
-      <div className="text-center text-xs text-zinc-500 dark:text-zinc-400 font-medium pt-4">
-        Showing <span className="font-bold text-zinc-800 dark:text-zinc-200">{filteredTours.length}</span> journeys matching your criteria
+      {/* ── Dot Indicators + Counter ── */}
+      <div className="flex flex-col items-center gap-3">
+        {/* Dot track */}
+        <div className="flex items-center gap-2">
+          {filteredTours.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => goTo(idx)}
+              aria-label={`Go to expedition ${idx + 1}`}
+              className={`rounded-full transition-all duration-300 ${
+                idx === currentIndex
+                  ? 'w-6 h-2 bg-emerald-600'
+                  : 'w-2 h-2 bg-zinc-300 dark:bg-zinc-600 hover:bg-emerald-400'
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Counter */}
+        <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium tracking-wide">
+          <span className="font-bold text-zinc-700 dark:text-zinc-300">{currentIndex + 1}</span>
+          <span className="mx-1">/</span>
+          <span>{total}</span>
+          <span className="mx-2 text-zinc-300">·</span>
+          <span>{filteredTours.length} {filteredTours.length === 1 ? 'expedition' : 'expeditions'} available</span>
+        </p>
       </div>
     </div>
   );

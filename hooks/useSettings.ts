@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { db, storage } from '@/lib/firebase';
+import { db, storage, auth } from '@/lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { defaultSettings } from '@/lib/seed';
@@ -20,8 +20,10 @@ export function useSettings() {
         if (docSnap.exists()) {
           setSettings(docSnap.data() as typeof defaultSettings);
         } else {
-          // If no settings document exists, create it with default settings
-          await setDoc(docRef, defaultSettings);
+          // ✅ W-06 FIX: NO crear el documento desde el cliente sin autenticación.
+          // Si el documento no existe, usar defaultSettings en memoria.
+          // La creación del documento settings se hace manualmente desde el admin
+          // autenticado o vía el endpoint /api/seed protegido.
           setSettings(defaultSettings);
         }
       } catch (err: any) {
@@ -35,6 +37,14 @@ export function useSettings() {
   }, []);
 
   const saveSettings = useCallback(async (newSettings: typeof defaultSettings) => {
+    // ✅ W-06 FIX: Verificar autenticación antes de intentar escribir en Firestore
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      const authError = 'You must be logged in as an admin to save settings.';
+      setError(authError);
+      throw new Error(authError);
+    }
+
     try {
       setLoading(true);
       const docRef = doc(db, 'settings', 'general');

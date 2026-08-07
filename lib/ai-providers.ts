@@ -26,29 +26,49 @@ export interface ConciergeResponse {
   };
 }
 
+/** ✅ W-01 FIX: Caché de catálogo en memoria con TTL de 5 minutos.
+ * Evita un getDocs() de Firestore en cada mensaje del concierge.
+ */
+interface CatalogCache {
+  data: string;
+  expiresAt: number;
+}
+let catalogCache: CatalogCache | null = null;
+const CATALOG_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos
+
 /**
- * Fetches real-time tour catalog from Firestore or fallback mock
+ * Fetches real-time tour catalog from Firestore or fallback mock.
+ * Result is cached in-memory for CATALOG_CACHE_TTL_MS to avoid per-request reads.
  */
 async function getCatalogContext(): Promise<string> {
+  // Servir desde caché si aún es válido
+  if (catalogCache && Date.now() < catalogCache.expiresAt) {
+    return catalogCache.data;
+  }
+
   try {
     const querySnap = await getDocs(collection(db, 'tours'));
     if (!querySnap.empty) {
       const tours = querySnap.docs.map((d) => d.data());
-      return tours
+      const data = tours
         .map(
           (t: any) =>
-            `- ID: "${t.id}" | Title: "${t.title}" | Dest: "${t.destination}" | Duration: "${t.duration}" | Price: $${t.price} USD | Rating: ${t.rating}★ | Category: "${t.category}" | Highlights: ${t.highlights?.join(', ') || 'N/A'}`
+            `- ID: "${t.id}" | Title: "${t.title}" | Dest: "${t.destination}" | Duration: "${t.duration}" | Price: $${t.price} USD | Rating: ${t.rating}\u2605 | Category: "${t.category}" | Highlights: ${t.highlights?.join(', ') || 'N/A'}`
         )
         .join('\n');
+      // Almacenar en caché
+      catalogCache = { data, expiresAt: Date.now() + CATALOG_CACHE_TTL_MS };
+      return data;
     }
   } catch (err) {
     console.warn('Catalog fetch for AI context fallback:', err);
   }
 
+  // Fallback a mock (no cachear errores para reintentar en el próximo request)
   return mockTours
     .map(
       (t) =>
-        `- ID: "${t.id}" | Title: "${t.title}" | Dest: "${t.destination}" | Duration: "${t.duration}" | Price: $${t.price} USD | Rating: ${t.rating}★ | Category: "${t.category}" | Highlights: ${t.highlights?.join(', ')}`
+        `- ID: "${t.id}" | Title: "${t.title}" | Dest: "${t.destination}" | Duration: "${t.duration}" | Price: $${t.price} USD | Rating: ${t.rating}\u2605 | Category: "${t.category}" | Highlights: ${t.highlights?.join(', ')}`
     )
     .join('\n');
 }

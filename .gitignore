@@ -20,6 +20,9 @@ node_modules/
 .env*.local
 !.env.example
 
+# Firebase config (contains real API keys — never commit)
+firebase-applet-config.json
+
 # Debug
 npm-debug.log*
 yarn-debug.log*

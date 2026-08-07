@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
 import { useSettings } from '@/hooks/useSettings';
 import { Bookmark, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
@@ -64,7 +65,12 @@ export function HeroSlider() {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    if (!loading) setIsReady(true);
+    // ✅ W-03 FIX: Si loading ya terminó, setIsReady inmediatamente sin timer
+    if (!loading) {
+      setIsReady(true);
+      return;
+    }
+    // Fallback: forzar isReady tras 1500ms si loading no resuelve
     const timer = setTimeout(() => setIsReady(true), 1500);
     return () => clearTimeout(timer);
   }, [loading]);
@@ -89,284 +95,264 @@ export function HeroSlider() {
     let isCancelled = false;
     let loopTimeline: any = null;
 
-    const loadGSAP = () => {
-      return new Promise<any>((resolve) => {
-        if ((window as any).gsap) return resolve((window as any).gsap);
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
-        script.onload = () => resolve((window as any).gsap);
-        document.body.appendChild(script);
+    // ✅ C-05 FIX: gsap importado desde npm (ya instalado) — sin CDN, sin riesgo de supply-chain XSS
+    gsap.config({ nullTargetWarn: false });
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const set = (target: string, props: any) => gsap.set(container.querySelectorAll(target), props);
+    const getCard = (index: number) => `.card-${index}`;
+    const getCardContent = (index: number) => `.card-content-${index}`;
+
+    function relayout() {
+      if (transitioning) {
+        pendingRelayout = true;
+        return;
+      }
+      const height = container.clientHeight || window.innerHeight;
+      const width = container.clientWidth || window.innerWidth;
+
+      offsetTop = height - cardHeight - 60;
+      offsetLeft = Math.max(width - 830, 650);
+
+      const [active, ...rest] = order;
+      set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", borderRadius: 0, scale: 1.05 });
+      set(getCardContent(active), { opacity: 0 });
+
+      rest.forEach((i, index) => {
+        const x = offsetLeft + index * (cardWidth + gap);
+        set(getCard(i), { x, y: offsetTop, width: cardWidth, height: cardHeight, borderRadius: 12 });
+        set(getCardContent(i), { x, y: offsetTop, opacity: 1 });
       });
-    };
-    
-    loadGSAP().then((gsap) => {
-      gsap.config({ nullTargetWarn: false });
-      if (isCancelled || !containerRef.current) return;
-      const container = containerRef.current;
-      const set = (target: string, props: any) => gsap.set(container.querySelectorAll(target), props);
-      const getCard = (index: number) => `.card-${index}`;
-      const getCardContent = (index: number) => `.card-content-${index}`;
 
-      function relayout() {
-        if (transitioning) {
-          pendingRelayout = true;
-          return;
+      set("#pagination", { top: offsetTop + cardHeight + 20, left: offsetLeft });
+      set(".cover", { x: width + 400 });
+    }
+
+    function onResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(relayout, 150);
+    }
+
+    function init() {
+      const height = container.clientHeight || window.innerHeight;
+      const width = container.clientWidth || window.innerWidth;
+      offsetTop = height - cardHeight - 60;
+      offsetLeft = Math.max(width - 830, 650);
+
+      const [active, ...rest] = order;
+      const detailsActive = detailsEven ? "#details-even" : "#details-odd";
+      const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
+
+      set("#pagination", { top: offsetTop + cardHeight + 5, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
+      set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", zIndex: 20 });
+      gsap.to(container.querySelectorAll(getCard(active)), { scale: 1.05, duration: 5.7, ease: "none" });
+      set(getCardContent(active), { opacity: 0 });
+
+      set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
+      set(detailsInactive, { opacity: 0, zIndex: 12 });
+      set(`${detailsInactive} .text`, { y: 100 });
+      set(`${detailsInactive} .title-1`, { y: 100 });
+      set(`${detailsInactive} .title-2`, { y: 100 });
+      set(`${detailsInactive} .desc`, { y: 50 });
+      set(`${detailsInactive} .cta`, { y: 60 });
+
+      set(".progress-sub-foreground", { width: 500 * (1 / order.length) * (active + 1) });
+      set(".indicator", { x: -width });
+
+      rest.forEach((i, index) => {
+        set(getCard(i), { x: offsetLeft + 400 + index * (cardWidth + gap), y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12 });
+        set(getCardContent(i), { x: offsetLeft + 400 + index * (cardWidth + gap), zIndex: 40, y: offsetTop });
+        set(`.slide-item-${i}`, { x: (index + 1) * numberSize });
+      });
+
+      const startDelay = 0.6;
+      rest.forEach((i, index) => {
+        gsap.to(container.querySelectorAll(getCard(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
+        gsap.to(container.querySelectorAll(getCardContent(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
+      });
+
+      gsap.to(container.querySelectorAll("#pagination"), { y: 0, opacity: 1, ease, delay: startDelay, duration: 0.8 });
+      gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, x: 0, ease, delay: startDelay, duration: 0.8 });
+
+      window.addEventListener("resize", onResize);
+    }
+
+    function animate(target: string, duration: number, properties: any) {
+      return new Promise((resolve) => gsap.to(container.querySelectorAll(target), { ...properties, duration, onComplete: resolve }));
+    }
+
+    function startLoop() {
+      if (isCancelled) return;
+      if (loopTimeline) loopTimeline.kill();
+      set(".indicator", { x: -window.innerWidth });
+
+      loopTimeline = gsap.timeline({
+        onComplete: () => {
+          if (isCancelled) return;
+          step().then(() => {
+            if (!isCancelled) startLoop();
+          });
         }
-        const height = container.clientHeight || window.innerHeight;
-        const width = container.clientWidth || window.innerWidth;
-        
-        // height is ALREADY the container's height (75vh). So we just subtract the card height + margin.
-        offsetTop = height - cardHeight - 60; 
-        offsetLeft = Math.max(width - 830, 650); 
-        
-        const [active, ...rest] = order;
-        set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", borderRadius: 0, scale: 1.05 });
-        set(getCardContent(active), { opacity: 0 }); 
+      });
 
-        rest.forEach((i, index) => {
-          const x = offsetLeft + index * (cardWidth + gap);
-          set(getCard(i), { x, y: offsetTop, width: cardWidth, height: cardHeight, borderRadius: 12 });
-          set(getCardContent(i), { x, y: offsetTop, opacity: 1 });
+      loopTimeline.to(container.querySelectorAll(".indicator"), { x: 0, duration: 4.5, ease: "none" })
+                  .to(container.querySelectorAll(".indicator"), { x: window.innerWidth, duration: 0.5, ease: "none" });
+    }
+
+    // Setup manual navigation hook
+    (window as any).triggerNextSlide = () => {
+      if (!transitioning) {
+        if (loopTimeline) loopTimeline.kill();
+        clicks = 1;
+        step().then(() => {
+          if (!isCancelled) startLoop();
         });
-
-        set("#pagination", { top: offsetTop + cardHeight + 20, left: offsetLeft });
-        set(".cover", { x: width + 400 });
       }
+    };
 
-      function onResize() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(relayout, 150);
+    (window as any).jumpToSlide = (targetIdx: number) => {
+      if (transitioning) return;
+      if (order[0] === targetIdx) return;
+
+      const currentPos = order.indexOf(targetIdx);
+      if (currentPos > 0) {
+        if (loopTimeline) loopTimeline.kill();
+        clicks = currentPos;
+        step().then(() => {
+          if (!isCancelled) startLoop();
+        });
       }
+    };
 
-      function init() {
-        const height = container.clientHeight || window.innerHeight;
-        const width = container.clientWidth || window.innerWidth;
-        offsetTop = height - cardHeight - 60;
-        offsetLeft = Math.max(width - 830, 650);
-        
-        const [active, ...rest] = order;
+    function step() {
+      return new Promise<void>((resolve) => {
+        if (isCancelled) { resolve(); return; }
+        transitioning = true;
+        order.push(order.shift() as number);
+        detailsEven = !detailsEven;
+
         const detailsActive = detailsEven ? "#details-even" : "#details-odd";
         const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
 
-        set("#pagination", { top: offsetTop + cardHeight + 5, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
-        set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", zIndex: 20 });
-        gsap.to(container.querySelectorAll(getCard(active)), { scale: 1.05, duration: 5.7, ease: "none" }); // Initial slow zoom
-        set(getCardContent(active), { opacity: 0 });
-
-        set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
-        set(detailsInactive, { opacity: 0, zIndex: 12 });
-        set(`${detailsInactive} .text`, { y: 100 });
-        set(`${detailsInactive} .title-1`, { y: 100 });
-        set(`${detailsInactive} .title-2`, { y: 100 });
-        set(`${detailsInactive} .desc`, { y: 50 });
-        set(`${detailsInactive} .cta`, { y: 60 });
-
-        set(".progress-sub-foreground", { width: 500 * (1 / order.length) * (active + 1) });
-        set(".indicator", { x: -width });
-
-        rest.forEach((i, index) => {
-          set(getCard(i), { x: offsetLeft + 400 + index * (cardWidth + gap), y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12 });
-          set(getCardContent(i), { x: offsetLeft + 400 + index * (cardWidth + gap), zIndex: 40, y: offsetTop });
-          set(`.slide-item-${i}`, { x: (index + 1) * numberSize });
-        });
-
-        const startDelay = 0.6;
-        rest.forEach((i, index) => {
-          gsap.to(container.querySelectorAll(getCard(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
-          gsap.to(container.querySelectorAll(getCardContent(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
-        });
-        
-        gsap.to(container.querySelectorAll("#pagination"), { y: 0, opacity: 1, ease, delay: startDelay, duration: 0.8 });
-        gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, x: 0, ease, delay: startDelay, duration: 0.8 });
-
-        window.addEventListener("resize", onResize);
-      }
-
-      function animate(target: string, duration: number, properties: any) {
-        return new Promise((resolve) => gsap.to(container.querySelectorAll(target), { ...properties, duration, onComplete: resolve }));
-      }
-
-      function startLoop() {
-        if (isCancelled) return;
-        if (loopTimeline) loopTimeline.kill();
-        set(".indicator", { x: -window.innerWidth });
-        
-        loopTimeline = gsap.timeline({
-          onComplete: () => {
-            if (isCancelled) return;
-            step().then(() => {
-              if (!isCancelled) startLoop();
-            });
-          }
-        });
-        
-        loopTimeline.to(container.querySelectorAll(".indicator"), { x: 0, duration: 4.5, ease: "none" })
-                    .to(container.querySelectorAll(".indicator"), { x: window.innerWidth, duration: 0.5, ease: "none" });
-      }
-
-      // Setup manual navigation hook
-      (window as any).triggerNextSlide = () => {
-        if (!transitioning) {
-          if (loopTimeline) loopTimeline.kill();
-          clicks = 1;
-          step().then(() => {
-            if (!isCancelled) startLoop();
-          });
+        const currentData = slidesData[order[0]];
+        const detailsActiveEl = container.querySelector(detailsActive);
+        if (detailsActiveEl) {
+          const textEl = detailsActiveEl.querySelector('.text span');
+          const title1El = detailsActiveEl.querySelector('.title-1 span');
+          const title2El = detailsActiveEl.querySelector('.title-2 span');
+          const descEl = detailsActiveEl.querySelector('.desc span');
+          if (textEl) textEl.textContent = currentData.place;
+          if (title1El) title1El.textContent = currentData.title;
+          if (title2El) title2El.textContent = currentData.title2;
+          if (descEl) descEl.textContent = currentData.description;
         }
-      };
 
-      (window as any).jumpToSlide = (targetIdx: number) => {
-        if (transitioning) return;
-        if (order[0] === targetIdx) return;
-        
-        // Find how many steps away it is
-        const currentPos = order.indexOf(targetIdx);
-        if (currentPos > 0) {
-          if (loopTimeline) loopTimeline.kill();
-          clicks = currentPos;
-          step().then(() => {
-            if (!isCancelled) startLoop();
-          });
-        }
-      };
+        gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });
 
-      function step() {
-        return new Promise<void>((resolve) => {
-          if (isCancelled) { resolve(); return; }
-          transitioning = true;
-          order.push(order.shift() as number);
-          detailsEven = !detailsEven;
+        const [active, ...rest] = order;
+        const prv = rest[rest.length - 1];
 
-          const detailsActive = detailsEven ? "#details-even" : "#details-odd";
-          const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
+        set(getCard(prv), { zIndex: 10 });
+        set(getCard(active), { zIndex: 20 });
 
-          // Use spans to prevent Google Translate hydration clashes
-          const currentData = slidesData[order[0]];
-          const detailsActiveEl = container.querySelector(detailsActive);
-          if (detailsActiveEl) {
-            const textEl = detailsActiveEl.querySelector('.text span');
-            const title1El = detailsActiveEl.querySelector('.title-1 span');
-            const title2El = detailsActiveEl.querySelector('.title-2 span');
-            const descEl = detailsActiveEl.querySelector('.desc span');
-            if (textEl) textEl.textContent = currentData.place;
-            if (title1El) title1El.textContent = currentData.title;
-            if (title2El) title2El.textContent = currentData.title2;
-            if (descEl) descEl.textContent = currentData.description;
-          }
+        const activeCardEl = container.querySelector(getCard(prv));
+        if (activeCardEl) gsap.to(activeCardEl, { scale: 1.5, ease, duration: 1.2 });
 
-          // Fade out the old text immediately to prevent simultaneous overlapping text
-          gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });
+        const activeContentEl = container.querySelector(getCardContent(active));
+        if (activeContentEl) gsap.to(activeContentEl, { opacity: 0, duration: 0.3, ease });
 
-          const [active, ...rest] = order;
-          const prv = rest[rest.length - 1]; 
+        const cActive = container.querySelector(getCard(active));
+        if (cActive) {
+          gsap.to(cActive, {
+            x: 0,
+            y: 0,
+            width: "100vw",
+            height: "100%",
+            borderRadius: 0,
+            ease,
+            duration: 1.2,
+            onComplete: () => {
+              const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
+              set(getCard(prv), { x: xNew, y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, scale: 1 });
+              set(getCardContent(prv), { x: xNew, y: offsetTop, opacity: 1, zIndex: 40 });
+              set(`.slide-item-${prv}`, { x: rest.length * numberSize });
 
-          set(getCard(prv), { zIndex: 10 });
-          set(getCard(active), { zIndex: 20 });
-          
-          const activeCardEl = container.querySelector(getCard(prv));
-          if (activeCardEl) gsap.to(activeCardEl, { scale: 1.5, ease, duration: 1.2 }); 
+              set(detailsInactive, { opacity: 0, zIndex: 12 });
+              set(`${detailsInactive} .text`, { y: 100 });
+              set(`${detailsInactive} .title-1`, { y: 100 });
+              set(`${detailsInactive} .title-2`, { y: 100 });
+              set(`${detailsInactive} .desc`, { y: 50 });
 
-          const activeContentEl = container.querySelector(getCardContent(active));
-          if (activeContentEl) gsap.to(activeContentEl, { opacity: 0, duration: 0.3, ease });
-
-          const cActive = container.querySelector(getCard(active));
-          if (cActive) {
-            gsap.to(cActive, {
-              x: 0,
-              y: 0,
-              width: "100vw",
-              height: "100%",
-              borderRadius: 0,
-              ease,
-              duration: 1.2,
-              onComplete: () => {
-                const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
-                set(getCard(prv), { x: xNew, y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, scale: 1 });
-                set(getCardContent(prv), { x: xNew, y: offsetTop, opacity: 1, zIndex: 40 });
-                set(`.slide-item-${prv}`, { x: rest.length * numberSize });
-
-                set(detailsInactive, { opacity: 0, zIndex: 12 });
-                set(`${detailsInactive} .text`, { y: 100 });
-                set(`${detailsInactive} .title-1`, { y: 100 });
-                set(`${detailsInactive} .title-2`, { y: 100 });
-                set(`${detailsInactive} .desc`, { y: 50 });
-
-                transitioning = false;
-                if (pendingRelayout) {
-                  pendingRelayout = false;
-                  relayout();
-                }
-                
-                if (clicks > 1) {
-                  clicks -= 1;
-                  step();
-                } else {
-                  clicks = 0;
-                }
+              transitioning = false;
+              if (pendingRelayout) {
+                pendingRelayout = false;
+                relayout();
               }
-            });
-            // Background slow zoom (Ken Burns) that runs alongside and past the expansion
-            gsap.to(cActive, { scale: 1.05, duration: 5.7, ease: "none" });
-          }
 
-          set(detailsActive, { zIndex: 22 });
-          gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, delay: 0.4, ease, duration: 0.4 });
-          animate(`${detailsActive} .text`, 0.7, { y: 0, delay: 0.1, ease });
-          animate(`${detailsActive} .title-1`, 0.7, { y: 0, delay: 0.15, ease });
-          animate(`${detailsActive} .title-2`, 0.7, { y: 0, delay: 0.15, ease });
-          animate(`${detailsActive} .desc`, 0.4, { y: 0, delay: 0.3, ease, onComplete: resolve });
-
-          order.forEach((itemIdx, idx) => {
-            gsap.to(container.querySelectorAll(`.slide-item-${itemIdx}`), { x: idx * numberSize, ease, duration: 0.8 });
+              if (clicks > 1) {
+                clicks -= 1;
+                step();
+              } else {
+                clicks = 0;
+              }
+            }
           });
+          gsap.to(cActive, { scale: 1.05, duration: 5.7, ease: "none" });
+        }
 
-          gsap.to(container.querySelectorAll(".progress-sub-foreground"), { width: 500 * (1 / order.length) * (active + 1), ease, duration: 0.8 });
+        set(detailsActive, { zIndex: 22 });
+        gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, delay: 0.4, ease, duration: 0.4 });
+        animate(`${detailsActive} .text`, 0.7, { y: 0, delay: 0.1, ease });
+        animate(`${detailsActive} .title-1`, 0.7, { y: 0, delay: 0.15, ease });
+        animate(`${detailsActive} .title-2`, 0.7, { y: 0, delay: 0.15, ease });
+        animate(`${detailsActive} .desc`, 0.4, { y: 0, delay: 0.3, ease, onComplete: resolve });
 
-          rest.forEach((i, index) => {
-            if (i === prv) return;
-            set(getCard(i), { zIndex: 30 });
-            gsap.to(container.querySelectorAll(getCard(i)), {
-              x: offsetLeft + index * (cardWidth + gap),
-              y: offsetTop,
-              width: cardWidth,
-              height: cardHeight,
-              ease,
-              duration: 0.8,
-              delay: 0.1 * (index + 1)
-            });
-            gsap.to(container.querySelectorAll(getCardContent(i)), {
-              x: offsetLeft + index * (cardWidth + gap),
-              y: offsetTop,
-              opacity: 1,
-              zIndex: 40,
-              ease,
-              duration: 0.8,
-              delay: 0.1 * (index + 1)
-            });
+        order.forEach((itemIdx, idx) => {
+          gsap.to(container.querySelectorAll(`.slide-item-${itemIdx}`), { x: idx * numberSize, ease, duration: 0.8 });
+        });
+
+        gsap.to(container.querySelectorAll(".progress-sub-foreground"), { width: 500 * (1 / order.length) * (active + 1), ease, duration: 0.8 });
+
+        rest.forEach((i, index) => {
+          if (i === prv) return;
+          set(getCard(i), { zIndex: 30 });
+          gsap.to(container.querySelectorAll(getCard(i)), {
+            x: offsetLeft + index * (cardWidth + gap),
+            y: offsetTop,
+            width: cardWidth,
+            height: cardHeight,
+            ease,
+            duration: 0.8,
+            delay: 0.1 * (index + 1)
+          });
+          gsap.to(container.querySelectorAll(getCardContent(i)), {
+            x: offsetLeft + index * (cardWidth + gap),
+            y: offsetTop,
+            opacity: 1,
+            zIndex: 40,
+            ease,
+            duration: 0.8,
+            delay: 0.1 * (index + 1)
           });
         });
-      }
+      });
+    }
 
-      init();
-      gsap.to(container.querySelectorAll(".cover"), { x: window.innerWidth + 400, delay: 0.5, ease, duration: 1, onComplete: () => {
-        setTimeout(() => {
-          if (!isCancelled) startLoop();
-        }, 500);
-      }});
-
-      return () => {
-        window.removeEventListener("resize", onResize);
-      };
-    });
+    init();
+    gsap.to(container.querySelectorAll(".cover"), { x: window.innerWidth + 400, delay: 0.5, ease, duration: 1, onComplete: () => {
+      setTimeout(() => {
+        if (!isCancelled) startLoop();
+      }, 500);
+    }});
 
     return () => {
       isCancelled = true;
       clearTimeout(resizeTimer);
+      window.removeEventListener("resize", onResize);
       if (loopTimeline) loopTimeline.kill();
-      if ((window as any).gsap) {
-        (window as any).gsap.killTweensOf(".card");
-        (window as any).gsap.killTweensOf(".card-content");
-      }
+      gsap.killTweensOf(container.querySelectorAll('.card, .card-content'));
+      delete (window as any).triggerNextSlide;
+      delete (window as any).jumpToSlide;
     };
   }, [isReady, settings?.hero?.slides?.length]);
 
@@ -431,7 +417,7 @@ export function HeroSlider() {
               fill
               priority={idx < 2}
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+              sizes="(max-width: 768px) 100vw, 180px"
             />
             <div className="absolute inset-0 bg-black/30" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

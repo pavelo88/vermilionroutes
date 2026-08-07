@@ -42,7 +42,12 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ sessionId: session.id, url: session.url });
   } catch (err: any) {
+    // ✅ I-04 FIX: No exponer mensajes internos de Stripe al cliente
     console.error('Stripe session creation error:', err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    const isStripeError = err?.type?.startsWith('Stripe');
+    return NextResponse.json(
+      { error: isStripeError ? 'Payment session could not be created. Please try again.' : 'Internal server error.' },
+      { status: 500 }
+    );
   }
 }

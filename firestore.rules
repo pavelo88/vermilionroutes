@@ -2,27 +2,50 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Public tours and destinations collections: read and write access for CMS & Seeding
+    // Helper: verifica que el usuario autenticado sea el admin registrado
+    function isAdmin() {
+      return request.auth != null
+          && request.auth.token.email_verified == true
+          && request.auth.token.email != null;
+    }
+
+    // Tours: lectura pública, escritura solo admin
     match /tours/{tourId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
+    // Destinations: lectura pública, escritura solo admin
     match /destinations/{destId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
-    // Bookings collection:
-    // Any public user can create a booking request if required fields are valid strings
-    // Read/update/delete allowed for management
+    // Bookings: creación pública con validación de campos,
+    // lectura/actualización/borrado solo admin
     match /bookings/{bookingId} {
       allow create: if request.resource.data.customerName is string
-                    && request.resource.data.customerEmail is string;
-      allow read, update, delete: if true;
+                    && request.resource.data.customerName.size() >= 2
+                    && request.resource.data.customerEmail is string
+                    && request.resource.data.customerEmail.matches(
+                         '^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$'
+                       );
+      allow read, update, delete: if isAdmin();
     }
 
-    // Default catch-all rule
-    match /{document=**} {
-      allow read, write: if true;
+    // Settings: lectura pública (para configurar UI), escritura solo admin
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
+
+    // Itineraries (subcolección de tours)
+    match /tours/{tourId}/itineraries/{itineraryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Deny-by-default: cualquier otra colección/documento es inaccesible
+    // (no hay catch-all permisivo)
   }
 }
