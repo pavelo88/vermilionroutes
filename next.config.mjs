@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -11,6 +10,14 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.istockphoto.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
       },
     ],
   },

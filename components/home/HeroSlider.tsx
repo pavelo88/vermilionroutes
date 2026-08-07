@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSettings } from '@/hooks/useSettings';
 import { Bookmark, ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 
 const DEFAULT_DATA = [
   {
@@ -404,9 +405,16 @@ export function HeroSlider() {
       {slidesData.map((slide: any, idx: number) => (
         <div key={`card-${idx}`}>
           <div 
-            className={`card card-${idx} absolute top-0 left-0 bg-cover bg-center shadow-2xl`} 
-            style={{ backgroundImage: `url(${slide.image})` }}
+            className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden`} 
           >
+            <Image 
+              src={slide.image} 
+              alt={slide.place}
+              fill
+              priority={idx < 2}
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+            />
             <div className="absolute inset-0 bg-black/30" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             
