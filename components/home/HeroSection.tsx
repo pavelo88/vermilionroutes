@@ -1,168 +1,196 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/Button';
-import { SmartSearch } from '@/components/home/SmartSearch';
 import { useSettings } from '@/hooks/useSettings';
-import { Sparkles, Users, CheckCircle2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Bookmark, ArrowDown } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 
-// Subtle Sparkle particle component
-const SparkleOverlay = () => {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  
-  if (!mounted) return null;
-
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-40">
-      {[...Array(20)].map((_, i) => (
-        <div
-          key={i}
-          className="absolute w-1 h-1 bg-amber-200/80 rounded-full animate-pulse shadow-[0_0_8px_rgba(251,191,36,0.8)]"
-          style={{
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-            animationDuration: `${Math.random() * 3 + 2}s`,
-            animationDelay: `${Math.random() * 2}s`,
-          }}
-        />
-      ))}
-    </div>
-  );
-};
+const DEFAULT_DATA = [
+  {
+    place: 'Galapagos - Archipelago',
+    title: 'ENCHANTED',
+    title2: 'ISLANDS',
+    description: 'A pristine natural sanctuary where sea lions, blue-footed boobies, and giant tortoises thrive in absolute harmony. Sail across volcanic landscapes and dive into an immersive, unforgettable experience.',
+    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
+    place: 'Cotopaxi - Andes',
+    title: 'MAJESTIC',
+    title2: 'VOLCANO',
+    description: 'The perfect snow-capped cone rising proudly over the Ecuadorian Andes. Walk among mystical paramo highlands, witness the condor\'s flight, and behold the grandeur of the Avenue of the Volcanoes.',
+    image: 'https://images.unsplash.com/photo-1589802829985-817e51171b92?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
+    place: 'Amazon - Orellana',
+    title: 'YASUNÍ',
+    title2: 'RAINFOREST',
+    description: 'The most biodiverse spot on Earth. Navigate winding rivers surrounded by untouched jungle, spot pink dolphins, and let the mystical magic of the deep Amazon captivate your senses.',
+    image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
+    place: 'Cusco - Peru',
+    title: 'SACRED',
+    title2: 'VALLEY',
+    description: 'Journey into the heart of the Inca Empire. Traverse terraced hillsides, discover ancient citadels hidden in the mist, and connect with the timeless heritage of the Andean people.',
+    image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2752&q=80'
+  }
+];
 
 export function HeroSection() {
   const { settings } = useSettings();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const slidesData = settings?.hero?.slides?.length ? settings.hero.slides : DEFAULT_DATA;
+  
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  // Get background images array
-  const bgImages = settings?.hero?.backgroundImages && settings.hero.backgroundImages.length > 0 
-    ? settings.hero.backgroundImages 
-    : (settings?.hero?.backgroundImage ? [settings.hero.backgroundImage] : ['/images/hero/hero_galapagos.png', '/images/hero/hero_machu_picchu.png']);
-
+  // Auto advance every 6 seconds
   useEffect(() => {
-    if (bgImages.length <= 1) return;
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % bgImages.length);
+    const timer = setInterval(() => {
+      handleNext();
     }, 6000);
-    return () => clearInterval(interval);
-  }, [bgImages.length]);
+    return () => clearInterval(timer);
+  }, [currentIndex, slidesData.length]);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e;
-    const x = (clientX / window.innerWidth - 0.5) * 20; // max 20px displacement
-    const y = (clientY / window.innerHeight - 0.5) * 20;
-    setMousePos({ x, y });
+  const handlePrev = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev === 0 ? slidesData.length - 1 : prev - 1));
+    setTimeout(() => setIsAnimating(false), 500);
   };
 
-  const hasBg = bgImages.length > 0;
+  const handleNext = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => (prev === slidesData.length - 1 ? 0 : prev + 1));
+    setTimeout(() => setIsAnimating(false), 500);
+  };
+
+  const currentSlide = slidesData[currentIndex];
+
+  const scrollToTours = () => {
+    const el = document.getElementById('tours');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
-    <section
-      onMouseMove={handleMouseMove}
-      className="relative min-h-[75vh] flex flex-col justify-center pt-8 pb-10 px-4 sm:px-6 lg:px-8 overflow-hidden bg-zinc-950"
-    >
-      {/* Background Carousel */}
-      {hasBg && bgImages.map((src, idx) => (
-        <div
+    <div className="relative w-full h-[100svh] min-h-[600px] overflow-hidden bg-zinc-950 font-sans text-white">
+      {/* Background Image with crossfade */}
+      {slidesData.map((slide: any, idx: number) => (
+        <div 
           key={idx}
-          className="absolute inset-[-2%] w-[104%] h-[104%] transition-opacity duration-1000 ease-in-out z-0"
-          style={{
-            backgroundImage: `url(${src})`,
+          className="absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out"
+          style={{ 
+            opacity: idx === currentIndex ? 1 : 0,
+            backgroundImage: `url(${slide.image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            opacity: idx === currentImageIndex ? 1 : 0,
-            transform: `translate3d(${mousePos.x * -1}px, ${mousePos.y * -1}px, 0) scale(1.02)`,
-            transition: idx === currentImageIndex ? 'transform 0.2s ease-out' : 'opacity 1s ease-in-out',
+            zIndex: idx === currentIndex ? 1 : 0
           }}
-        />
+        >
+          {/* Gradient Overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+        </div>
       ))}
 
-      {/* Dark Overlay for contrast */}
-      {hasBg && <div className="absolute inset-0 bg-black/50 z-0 pointer-events-none" />}
-      
-      {/* Sparkles / Escarchas */}
-      {hasBg && <SparkleOverlay />}
+      {/* Main Content Area */}
+      <div className="absolute inset-0 z-10 flex flex-col justify-end pb-24 md:pb-32 px-6 md:px-16 lg:px-24">
+        
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between w-full h-full pt-32">
+          
+          {/* Left Text Content */}
+          <div className="flex-1 max-w-2xl mb-12 lg:mb-0 transition-all duration-700 transform translate-y-0 opacity-100 animate-in slide-in-from-bottom-8">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-8 h-[2px] bg-emerald-500" />
+              <h3 className="text-sm md:text-base font-medium tracking-widest uppercase text-emerald-400">
+                {currentSlide.place}
+              </h3>
+            </div>
+            
+            <h1 className="text-6xl md:text-8xl lg:text-[100px] font-oswald font-bold leading-[0.9] mb-6 uppercase tracking-tight text-white drop-shadow-2xl">
+              {currentSlide.title} <br/> 
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400">{currentSlide.title2}</span>
+            </h1>
+            
+            <p className="text-sm md:text-lg text-zinc-300 max-w-xl mb-8 leading-relaxed drop-shadow-md border-l-2 border-emerald-500/50 pl-4">
+              {currentSlide.description}
+            </p>
+            
+            <div className="flex items-center gap-4">
+              <button className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/20 transition-colors">
+                <Bookmark className="w-5 h-5 text-white" />
+              </button>
+              <Button 
+                onClick={scrollToTours}
+                className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-full px-8 py-6 uppercase tracking-wider text-sm font-bold shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] transition-all flex items-center gap-2"
+              >
+                Explore Destinations
+                <ArrowDown className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
 
-      {/* Parallax Content Container */}
-      <div 
-        className="max-w-6xl mx-auto text-center space-y-8 relative z-10 w-full pt-4 transition-transform duration-200 ease-out"
-        style={{
-          transform: hasBg ? `translate3d(${mousePos.x * 0.5}px, ${mousePos.y * 0.5}px, 0)` : 'none'
-        }}
-      >
-        {/* Top Eyebrow Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-emerald-500/30 shadow-sm text-xs sm:text-sm font-medium text-emerald-100 mx-auto">
-          <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
-          <span>{settings?.hero?.badge || 'Boutique Travel Agency • Galapagos, Ecuador & Peru Specialists'}</span>
+          {/* Right side Thumbnail Cards */}
+          <div className="hidden lg:flex gap-4 items-end pb-8">
+            {slidesData.map((slide: any, idx: number) => {
+              // Only show 3 thumbnails max (exclude current or just show next 3)
+              if (idx === currentIndex) return null;
+              
+              return (
+                <div 
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className="w-[180px] h-[260px] rounded-2xl overflow-hidden relative group cursor-pointer border-2 border-white/10 hover:border-emerald-500/50 transition-all shadow-xl"
+                >
+                  <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url(${slide.image})` }} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                  
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider mb-1 line-clamp-1">{slide.place}</p>
+                    <h4 className="text-white font-oswald text-xl uppercase leading-tight">{slide.title}</h4>
+                  </div>
+                </div>
+              );
+            }).slice(0, 3)}
+          </div>
+
         </div>
 
-        {/* Hero Title */}
-        <h1 className={`font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] ${hasBg ? 'text-white [text-shadow:0_4px_12px_rgba(0,0,0,0.5)]' : 'text-zinc-900'}`}>
-          {settings?.hero?.title || 'Tailor-Made Premium Expeditions'} <br />
-          <span className="bg-gradient-to-r from-emerald-400 via-amber-200 to-emerald-300 bg-clip-text text-transparent relative z-10">
-            {settings?.hero?.titleColored || 'Crafted for Extraordinary Travel'}
+      </div>
+
+      {/* Bottom Navigation Bar */}
+      <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/60 to-transparent z-20 flex items-center justify-between px-6 md:px-16 lg:px-24">
+        
+        {/* Navigation Arrows */}
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={handlePrev}
+            className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 hover:border-white transition-colors backdrop-blur-sm"
+          >
+            <ChevronLeft className="w-5 h-5 text-white" />
+          </button>
+          <button 
+            onClick={handleNext}
+            className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 hover:border-white transition-colors backdrop-blur-sm"
+          >
+            <ChevronRight className="w-5 h-5 text-white" />
+          </button>
+        </div>
+
+        {/* Progress Line */}
+        <div className="hidden md:flex items-center gap-4 flex-1 max-w-md mx-8">
+          <div className="h-[2px] w-full bg-white/20 relative rounded-full overflow-hidden">
+            <div 
+              className="absolute top-0 left-0 h-full bg-emerald-500 transition-all duration-500 ease-out rounded-full"
+              style={{ width: `${((currentIndex + 1) / slidesData.length) * 100}%` }}
+            />
+          </div>
+          <span className="text-white font-oswald text-2xl font-bold">
+            {currentIndex + 1}
           </span>
-        </h1>
-
-        {/* Hero Subtitle */}
-        <p className={`text-base sm:text-xl max-w-2xl mx-auto font-normal leading-relaxed ${hasBg ? 'text-zinc-200 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]' : 'text-zinc-600'}`}>
-          {settings?.hero?.subtitle || 'Cruise the enchanted Galapagos Islands, trek the volcanic spine of the high Andes, explore the deep Amazon rainforest, and uncover the mysteries of Machu Picchu.'}
-        </p>
-
-        {/* Smart Search Bar Component */}
-        <div className="pt-2 drop-shadow-2xl">
-          <SmartSearch />
-        </div>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-          <a href="#contact">
-            <Button variant="outline" size="lg" className="gap-2 bg-white/90 text-zinc-900 border-zinc-200 hover:bg-white shadow">
-              <Users className="w-4 h-4 text-emerald-600" />
-              <span>Request Custom Itinerary</span>
-            </Button>
-          </a>
-        </div>
-
-        {/* Feature Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-6 pt-6 text-xs sm:text-sm font-medium text-zinc-100">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>Certified Multilingual Naturalist Guides</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>24/7 Dedicated On-Trip Concierge</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>Best Direct Operator Rate Guarantee</span>
-          </div>
-        </div>
-
-        {/* Trust Metrics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-10 max-w-4xl mx-auto">
-          <div className="bg-white/90 backdrop-blur-md p-5 rounded-2xl border border-zinc-200/85 shadow-sm text-center space-y-1">
-            <p className="font-serif text-3xl font-bold text-emerald-700">100%</p>
-            <p className="text-xs text-zinc-600 font-medium">Bespoke Tailor-Made</p>
-          </div>
-          <div className="bg-white/90 backdrop-blur-md p-5 rounded-2xl border border-zinc-200/85 shadow-sm text-center space-y-1">
-            <p className="font-serif text-3xl font-bold text-emerald-700">+15 Yrs</p>
-            <p className="text-xs text-zinc-600 font-medium">Field Travel Expertise</p>
-          </div>
-          <div className="bg-white/90 backdrop-blur-md p-5 rounded-2xl border border-zinc-200/85 shadow-sm text-center space-y-1">
-            <p className="font-serif text-3xl font-bold text-emerald-700">4.9 / 5 ★</p>
-            <p className="text-xs text-zinc-600 font-medium">Guest Satisfaction</p>
-          </div>
-          <div className="bg-white/90 backdrop-blur-md p-5 rounded-2xl border border-zinc-200/85 shadow-sm text-center space-y-1">
-            <p className="font-serif text-3xl font-bold text-emerald-700">24 / 7</p>
-            <p className="text-xs text-zinc-600 font-medium">En-Route Concierge</p>
-          </div>
         </div>
       </div>
-    </section>
+
+    </div>
   );
 }
-

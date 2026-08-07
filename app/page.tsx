@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeroSlider } from '@/components/home/HeroSlider';
+import { HeroSection } from '@/components/home/HeroSection';
 import { StatsSection } from '@/components/home/StatsSection';
 import { DestinationsGrid } from '@/components/home/DestinationsGrid';
 import { FeaturedTours } from '@/components/home/FeaturedTours';
@@ -11,8 +11,7 @@ import { ContactSection } from '@/components/home/ContactSection';
 export default function Home() {
   return (
     <div className="space-y-8 pb-12">
-      {/* 1. Hero Section with Banner and Search Widget */}
-      <HeroSlider />
+      <HeroSection />
 
       {/* 1.5. Trust & Stats Section */}
       <StatsSection />
