@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSettings } from '@/hooks/useSettings';
-import { ChevronLeft, ChevronRight, Bookmark, ArrowDown } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Bookmark } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 const DEFAULT_DATA = [
@@ -29,7 +29,7 @@ const DEFAULT_DATA = [
   },
   {
     place: 'Manabí - Pacific Coast',
-    title: 'LOS FRAILES',
+    title: 'FRAILES',
     title2: 'BEACH',
     description: 'A hidden jewel of crystal-clear waters and white sands within the Machalilla National Park. Surrounded by rugged cliffs and dry forests, it remains one of South America\'s most pristine coastal retreats.',
     image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=2752&q=80'
@@ -39,7 +39,7 @@ const DEFAULT_DATA = [
     title: 'HISTORIC',
     title2: 'CENTER',
     description: 'The first World Cultural Heritage site. Cobblestone streets, colonial monasteries, and baroque cathedrals perched at 2,800 meters under the monumental shadow of the high Andes.',
-    image: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=2752&q=80'
+    image: 'https://images.unsplash.com/photo-1616089308119-971c2ba244d2?auto=format&fit=crop&w=2752&q=80'
   },
   {
     place: 'Cusco - Peru',
@@ -47,6 +47,20 @@ const DEFAULT_DATA = [
     title2: 'VALLEY',
     description: 'Journey into the heart of the Inca Empire. Traverse terraced hillsides, discover ancient citadels hidden in the mist, and connect with the timeless heritage of the Andean people.',
     image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
+    place: 'Patagonia - Argentina',
+    title: 'PERITO',
+    title2: 'MORENO',
+    description: 'A colossal river of blue ice advancing into Lake Argentino. Listen to the thunderous roar of calving ice blocks in one of the most breathtaking natural spectacles on the planet.',
+    image: 'https://images.unsplash.com/photo-1549449179-8cb1f414e8c1?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
+    place: 'Potosí - Bolivia',
+    title: 'UYUNI',
+    title2: 'SALT FLATS',
+    description: 'The world\'s largest salt flat, where the earth meets the sky in a mirror-like illusion. A surreal landscape of blinding white expanses, colorful lagoons, and dormant volcanoes.',
+    image: 'https://images.unsplash.com/photo-1533083161350-9c2f6d0fba75?auto=format&fit=crop&w=2752&q=80'
   }
 ];
 
@@ -58,7 +72,7 @@ export function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Auto advance every 6 seconds
+  // Auto advance every 4 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       handleNext();
@@ -100,58 +114,55 @@ export function HeroSection() {
             className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform ease-out"
             style={{ 
               backgroundImage: `url(${slide.image})`,
-              transform: idx === currentIndex ? 'scale(1.1)' : 'scale(1)',
+              transform: idx === currentIndex ? 'scale(1.05)' : 'scale(1)',
               transitionDuration: '4000ms'
             }}
           />
-          {/* Gradient Overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
+          {/* Subtle Gradients for contrast */}
+          <div className="absolute inset-0 bg-black/30 z-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent z-10" />
         </div>
       ))}
 
       {/* Main Content Area */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-end pb-24 md:pb-32 px-6 md:px-16 lg:px-24">
+      <div className="absolute inset-0 z-20 flex flex-col justify-end px-6 md:px-16 lg:px-24 pb-32">
         
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between w-full h-full pt-32">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between w-full relative">
           
           {/* Left Text Content - Key forces React to recreate DOM, preventing Google Translate glitches */}
-          <div key={currentIndex} className="flex-1 max-w-2xl mb-12 lg:mb-0 transition-all duration-700 transform translate-y-0 opacity-100 animate-in slide-in-from-bottom-8">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-8 h-[2px] bg-emerald-500" />
-              <h3 className="text-sm md:text-base font-medium tracking-widest uppercase text-emerald-400">
+          <div key={currentIndex} className="flex-1 max-w-2xl mb-12 lg:mb-0 transition-all duration-700 animate-in fade-in slide-in-from-bottom-4">
+            <div className="mb-4">
+              <div className="w-10 h-[2px] bg-white mb-3" />
+              <h3 className="text-sm md:text-base font-semibold tracking-widest uppercase text-white/90">
                 {currentSlide.place}
               </h3>
             </div>
             
-            <h1 className="text-5xl md:text-7xl lg:text-[80px] font-oswald font-bold leading-[0.9] mb-6 uppercase tracking-tight text-white drop-shadow-2xl">
+            <h1 className="text-5xl md:text-7xl lg:text-[90px] font-oswald font-extrabold leading-[0.9] mb-6 uppercase tracking-tight text-white drop-shadow-2xl">
               <span>{currentSlide.title}</span> <br/> 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400">{currentSlide.title2}</span>
+              <span>{currentSlide.title2}</span>
             </h1>
             
-            <p className="text-sm md:text-lg text-zinc-300 max-w-xl mb-8 leading-relaxed drop-shadow-md border-l-2 border-emerald-500/50 pl-4">
+            <p className="text-sm md:text-lg text-white/90 max-w-xl mb-8 leading-relaxed drop-shadow-md">
               <span>{currentSlide.description}</span>
             </p>
             
             <div className="flex items-center gap-4">
-              <button className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/20 transition-colors">
-                <Bookmark className="w-5 h-5 text-white" />
+              <button className="w-12 h-12 rounded-full border border-white/50 hover:bg-white hover:text-black flex items-center justify-center transition-colors">
+                <Bookmark className="w-5 h-5" />
               </button>
               <Button 
                 onClick={scrollToTours}
-                className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-full px-8 py-6 uppercase tracking-wider text-sm font-bold shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] transition-all flex items-center gap-2"
+                className="bg-transparent border border-white hover:bg-white hover:text-black text-white rounded-full px-8 py-6 uppercase tracking-widest text-xs font-bold transition-colors"
               >
-                Explore Destinations
-                <ArrowDown className="w-4 h-4" />
+                EXPLORE DESTINATIONS
               </Button>
             </div>
           </div>
 
-          {/* Right side Thumbnail Cards (Always showing next 3.5 cards) */}
-          <div 
-            className="hidden lg:flex gap-4 items-end pb-8 relative overflow-hidden" 
-            style={{ width: '650px', maskImage: 'linear-gradient(to left, transparent 0%, black 15%)', WebkitMaskImage: 'linear-gradient(to left, transparent 0%, black 15%)' }}
-          >
+          {/* Right side Thumbnail Cards (Hard Cut layout) */}
+          <div className="hidden lg:flex gap-4 absolute right-0 bottom-0 w-[768px] translate-x-[90px]">
             {[1, 2, 3, 4].map((offset) => {
               const idx = (currentIndex + offset) % slidesData.length;
               const slide = slidesData[idx];
@@ -160,14 +171,15 @@ export function HeroSection() {
                 <div 
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
-                  className="min-w-[180px] h-[260px] rounded-2xl overflow-hidden relative group cursor-pointer border-2 border-white/10 hover:border-emerald-500/50 transition-all shadow-xl flex-shrink-0"
+                  className="w-[180px] h-[260px] rounded-2xl overflow-hidden relative group cursor-pointer border border-white/20 hover:border-white transition-all flex-shrink-0 bg-black"
                 >
-                  <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url(${slide.image})` }} />
+                  <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100" style={{ backgroundImage: `url(${slide.image})` }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                   
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider mb-1 line-clamp-1">{slide.place}</p>
-                    <h4 className="text-white font-oswald text-xl uppercase leading-tight">{slide.title}</h4>
+                  <div className="absolute bottom-5 left-5 right-5 text-left">
+                    <div className="w-4 h-[2px] bg-white mb-2" />
+                    <p className="text-[9px] uppercase font-bold text-white/80 tracking-widest mb-1 line-clamp-1">{slide.place}</p>
+                    <h4 className="text-white font-oswald text-xl uppercase leading-none tracking-wide">{slide.title}</h4>
                   </div>
                 </div>
               );
@@ -179,33 +191,33 @@ export function HeroSection() {
       </div>
 
       {/* Bottom Navigation Bar */}
-      <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/60 to-transparent z-20 flex items-center justify-between px-6 md:px-16 lg:px-24">
+      <div className="absolute bottom-6 left-0 w-full z-20 flex items-center justify-between px-6 md:px-16 lg:px-24">
         
         {/* Navigation Arrows */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <button 
             onClick={handlePrev}
-            className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 hover:border-white transition-colors backdrop-blur-sm"
+            className="w-10 h-10 rounded-full border border-white/50 flex items-center justify-center hover:bg-white hover:text-black text-white transition-colors"
           >
-            <ChevronLeft className="w-5 h-5 text-white" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
           <button 
             onClick={handleNext}
-            className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 hover:border-white transition-colors backdrop-blur-sm"
+            className="w-10 h-10 rounded-full border border-white/50 flex items-center justify-center hover:bg-white hover:text-black text-white transition-colors"
           >
-            <ChevronRight className="w-5 h-5 text-white" />
+            <ChevronRight className="w-5 h-5" />
           </button>
         </div>
 
         {/* Progress Line */}
-        <div className="hidden md:flex items-center gap-4 flex-1 max-w-md mx-8">
+        <div className="hidden md:flex items-center gap-6 flex-1 max-w-md mx-8">
           <div className="h-[2px] w-full bg-white/20 relative rounded-full overflow-hidden">
             <div 
-              className="absolute top-0 left-0 h-full bg-emerald-500 transition-all duration-500 ease-out rounded-full"
+              className="absolute top-0 left-0 h-full bg-white transition-all duration-500 ease-out rounded-full"
               style={{ width: `${((currentIndex + 1) / slidesData.length) * 100}%` }}
             />
           </div>
-          <span className="text-white font-oswald text-2xl font-bold">
+          <span className="text-white font-oswald text-xl font-bold tracking-widest">
             {currentIndex + 1}
           </span>
         </div>

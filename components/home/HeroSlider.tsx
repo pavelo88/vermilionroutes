@@ -27,7 +27,7 @@ const DEFAULT_DATA = [
   },
   {
     place: 'Manabí - Pacific Coast',
-    title: 'LOS FRAILES',
+    title: 'FRAILES',
     title2: 'BEACH',
     description: 'A hidden jewel of crystal-clear waters and white sands within the Machalilla National Park. Surrounded by rugged cliffs and dry forests, it remains one of South America\'s most pristine coastal retreats.',
     image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=2752&q=80'
@@ -64,7 +64,7 @@ export function HeroSlider() {
 
   useEffect(() => {
     if (!isReady) return;
-    
+
     const slidesData = settings?.hero?.slides?.length ? settings.hero.slides : DEFAULT_DATA;
     let order = slidesData.map((_, i) => i);
     let detailsEven = true;
@@ -183,7 +183,7 @@ export function HeroSlider() {
 
           const activeCardEl = container.querySelector(getCard(prv));
           if (activeCardEl) gsap.to(activeCardEl, { scale: 1.5, ease, duration: 0.8 });
-          
+
           const activeContentEl = container.querySelector(getCardContent(active));
           if (activeContentEl) gsap.to(activeContentEl, { y: offsetTop + cardHeight - 10, opacity: 0, duration: 0.3, ease });
 
@@ -266,12 +266,12 @@ export function HeroSlider() {
         const h = container.clientHeight || window.innerHeight;
         const w = container.clientWidth || window.innerWidth;
         offsetTop = h - Math.min(430, h * 0.4);
-        
+
         // Ensure cards do NOT overlap the text box. Text box is ~560px wide from left.
         if (w < 768) {
           offsetLeft = w - 100; // Push mostly offscreen on mobile
         } else {
-          offsetLeft = Math.max(w * 0.55, 600); 
+          offsetLeft = Math.max(w * 0.55, 600);
         }
 
         const [active, ...rest] = order;
@@ -301,7 +301,7 @@ export function HeroSlider() {
 
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
-        
+
         offsetTop = height - Math.min(430, height * 0.4);
         if (width < 768) {
           offsetLeft = width - 100;
@@ -390,7 +390,7 @@ export function HeroSlider() {
     return () => {
       isCancelled = true;
       clearTimeout(resizeTimer);
-      window.removeEventListener("resize", () => {});
+      window.removeEventListener("resize", () => { });
       if ((window as any).gsap) {
         (window as any).gsap.killTweensOf(".card");
       }
@@ -481,7 +481,7 @@ export function HeroSlider() {
             {slidesData[0].description}
           </div>
           <div className="cta w-full md:w-[500px] mt-[24px] flex items-center translate-y-[60px]">
-            <button 
+            <button
               onClick={() => (window as any).handleExploreClick?.()}
               className="w-[42px] h-[42px] border-none rounded-full bg-emerald-500 text-white grid place-items-center cursor-pointer hover:scale-105 transition-transform shadow-lg shadow-emerald-500/30"
             >
@@ -489,7 +489,7 @@ export function HeroSlider() {
                 <path d="M6.32 2.577a49.255 49.255 0 0111.36 0c1.497.174 2.57 1.46 2.57 2.93V21a.75.75 0 01-1.085.67L12 18.089l-7.165 3.583A.75.75 0 013.75 21V5.507c0-1.47 1.073-2.756 2.57-2.93z" />
               </svg>
             </button>
-            <button 
+            <button
               onClick={() => (window as any).handleExploreClick?.()}
               className="border-2 border-white bg-white/10 backdrop-blur-md h-[42px] rounded-full text-white px-[24px] py-[4px] text-[13px] font-bold ml-[16px] uppercase cursor-pointer hover:bg-white hover:text-black transition-colors"
             >

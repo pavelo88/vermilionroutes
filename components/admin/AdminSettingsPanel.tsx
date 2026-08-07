@@ -218,7 +218,7 @@ export function AdminSettingsPanel() {
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="text-lg font-bold font-oswald text-zinc-900 dark:text-white">Hero Section</h4>
-                  <p className="text-xs text-zinc-500">Manage the slides that appear in the immersive fullscreen hero. Ensure you upload high-quality vertical or square images.</p>
+                  <p className="text-xs text-zinc-500">Manage the slides that appear in the immersive fullscreen hero. Ensure you upload high-quality landscape images (16:9 aspect ratio).</p>
                 </div>
                 <Button
                   type="button"

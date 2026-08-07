@@ -49,7 +49,7 @@ export const defaultSettings = {
       },
       {
         place: 'Manabí - Pacific Coast',
-        title: 'LOS FRAILES',
+        title: 'FRAILES',
         title2: 'BEACH',
         description: 'A hidden jewel of crystal-clear waters and white sands within the Machalilla National Park. Surrounded by rugged cliffs and dry forests, it remains one of South America\'s most pristine coastal retreats.',
         image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=2752&q=80'
@@ -59,7 +59,7 @@ export const defaultSettings = {
         title: 'HISTORIC',
         title2: 'CENTER',
         description: 'The first World Cultural Heritage site. Cobblestone streets, colonial monasteries, and baroque cathedrals perched at 2,800 meters under the monumental shadow of the high Andes.',
-        image: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=2752&q=80'
+        image: 'https://images.unsplash.com/photo-1616089308119-971c2ba244d2?auto=format&fit=crop&w=2752&q=80'
       },
       {
         place: 'Cusco - Peru',
@@ -67,6 +67,20 @@ export const defaultSettings = {
         title2: 'VALLEY',
         description: 'Journey into the heart of the Inca Empire. Traverse terraced hillsides, discover ancient citadels hidden in the mist, and connect with the timeless heritage of the Andean people.',
         image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2752&q=80'
+      },
+      {
+        place: 'Patagonia - Argentina',
+        title: 'PERITO',
+        title2: 'MORENO',
+        description: 'A colossal river of blue ice advancing into Lake Argentino. Listen to the thunderous roar of calving ice blocks in one of the most breathtaking natural spectacles on the planet.',
+        image: 'https://images.unsplash.com/photo-1549449179-8cb1f414e8c1?auto=format&fit=crop&w=2752&q=80'
+      },
+      {
+        place: 'Potosí - Bolivia',
+        title: 'UYUNI',
+        title2: 'SALT FLATS',
+        description: 'The world\'s largest salt flat, where the earth meets the sky in a mirror-like illusion. A surreal landscape of blinding white expanses, colorful lagoons, and dormant volcanoes.',
+        image: 'https://images.unsplash.com/photo-1533083161350-9c2f6d0fba75?auto=format&fit=crop&w=2752&q=80'
       }
     ]
   },
