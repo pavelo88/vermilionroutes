@@ -53,7 +53,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
     const interval = setInterval(() => {
       if (document.body.style.overflow === 'hidden') return;
       handleNext();
-    }, 4500); 
+    }, 2700); 
     
     return () => clearInterval(interval);
   }, [total, isHovered]);

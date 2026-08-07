@@ -32,7 +32,7 @@ export function CombinedExperienceSection() {
     const interval = setInterval(() => {
       if (document.body.style.overflow === 'hidden') return;
       handleNext();
-    }, 3500); 
+    }, 3300); 
     
     return () => clearInterval(interval);
   }, [total, isHovered, currentIndex]);

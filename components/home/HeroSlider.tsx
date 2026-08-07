@@ -364,6 +364,201 @@ export function HeroSlider() {
       if (loopTimeline) loopTimeline.kill();
       if ((window as any).gsap) {
         (window as any).gsap.killTweensOf(".card");
+        const startDelay = 0.6;
+        rest.forEach((i, index) => {
+          gsap.to(container.querySelectorAll(getCard(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
+          gsap.to(container.querySelectorAll(getCardContent(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
+        });
+        
+        gsap.to(container.querySelectorAll("#pagination"), { y: 0, opacity: 1, ease, delay: startDelay, duration: 0.8 });
+        gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, x: 0, ease, delay: startDelay, duration: 0.8 });
+
+        window.addEventListener("resize", onResize);
+      }
+
+      function animate(target: string, duration: number, properties: any) {
+        return new Promise((resolve) => gsap.to(container.querySelectorAll(target), { ...properties, duration, onComplete: resolve }));
+      }
+
+      function startLoop() {
+        if (isCancelled) return;
+        if (loopTimeline) loopTimeline.kill();
+        set(".indicator", { x: -window.innerWidth });
+        
+        loopTimeline = gsap.timeline({
+          onComplete: () => {
+            if (isCancelled) return;
+            step().then(() => {
+              if (!isCancelled) startLoop();
+            });
+          }
+        });
+        
+        loopTimeline.to(container.querySelectorAll(".indicator"), { x: 0, duration: 2.7, ease: "none" })
+                    .to(container.querySelectorAll(".indicator"), { x: window.innerWidth, duration: 3.3, ease: "none" });
+      }
+
+      // Setup manual navigation hook
+      (window as any).triggerNextSlide = () => {
+        if (!transitioning) {
+          if (loopTimeline) loopTimeline.kill();
+          clicks = 1;
+          step().then(() => {
+            if (!isCancelled) startLoop();
+          });
+        }
+      };
+
+      (window as any).jumpToSlide = (targetIdx: number) => {
+        if (transitioning) return;
+        if (order[0] === targetIdx) return;
+        
+        // Find how many steps away it is
+        const currentPos = order.indexOf(targetIdx);
+        if (currentPos > 0) {
+          if (loopTimeline) loopTimeline.kill();
+          clicks = currentPos;
+          step().then(() => {
+            if (!isCancelled) startLoop();
+          });
+        }
+      };
+
+      function step() {
+        return new Promise<void>((resolve) => {
+          if (isCancelled) { resolve(); return; }
+          transitioning = true;
+          order.push(order.shift() as number);
+          detailsEven = !detailsEven;
+
+          const detailsActive = detailsEven ? "#details-even" : "#details-odd";
+          const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
+
+          // Use spans to prevent Google Translate hydration clashes
+          const currentData = slidesData[order[0]];
+          const detailsActiveEl = container.querySelector(detailsActive);
+          if (detailsActiveEl) {
+            const textEl = detailsActiveEl.querySelector('.text span');
+            const title1El = detailsActiveEl.querySelector('.title-1 span');
+            const title2El = detailsActiveEl.querySelector('.title-2 span');
+            const descEl = detailsActiveEl.querySelector('.desc span');
+            if (textEl) textEl.textContent = currentData.place;
+            if (title1El) title1El.textContent = currentData.title;
+            if (title2El) title2El.textContent = currentData.title2;
+            if (descEl) descEl.textContent = currentData.description;
+          }
+
+          // Fade out the old text immediately to prevent simultaneous overlapping text
+          gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });
+
+          const [active, ...rest] = order;
+          const prv = rest[rest.length - 1]; 
+
+          set(getCard(prv), { zIndex: 10 });
+          set(getCard(active), { zIndex: 20 });
+          
+          const activeCardEl = container.querySelector(getCard(prv));
+          if (activeCardEl) gsap.to(activeCardEl, { scale: 1.5, ease, duration: 1.2 }); 
+
+          const activeContentEl = container.querySelector(getCardContent(active));
+          if (activeContentEl) gsap.to(activeContentEl, { opacity: 0, duration: 0.3, ease });
+
+          const cActive = container.querySelector(getCard(active));
+          if (cActive) {
+            gsap.to(cActive, {
+              x: 0,
+              y: 0,
+              width: "100vw",
+              height: "100%",
+              borderRadius: 0,
+              ease,
+              duration: 1.2,
+              onComplete: () => {
+                const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
+                set(getCard(prv), { x: xNew, y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, scale: 1 });
+                set(getCardContent(prv), { x: xNew, y: offsetTop, opacity: 1, zIndex: 40 });
+                set(`.slide-item-${prv}`, { x: rest.length * numberSize });
+
+                set(detailsInactive, { opacity: 0, zIndex: 12 });
+                set(`${detailsInactive} .text`, { y: 100 });
+                set(`${detailsInactive} .title-1`, { y: 100 });
+                set(`${detailsInactive} .title-2`, { y: 100 });
+                set(`${detailsInactive} .desc`, { y: 50 });
+
+                transitioning = false;
+                if (pendingRelayout) {
+                  pendingRelayout = false;
+                  relayout();
+                }
+                
+                if (clicks > 1) {
+                  clicks -= 1;
+                  step();
+                } else {
+                  clicks = 0;
+                }
+              }
+            });
+            // Background slow zoom (Ken Burns) that runs alongside and past the expansion
+            gsap.to(cActive, { scale: 1.05, duration: 5.7, ease: "none" });
+          }
+
+          set(detailsActive, { zIndex: 22 });
+          gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, delay: 0.4, ease, duration: 0.4 });
+          animate(`${detailsActive} .text`, 0.7, { y: 0, delay: 0.1, ease });
+          animate(`${detailsActive} .title-1`, 0.7, { y: 0, delay: 0.15, ease });
+          animate(`${detailsActive} .title-2`, 0.7, { y: 0, delay: 0.15, ease });
+          animate(`${detailsActive} .desc`, 0.4, { y: 0, delay: 0.3, ease, onComplete: resolve });
+
+          order.forEach((itemIdx, idx) => {
+            gsap.to(container.querySelectorAll(`.slide-item-${itemIdx}`), { x: idx * numberSize, ease, duration: 0.8 });
+          });
+
+          gsap.to(container.querySelectorAll(".progress-sub-foreground"), { width: 500 * (1 / order.length) * (active + 1), ease, duration: 0.8 });
+
+          rest.forEach((i, index) => {
+            if (i === prv) return;
+            set(getCard(i), { zIndex: 30 });
+            gsap.to(container.querySelectorAll(getCard(i)), {
+              x: offsetLeft + index * (cardWidth + gap),
+              y: offsetTop,
+              width: cardWidth,
+              height: cardHeight,
+              ease,
+              duration: 0.8,
+              delay: 0.1 * (index + 1)
+            });
+            gsap.to(container.querySelectorAll(getCardContent(i)), {
+              x: offsetLeft + index * (cardWidth + gap),
+              y: offsetTop,
+              opacity: 1,
+              zIndex: 40,
+              ease,
+              duration: 0.8,
+              delay: 0.1 * (index + 1)
+            });
+          });
+        });
+      }
+
+      init();
+      gsap.to(container.querySelectorAll(".cover"), { x: window.innerWidth + 400, delay: 0.5, ease, duration: 1, onComplete: () => {
+        setTimeout(() => {
+          if (!isCancelled) startLoop();
+        }, 500);
+      }});
+
+      return () => {
+        window.removeEventListener("resize", onResize);
+      };
+    });
+
+    return () => {
+      isCancelled = true;
+      clearTimeout(resizeTimer);
+      if (loopTimeline) loopTimeline.kill();
+      if ((window as any).gsap) {
+        (window as any).gsap.killTweensOf(".card");
         (window as any).gsap.killTweensOf(".card-content");
       }
     };
@@ -371,7 +566,7 @@ export function HeroSlider() {
 
   if (!isReady) {
     return (
-      <div className="w-full h-[75svh] min-h-[550px] bg-zinc-950 flex items-center justify-center">
+      <div className="w-full h-[130svh] md:h-[100svh] min-h-[900px] md:min-h-[550px] bg-zinc-950 flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
       </div>
     );
@@ -381,7 +576,7 @@ export function HeroSlider() {
   const initialData = slidesData[0];
 
   return (
-    <div ref={containerRef} className="relative w-full h-[75svh] min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
+    <div ref={containerRef} className="relative w-full h-[130svh] md:h-[100svh] min-h-[900px] md:min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
       
       {/* Indicator */}
       <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
@@ -489,7 +684,7 @@ export function HeroSlider() {
       </div>
 
       {/* Cover Intro */}
-      <div className="cover absolute top-0 left-0 w-[100vw] h-[75vh] bg-zinc-950 z-[100]" />
+      <div className="cover absolute top-0 left-0 w-[100vw] h-[130svh] md:h-[100svh] bg-zinc-950 z-[100]" />
     </div>
   );
 }
