@@ -395,7 +395,7 @@ export function HeroSlider() {
         (window as any).gsap.killTweensOf(".card");
       }
     };
-  }, []);
+  }, [isReady]);
 
   if (!isReady) {
     return <div className="w-full h-[100svh] bg-zinc-950 flex items-center justify-center">
