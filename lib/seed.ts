@@ -38,14 +38,14 @@ export const defaultSettings = {
         title: 'HISTORIC',
         title2: 'CENTER',
         description: 'The first World Cultural Heritage site. Cobblestone streets, colonial monasteries, and baroque cathedrals perched at 2,800 meters under the monumental shadow of the high Andes.',
-        image: 'https://images.unsplash.com/photo-1616089308119-971c2ba244d2?auto=format&fit=crop&w=2752&q=80'
+        image: 'https://media.istockphoto.com/id/692499466/photo/plaza-de-san-francisco-and-st-francis-church-quito-ecuador.jpg?s=1024x1024&w=is&k=20&c=IqO_UCVWPbOwteF3cY7fggiUZD2z391V3kufWNgEhkg='
       },
       {
         place: 'Azuay - Cuenca',
         title: 'COLONIAL',
         title2: 'CHARM',
         description: 'A deeply enchanting Andean city known for its stunning architecture, artisan traditions, and the picturesque Tomebamba river. Experience the soul of Ecuador in every cobblestone street.',
-        image: 'https://images.unsplash.com/photo-1616110978712-dfdfcce6b412?auto=format&fit=crop&w=2752&q=80'
+        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Catedral_Nueva_de_Cuenca_01.jpg/1280px-Catedral_Nueva_de_Cuenca_01.jpg'
       },
       {
         place: 'Cotopaxi - Andes',

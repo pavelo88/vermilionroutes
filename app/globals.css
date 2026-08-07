@@ -25,7 +25,33 @@
   }
 }
 
+/* Paper Background */
+.paper-bg {
+  position: relative;
+  overflow-x: clip;
+  background-color: var(--background);
+}
 
+.paper-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url('https://images.unsplash.com/photo-1603513492128-ba7bc9b3e143?q=80&w=2744&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.2; /* Subtle paper texture in light mode */
+  mix-blend-mode: multiply;
+}
+
+.dark .paper-bg::before {
+  opacity: 0.15;
+  mix-blend-mode: overlay;
+}
 
 /* Glassmorphism Panel / Bento Box utilities */
 .glass-panel {

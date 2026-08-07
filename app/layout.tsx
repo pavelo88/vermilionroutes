@@ -7,7 +7,6 @@ import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { ConditionalFooter } from '@/components/layout/ConditionalFooter';
 import { ConciergeWidget } from '@/components/ui/ConciergeWidget';
-import { InteractiveBackground } from '@/components/ui/InteractiveBackground';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -139,9 +138,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
         />
       </head>
-      <body className="text-zinc-900 dark:text-zinc-50 font-sans antialiased selection:bg-emerald-600 selection:text-white flex flex-col min-h-screen" suppressHydrationWarning>
+      <body className="paper-bg text-zinc-900 dark:text-zinc-50 font-sans antialiased selection:bg-emerald-600 selection:text-white flex flex-col min-h-screen" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <InteractiveBackground />
           <GTranslateWrapper />
           <Navbar />
           <main className="flex-1 w-full relative">{children}</main>

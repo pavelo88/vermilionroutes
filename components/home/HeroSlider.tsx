@@ -17,14 +17,14 @@ const DEFAULT_DATA = [
     title: 'HISTORIC',
     title2: 'CENTER',
     description: 'The first World Cultural Heritage site. Cobblestone streets, colonial monasteries, and baroque cathedrals perched at 2,800 meters under the monumental shadow of the high Andes.',
-    image: 'https://images.unsplash.com/photo-1616089308119-971c2ba244d2?auto=format&fit=crop&w=2752&q=80'
+    image: 'https://media.istockphoto.com/id/692499466/photo/plaza-de-san-francisco-and-st-francis-church-quito-ecuador.jpg?s=1024x1024&w=is&k=20&c=IqO_UCVWPbOwteF3cY7fggiUZD2z391V3kufWNgEhkg='
   },
   {
     place: 'Azuay - Cuenca',
     title: 'COLONIAL',
     title2: 'CHARM',
     description: 'A deeply enchanting Andean city known for its stunning architecture, artisan traditions, and the picturesque Tomebamba river. Experience the soul of Ecuador in every cobblestone street.',
-    image: 'https://images.unsplash.com/photo-1616110978712-dfdfcce6b412?auto=format&fit=crop&w=2752&q=80'
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Catedral_Nueva_de_Cuenca_01.jpg/1280px-Catedral_Nueva_de_Cuenca_01.jpg'
   },
   {
     place: 'Cotopaxi - Andes',
@@ -185,11 +185,20 @@ export function HeroSlider() {
       // Setup manual navigation hook
       (window as any).triggerNextSlide = () => {
         if (!transitioning) {
-          gsap.killTweensOf(".indicator");
-          set(".indicator", { x: -window.innerWidth });
-          step().then(() => {
-            if (!isCancelled) loop();
-          });
+          clicks = 1;
+          step();
+        }
+      };
+
+      (window as any).jumpToSlide = (targetIdx: number) => {
+        if (transitioning) return;
+        if (order[0] === targetIdx) return;
+        
+        // Find how many steps away it is
+        const currentPos = order.indexOf(targetIdx);
+        if (currentPos > 0) {
+          clicks = currentPos;
+          step();
         }
       };
 
@@ -271,8 +280,13 @@ export function HeroSlider() {
                   pendingRelayout = false;
                   relayout();
                 }
-                clicks -= 1;
-                if (clicks > 0) step();
+                
+                if (clicks > 1) {
+                  clicks -= 1;
+                  step();
+                } else {
+                  clicks = 0;
+                }
               }
             });
             // Background slow zoom (Ken Burns) that runs alongside and past the expansion
@@ -395,6 +409,13 @@ export function HeroSlider() {
           >
             <div className="absolute inset-0 bg-black/30" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            
+            {/* Clickable Overlay for Thumbnail */}
+            <div 
+              className="absolute inset-0 cursor-pointer z-10 hover:bg-white/10 transition-colors"
+              onClick={() => (window as any).jumpToSlide?.(idx)}
+              title="View destination"
+            />
           </div>
           
           <div className={`card-content card-content-${idx} absolute left-0 top-0 text-white w-[180px] h-[260px] pointer-events-none`}>

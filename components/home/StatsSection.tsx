@@ -3,9 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { Award, Shield, Globe, Users, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { useSettings } from '@/hooks/useSettings';
 
 export function StatsSection() {
   const [mounted, setMounted] = useState(false);
+  const { settings } = useSettings();
 
   useEffect(() => {
     setMounted(true);
@@ -35,8 +37,8 @@ export function StatsSection() {
             <Globe className="w-5 h-5 text-emerald-400" />
           </div>
           <div>
-            <div className="text-white font-oswald font-bold text-lg leading-none mb-1">+500</div>
-            <p className="text-[10px] text-zinc-400 uppercase tracking-wider leading-none">Curated Expeditions</p>
+            <div className="text-white font-oswald font-bold text-lg leading-none mb-1">{settings?.about?.metric1Val || '+500'}</div>
+            <p className="text-[10px] text-zinc-400 uppercase tracking-wider leading-none">{settings?.about?.metric1Lbl || 'Curated Expeditions'}</p>
           </div>
         </div>
 
@@ -49,8 +51,8 @@ export function StatsSection() {
             <Award className="w-5 h-5 text-emerald-400" />
           </div>
           <div>
-            <div className="text-white font-oswald font-bold text-lg leading-none mb-1">+10</div>
-            <p className="text-[10px] text-zinc-400 uppercase tracking-wider leading-none">Years of Expertise</p>
+            <div className="text-white font-oswald font-bold text-lg leading-none mb-1">{settings?.about?.metric2Val || '+10'}</div>
+            <p className="text-[10px] text-zinc-400 uppercase tracking-wider leading-none">{settings?.about?.metric2Lbl || 'Years of Expertise'}</p>
           </div>
         </div>
 
@@ -68,8 +70,8 @@ export function StatsSection() {
             <Users className="w-5 h-5 text-emerald-400" />
           </div>
           <div>
-            <div className="text-emerald-400 font-oswald font-bold text-lg leading-none mb-1">99%</div>
-            <p className="text-[10px] text-emerald-100/70 uppercase tracking-wider leading-none">5-Star Satisfaction</p>
+            <div className="text-emerald-400 font-oswald font-bold text-lg leading-none mb-1">{settings?.about?.metric3Val || '99%'}</div>
+            <p className="text-[10px] text-emerald-100/70 uppercase tracking-wider leading-none">{settings?.about?.metric3Lbl || '5-Star Satisfaction'}</p>
           </div>
         </div>
 
@@ -82,8 +84,8 @@ export function StatsSection() {
             <Shield className="w-5 h-5 text-emerald-400" />
           </div>
           <div>
-            <div className="text-white font-oswald font-bold text-lg leading-none mb-1">100%</div>
-            <p className="text-[10px] text-zinc-400 uppercase tracking-wider leading-none">Secure Payments</p>
+            <div className="text-white font-oswald font-bold text-lg leading-none mb-1">{settings?.about?.metric4Val || '100%'}</div>
+            <p className="text-[10px] text-zinc-400 uppercase tracking-wider leading-none">{settings?.about?.metric4Lbl || 'Secure Payments'}</p>
           </div>
         </div>
 

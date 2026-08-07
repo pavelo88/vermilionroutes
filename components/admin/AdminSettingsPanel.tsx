@@ -246,7 +246,7 @@ export function AdminSettingsPanel() {
                         updatedSlides.splice(sIdx, 1);
                         handleTextChange('hero', 'slides', updatedSlides as any);
                       }}
-                      className="absolute -top-2 -right-2 p-1.5 bg-rose-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md z-10"
+                      className="absolute -top-2 -right-2 p-1.5 bg-rose-500 text-white rounded-full shadow-md z-10 hover:bg-rose-600 transition-colors"
                       title="Remove slide"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
