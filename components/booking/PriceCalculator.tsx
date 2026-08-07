@@ -100,7 +100,7 @@ export function PriceCalculator({ tour, pricing, date, onContinue, canContinue, 
         disabled={!canContinue}
         className="w-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 dark:text-zinc-900 text-white font-bold py-4 px-6 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
       >
-        {step === 3 ? 'Finalizar Reserva' : 'Continuar'}
+        Proceder al Pago Seguro
         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
       </button>
 

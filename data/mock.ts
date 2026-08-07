@@ -152,6 +152,57 @@ export const mockTours: Tour[] = [
         "description": "VIP Transfer to Belmond Miraflores."
       }
     ]
+  },
+  {
+    "id": "fantastic-ecuador-2",
+    "title": "FANTASTIC ECUADOR (Extended)",
+    "titleEs": "ECUADOR FANTÁSTICO (Extendido)",
+    "destination": "Ecuador",
+    "duration": "10 DAYS / 9 NIGHTS",
+    "durationEs": "10 DÍAS / 9 NOCHES",
+    "price": 3100,
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fandes-jungle-galapagos-hero.jpg?alt=media",
+    "rating": 4.9,
+    "reviewsCount": 15,
+    "category": "Private Expedition",
+    "categoryEs": "Expedición Privada",
+    "description": "An extended version of the fantastic Ecuador tour.",
+    "descriptionEs": "Una versión extendida del tour fantástico.",
+    "itinerary": []
+  },
+  {
+    "id": "andes-amazon-jungle-galapagos-2",
+    "title": "GALAPAGOS ISLAND HOPPING",
+    "titleEs": "ISLA A ISLA EN GALÁPAGOS",
+    "destination": "Galapagos",
+    "duration": "5 DAYS / 4 NIGHTS",
+    "durationEs": "5 DÍAS / 4 NOCHES",
+    "price": 1950,
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fandes-jungle-galapagos-hero.jpg?alt=media",
+    "rating": 5,
+    "reviewsCount": 42,
+    "category": "Nature Safari",
+    "categoryEs": "Safari de Naturaleza",
+    "description": "Quick escape to the enchanted islands.",
+    "descriptionEs": "Escapada rápida a las islas encantadas.",
+    "itinerary": []
+  },
+  {
+    "id": "cusco-inca-trail-machu-picchu-2",
+    "title": "SACRED VALLEY RETREAT",
+    "titleEs": "RETIRO EN EL VALLE SAGRADO",
+    "destination": "Peru",
+    "duration": "6 DAYS/ 5 NIGHTS",
+    "durationEs": "6 DÍAS/ 5 NOCHES",
+    "price": 2200,
+    "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fcusco-inca-trail-hero.jpg?alt=media",
+    "rating": 4.8,
+    "reviewsCount": 11,
+    "category": "Private Expedition",
+    "categoryEs": "Expedición Privada",
+    "description": "Relax and connect with nature in the Sacred Valley.",
+    "descriptionEs": "Relájese y conecte con la naturaleza en el Valle Sagrado.",
+    "itinerary": []
   }
 ];
 

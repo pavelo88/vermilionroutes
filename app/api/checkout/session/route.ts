@@ -7,10 +7,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_fake', {
 
 export async function POST(request: Request) {
   try {
-    const { tourId, clientEmail, customLinkId } = await request.json();
+    const { tourId, tourTitle, clientEmail, customLinkId, amount } = await request.json();
     
     // In production NEXT_PUBLIC_BASE_URL should be set, fallback to localhost for dev
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    
+    // If amount is provided, charge that, otherwise fallback to 500
+    const finalAmount = amount ? Math.round(amount * 100) : 50000;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -19,10 +22,10 @@ export async function POST(request: Request) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'Vermilion Routes - Itinerary Reservation Deposit',
-              description: `Guaranteed reservation deposit for tour ID: ${tourId || 'Custom Trip'}`,
+              name: tourTitle || 'Vermilion Routes - Itinerary Reservation',
+              description: `Reservation for tour ID: ${tourId || 'Custom Trip'}`,
             },
-            unit_amount: 50000, // $500.00 USD in cents
+            unit_amount: finalAmount, // Amount in cents
           },
           quantity: 1,
         },
@@ -33,7 +36,6 @@ export async function POST(request: Request) {
       cancel_url: `${baseUrl}/tours/${tourId}`,
       metadata: {
         tourId: tourId || 'custom-itinerary',
-        depositAmount: '500',
         customLinkId: customLinkId || 'direct-web',
       },
     });

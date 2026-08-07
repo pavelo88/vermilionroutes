@@ -3,7 +3,7 @@ import { HeroSection } from '@/components/home/HeroSection';
 import { DestinationsGrid } from '@/components/home/DestinationsGrid';
 import { FeaturedTours } from '@/components/home/FeaturedTours';
 import { CombinedExperienceSection } from '@/components/home/CombinedExperienceSection';
-import { TikTokFeed } from '@/components/home/TikTokFeed';
+// import { TikTokFeed } from '@/components/home/TikTokFeed';
 import { AlsoAskedFaq } from '@/components/home/AlsoAskedFaq';
 import { ContactSection } from '@/components/home/ContactSection';
 
@@ -23,7 +23,7 @@ export default function Home() {
       <FeaturedTours />
 
       {/* 5. TikTok Social Showcase */}
-      <TikTokFeed />
+      {/* <TikTokFeed /> */}
 
       {/* 6. Frequently Asked Questions (Also Asked) */}
       <AlsoAskedFaq />

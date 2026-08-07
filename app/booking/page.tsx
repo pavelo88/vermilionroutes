@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { BookingWizard } from '@/components/booking/BookingWizard';
 
 export const metadata: Metadata = {
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
 export default function BookingPage() {
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 pt-24">
-      <BookingWizard />
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Cargando reservas...</div>}>
+        <BookingWizard />
+      </Suspense>
     </main>
   );
 }
