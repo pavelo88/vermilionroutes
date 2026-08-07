@@ -124,7 +124,7 @@ export function HeroSection() {
               </h3>
             </div>
             
-            <h1 className="text-6xl md:text-8xl lg:text-[100px] font-oswald font-bold leading-[0.9] mb-6 uppercase tracking-tight text-white drop-shadow-2xl">
+            <h1 className="text-5xl md:text-7xl lg:text-[80px] font-oswald font-bold leading-[0.9] mb-6 uppercase tracking-tight text-white drop-shadow-2xl">
               <span>{currentSlide.title}</span> <br/> 
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400">{currentSlide.title2}</span>
             </h1>
@@ -147,17 +147,20 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right side Thumbnail Cards */}
-          <div className="hidden lg:flex gap-4 items-end pb-8">
-            {slidesData.map((slide: any, idx: number) => {
-              // Only show 3 thumbnails max (exclude current or just show next 3)
-              if (idx === currentIndex) return null;
+          {/* Right side Thumbnail Cards (Always showing next 3.5 cards) */}
+          <div 
+            className="hidden lg:flex gap-4 items-end pb-8 relative overflow-hidden" 
+            style={{ width: '650px', maskImage: 'linear-gradient(to left, transparent 0%, black 15%)', WebkitMaskImage: 'linear-gradient(to left, transparent 0%, black 15%)' }}
+          >
+            {[1, 2, 3, 4].map((offset) => {
+              const idx = (currentIndex + offset) % slidesData.length;
+              const slide = slidesData[idx];
               
               return (
                 <div 
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
-                  className="w-[180px] h-[260px] rounded-2xl overflow-hidden relative group cursor-pointer border-2 border-white/10 hover:border-emerald-500/50 transition-all shadow-xl"
+                  className="min-w-[180px] h-[260px] rounded-2xl overflow-hidden relative group cursor-pointer border-2 border-white/10 hover:border-emerald-500/50 transition-all shadow-xl flex-shrink-0"
                 >
                   <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url(${slide.image})` }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
@@ -168,7 +171,7 @@ export function HeroSection() {
                   </div>
                 </div>
               );
-            }).slice(0, 3)}
+            })}
           </div>
 
         </div>
