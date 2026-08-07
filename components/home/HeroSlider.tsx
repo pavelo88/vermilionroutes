@@ -366,9 +366,10 @@ export function HeroSlider() {
       async function start() {
         try {
           await loadImages();
-          if (!isCancelled) init();
         } catch (err) {
           console.error("One or more images failed to load", err);
+        } finally {
+          if (!isCancelled) init();
         }
       }
 
