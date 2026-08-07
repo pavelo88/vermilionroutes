@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeroSection } from '@/components/home/HeroSection';
+import { HeroSlider } from '@/components/home/HeroSlider';
 import { StatsSection } from '@/components/home/StatsSection';
 import { DestinationsGrid } from '@/components/home/DestinationsGrid';
 import { FeaturedTours } from '@/components/home/FeaturedTours';
@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div className="space-y-8 pb-12">
       <div>
-        <HeroSection />
+        <HeroSlider />
         {/* 1.5. Trust & Stats Section */}
         <StatsSection />
       </div>
