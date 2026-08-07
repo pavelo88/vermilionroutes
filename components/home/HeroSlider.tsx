@@ -144,7 +144,7 @@ export function HeroSlider() {
         const detailsActive = detailsEven ? "#details-even" : "#details-odd";
         const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
 
-        set("#pagination", { top: offsetTop + cardHeight + 20, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
+        set("#pagination", { top: offsetTop + cardHeight + 5, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
         set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", zIndex: 20 });
         gsap.to(container.querySelectorAll(getCard(active)), { scale: 1.05, duration: 5.7, ease: "none" }); // Initial slow zoom
         set(getCardContent(active), { opacity: 0 });
@@ -411,11 +411,11 @@ export function HeroSlider() {
       <div id="pagination" className="absolute left-0 top-0 flex items-center">
         {/* Navigation Arrows */}
         <div className="hidden md:flex gap-4 mr-6">
-          <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[42px] h-[42px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">
-            <ChevronLeft className="w-5 h-5 text-white/60 group-hover:text-black" />
+          <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">
+            <ChevronLeft className="w-4 h-4 text-white/60 group-hover:text-black" />
           </div>
-          <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[42px] h-[42px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">
-            <ChevronRight className="w-5 h-5 text-white/60 group-hover:text-black" />
+          <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">
+            <ChevronRight className="w-4 h-4 text-white/60 group-hover:text-black" />
           </div>
         </div>
         
