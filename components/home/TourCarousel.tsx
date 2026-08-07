@@ -97,6 +97,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.targetTouches[0].clientX;
+    setIsHovered(true);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -117,6 +118,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
     touchStartX.current = null;
     touchEndX.current = null;
+    setIsHovered(false);
   };
 
   if (total === 0) {

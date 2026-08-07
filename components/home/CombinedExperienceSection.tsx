@@ -22,6 +22,41 @@ export function CombinedExperienceSection() {
     setCurrentIndex((prev) => (prev + 1 < total ? prev + 1 : 0));
   };
 
+  const [isHovered, setIsHovered] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (isHovered || total <= 1) return;
+    
+    const interval = setInterval(() => {
+      if (document.body.style.overflow === 'hidden') return;
+      handleNext();
+    }, 4500); 
+    
+    return () => clearInterval(interval);
+  }, [total, isHovered, currentIndex]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+    setIsHovered(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current && touchEndX.current) {
+      const distance = touchStartX.current - touchEndX.current;
+      if (distance > 50) handleNext();
+      else if (distance < -50) handlePrev();
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+    setIsHovered(false);
+  };
+
   useEffect(() => {
     if (!scrollContainerRef.current) return;
     const container = scrollContainerRef.current;
@@ -70,7 +105,7 @@ export function CombinedExperienceSection() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2">
             <button
               onClick={handlePrev}
               aria-label="Previous review"
@@ -131,6 +166,11 @@ export function CombinedExperienceSection() {
               ref={scrollContainerRef}
               className="flex gap-6 overflow-x-hidden scroll-smooth pb-8 pt-2 px-2 h-full items-stretch"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
               {duplicatedReviews.map((rev, idx) => (
                 <div

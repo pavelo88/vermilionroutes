@@ -14,7 +14,9 @@ export default function Home() {
       <div>
         <HeroSlider />
         {/* 1.5. Trust & Stats Section */}
-        <StatsSection />
+        <div className="hidden md:block">
+          <StatsSection />
+        </div>
       </div>
 
       {/* 2. Top Destinations Grid */}

@@ -1,8 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
 import { useSettings } from '@/hooks/useSettings';
-import { Bookmark, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Play, Compass, ArrowRight, Bookmark } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { StatsSection } from '@/components/home/StatsSection';
 
 const DEFAULT_DATA = [
   {
@@ -85,283 +88,257 @@ export function HeroSlider() {
     let pendingRelayout = false;
     let resizeTimer: any = null;
     let isCancelled = false;
+    let timerId: NodeJS.Timeout | null = null;
 
-    const loadGSAP = () => {
-      return new Promise<any>((resolve) => {
-        if ((window as any).gsap) return resolve((window as any).gsap);
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
-        script.onload = () => resolve((window as any).gsap);
-        document.body.appendChild(script);
+    const container = containerRef.current;
+    if (!container) return;
+
+    const set = (target: string, props: any) => gsap.set(container.querySelectorAll(target), props);
+    const getCard = (index: number) => `.card-${index}`;
+    const getCardContent = (index: number) => `.card-content-${index}`;
+
+    function relayout() {
+      if (transitioning) {
+        pendingRelayout = true;
+        return;
+      }
+      const height = container.clientHeight || window.innerHeight;
+      const width = container.clientWidth || window.innerWidth;
+      
+      offsetTop = height - cardHeight - 60; 
+      offsetLeft = Math.max(width - 830, 650); 
+      
+      const [active, ...rest] = order;
+      set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", borderRadius: 0, scale: 1.05 });
+      set(getCardContent(active), { opacity: 0 }); 
+
+      rest.forEach((i, index) => {
+        const x = offsetLeft + index * (cardWidth + gap);
+        set(getCard(i), { x, y: offsetTop, width: cardWidth, height: cardHeight, borderRadius: 12 });
+        set(getCardContent(i), { x, y: offsetTop, opacity: 1 });
       });
+
+      set("#pagination", { top: offsetTop + cardHeight + 20, left: offsetLeft });
+      set(".cover", { x: width + 400 });
+    }
+
+    function onResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(relayout, 150);
+    }
+
+    function init() {
+      const height = container.clientHeight || window.innerHeight;
+      const width = container.clientWidth || window.innerWidth;
+      offsetTop = height - cardHeight - 60;
+      offsetLeft = Math.max(width - 830, 650);
+      
+      const [active, ...rest] = order;
+      const detailsActive = detailsEven ? "#details-even" : "#details-odd";
+      const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
+
+      set("#pagination", { top: offsetTop + cardHeight + 5, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
+      set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", zIndex: 20 });
+      gsap.to(container.querySelectorAll(getCard(active)), { scale: 1.05, duration: 5.7, ease: "none" }); 
+      set(getCardContent(active), { opacity: 0 });
+
+      set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
+      set(detailsInactive, { opacity: 0, zIndex: 12 });
+      
+      set(".progress-sub-foreground", { width: 500 * (1 / order.length) * (active + 1) });
+      set(".indicator", { x: -width });
+
+      rest.forEach((i, index) => {
+        set(getCard(i), { x: offsetLeft + 400 + index * (cardWidth + gap), y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12 });
+        set(getCardContent(i), { x: offsetLeft + 400 + index * (cardWidth + gap), zIndex: 40, y: offsetTop });
+        set(`.slide-item-${i}`, { x: (index + 1) * numberSize });
+      });
+
+      const startDelay = 0.6;
+      rest.forEach((i, index) => {
+        gsap.to(container.querySelectorAll(getCard(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
+        gsap.to(container.querySelectorAll(getCardContent(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
+      });
+      
+      gsap.to(container.querySelectorAll("#pagination"), { y: 0, opacity: 1, ease, delay: startDelay, duration: 0.8 });
+      gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, x: 0, ease, delay: startDelay, duration: 0.8 });
+
+      window.addEventListener("resize", onResize);
+    }
+
+    function animate(target: string, duration: number, properties: any) {
+      return new Promise((resolve) => gsap.to(container.querySelectorAll(target), { ...properties, duration, onComplete: resolve }));
+    }
+
+    function startLoop() {
+      if (isCancelled) return;
+      if (timerId) clearTimeout(timerId);
+      
+      gsap.killTweensOf(container.querySelectorAll(".indicator"));
+      set(".indicator", { x: -window.innerWidth, opacity: 1 });
+      
+      gsap.to(container.querySelectorAll(".indicator"), {
+        x: 0,
+        duration: 4.5,
+        ease: "linear"
+      });
+
+      timerId = setTimeout(() => {
+        if (isCancelled) return;
+        clicks = 1;
+        step();
+      }, 4500);
+    }
+
+    function stopLoop() {
+      if (timerId) clearTimeout(timerId);
+      gsap.killTweensOf(container.querySelectorAll(".indicator"));
+    }
+
+    (window as any).triggerNextSlide = () => {
+      if (!transitioning) {
+        stopLoop();
+        clicks = 1;
+        step();
+      }
     };
-    
-    loadGSAP().then((gsap) => {
-      if (isCancelled || !containerRef.current) return;
-      const container = containerRef.current;
-      const set = (target: string, props: any) => gsap.set(container.querySelectorAll(target), props);
-      const getCard = (index: number) => `.card-${index}`;
-      const getCardContent = (index: number) => `.card-content-${index}`;
 
-      function relayout() {
-        if (transitioning) {
-          pendingRelayout = true;
-          return;
-        }
-        const height = container.clientHeight || window.innerHeight;
-        const width = container.clientWidth || window.innerWidth;
-        
-        // height is ALREADY the container's height (75vh). So we just subtract the card height + margin.
-        offsetTop = height - cardHeight - 60; 
-        offsetLeft = Math.max(width - 830, 650); 
-        
-        const [active, ...rest] = order;
-        set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", borderRadius: 0, scale: 1.05 });
-        set(getCardContent(active), { opacity: 0 }); 
-
-        rest.forEach((i, index) => {
-          const x = offsetLeft + index * (cardWidth + gap);
-          set(getCard(i), { x, y: offsetTop, width: cardWidth, height: cardHeight, borderRadius: 12 });
-          set(getCardContent(i), { x, y: offsetTop, opacity: 1 });
-        });
-
-        set("#pagination", { top: offsetTop + cardHeight + 20, left: offsetLeft });
-        set(".cover", { x: width + 400 });
+    (window as any).jumpToSlide = (targetIdx: number) => {
+      if (transitioning) return;
+      if (order[0] === targetIdx) return;
+      const currentPos = order.indexOf(targetIdx);
+      if (currentPos > 0) {
+        stopLoop();
+        clicks = currentPos;
+        step();
       }
+    };
 
-      function onResize() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(relayout, 150);
-      }
+    function step() {
+      return new Promise<void>((resolve) => {
+        if (isCancelled) { resolve(); return; }
+        transitioning = true;
+        order.push(order.shift() as number);
+        detailsEven = !detailsEven;
 
-      function init() {
-        const height = container.clientHeight || window.innerHeight;
-        const width = container.clientWidth || window.innerWidth;
-        offsetTop = height - cardHeight - 60;
-        offsetLeft = Math.max(width - 830, 650);
-        
-        const [active, ...rest] = order;
         const detailsActive = detailsEven ? "#details-even" : "#details-odd";
         const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
 
-        set("#pagination", { top: offsetTop + cardHeight + 5, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
-        set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", zIndex: 20 });
-        gsap.to(container.querySelectorAll(getCard(active)), { scale: 1.05, duration: 5.7, ease: "none" }); // Initial slow zoom
-        set(getCardContent(active), { opacity: 0 });
-
-        set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
-        set(detailsInactive, { opacity: 0, zIndex: 12 });
-        set(`${detailsInactive} .text`, { y: 100 });
-        set(`${detailsInactive} .title-1`, { y: 100 });
-        set(`${detailsInactive} .title-2`, { y: 100 });
-        set(`${detailsInactive} .desc`, { y: 50 });
-        set(`${detailsInactive} .cta`, { y: 60 });
-
-        set(".progress-sub-foreground", { width: 500 * (1 / order.length) * (active + 1) });
-        set(".indicator", { x: -width });
-
-        rest.forEach((i, index) => {
-          set(getCard(i), { x: offsetLeft + 400 + index * (cardWidth + gap), y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12 });
-          set(getCardContent(i), { x: offsetLeft + 400 + index * (cardWidth + gap), zIndex: 40, y: offsetTop });
-          set(`.slide-item-${i}`, { x: (index + 1) * numberSize });
-        });
-
-        const startDelay = 0.6;
-        rest.forEach((i, index) => {
-          gsap.to(container.querySelectorAll(getCard(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
-          gsap.to(container.querySelectorAll(getCardContent(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
-        });
-        
-        gsap.to(container.querySelectorAll("#pagination"), { y: 0, opacity: 1, ease, delay: startDelay, duration: 0.8 });
-        gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, x: 0, ease, delay: startDelay, duration: 0.8 });
-
-        window.addEventListener("resize", onResize);
-      }
-
-      function animate(target: string, duration: number, properties: any) {
-        return new Promise((resolve) => gsap.to(container.querySelectorAll(target), { ...properties, duration, onComplete: resolve }));
-      }
-
-      // Setup manual navigation hook
-      (window as any).triggerNextSlide = () => {
-        if (!transitioning) {
-          gsap.killTweensOf(container.querySelectorAll(".indicator"));
-          clicks = 1;
-          step();
+        const currentData = slidesData[order[0]];
+        const detailsActiveEl = container.querySelector(detailsActive);
+        if (detailsActiveEl) {
+          const textEl = detailsActiveEl.querySelector('.text span');
+          const title1El = detailsActiveEl.querySelector('.title-1 span');
+          const title2El = detailsActiveEl.querySelector('.title-2 span');
+          const descEl = detailsActiveEl.querySelector('.desc span');
+          if (textEl) textEl.textContent = currentData.place;
+          if (title1El) title1El.textContent = currentData.title;
+          if (title2El) title2El.textContent = currentData.title2;
+          if (descEl) descEl.textContent = currentData.description;
         }
-      };
 
-      (window as any).jumpToSlide = (targetIdx: number) => {
-        if (transitioning) return;
-        if (order[0] === targetIdx) return;
+        gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });
+
+        const [active, ...rest] = order;
+        const prv = rest[rest.length - 1]; 
+
+        set(getCard(prv), { zIndex: 10 });
+        set(getCard(active), { zIndex: 20 });
         
-        // Find how many steps away it is
-        const currentPos = order.indexOf(targetIdx);
-        if (currentPos > 0) {
-          gsap.killTweensOf(container.querySelectorAll(".indicator"));
-          clicks = currentPos;
-          step();
-        }
-      };
+        const activeCardEl = container.querySelector(getCard(prv));
+        if (activeCardEl) gsap.to(activeCardEl, { scale: 1.5, ease, duration: 1.2 }); 
 
-      function startLoop() {
-        if (isCancelled) return;
-        gsap.killTweensOf(container.querySelectorAll(".indicator"));
-        set(".indicator", { x: -window.innerWidth, opacity: 1 });
-        
-        gsap.to(container.querySelectorAll(".indicator"), {
-          x: 0,
-          duration: 4.5,
-          ease: "linear",
-          onComplete: () => {
-            if (isCancelled) return;
-            clicks = 1;
-            step();
-          }
-        });
-      }
+        const activeContentEl = container.querySelector(getCardContent(active));
+        if (activeContentEl) gsap.to(activeContentEl, { opacity: 0, duration: 0.3, ease });
 
-      function step() {
-        return new Promise<void>((resolve) => {
-          if (isCancelled) { resolve(); return; }
-          transitioning = true;
-          order.push(order.shift() as number);
-          detailsEven = !detailsEven;
+        const cActive = container.querySelector(getCard(active));
+        if (cActive) {
+          gsap.to(cActive, {
+            x: 0,
+            y: 0,
+            width: "100vw",
+            height: "75vh",
+            borderRadius: 0,
+            ease,
+            duration: 1.2,
+            onComplete: () => {
+              const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
+              set(getCard(prv), { x: xNew, y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, scale: 1 });
+              set(getCardContent(prv), { x: xNew, y: offsetTop, opacity: 1, zIndex: 40 });
+              set(`.slide-item-${prv}`, { x: rest.length * numberSize });
 
-          const detailsActive = detailsEven ? "#details-even" : "#details-odd";
-          const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
-
-          // Use spans to prevent Google Translate hydration clashes
-          const currentData = slidesData[order[0]];
-          const detailsActiveEl = container.querySelector(detailsActive);
-          if (detailsActiveEl) {
-            const textEl = detailsActiveEl.querySelector('.text span');
-            const title1El = detailsActiveEl.querySelector('.title-1 span');
-            const title2El = detailsActiveEl.querySelector('.title-2 span');
-            const descEl = detailsActiveEl.querySelector('.desc span');
-            if (textEl) textEl.textContent = currentData.place;
-            if (title1El) title1El.textContent = currentData.title;
-            if (title2El) title2El.textContent = currentData.title2;
-            if (descEl) descEl.textContent = currentData.description;
-          }
-
-          // Fade out the old text immediately to prevent simultaneous overlapping text
-          gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });
-
-          const [active, ...rest] = order;
-          const prv = rest[rest.length - 1]; 
-
-          set(getCard(prv), { zIndex: 10 });
-          set(getCard(active), { zIndex: 20 });
-          
-          const activeCardEl = container.querySelector(getCard(prv));
-          if (activeCardEl) gsap.to(activeCardEl, { scale: 1.5, ease, duration: 1.2 }); 
-
-          const activeContentEl = container.querySelector(getCardContent(active));
-          if (activeContentEl) gsap.to(activeContentEl, { opacity: 0, duration: 0.3, ease });
-
-          const cActive = container.querySelector(getCard(active));
-          if (cActive) {
-            gsap.to(cActive, {
-              x: 0,
-              y: 0,
-              width: "100vw",
-              height: "75vh",
-              borderRadius: 0,
-              ease,
-              duration: 1.2,
-              onComplete: () => {
-                const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
-                set(getCard(prv), { x: xNew, y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, scale: 1 });
-                set(getCardContent(prv), { x: xNew, y: offsetTop, opacity: 1, zIndex: 40 });
-                set(`.slide-item-${prv}`, { x: rest.length * numberSize });
-
-                set(detailsInactive, { opacity: 0, zIndex: 12 });
-                set(`${detailsInactive} .text`, { y: 100 });
-                set(`${detailsInactive} .title-1`, { y: 100 });
-                set(`${detailsInactive} .title-2`, { y: 100 });
-                set(`${detailsInactive} .desc`, { y: 50 });
-
-                transitioning = false;
-                if (pendingRelayout) {
-                  pendingRelayout = false;
-                  relayout();
-                }
-                
-                if (clicks > 1) {
-                  clicks -= 1;
-                  step();
-                } else {
-                  clicks = 0;
-                  startLoop();
-                }
+              transitioning = false;
+              if (pendingRelayout) {
+                pendingRelayout = false;
+                relayout();
               }
-            });
-            // Background slow zoom (Ken Burns) that runs alongside and past the expansion
-            gsap.to(cActive, { scale: 1.05, duration: 5.7, ease: "none" });
-          }
-
-          set(detailsActive, { zIndex: 22 });
-          gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, delay: 0.4, ease, duration: 0.4 });
-          animate(`${detailsActive} .text`, 0.7, { y: 0, delay: 0.1, ease });
-          animate(`${detailsActive} .title-1`, 0.7, { y: 0, delay: 0.15, ease });
-          animate(`${detailsActive} .title-2`, 0.7, { y: 0, delay: 0.15, ease });
-          animate(`${detailsActive} .desc`, 0.4, { y: 0, delay: 0.3, ease, onComplete: resolve });
-
-          order.forEach((itemIdx, idx) => {
-            gsap.to(container.querySelectorAll(`.slide-item-${itemIdx}`), { x: idx * numberSize, ease, duration: 0.8 });
+              
+              if (clicks > 1) {
+                clicks -= 1;
+                step();
+              } else {
+                clicks = 0;
+                startLoop();
+              }
+            }
           });
+          gsap.to(cActive, { scale: 1.05, duration: 5.7, ease: "none" });
+        }
 
-          gsap.to(container.querySelectorAll(".progress-sub-foreground"), { width: 500 * (1 / order.length) * (active + 1), ease, duration: 0.8 });
+        set(detailsActive, { zIndex: 22 });
+        gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, delay: 0.4, ease, duration: 0.4 });
+        animate(`${detailsActive} .text`, 0.7, { y: 0, delay: 0.1, ease });
+        animate(`${detailsActive} .title-1`, 0.7, { y: 0, delay: 0.15, ease });
+        animate(`${detailsActive} .title-2`, 0.7, { y: 0, delay: 0.15, ease });
+        animate(`${detailsActive} .desc`, 0.4, { y: 0, delay: 0.3, ease, onComplete: resolve });
 
-          rest.forEach((i, index) => {
-            if (i === prv) return;
-            set(getCard(i), { zIndex: 30 });
-            gsap.to(container.querySelectorAll(getCard(i)), {
-              x: offsetLeft + index * (cardWidth + gap),
-              y: offsetTop,
-              width: cardWidth,
-              height: cardHeight,
-              ease,
-              duration: 0.8,
-              delay: 0.1 * (index + 1)
-            });
-            gsap.to(container.querySelectorAll(getCardContent(i)), {
-              x: offsetLeft + index * (cardWidth + gap),
-              y: offsetTop,
-              opacity: 1,
-              zIndex: 40,
-              ease,
-              duration: 0.8,
-              delay: 0.1 * (index + 1)
-            });
+        order.forEach((itemIdx, idx) => {
+          gsap.to(container.querySelectorAll(`.slide-item-${itemIdx}`), { x: idx * numberSize, ease, duration: 0.8 });
+        });
+
+        gsap.to(container.querySelectorAll(".progress-sub-foreground"), { width: 500 * (1 / order.length) * (active + 1), ease, duration: 0.8 });
+
+        rest.forEach((i, index) => {
+          if (i === prv) return;
+          set(getCard(i), { zIndex: 30 });
+          gsap.to(container.querySelectorAll(getCard(i)), {
+            x: offsetLeft + index * (cardWidth + gap),
+            y: offsetTop,
+            width: cardWidth,
+            height: cardHeight,
+            ease,
+            duration: 0.8,
+            delay: 0.1 * (index + 1)
+          });
+          gsap.to(container.querySelectorAll(getCardContent(i)), {
+            x: offsetLeft + index * (cardWidth + gap),
+            y: offsetTop,
+            opacity: 1,
+            zIndex: 40,
+            ease,
+            duration: 0.8,
+            delay: 0.1 * (index + 1)
           });
         });
-      }
+      });
+    }
 
-      init();
-      gsap.to(container.querySelectorAll(".cover"), { x: window.innerWidth + 400, delay: 0.5, ease, duration: 1 });
-      startLoop();
-
-      return () => {
-        window.removeEventListener("resize", onResize);
-      };
-    });
+    init();
+    gsap.to(container.querySelectorAll(".cover"), { x: window.innerWidth + 400, delay: 0.5, ease, duration: 1 });
+    startLoop();
 
     return () => {
       isCancelled = true;
       clearTimeout(resizeTimer);
-      if ((window as any).gsap) {
-        (window as any).gsap.killTweensOf(".card");
-        (window as any).gsap.killTweensOf(".card-content");
-      }
+      if (timerId) clearTimeout(timerId);
+      window.removeEventListener("resize", onResize);
     };
   }, [isReady, settings?.hero?.slides?.length]);
 
   if (!isReady) {
     return (
-      <div className="w-full h-[75svh] min-h-[550px] bg-zinc-950 flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+      <div className="absolute top-0 left-0 w-full h-full bg-zinc-950 z-50 cover flex items-center justify-center pointer-events-none">
+        <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -370,12 +347,10 @@ export function HeroSlider() {
   const initialData = slidesData[0];
 
   return (
-    <div ref={containerRef} className="relative w-full h-[75svh] min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
+    <div ref={containerRef} className="relative w-full h-[100svh] md:h-[75svh] min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
       
-      {/* Indicator */}
       <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
 
-      {/* Details Panels */}
       {[0, 1].map((isOdd) => {
         const id = isOdd ? 'details-odd' : 'details-even';
         return (
@@ -407,7 +382,6 @@ export function HeroSlider() {
         );
       })}
 
-      {/* Cards */}
       {slidesData.map((slide: any, idx: number) => (
         <div key={`card-${idx}`}>
           <div 
@@ -417,7 +391,6 @@ export function HeroSlider() {
             <div className="absolute inset-0 bg-black/30" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             
-            {/* Clickable Overlay for Thumbnail */}
             <div 
               className="absolute inset-0 cursor-pointer z-10 hover:bg-white/10 transition-colors"
               onClick={() => (window as any).jumpToSlide?.(idx)}
@@ -435,9 +408,7 @@ export function HeroSlider() {
         </div>
       ))}
 
-      {/* Pagination HUD */}
       <div id="pagination" className="absolute left-0 top-0 flex items-center">
-        {/* Navigation Arrows */}
         <div className="hidden md:flex gap-4 mr-6">
           <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">
             <ChevronLeft className="w-4 h-4 text-white/60 group-hover:text-black" />
@@ -447,14 +418,12 @@ export function HeroSlider() {
           </div>
         </div>
         
-        {/* Progress Bar */}
         <div className="w-[300px] md:w-[400px] lg:w-[500px] h-[42px] flex items-center">
           <div className="w-full h-[3px] bg-white/20 relative rounded-full overflow-hidden">
             <div className="progress-sub-foreground absolute top-0 left-0 h-full bg-white rounded-full" />
           </div>
         </div>
 
-        {/* Slide Numbers */}
         <div className="w-[50px] h-[50px] overflow-hidden relative ml-4 md:ml-6">
           {slidesData.map((_: any, index: number) => (
             <div key={`num-${index}`} className={`slide-item-${index} absolute top-0 left-0 w-[50px] h-[50px] grid place-items-center text-white font-oswald text-xl md:text-2xl font-bold tracking-widest`}>
@@ -466,6 +435,11 @@ export function HeroSlider() {
 
       {/* Cover Intro */}
       <div className="cover absolute top-0 left-0 w-[100vw] h-[75vh] bg-zinc-950 z-[100]" />
+
+      {/* Mobile Stats Section */}
+      <div className="absolute bottom-0 left-0 w-full md:hidden z-[110]">
+        <StatsSection />
+      </div>
     </div>
   );
 }
