@@ -26,14 +26,22 @@ export function Navbar() {
   const { settings } = useSettings();
   const [lang, setLang] = useState('EN');
   const [mounted, setMounted] = useState(false);
+  const [isTranslating, setIsTranslating] = useState(false);
   const { theme, setTheme } = useTheme();
 
   const toggleLanguage = () => {
     const nextLang = lang === 'EN' ? 'ES' : 'EN';
     setLang(nextLang);
+    setIsTranslating(true);
+    
     if (typeof (window as any).doGTranslate === 'function') {
       (window as any).doGTranslate(nextLang === 'EN' ? 'en|en' : 'en|es');
     }
+    
+    // Google Translate takes a moment, show spinner for 1.5s
+    setTimeout(() => {
+      setIsTranslating(false);
+    }, 1500);
   };
 
   useEffect(() => {
@@ -72,6 +80,19 @@ export function Navbar() {
 
   return (
     <>
+      {/* Translation Spinner Overlay */}
+      {isTranslating && (
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/60 backdrop-blur-md">
+          <div className="w-16 h-16 border-4 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin shadow-[0_0_15px_rgba(16,185,129,0.5)] mb-6" />
+          <h3 className="text-white font-oswald text-2xl font-bold tracking-wide">
+            {lang === 'ES' ? 'Traduciendo...' : 'Translating...'}
+          </h3>
+          <p className="text-emerald-300 text-sm font-medium mt-2">
+            {lang === 'ES' ? 'Preparando tu idioma, un momento.' : 'Preparing your language, one moment.'}
+          </p>
+        </div>
+      )}
+
       {/* Top Banner */}
       <div className="bg-zinc-950 text-zinc-300 text-xs py-2 px-4 sm:px-8 border-b border-zinc-800/80">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">

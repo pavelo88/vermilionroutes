@@ -48,7 +48,7 @@ export function HeroSection() {
   useEffect(() => {
     const timer = setInterval(() => {
       handleNext();
-    }, 5000);
+    }, 4000);
     return () => clearInterval(timer);
   }, [currentIndex, slidesData.length]);
 
@@ -74,7 +74,7 @@ export function HeroSection() {
   };
 
   return (
-    <div className="relative w-full h-[100svh] min-h-[600px] overflow-hidden bg-zinc-950 font-sans text-white">
+    <div className="relative w-full h-[85svh] min-h-[600px] overflow-hidden bg-zinc-950 font-sans text-white">
       {/* Background Image with crossfade and Ken Burns slow zoom */}
       {slidesData.map((slide: any, idx: number) => (
         <div 
@@ -87,7 +87,7 @@ export function HeroSection() {
             style={{ 
               backgroundImage: `url(${slide.image})`,
               transform: idx === currentIndex ? 'scale(1.1)' : 'scale(1)',
-              transitionDuration: '5000ms'
+              transitionDuration: '4000ms'
             }}
           />
           {/* Gradient Overlay for text readability */}
