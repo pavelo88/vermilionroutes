@@ -220,7 +220,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="flex flex-wrap items-center justify-between gap-3 bg-emerald-50 rounded-2xl p-3 border border-emerald-100"
+                    className="flex flex-wrap items-center justify-between gap-3 bg-emerald-50 dark:bg-zinc-900 rounded-2xl p-3 border border-emerald-100 dark:border-zinc-800"
                   >
                     <div>
                       <span className="text-[10px] uppercase font-bold text-emerald-700 dark:text-emerald-400 tracking-wider">Starting from</span>

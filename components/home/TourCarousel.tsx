@@ -11,6 +11,7 @@ interface TourCarouselProps {
 
 export function TourCarousel({ tours }: TourCarouselProps) {
   const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Touch Swipe handlers state
@@ -36,23 +37,22 @@ export function TourCarousel({ tours }: TourCarouselProps) {
           return false;
         });
 
-  // Create a massive continuous track to simulate infinite looping
-  const duplicatedTours = Array(20).fill(filteredTours).flat();
-  const total = duplicatedTours.length;
+  const total = filteredTours.length;
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + total) % total);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % total);
+  };
 
   useEffect(() => {
     if (isHovered || total <= 1) return;
     
     const interval = setInterval(() => {
-      // Pause if a modal is open (TourModal sets body overflow to hidden)
       if (document.body.style.overflow === 'hidden') return;
-      if (scrollContainerRef.current) {
-        const cardElement = scrollContainerRef.current.children[0] as HTMLElement;
-        if (cardElement) {
-          const scrollAmount = cardElement.offsetWidth + 24;
-          scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        }
-      }
+      handleNext();
     }, 4500); 
     
     return () => clearInterval(interval);
@@ -63,7 +63,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
       const customEvent = e as CustomEvent<string>;
       if (customEvent.detail) {
         setActiveFilter(customEvent.detail);
-        if (scrollContainerRef.current) scrollContainerRef.current.scrollTo({ left: 0 });
+        setCurrentIndex(0);
       }
     };
     window.addEventListener('selectDestinationFilter', handleSelectFilter);
@@ -72,7 +72,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
   const handleFilterChange = (filterId: string) => {
     setActiveFilter(filterId);
-    if (scrollContainerRef.current) scrollContainerRef.current.scrollTo({ left: 0 });
+    setCurrentIndex(0);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -85,6 +85,17 @@ export function TourCarousel({ tours }: TourCarouselProps) {
   };
 
   const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      handleNext();
+    } else if (isRightSwipe) {
+      handlePrev();
+    }
+
     touchStartX.current = null;
     touchEndX.current = null;
     setIsHovered(false);
@@ -97,6 +108,10 @@ export function TourCarousel({ tours }: TourCarouselProps) {
       </div>
     );
   }
+
+  // Calculate indices for 3D layout
+  const prevIndex = (currentIndex - 1 + total) % total;
+  const nextIndex = (currentIndex + 1) % total;
 
   return (
     <div className="space-y-2">
@@ -118,33 +133,57 @@ export function TourCarousel({ tours }: TourCarouselProps) {
         ))}
       </div>
 
-      {/* Scrollable Carousel Stage */}
+      {/* Strict 1-by-1 Infinite Carousel Stage */}
       <div 
-        className="relative group/carousel"
+        className="relative group/carousel w-full h-[520px] sm:h-[550px] overflow-hidden flex items-center justify-center mt-6"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div
-          ref={scrollContainerRef}
-          className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory py-6 px-2 sm:px-6 scrollbar-hide"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {duplicatedTours.map((tour, idx) => (
-            <div
-              key={`${tour.id}-${idx}`}
-              className="w-[85vw] sm:w-[320px] md:w-[350px] snap-center shrink-0 transform transition-all duration-300 hover:-translate-y-2"
-            >
-              <TourCard tour={tour} />
-            </div>
-          ))}
+        <div className="relative w-full max-w-[350px] h-full mx-auto">
+          {filteredTours.map((tour, idx) => {
+            // Determine position
+            const isCurrent = idx === currentIndex;
+            const isPrev = idx === (currentIndex - 1 + total) % total;
+            const isNext = idx === (currentIndex + 1) % total;
+            
+            // Default: hidden far right
+            let positionClass = "translate-x-[200%] opacity-0 z-0 scale-90 pointer-events-none";
+            
+            if (isCurrent) {
+              positionClass = "translate-x-0 opacity-100 z-20 scale-100";
+            } else if (isPrev) {
+              positionClass = "-translate-x-[110%] sm:-translate-x-[115%] opacity-40 z-10 scale-95 pointer-events-none";
+            } else if (isNext) {
+              positionClass = "translate-x-[110%] sm:translate-x-[115%] opacity-40 z-10 scale-95 pointer-events-none";
+            }
+
+            return (
+              <div
+                key={`${tour.id}-${idx}`}
+                className={`absolute top-0 left-0 w-full h-full transform transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${positionClass}`}
+              >
+                <TourCard tour={tour} className="h-full" />
+              </div>
+            );
+          })}
         </div>
 
-        {/* Floating Gradient Edges for scroll indication */}
-        <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-r from-white dark:from-[#04080F] to-transparent pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-l from-white dark:from-[#04080F] to-transparent pointer-events-none" />
+        {/* Navigation Arrows for Desktop */}
+        <button 
+          onClick={handlePrev}
+          className="absolute left-2 sm:left-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 dark:bg-zinc-900/90 rounded-full shadow-lg border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-800 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:scale-110 transition-all z-30 opacity-0 group-hover/carousel:opacity-100 hidden sm:flex"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button 
+          onClick={handleNext}
+          className="absolute right-2 sm:right-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 dark:bg-zinc-900/90 rounded-full shadow-lg border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-800 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:scale-110 transition-all z-30 opacity-0 group-hover/carousel:opacity-100 hidden sm:flex"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
       </div>
 
       {/* Tour Counter */}
