@@ -235,6 +235,9 @@ export function HeroSlider() {
             if (descEl) descEl.textContent = currentData.description;
           }
 
+          // Fade out the old text immediately to prevent simultaneous overlapping text
+          gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });
+
           const [active, ...rest] = order;
           const prv = rest[rest.length - 1]; 
 
@@ -361,7 +364,7 @@ export function HeroSlider() {
       {[0, 1].map((isOdd) => {
         const id = isOdd ? 'details-odd' : 'details-even';
         return (
-          <div key={id} id={id} className="absolute left-[30px] lg:left-[60px] top-[180px] lg:top-[220px] z-[22]">
+          <div key={id} id={id} className="absolute left-[30px] lg:left-[60px] top-[100px] lg:top-[140px] z-[22]">
             <div className="h-[46px] overflow-hidden mb-2">
               <div className="text text-white/90 font-medium tracking-widest uppercase text-sm pt-4 relative">
                 <div className="absolute top-0 left-0 w-8 h-[2px] bg-white rounded-full" />
