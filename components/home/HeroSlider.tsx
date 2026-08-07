@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSettings } from '@/hooks/useSettings';
 import { Bookmark, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import { StatsSection } from './StatsSection';
 
 const DEFAULT_DATA = [
   {
@@ -86,6 +87,7 @@ export function HeroSlider() {
     let pendingRelayout = false;
     let resizeTimer: any = null;
     let isCancelled = false;
+    let loopTimeline: any = null;
 
     const loadGSAP = () => {
       return new Promise<any>((resolve) => {
@@ -182,8 +184,6 @@ export function HeroSlider() {
       function animate(target: string, duration: number, properties: any) {
         return new Promise((resolve) => gsap.to(container.querySelectorAll(target), { ...properties, duration, onComplete: resolve }));
       }
-
-      let loopTimeline: any = null;
 
       function startLoop() {
         if (isCancelled) return;
@@ -422,7 +422,7 @@ export function HeroSlider() {
       {slidesData.map((slide: any, idx: number) => (
         <div key={`card-${idx}`}>
           <div 
-            className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden`} 
+            className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden w-[180px] h-[260px]`} 
           >
             <Image 
               src={slide.image} 
@@ -473,13 +473,19 @@ export function HeroSlider() {
         </div>
 
         {/* Slide Numbers */}
-        <div className="w-[50px] h-[50px] overflow-hidden relative ml-4 md:ml-6">
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 overflow-hidden h-[50px] w-12 hidden md:block">
+          <div className="indicator absolute right-0 top-0 h-full bg-white/20" style={{ width: '100vw' }} />
           {slidesData.map((_: any, index: number) => (
-            <div key={`num-${index}`} className={`slide-item-${index} absolute top-0 left-0 w-[50px] h-[50px] grid place-items-center text-white font-oswald text-xl md:text-2xl font-bold tracking-widest`}>
+            <div key={`num-${index}`} className={`slide-item-${index} absolute top-1/2 -translate-y-1/2 left-0 w-[50px] h-[50px] grid place-items-center text-white font-oswald text-xl md:text-2xl font-bold tracking-widest`}>
               0{index + 1}
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Mobile Stats Section injected into Hero */}
+      <div className="absolute bottom-4 left-0 w-full z-50 block md:hidden">
+        <StatsSection />
       </div>
 
       {/* Cover Intro */}
