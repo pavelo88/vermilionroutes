@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, Clock, Star, Check, ArrowRight, ShieldCheck, Ship, MessageCircle, ChevronLeft, ChevronRight, Download, Sparkles } from 'lucide-react';
+import { X, MapPin, Clock, Star, Check, ArrowRight, ShieldCheck, Ship, MessageCircle, ChevronLeft, ChevronRight, Download, Sparkles, Calendar } from 'lucide-react';
 import { Tour } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { useSettings } from '@/hooks/useSettings';
@@ -248,7 +248,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                           Reservar
                         </Button>
                       ) : (
-                        <div className="flex items-center gap-2 animate-in fade-in zoom-in duration-200">
+                        <div className="flex items-center gap-2 animate-in fade-in zoom-in duration-200 flex-wrap sm:flex-nowrap">
                           <Button 
                             variant="primary" 
                             className="gap-1.5 px-3 py-1.5 text-xs w-full sm:w-auto justify-center bg-zinc-900 hover:bg-zinc-800 text-white"
@@ -256,6 +256,16 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                           >
                             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                             Con IA
+                          </Button>
+                          <Button 
+                            variant="outline" 
+                            className="gap-1.5 px-3 py-1.5 text-xs w-full sm:w-auto justify-center border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100"
+                            onClick={() => {
+                              window.location.href = `/booking?tourId=${tour.id}`;
+                            }}
+                          >
+                            <Calendar className="w-3.5 h-3.5" />
+                            Web / Online
                           </Button>
                           <Button 
                             variant="primary" 
