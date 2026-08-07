@@ -183,11 +183,34 @@ export function HeroSlider() {
         return new Promise((resolve) => gsap.to(container.querySelectorAll(target), { ...properties, duration, onComplete: resolve }));
       }
 
+      let loopTimeline: any = null;
+
+      function startLoop() {
+        if (isCancelled) return;
+        if (loopTimeline) loopTimeline.kill();
+        set(".indicator", { x: -window.innerWidth });
+        
+        loopTimeline = gsap.timeline({
+          onComplete: () => {
+            if (isCancelled) return;
+            step().then(() => {
+              if (!isCancelled) startLoop();
+            });
+          }
+        });
+        
+        loopTimeline.to(container.querySelectorAll(".indicator"), { x: 0, duration: 4.5, ease: "none" })
+                    .to(container.querySelectorAll(".indicator"), { x: window.innerWidth, duration: 0.5, ease: "none" });
+      }
+
       // Setup manual navigation hook
       (window as any).triggerNextSlide = () => {
         if (!transitioning) {
+          if (loopTimeline) loopTimeline.kill();
           clicks = 1;
-          step();
+          step().then(() => {
+            if (!isCancelled) startLoop();
+          });
         }
       };
 
@@ -198,22 +221,13 @@ export function HeroSlider() {
         // Find how many steps away it is
         const currentPos = order.indexOf(targetIdx);
         if (currentPos > 0) {
+          if (loopTimeline) loopTimeline.kill();
           clicks = currentPos;
-          step();
+          step().then(() => {
+            if (!isCancelled) startLoop();
+          });
         }
       };
-
-      async function loop() {
-        if (isCancelled) return;
-        // User requested 4.5 seconds for the slide duration
-        await animate(".indicator", 4.5, { x: 0 });
-        if (isCancelled) return;
-        await animate(".indicator", 0.8, { x: window.innerWidth, delay: 0.3 });
-        if (isCancelled) return;
-        set(".indicator", { x: -window.innerWidth });
-        await step();
-        if (!isCancelled) loop();
-      }
 
       function step() {
         return new Promise<void>((resolve) => {
@@ -334,7 +348,9 @@ export function HeroSlider() {
 
       init();
       gsap.to(container.querySelectorAll(".cover"), { x: window.innerWidth + 400, delay: 0.5, ease, duration: 1, onComplete: () => {
-        setTimeout(() => loop(), 500);
+        setTimeout(() => {
+          if (!isCancelled) startLoop();
+        }, 500);
       }});
 
       return () => {
@@ -345,6 +361,7 @@ export function HeroSlider() {
     return () => {
       isCancelled = true;
       clearTimeout(resizeTimer);
+      if (loopTimeline) loopTimeline.kill();
       if ((window as any).gsap) {
         (window as any).gsap.killTweensOf(".card");
         (window as any).gsap.killTweensOf(".card-content");

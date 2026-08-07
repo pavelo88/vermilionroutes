@@ -11,7 +11,6 @@ interface TourCarouselProps {
 
 export function TourCarousel({ tours }: TourCarouselProps) {
   const [activeFilter, setActiveFilter] = useState<string>('all');
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Touch Swipe handlers state
@@ -41,49 +40,30 @@ export function TourCarousel({ tours }: TourCarouselProps) {
   const duplicatedTours = Array(20).fill(filteredTours).flat();
   const total = duplicatedTours.length;
 
-  const handlePrev = () => {
-    setCurrentIndex((prev) => Math.max(0, prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1 < total ? prev + 1 : 0));
-  };
-
   useEffect(() => {
     if (isHovered || total <= 1) return;
     
     const interval = setInterval(() => {
       // Pause if a modal is open (TourModal sets body overflow to hidden)
       if (document.body.style.overflow === 'hidden') return;
-      handleNext();
-    }, 3500); // slightly longer so user can read
+      if (scrollContainerRef.current) {
+        const cardElement = scrollContainerRef.current.children[0] as HTMLElement;
+        if (cardElement) {
+          const scrollAmount = cardElement.offsetWidth + 24;
+          scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+      }
+    }, 4500); 
     
     return () => clearInterval(interval);
-  }, [total, isHovered, currentIndex]);
-
-  // Sync scroll position with currentIndex
-  useEffect(() => {
-    if (!scrollContainerRef.current) return;
-    
-    const container = scrollContainerRef.current;
-    // Get the first child to determine card width, roughly 350px + gap
-    const cardElement = container.children[0] as HTMLElement;
-    if (cardElement) {
-      // card width + gap (which is ~24px for sm:gap-6)
-      const scrollAmount = cardElement.offsetWidth + 24;
-      container.scrollTo({
-        left: currentIndex * scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-  }, [currentIndex]);
+  }, [total, isHovered]);
 
   useEffect(() => {
     const handleSelectFilter = (e: Event) => {
       const customEvent = e as CustomEvent<string>;
       if (customEvent.detail) {
         setActiveFilter(customEvent.detail);
-        setCurrentIndex(0);
+        if (scrollContainerRef.current) scrollContainerRef.current.scrollTo({ left: 0 });
       }
     };
     window.addEventListener('selectDestinationFilter', handleSelectFilter);
@@ -92,7 +72,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
   const handleFilterChange = (filterId: string) => {
     setActiveFilter(filterId);
-    setCurrentIndex(0);
+    if (scrollContainerRef.current) scrollContainerRef.current.scrollTo({ left: 0 });
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -117,10 +97,6 @@ export function TourCarousel({ tours }: TourCarouselProps) {
       </div>
     );
   }
-
-  // Calculate indices for 3D layout
-  const prevIndex = (currentIndex - 1 + total) % total;
-  const nextIndex = (currentIndex + 1) % total;
 
   return (
     <div className="space-y-2">
