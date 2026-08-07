@@ -105,17 +105,6 @@ export function TourCarousel({ tours }: TourCarouselProps) {
   };
 
   const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return;
-    const distance = touchStartX.current - touchEndX.current;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      handleNext();
-    } else if (isRightSwipe) {
-      handlePrev();
-    }
-
     touchStartX.current = null;
     touchEndX.current = null;
     setIsHovered(false);

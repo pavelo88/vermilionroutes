@@ -32,7 +32,7 @@ export function CombinedExperienceSection() {
     const interval = setInterval(() => {
       if (document.body.style.overflow === 'hidden') return;
       handleNext();
-    }, 4500); 
+    }, 3500); 
     
     return () => clearInterval(interval);
   }, [total, isHovered, currentIndex]);
@@ -47,11 +47,6 @@ export function CombinedExperienceSection() {
   };
 
   const handleTouchEnd = () => {
-    if (touchStartX.current && touchEndX.current) {
-      const distance = touchStartX.current - touchEndX.current;
-      if (distance > 50) handleNext();
-      else if (distance < -50) handlePrev();
-    }
     touchStartX.current = null;
     touchEndX.current = null;
     setIsHovered(false);
