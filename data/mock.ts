@@ -5,7 +5,7 @@ export const mockDestinations: Destination[] = [
     "id": "galapagos",
     "name": "Galapagos Islands",
     "subtitle": "The Enchanted Archipelago",
-    "description": "Exclusive luxury cruises and island hopping excursions to witness wildlife found nowhere else on Earth.",
+    "description": "Curated private cruises and island hopping excursions to witness wildlife found nowhere else on Earth.",
     "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80",
     "toursCount": 12,
     "slug": "galapagos"
@@ -34,18 +34,18 @@ export const mockTours: Tour[] = [
   {
     "id": "fantastic-ecuador",
     "title": "FANTASTIC ECUADOR",
-    "titleEs": "ECUADOR FANTÁSTICO",
+    "titleEs": "FANTASTIC ECUADOR",
     "destination": "Ecuador",
     "duration": "8 DAYS / 7 NIGHTS",
-    "durationEs": "8 DÍAS / 7 NOCHES",
+    "durationEs": "8 DAYS / 7 NIGHTS",
     "price": 2500,
     "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fandes-jungle-galapagos-hero.jpg?alt=media",
     "rating": 5,
     "reviewsCount": 22,
     "category": "Private Expedition",
-    "categoryEs": "Expedición Privada",
+    "categoryEs": "Private Expedition",
     "description": "Quito, Cuenca, Guayaquil. Experience the best of the Ecuadorian Andes and coast in an 8-day immersive journey.",
-    "descriptionEs": "Quito, Cuenca, Guayaquil. Experimente lo mejor de los Andes ecuatorianos y la costa en un viaje inmersivo de 8 días.",
+    "descriptionEs": "Quito, Cuenca, Guayaquil. Experience the best of the Ecuadorian Andes and coast in an 8-day immersive journey.",
     "highlights": [
       "Otavalo Market",
       "Middle of the World",
@@ -55,39 +55,39 @@ export const mockTours: Tour[] = [
     ],
     "inclusions": [
       "Private English speaking guide",
-      "Luxury Accommodations",
+      "Premium Accommodations",
       "All Transfers and entrance fees"
     ],
     "inclusionsEs": [
-      "Guía privado bilingüe",
-      "Alojamiento de lujo",
-      "Traslados y entradas incluidas"
+      "Private English speaking guide",
+      "Premium Accommodations",
+      "All Transfers and entrance fees"
     ],
     "exclusions": [
       "International flights",
       "Gratuities"
     ],
     "exclusionsEs": [
-      "Vuelos internacionales",
-      "Propinas"
+      "International flights",
+      "Gratuities"
     ],
     "itinerary": [
       {
         "day": 1,
         "title": "Arrival in Quito",
-        "titleEs": "Llegada a Quito",
+        "titleEs": "Arrival in Quito",
         "description": "Assistance at the airport, transfer to hotel in Quito.",
-        "descriptionEs": "Asistencia en el aeropuerto, traslado al hotel en Quito.",
-        "accommodation": "Luxury Hotel in Quito",
+        "descriptionEs": "Assistance at the airport, transfer to hotel in Quito.",
+        "accommodation": "Premium Hotel in Quito",
         "meals": "None"
       },
       {
         "day": 2,
         "title": "Otavalo Market",
-        "titleEs": "Mercado de Otavalo",
+        "titleEs": "Otavalo Market",
         "description": "Visit the famous indigenous market of Otavalo and the Cuicocha crater lake.",
-        "descriptionEs": "Visite el famoso mercado indígena de Otavalo y la laguna del cráter Cuicocha.",
-        "accommodation": "Luxury Hotel in Quito",
+        "descriptionEs": "Visit the famous indigenous market of Otavalo and the Cuicocha crater lake.",
+        "accommodation": "Premium Hotel in Quito",
         "meals": "Breakfast"
       }
     ]
@@ -95,27 +95,27 @@ export const mockTours: Tour[] = [
   {
     "id": "andes-amazon-jungle-galapagos",
     "title": "ECUADOR ANDES AND AMAZON JUNGLE",
-    "titleEs": "ANDES Y SELVA AMAZÓNICA",
+    "titleEs": "ECUADOR ANDES AND AMAZON JUNGLE",
     "destination": "Ecuador",
     "duration": "7 DAYS / 6 NIGHTS",
-    "durationEs": "7 DÍAS / 6 NOCHES",
+    "durationEs": "7 DAYS / 6 NIGHTS",
     "price": 2731,
     "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fandes-jungle-galapagos-hero.jpg?alt=media",
     "rating": 5,
     "reviewsCount": 17,
     "category": "Nature Safari",
-    "categoryEs": "Safari de Naturaleza",
+    "categoryEs": "Nature Safari",
     "description": "A breathtaking journey combining the Andes highlands, the Amazon jungle, and Papallacta hot springs.",
-    "descriptionEs": "Un viaje impresionante combinando las tierras altas de los Andes, la selva amazónica y las aguas termales de Papallacta.",
+    "descriptionEs": "A breathtaking journey combining the Andes highlands, the Amazon jungle, and Papallacta hot springs.",
     "inclusions": [
       "Private guide",
-      "TODO: Revisar Copy - Premium Amazon Lodge",
+      "Premium Amazon Lodge",
       "All meals in the Amazon"
     ],
     "inclusionsEs": [
-      "Guía privado",
-      "TODO: Revisar Copy - Lodge Amazónico Premium",
-      "Comidas en la selva"
+      "Private guide",
+      "Premium Amazon Lodge",
+      "All meals in the Amazon"
     ],
     "itinerary": [
       {
@@ -128,21 +128,21 @@ export const mockTours: Tour[] = [
   {
     "id": "cusco-inca-trail-machu-picchu",
     "title": "MYSTICAL CUSCO & MACHU PICCHU",
-    "titleEs": "CUSCO MÍSTICO Y MACHU PICCHU",
+    "titleEs": "MYSTICAL CUSCO & MACHU PICCHU",
     "destination": "Peru",
     "duration": "14 DAYS/ 13 NIGHTS",
-    "durationEs": "14 DÍAS/ 13 NOCHES",
+    "durationEs": "14 DAYS/ 13 NIGHTS",
     "price": 3600,
     "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fcusco-inca-trail-hero.jpg?alt=media",
     "rating": 5,
     "reviewsCount": 27,
     "category": "Private Expedition",
-    "categoryEs": "Expedición Privada",
+    "categoryEs": "Private Expedition",
     "isUpcoming": true,
-    "description": "TODO: Revisar Copy - Exclusive private train to Machu Picchu and ultra-luxury stays in the Sacred Valley.",
-    "descriptionEs": "TODO: Revisar Copy - Tren privado exclusivo a Machu Picchu y estancias de ultra lujo en el Valle Sagrado.",
+    "description": "Exclusive private train to Machu Picchu and breathtaking boutique stays in the Sacred Valley.",
+    "descriptionEs": "Exclusive private train to Machu Picchu and breathtaking boutique stays in the Sacred Valley.",
     "inclusions": [
-      "TODO: Revisar Copy - Hiram Bingham Train Tickets",
+      "Hiram Bingham Train Tickets",
       "Private Concierge 24/7"
     ],
     "itinerary": [
@@ -156,52 +156,52 @@ export const mockTours: Tour[] = [
   {
     "id": "fantastic-ecuador-2",
     "title": "FANTASTIC ECUADOR (Extended)",
-    "titleEs": "ECUADOR FANTÁSTICO (Extendido)",
+    "titleEs": "FANTASTIC ECUADOR (Extended)",
     "destination": "Ecuador",
     "duration": "10 DAYS / 9 NIGHTS",
-    "durationEs": "10 DÍAS / 9 NOCHES",
+    "durationEs": "10 DAYS / 9 NIGHTS",
     "price": 3100,
     "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fandes-jungle-galapagos-hero.jpg?alt=media",
     "rating": 4.9,
     "reviewsCount": 15,
     "category": "Private Expedition",
-    "categoryEs": "Expedición Privada",
+    "categoryEs": "Private Expedition",
     "description": "An extended version of the fantastic Ecuador tour.",
-    "descriptionEs": "Una versión extendida del tour fantástico.",
+    "descriptionEs": "An extended version of the fantastic Ecuador tour.",
     "itinerary": []
   },
   {
     "id": "andes-amazon-jungle-galapagos-2",
     "title": "GALAPAGOS ISLAND HOPPING",
-    "titleEs": "ISLA A ISLA EN GALÁPAGOS",
+    "titleEs": "GALAPAGOS ISLAND HOPPING",
     "destination": "Galapagos",
     "duration": "5 DAYS / 4 NIGHTS",
-    "durationEs": "5 DÍAS / 4 NOCHES",
+    "durationEs": "5 DAYS / 4 NIGHTS",
     "price": 1950,
     "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fandes-jungle-galapagos-hero.jpg?alt=media",
     "rating": 5,
     "reviewsCount": 42,
     "category": "Nature Safari",
-    "categoryEs": "Safari de Naturaleza",
+    "categoryEs": "Nature Safari",
     "description": "Quick escape to the enchanted islands.",
-    "descriptionEs": "Escapada rápida a las islas encantadas.",
+    "descriptionEs": "Quick escape to the enchanted islands.",
     "itinerary": []
   },
   {
     "id": "cusco-inca-trail-machu-picchu-2",
     "title": "SACRED VALLEY RETREAT",
-    "titleEs": "RETIRO EN EL VALLE SAGRADO",
+    "titleEs": "SACRED VALLEY RETREAT",
     "destination": "Peru",
     "duration": "6 DAYS/ 5 NIGHTS",
-    "durationEs": "6 DÍAS/ 5 NOCHES",
+    "durationEs": "6 DAYS/ 5 NIGHTS",
     "price": 2200,
     "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-8636221254-47ba9.firebasestorage.app/o/tours%2Fcusco-inca-trail-hero.jpg?alt=media",
     "rating": 4.8,
     "reviewsCount": 11,
     "category": "Private Expedition",
-    "categoryEs": "Expedición Privada",
+    "categoryEs": "Private Expedition",
     "description": "Relax and connect with nature in the Sacred Valley.",
-    "descriptionEs": "Relájese y conecte con la naturaleza en el Valle Sagrado.",
+    "descriptionEs": "Relax and connect with nature in the Sacred Valley.",
     "itinerary": []
   }
 ];
@@ -215,7 +215,7 @@ export const mockReviews: Review[] = [
     rating: 5,
     date: "August 2026",
     tourTitle: "FANTASTIC ECUADOR",
-    title: "An unforgettable ultra-luxury experience",
+    title: "An unforgettable curated experience",
     comment: "From the moment we arrived in Quito, the Vermilion team anticipated our every need. The private access to the Carondelet Palace and our bilingual guide in the Cloud Forest exceeded all expectations. Flawless execution.",
     verifiedTripAdvisor: true
   },

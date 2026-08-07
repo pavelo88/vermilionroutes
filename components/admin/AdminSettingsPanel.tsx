@@ -214,105 +214,149 @@ export function AdminSettingsPanel() {
         {/* HERO SECTION TAB */}
         {activeSubTab === 'hero' && (
           <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Top Eyebrow Badge</label>
-                <input
-                  type="text"
-                  value={localSettings.hero?.badge || ''}
-                  onChange={(e) => handleTextChange('hero', 'badge', e.target.value)}
-                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Hero Title (Normal Text)</label>
-                <input
-                  type="text"
-                  value={localSettings.hero?.title || ''}
-                  onChange={(e) => handleTextChange('hero', 'title', e.target.value)}
-                  className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Hero Title (Gradient Highlight Text)</label>
-              <input
-                type="text"
-                value={localSettings.hero?.titleColored || ''}
-                onChange={(e) => handleTextChange('hero', 'titleColored', e.target.value)}
-                className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Hero Subtitle Paragraph</label>
-              <textarea
-                value={localSettings.hero?.subtitle || ''}
-                onChange={(e) => handleTextChange('hero', 'subtitle', e.target.value)}
-                rows={3}
-                className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
-              />
-            </div>
-
-            <div className="glass-input p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800/80 space-y-4">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="glass-input p-5 rounded-2xl border border-zinc-800/80 space-y-4">
+              <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">Hero Background Images (Bento Gallery)</h4>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">Upload high-quality images. The first image spans larger. Multiple images automatically create a sliding carousel.</p>
+                  <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">Hero Slider (GSAP)</h4>
+                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">Manage the slides that appear in the immersive fullscreen carousel. Ensure you upload high-quality vertical or square images.</p>
                 </div>
-                <div className="relative shrink-0">
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/jpeg,image/png,image/webp,image/avif"
-                    id="hero-gallery-upload"
-                    onChange={handleHeroGalleryUpload}
-                    className="hidden"
-                  />
-                  <label
-                    htmlFor="hero-gallery-upload"
-                    className="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold cursor-pointer transition-all shadow-md shadow-emerald-900/20"
-                  >
-                    <Upload className="w-4 h-4" />
-                    <span>{uploadingField === 'hero-gallery' ? 'Uploading...' : 'Add Photos'}</span>
-                  </label>
-                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const newSlide = { place: 'New Place', title: 'TITLE', title2: 'TWO', description: 'Description here', image: '' };
+                    const currentSlides = localSettings.hero?.slides || [];
+                    handleTextChange('hero', 'slides', [...currentSlides, newSlide] as any);
+                  }}
+                  className="gap-1.5"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Add Slide</span>
+                </Button>
               </div>
 
-              {/* Bento Grid Gallery */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                {(localSettings.hero?.backgroundImages || []).length === 0 && localSettings.hero?.backgroundImage && (
-                  // Fallback for old data structure
-                  <div className="relative group rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 col-span-2 row-span-2 aspect-square">
-                    <img src={localSettings.hero.backgroundImage} alt="Hero bg" className="w-full h-full object-cover" />
-                  </div>
-                )}
-                
-                {(localSettings.hero?.backgroundImages || []).map((imgUrl: string, idx: number) => {
-                  const isFeatured = idx === 0;
-                  return (
-                    <div 
-                      key={idx} 
-                      className={`relative group rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800 ${isFeatured ? 'col-span-2 row-span-2 aspect-square' : 'aspect-square'}`}
+              <div className="space-y-4 pt-2">
+                {(localSettings.hero?.slides || []).map((slide: any, sIdx: number) => (
+                  <div key={sIdx} className="relative bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800/80 group">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updatedSlides = [...localSettings.hero.slides];
+                        updatedSlides.splice(sIdx, 1);
+                        handleTextChange('hero', 'slides', updatedSlides as any);
+                      }}
+                      className="absolute -top-2 -right-2 p-1.5 bg-rose-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-md z-10"
+                      title="Remove slide"
                     >
-                      <img src={imgUrl} alt={`Hero ${idx + 1}`} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveHeroImage(idx)}
-                          className="p-3 bg-rose-600 hover:bg-rose-500 text-white rounded-xl shadow-lg transform scale-90 group-hover:scale-100 transition-all"
-                          title="Remove image"
-                        >
-                          <Trash2 className="w-5 h-5" />
-                        </button>
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div className="md:col-span-1 space-y-2">
+                        {slide.image ? (
+                          <div className="relative aspect-[2/3] w-full rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-700">
+                            <img src={slide.image} alt="Slide img" className="w-full h-full object-cover" />
+                          </div>
+                        ) : (
+                          <div className="relative aspect-[2/3] w-full rounded-lg border border-dashed border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800/50 flex flex-col items-center justify-center text-zinc-500 gap-2">
+                            <Upload className="w-6 h-6" />
+                            <span className="text-xs font-semibold">Upload Image</span>
+                          </div>
+                        )}
+                        <div className="relative">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            id={`slide-img-${sIdx}`}
+                            onChange={async (e) => {
+                               const file = e.target.files?.[0];
+                               if (!file) return;
+                               try {
+                                 setUploadingField(`slide-${sIdx}`);
+                                 const downloadURL = await uploadImage(file, 'hero');
+                                 const updatedSlides = [...localSettings.hero.slides];
+                                 updatedSlides[sIdx].image = downloadURL;
+                                 handleTextChange('hero', 'slides', updatedSlides as any);
+                               } catch (err: any) {
+                                 alert('Upload failed: ' + err.message);
+                               } finally {
+                                 setUploadingField(null);
+                               }
+                            }}
+                            className="hidden"
+                          />
+                          <label
+                            htmlFor={`slide-img-${sIdx}`}
+                            className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 bg-zinc-800 hover:bg-emerald-600 text-white rounded-lg text-[11px] font-medium cursor-pointer transition-colors"
+                          >
+                            <span>{uploadingField === `slide-${sIdx}` ? 'Uploading...' : 'Change Image'}</span>
+                          </label>
+                        </div>
+                      </div>
+                      
+                      <div className="md:col-span-3 space-y-3">
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold text-zinc-500 uppercase">Eyebrow Location (Place)</label>
+                          <input
+                            type="text"
+                            value={slide.place}
+                            onChange={(e) => {
+                              const updated = [...localSettings.hero.slides];
+                              updated[sIdx].place = e.target.value;
+                              handleTextChange('hero', 'slides', updated as any);
+                            }}
+                            className="w-full px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-bold text-zinc-500 uppercase">Title Part 1</label>
+                            <input
+                              type="text"
+                              value={slide.title}
+                              onChange={(e) => {
+                                const updated = [...localSettings.hero.slides];
+                                updated[sIdx].title = e.target.value;
+                                handleTextChange('hero', 'slides', updated as any);
+                              }}
+                              className="w-full px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-bold text-zinc-500 uppercase">Title Part 2</label>
+                            <input
+                              type="text"
+                              value={slide.title2}
+                              onChange={(e) => {
+                                const updated = [...localSettings.hero.slides];
+                                updated[sIdx].title2 = e.target.value;
+                                handleTextChange('hero', 'slides', updated as any);
+                              }}
+                              className="w-full px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
+                            />
+                          </div>
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold text-zinc-500 uppercase">Description</label>
+                          <textarea
+                            value={slide.description}
+                            onChange={(e) => {
+                              const updated = [...localSettings.hero.slides];
+                              updated[sIdx].description = e.target.value;
+                              handleTextChange('hero', 'slides', updated as any);
+                            }}
+                            rows={3}
+                            className="w-full px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
+                          />
+                        </div>
                       </div>
                     </div>
-                  );
-                })}
+                  </div>
+                ))}
               </div>
             </div>
-            
+
             {/* SEO metadata section inside Hero */}
             <div className="glass-input p-5 rounded-2xl border border-zinc-800/80 space-y-4">
               <h4 className="text-sm font-semibold text-zinc-900 dark:text-white flex items-center gap-1.5">

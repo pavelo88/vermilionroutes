@@ -1,50 +1,62 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
+import { useSettings } from '@/hooks/useSettings';
 
-const DATA = [
+const DEFAULT_DATA = [
   {
-    place: 'Galápagos - Archipiélago',
-    title: 'ISLAS',
-    title2: 'GALÁPAGOS',
-    description: 'Un santuario natural único en el planeta donde leones marinos, piqueros de patas azules y tortugas gigantes habitan en total armonía. Explora paisajes volcánicos prístinos y vive una experiencia inmersiva e inolvidable.',
+    place: 'Galapagos - Archipelago',
+    title: 'ENCHANTED',
+    title2: 'ISLANDS',
+    description: 'A pristine natural sanctuary where sea lions, blue-footed boobies, and giant tortoises thrive in absolute harmony. Sail across volcanic landscapes and dive into an immersive, unforgettable experience.',
     image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=2752&q=80'
   },
   {
     place: 'Cotopaxi - Andes',
-    title: 'VOLCÁN',
-    title2: 'COTOPAXI',
-    description: 'El cono nevado perfecto levantándose soberbio sobre la cordillera de los Andes ecuatorianos. Camina entre páramos místicos, observa el vuelo del cóndor y contempla la imponencia de la Avenida de los Volcanes.',
+    title: 'MAJESTIC',
+    title2: 'VOLCANO',
+    description: 'The perfect snow-capped cone rising proudly over the Ecuadorian Andes. Walk among mystical paramo highlands, witness the condor\'s flight, and behold the grandeur of the Avenue of the Volcanoes.',
     image: 'https://images.unsplash.com/photo-1589802829985-817e51171b92?auto=format&fit=crop&w=2752&q=80'
   },
   {
-    place: 'Amazonía - Orellana',
-    title: 'PARQUE',
-    title2: 'YASUNÍ',
-    description: 'El punto de mayor biodiversidad del planeta Tierra. Navega por ríos rodeados de selva virgen, avista guacamayos, delfines rosados y deléitate con la magia mística del Amazonas ecuatoriano.',
+    place: 'Amazon - Orellana',
+    title: 'YASUNÍ',
+    title2: 'RAINFOREST',
+    description: 'The most biodiverse spot on Earth. Navigate winding rivers surrounded by untouched jungle, spot pink dolphins, and let the mystical magic of the deep Amazon captivate your senses.',
     image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=2752&q=80'
   },
   {
-    place: 'Manabí - Costa del Pacífico',
-    title: 'PLAYA LOS',
-    title2: 'FRAILES',
-    description: 'Una joya oculta de aguas cristalinas y arenas blancas dentro del Parque Nacional Machalilla. Rodeada de acantilados y bosques secos, es una de las playas más paradisíacas de Sudamérica.',
+    place: 'Manabí - Pacific Coast',
+    title: 'LOS FRAILES',
+    title2: 'BEACH',
+    description: 'A hidden jewel of crystal-clear waters and white sands within the Machalilla National Park. Surrounded by rugged cliffs and dry forests, it remains one of South America\'s most pristine coastal retreats.',
     image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=2752&q=80'
   },
   {
     place: 'Pichincha - Quito',
-    title: 'CENTRO',
-    title2: 'HISTÓRICO',
-    description: 'El primer Patrimonio Cultural de la Humanidad. Calles de piedra, monasterios coloniales y catedrales barrocas encaramadas a 2.800 metros de altitud bajo la majestuosa sombra de los Andes.',
+    title: 'HISTORIC',
+    title2: 'CENTER',
+    description: 'The first World Cultural Heritage site. Cobblestone streets, colonial monasteries, and baroque cathedrals perched at 2,800 meters under the monumental shadow of the high Andes.',
     image: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
+    place: 'Cusco - Peru',
+    title: 'SACRED',
+    title2: 'VALLEY',
+    description: 'Journey into the heart of the Inca Empire. Traverse terraced hillsides, discover ancient citadels hidden in the mist, and connect with the timeless heritage of the Andean people.',
+    image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2752&q=80'
   }
 ];
 
 export function HeroSlider() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { settings, loading } = useSettings();
 
   useEffect(() => {
-    let order = [0, 1, 2, 3, 4];
+    if (loading) return;
+    
+    const slidesData = settings?.hero?.slides?.length ? settings.hero.slides : DEFAULT_DATA;
+    let order = slidesData.map((_, i) => i);
     let detailsEven = true;
     let offsetTop = 200;
     let offsetLeft = 700;
@@ -73,7 +85,6 @@ export function HeroSlider() {
     };
 
     const handleExploreClick = () => {
-      // Smooth scroll to the tours section
       const toursSection = document.getElementById('featured-tours');
       if (toursSection) {
         toursSection.scrollIntoView({ behavior: 'smooth' });
@@ -82,7 +93,6 @@ export function HeroSlider() {
       }
     };
 
-    // Attach to window so GSAP buttons can use it
     (window as any).handleExploreClick = handleExploreClick;
 
     loadGSAP().then((gsap) => {
@@ -107,7 +117,7 @@ export function HeroSlider() {
       }
 
       function loadImages() {
-        return Promise.all(DATA.map(({ image }) => loadImage(image)));
+        return Promise.all(slidesData.map(({ image }) => loadImage(image)));
       }
 
       function animate(target: string, duration: number, properties: any) {
@@ -140,7 +150,7 @@ export function HeroSlider() {
           const detailsActive = detailsEven ? ".details-even" : ".details-odd";
           const detailsInactive = detailsEven ? ".details-odd" : ".details-even";
 
-          const currentData = DATA[order[0]];
+          const currentData = slidesData[order[0]];
           const detailsActiveEl = container.querySelector(detailsActive);
           if (detailsActiveEl) {
             const textEl = detailsActiveEl.querySelector('.text');
@@ -155,13 +165,14 @@ export function HeroSlider() {
           }
 
           const [active, ...rest] = order;
-          const prv = rest[rest.length - 1];
+          const prv = rest[rest.length - 1]; // The one that is zooming in
 
+          // Proper z-index layering to prevent overlap bugs during transition
           set(getCard(prv), { zIndex: 10 });
           set(getCard(active), { zIndex: 20 });
 
           const activeCardEl = container.querySelector(getCard(prv));
-          if (activeCardEl) gsap.to(activeCardEl, { scale: 1.5, ease });
+          if (activeCardEl) gsap.to(activeCardEl, { scale: 1.5, ease, duration: 0.8 });
           
           const activeContentEl = container.querySelector(getCardContent(active));
           if (activeContentEl) gsap.to(activeContentEl, { y: offsetTop + cardHeight - 10, opacity: 0, duration: 0.3, ease });
@@ -175,7 +186,9 @@ export function HeroSlider() {
               height: "100%",
               borderRadius: 0,
               ease,
+              duration: 0.8,
               onComplete: () => {
+                // Reset the previous fullscreen card to the back of the line
                 const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
                 set(getCard(prv), { x: xNew, y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 10, scale: 1 });
                 set(getCardContent(prv), { x: xNew, y: offsetTop + cardHeight - 100, opacity: 1, zIndex: 40 });
@@ -202,7 +215,7 @@ export function HeroSlider() {
 
           set(detailsActive, { zIndex: 22 });
           const daEl = container.querySelector(detailsActive);
-          if (daEl) gsap.to(daEl, { opacity: 1, delay: 0.4, ease });
+          if (daEl) gsap.to(daEl, { opacity: 1, delay: 0.4, ease, duration: 0.4 });
 
           animate(`${detailsActive} .text`, 0.7, { y: 0, delay: 0.1, ease });
           animate(`${detailsActive} .title-1`, 0.7, { y: 0, delay: 0.15, ease });
@@ -217,20 +230,20 @@ export function HeroSlider() {
 
           order.forEach((itemIdx, idx) => {
             const si = container.querySelector(`.slide-item-${itemIdx}`);
-            if (si) gsap.to(si, { x: idx * numberSize, ease });
+            if (si) gsap.to(si, { x: idx * numberSize, ease, duration: 0.6 });
           });
 
           const psf = container.querySelector(".progress-sub-foreground");
-          if (psf) gsap.to(psf, { width: 500 * (1 / order.length) * (active + 1), ease });
+          if (psf) gsap.to(psf, { width: 500 * (1 / order.length) * (active + 1), ease, duration: 0.6 });
 
           rest.forEach((i, index) => {
             if (i === prv) return;
             set(getCard(i), { zIndex: 30 });
             const xTarget = offsetLeft + index * (cardWidth + gap);
             const ci = container.querySelector(getCard(i));
-            if (ci) gsap.to(ci, { x: xTarget, y: offsetTop, width: cardWidth, height: cardHeight, ease, delay: 0.1 * (index + 1) });
+            if (ci) gsap.to(ci, { x: xTarget, y: offsetTop, width: cardWidth, height: cardHeight, ease, delay: 0.05 * (index + 1), duration: 0.6 });
             const cci = container.querySelector(getCardContent(i));
-            if (cci) gsap.to(cci, { x: xTarget, y: offsetTop + cardHeight - 100, opacity: 1, zIndex: 40, ease, delay: 0.1 * (index + 1) });
+            if (cci) gsap.to(cci, { x: xTarget, y: offsetTop + cardHeight - 100, opacity: 1, zIndex: 40, ease, delay: 0.05 * (index + 1), duration: 0.6 });
           });
         });
       }
@@ -242,8 +255,14 @@ export function HeroSlider() {
         }
         const h = container.clientHeight || window.innerHeight;
         const w = container.clientWidth || window.innerWidth;
-        offsetTop = h - 430;
-        offsetLeft = w - Math.min(w * 0.9, 830);
+        offsetTop = h - Math.min(430, h * 0.4);
+        
+        // Ensure cards do NOT overlap the text box. Text box is ~560px wide from left.
+        if (w < 768) {
+          offsetLeft = w - 100; // Push mostly offscreen on mobile
+        } else {
+          offsetLeft = Math.max(w * 0.55, 600); 
+        }
 
         const [active, ...rest] = order;
 
@@ -256,7 +275,7 @@ export function HeroSlider() {
           set(getCardContent(i), { x, y: offsetTop + cardHeight - 100 });
         });
 
-        set(".pagination", { top: offsetTop + 330, left: offsetLeft });
+        set(".pagination", { top: offsetTop + Math.min(330, h * 0.3), left: offsetLeft });
         set(".cover-curtain", { x: w + 400 });
       }
 
@@ -272,10 +291,15 @@ export function HeroSlider() {
 
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
-        offsetTop = height - 430;
-        offsetLeft = width - Math.min(width * 0.9, 830); // Responsive offset
+        
+        offsetTop = height - Math.min(430, height * 0.4);
+        if (width < 768) {
+          offsetLeft = width - 100;
+        } else {
+          offsetLeft = Math.max(width * 0.55, 600);
+        }
 
-        set(".pagination", { top: offsetTop + 330, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
+        set(".pagination", { top: offsetTop + Math.min(330, height * 0.3), left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
         set(getCard(active), { x: 0, y: 0, width: "100%", height: "100%" });
         set(getCardContent(active), { x: 0, y: 0, opacity: 0 });
         set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
@@ -309,9 +333,9 @@ export function HeroSlider() {
         const startDelay = 0.6;
         rest.forEach((i, index) => {
           const ci = container.querySelector(getCard(i));
-          if (ci) gsap.to(ci, { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay });
+          if (ci) gsap.to(ci, { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
           const cci = container.querySelector(getCardContent(i));
-          if (cci) gsap.to(cci, { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay });
+          if (cci) gsap.to(cci, { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
         });
 
         const pag = container.querySelector(".pagination");
@@ -331,6 +355,7 @@ export function HeroSlider() {
             x: width + 400,
             delay: 0.5,
             ease,
+            duration: 1,
             onComplete: () => {
               setTimeout(loop, 500);
             }
@@ -356,12 +381,18 @@ export function HeroSlider() {
       clearTimeout(resizeTimer);
       window.removeEventListener("resize", () => {});
       if ((window as any).gsap) {
-        // We only want to kill tweens associated with this container if possible, 
-        // but killing all is safer to prevent memory leaks in dev mode.
         (window as any).gsap.killTweensOf(".card");
       }
     };
   }, []);
+
+  if (loading) {
+    return <div className="w-full h-[100svh] bg-zinc-950 flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+    </div>;
+  }
+
+  const slidesData = settings?.hero?.slides?.length ? settings.hero.slides : DEFAULT_DATA;
 
   return (
     <div ref={containerRef} className="relative w-full h-[100svh] overflow-hidden bg-zinc-950 text-[#FFFFFFDD] font-sans select-none z-0">
@@ -380,6 +411,7 @@ export function HeroSlider() {
           background-position: center;
           background-size: cover;
           box-shadow: 6px 6px 10px 2px rgba(0, 0, 0, 0.6);
+          will-change: transform, left, top, width, height;
         }
 
         .card-content {
@@ -389,6 +421,7 @@ export function HeroSlider() {
           color: #FFFFFFDD;
           padding-left: 16px;
           pointer-events: none;
+          will-change: transform, opacity;
         }
 
         .text-dash::before {
@@ -408,10 +441,10 @@ export function HeroSlider() {
 
       {/* Card Stack */}
       <div className="demo">
-        {DATA.map((item, index) => (
+        {slidesData.map((item, index) => (
           <div key={`card-${index}`} className={`card card-${index}`} style={{ backgroundImage: `url(${item.image})` }} />
         ))}
-        {DATA.map((item, index) => (
+        {slidesData.map((item, index) => (
           <div key={`card-content-${index}`} className={`card-content card-content-${index}`}>
             <div className="w-[30px] h-[5px] rounded-full bg-emerald-500" />
             <div className="mt-[6px] text-[13px] font-medium tracking-wide uppercase">{item.place}</div>
@@ -423,18 +456,18 @@ export function HeroSlider() {
 
       {/* Details Panels */}
       {[0, 1].map((panelIdx) => (
-        <div key={`panel-${panelIdx}`} className={`details-${panelIdx === 0 ? 'even' : 'odd'} absolute top-[20%] md:top-[240px] left-[5%] md:left-[60px] z-[22] w-[90%] md:w-[500px] opacity-0`}>
+        <div key={`panel-${panelIdx}`} className={`details-${panelIdx === 0 ? 'even' : 'odd'} absolute top-[15%] md:top-[240px] left-[5%] md:left-[60px] z-[22] w-[90%] md:w-[500px] opacity-0`}>
           <div className="place-box h-[46px] overflow-hidden relative">
-            <div className="text text-dash pt-[16px] text-[16px] md:text-[20px] relative translate-y-[100px] text-emerald-400 font-bold tracking-wide uppercase drop-shadow-md">{DATA[0].place}</div>
+            <div className="text text-dash pt-[16px] text-[16px] md:text-[20px] relative translate-y-[100px] text-emerald-400 font-bold tracking-wide uppercase drop-shadow-md">{slidesData[0].place}</div>
           </div>
-          <div className="title-box-1 mt-[2px] h-[80px] md:h-[100px] overflow-hidden">
-            <div className="title-1 font-oswald text-[60px] md:text-[85px] leading-none translate-y-[100px] text-white drop-shadow-lg">{DATA[0].title}</div>
+          <div className="title-box-1 mt-[2px] h-[70px] md:h-[100px] overflow-hidden">
+            <div className="title-1 font-oswald text-[55px] md:text-[85px] leading-none translate-y-[100px] text-white drop-shadow-lg">{slidesData[0].title}</div>
           </div>
-          <div className="title-box-2 mt-[2px] h-[80px] md:h-[100px] overflow-hidden">
-            <div className="title-2 font-oswald text-[60px] md:text-[85px] leading-none translate-y-[100px] text-white drop-shadow-lg">{DATA[0].title2}</div>
+          <div className="title-box-2 mt-[2px] h-[70px] md:h-[100px] overflow-hidden">
+            <div className="title-2 font-oswald text-[55px] md:text-[85px] leading-none translate-y-[100px] text-white drop-shadow-lg">{slidesData[0].title2}</div>
           </div>
           <div className="desc mt-[16px] w-full md:w-[500px] text-[13px] md:text-[15px] leading-[1.6] text-zinc-200 translate-y-[50px] drop-shadow-md bg-black/20 p-4 rounded-xl backdrop-blur-sm border border-white/10">
-            {DATA[0].description}
+            {slidesData[0].description}
           </div>
           <div className="cta w-full md:w-[500px] mt-[24px] flex items-center translate-y-[60px]">
             <button 
@@ -449,7 +482,7 @@ export function HeroSlider() {
               onClick={() => (window as any).handleExploreClick?.()}
               className="border-2 border-white bg-white/10 backdrop-blur-md h-[42px] rounded-full text-white px-[24px] py-[4px] text-[13px] font-bold ml-[16px] uppercase cursor-pointer hover:bg-white hover:text-black transition-colors"
             >
-              Explorar Rutas
+              Explore Journeys
             </button>
           </div>
         </div>
@@ -463,7 +496,7 @@ export function HeroSlider() {
           </div>
         </div>
         <div className="slide-numbers w-[50px] h-[50px] overflow-hidden relative ml-6">
-          {DATA.map((_, index) => (
+          {slidesData.map((_, index) => (
             <div key={`slide-item-${index}`} className={`item absolute top-0 left-0 w-[50px] h-[50px] grid place-items-center text-white text-[32px] font-bold slide-item-${index}`}>
               {index + 1}
             </div>
