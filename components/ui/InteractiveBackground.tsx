@@ -20,9 +20,9 @@ class Particle {
     this.canvasHeight = height;
     this.x = Math.random() * width;
     this.y = Math.random() * height;
-    this.vx = (Math.random() - 0.5) * 0.5;
-    this.vy = (Math.random() - 0.5) * 0.5 - 0.5; // slight upward drift
-    this.baseSize = Math.random() * 2.5 + 0.5;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3 - 0.2; // float upwards slowly
+    this.baseSize = Math.random() * 1.5 + 0.5; // tiny stardust size
     this.size = this.baseSize;
     this.color = colors[Math.floor(Math.random() * colors.length)];
     this.phase = Math.random() * Math.PI * 2;
@@ -33,24 +33,26 @@ class Particle {
     this.y += this.vy;
     this.phase += 0.02;
 
-    // Slight shimmering pulse
-    this.size = this.baseSize + Math.sin(this.phase) * 1.5;
-    if (this.size < 0.5) this.size = 0.5;
+    // Stardust twinkling pulse (opacity variation, we use size for simplicity here, or just draw differently)
+    this.size = this.baseSize + Math.sin(this.phase) * 0.5;
+    if (this.size < 0.2) this.size = 0.2;
 
-    // Lava lamp flow
-    this.vy += Math.sin(this.phase * 0.5) * 0.01;
+    // Gentle sway
+    this.vy += Math.sin(this.phase * 0.5) * 0.005;
+    this.vx += Math.cos(this.phase * 0.3) * 0.005;
 
-    // Interactive mouse attraction
+    // Interactive mouse attraction/swirl
     if (mouseX !== 0 && mouseY !== 0) {
       const dx = mouseX - this.x;
       const dy = mouseY - this.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      const maxDist = 200;
+      const maxDist = 150;
 
       if (dist < maxDist) {
+        // Create a gentle swirl effect instead of strong gravity
         const force = (maxDist - dist) / maxDist;
-        this.vx += (dx / dist) * force * 0.02;
-        this.vy += (dy / dist) * force * 0.02;
+        this.vx += (dx / dist) * force * 0.01 + (dy / dist) * force * 0.02;
+        this.vy += (dy / dist) * force * 0.01 - (dx / dist) * force * 0.02;
       }
     }
 
@@ -66,16 +68,33 @@ class Particle {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
+    // Draw stardust as a tiny 4-pointed star/diamond shape
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    
+    // Rotate slowly based on phase
+    ctx.rotate(this.phase * 0.5);
+    
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    const s = this.size * 1.5;
+    ctx.moveTo(0, -s);
+    ctx.quadraticCurveTo(0, 0, s, 0);
+    ctx.quadraticCurveTo(0, 0, 0, s);
+    ctx.quadraticCurveTo(0, 0, -s, 0);
+    ctx.quadraticCurveTo(0, 0, 0, -s);
+    
+    // Twinkle opacity
+    const alpha = (Math.sin(this.phase) + 1) / 2 * 0.6 + 0.2; // 0.2 to 0.8
+    ctx.fillStyle = this.color.replace('rgb', 'rgba').replace(')', `, ${alpha})`);
+    ctx.fill();
+    
+    // Inner bright core
+    ctx.beginPath();
+    ctx.arc(0, 0, this.size * 0.5, 0, Math.PI * 2);
     ctx.fillStyle = this.color;
     ctx.fill();
     
-    // Add a glowing trail/halo effect
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
-    ctx.fillStyle = this.color.replace(')', ', 0.2)').replace('rgb', 'rgba');
-    ctx.fill();
+    ctx.restore();
   }
 }
 
@@ -96,17 +115,17 @@ export function InteractiveBackground() {
     
     const isDark = resolvedTheme === 'dark';
     
-    // Dark mode: Scarlet, Crimson, Vermilion
-    // Light mode: Silver, Platinum, Lead
+    // Dark mode: Stardust (Gold, Amber, Bright White)
+    // Light mode: Champagne Gold, Soft Silver
     const colors = isDark 
-      ? ['rgb(239, 68, 68)', 'rgb(220, 38, 38)', 'rgb(255, 69, 0)'] 
-      : ['rgb(156, 163, 175)', 'rgb(209, 213, 219)', 'rgb(107, 114, 128)'];
+      ? ['rgb(252, 211, 77)', 'rgb(251, 191, 36)', 'rgb(255, 255, 255)'] 
+      : ['rgb(212, 175, 55)', 'rgb(253, 224, 71)', 'rgb(156, 163, 175)'];
 
     const init = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       
-      const particleCount = Math.floor((canvas.width * canvas.height) / 12000); // Responsive density
+      const particleCount = Math.floor((canvas.width * canvas.height) / 8000); // denser stardust
       particles = [];
       for (let i = 0; i < particleCount; i++) {
         particles.push(new Particle(canvas.width, canvas.height, colors));
