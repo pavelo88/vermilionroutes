@@ -217,8 +217,8 @@ export function AdminSettingsPanel() {
             <div className="glass-input p-5 rounded-2xl border border-zinc-800/80 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">Hero Slider (GSAP)</h4>
-                  <p className="text-[11px] text-zinc-600 dark:text-zinc-400">Manage the slides that appear in the immersive fullscreen carousel. Ensure you upload high-quality vertical or square images.</p>
+                  <h4 className="text-lg font-bold font-oswald text-zinc-900 dark:text-white">Hero Section</h4>
+                  <p className="text-xs text-zinc-500">Manage the slides that appear in the immersive fullscreen hero. Ensure you upload high-quality vertical or square images.</p>
                 </div>
                 <Button
                   type="button"

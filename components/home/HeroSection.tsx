@@ -38,7 +38,8 @@ const DEFAULT_DATA = [
 
 export function HeroSection() {
   const { settings } = useSettings();
-  const slidesData = settings?.hero?.slides?.length ? settings.hero.slides : DEFAULT_DATA;
+  const validSlides = settings?.hero?.slides?.filter((s: any) => s.image && s.title);
+  const slidesData = validSlides?.length ? validSlides : DEFAULT_DATA;
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -47,7 +48,7 @@ export function HeroSection() {
   useEffect(() => {
     const timer = setInterval(() => {
       handleNext();
-    }, 6000);
+    }, 5000);
     return () => clearInterval(timer);
   }, [currentIndex, slidesData.length]);
 
@@ -74,27 +75,29 @@ export function HeroSection() {
 
   return (
     <div className="relative w-full h-[100svh] min-h-[600px] overflow-hidden bg-zinc-950 font-sans text-white">
-      {/* Background Image with crossfade */}
+      {/* Background Image with crossfade and Ken Burns slow zoom */}
       {slidesData.map((slide: any, idx: number) => (
         <div 
           key={idx}
-          className="absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out"
-          style={{ 
-            opacity: idx === currentIndex ? 1 : 0,
-            backgroundImage: `url(${slide.image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            zIndex: idx === currentIndex ? 1 : 0
-          }}
+          className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100 z-[1]' : 'opacity-0 z-0'}`}
         >
+          {/* The image div with the slow zoom */}
+          <div 
+            className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform ease-out"
+            style={{ 
+              backgroundImage: `url(${slide.image})`,
+              transform: idx === currentIndex ? 'scale(1.1)' : 'scale(1)',
+              transitionDuration: '5000ms'
+            }}
+          />
           {/* Gradient Overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10" />
         </div>
       ))}
 
       {/* Main Content Area */}
-      <div className="absolute inset-0 z-10 flex flex-col justify-end pb-24 md:pb-32 px-6 md:px-16 lg:px-24">
+      <div className="absolute inset-0 z-20 flex flex-col justify-end pb-24 md:pb-32 px-6 md:px-16 lg:px-24">
         
         <div className="flex flex-col lg:flex-row lg:items-end justify-between w-full h-full pt-32">
           

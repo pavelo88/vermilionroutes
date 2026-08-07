@@ -11,10 +11,11 @@ import { ContactSection } from '@/components/home/ContactSection';
 export default function Home() {
   return (
     <div className="space-y-8 pb-12">
-      <HeroSection />
-
-      {/* 1.5. Trust & Stats Section */}
-      <StatsSection />
+      <div>
+        <HeroSection />
+        {/* 1.5. Trust & Stats Section */}
+        <StatsSection />
+      </div>
 
       {/* 2. Top Destinations Grid */}
       <DestinationsGrid />
