@@ -24,7 +24,7 @@ const DEFAULT_DATA = [
     title: 'COLONIAL',
     title2: 'CHARM',
     description: 'A deeply enchanting Andean city known for its stunning architecture, artisan traditions, and the picturesque Tomebamba river. Experience the soul of Ecuador in every cobblestone street.',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Catedral_Nueva_de_Cuenca_01.jpg/1280px-Catedral_Nueva_de_Cuenca_01.jpg'
+    image: 'https://images.unsplash.com/photo-1616110978712-dfdfcce6b412?auto=format&fit=crop&w=2752&q=80'
   },
   {
     place: 'Cotopaxi - Andes',
@@ -185,6 +185,7 @@ export function HeroSlider() {
       // Setup manual navigation hook
       (window as any).triggerNextSlide = () => {
         if (!transitioning) {
+          gsap.killTweensOf(container.querySelectorAll(".indicator"));
           clicks = 1;
           step();
         }
@@ -197,21 +198,27 @@ export function HeroSlider() {
         // Find how many steps away it is
         const currentPos = order.indexOf(targetIdx);
         if (currentPos > 0) {
+          gsap.killTweensOf(container.querySelectorAll(".indicator"));
           clicks = currentPos;
           step();
         }
       };
 
-      async function loop() {
+      function startLoop() {
         if (isCancelled) return;
-        // User requested 4.5 seconds for the slide duration
-        await animate(".indicator", 4.5, { x: 0 });
-        if (isCancelled) return;
-        await animate(".indicator", 0.8, { x: window.innerWidth, delay: 0.3 });
-        if (isCancelled) return;
-        set(".indicator", { x: -window.innerWidth });
-        await step();
-        if (!isCancelled) loop();
+        gsap.killTweensOf(container.querySelectorAll(".indicator"));
+        set(".indicator", { x: -window.innerWidth, opacity: 1 });
+        
+        gsap.to(container.querySelectorAll(".indicator"), {
+          x: 0,
+          duration: 4.5,
+          ease: "linear",
+          onComplete: () => {
+            if (isCancelled) return;
+            clicks = 1;
+            step();
+          }
+        });
       }
 
       function step() {
@@ -286,6 +293,7 @@ export function HeroSlider() {
                   step();
                 } else {
                   clicks = 0;
+                  startLoop();
                 }
               }
             });
@@ -332,9 +340,8 @@ export function HeroSlider() {
       }
 
       init();
-      gsap.to(container.querySelectorAll(".cover"), { x: window.innerWidth + 400, delay: 0.5, ease, duration: 1, onComplete: () => {
-        setTimeout(() => loop(), 500);
-      }});
+      gsap.to(container.querySelectorAll(".cover"), { x: window.innerWidth + 400, delay: 0.5, ease, duration: 1 });
+      startLoop();
 
       return () => {
         window.removeEventListener("resize", onResize);

@@ -45,7 +45,7 @@ export const defaultSettings = {
         title: 'COLONIAL',
         title2: 'CHARM',
         description: 'A deeply enchanting Andean city known for its stunning architecture, artisan traditions, and the picturesque Tomebamba river. Experience the soul of Ecuador in every cobblestone street.',
-        image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Catedral_Nueva_de_Cuenca_01.jpg/1280px-Catedral_Nueva_de_Cuenca_01.jpg'
+        image: 'https://images.unsplash.com/photo-1616110978712-dfdfcce6b412?auto=format&fit=crop&w=2752&q=80'
       },
       {
         place: 'Cotopaxi - Andes',
