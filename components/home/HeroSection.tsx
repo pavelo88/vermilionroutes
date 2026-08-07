@@ -28,6 +28,20 @@ const DEFAULT_DATA = [
     image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=2752&q=80'
   },
   {
+    place: 'Manabí - Pacific Coast',
+    title: 'LOS FRAILES',
+    title2: 'BEACH',
+    description: 'A hidden jewel of crystal-clear waters and white sands within the Machalilla National Park. Surrounded by rugged cliffs and dry forests, it remains one of South America\'s most pristine coastal retreats.',
+    image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
+    place: 'Pichincha - Quito',
+    title: 'HISTORIC',
+    title2: 'CENTER',
+    description: 'The first World Cultural Heritage site. Cobblestone streets, colonial monasteries, and baroque cathedrals perched at 2,800 meters under the monumental shadow of the high Andes.',
+    image: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
     place: 'Cusco - Peru',
     title: 'SACRED',
     title2: 'VALLEY',
@@ -101,8 +115,8 @@ export function HeroSection() {
         
         <div className="flex flex-col lg:flex-row lg:items-end justify-between w-full h-full pt-32">
           
-          {/* Left Text Content */}
-          <div className="flex-1 max-w-2xl mb-12 lg:mb-0 transition-all duration-700 transform translate-y-0 opacity-100 animate-in slide-in-from-bottom-8">
+          {/* Left Text Content - Key forces React to recreate DOM, preventing Google Translate glitches */}
+          <div key={currentIndex} className="flex-1 max-w-2xl mb-12 lg:mb-0 transition-all duration-700 transform translate-y-0 opacity-100 animate-in slide-in-from-bottom-8">
             <div className="flex items-center gap-4 mb-4">
               <div className="w-8 h-[2px] bg-emerald-500" />
               <h3 className="text-sm md:text-base font-medium tracking-widest uppercase text-emerald-400">
@@ -111,12 +125,12 @@ export function HeroSection() {
             </div>
             
             <h1 className="text-6xl md:text-8xl lg:text-[100px] font-oswald font-bold leading-[0.9] mb-6 uppercase tracking-tight text-white drop-shadow-2xl">
-              {currentSlide.title} <br/> 
+              <span>{currentSlide.title}</span> <br/> 
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400">{currentSlide.title2}</span>
             </h1>
             
             <p className="text-sm md:text-lg text-zinc-300 max-w-xl mb-8 leading-relaxed drop-shadow-md border-l-2 border-emerald-500/50 pl-4">
-              {currentSlide.description}
+              <span>{currentSlide.description}</span>
             </p>
             
             <div className="flex items-center gap-4">
