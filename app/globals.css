@@ -46,7 +46,7 @@
   z-index: 0;
   pointer-events: none;
   animation: aurora-spin 25s linear infinite;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.5s ease;
 }
 

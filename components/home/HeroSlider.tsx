@@ -7,31 +7,10 @@ import { Bookmark, ChevronLeft, ChevronRight } from 'lucide-react';
 const DEFAULT_DATA = [
   {
     place: 'Galapagos - Archipelago',
-    title: 'ENCHANTED',
-    title2: 'ISLANDS',
-    description: 'A pristine natural sanctuary where sea lions, blue-footed boobies, and giant tortoises thrive in absolute harmony. Sail across volcanic landscapes and dive into an immersive, unforgettable experience.',
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=2752&q=80'
-  },
-  {
-    place: 'Cotopaxi - Andes',
-    title: 'MAJESTIC',
-    title2: 'VOLCANO',
-    description: 'The perfect snow-capped cone rising proudly over the Ecuadorian Andes. Walk among mystical paramo highlands, witness the condor\'s flight, and behold the grandeur of the Avenue of the Volcanoes.',
-    image: 'https://images.unsplash.com/photo-1589802829985-817e51171b92?auto=format&fit=crop&w=2752&q=80'
-  },
-  {
-    place: 'Amazon - Orellana',
-    title: 'YASUNÍ',
-    title2: 'RAINFOREST',
-    description: 'The most biodiverse spot on Earth. Navigate winding rivers surrounded by untouched jungle, spot pink dolphins, and let the mystical magic of the deep Amazon captivate your senses.',
-    image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=2752&q=80'
-  },
-  {
-    place: 'Manabí - Pacific Coast',
-    title: 'FRAILES',
-    title2: 'BEACH',
-    description: 'A hidden jewel of crystal-clear waters and white sands within the Machalilla National Park. Surrounded by rugged cliffs and dry forests, it remains one of South America\'s most pristine coastal retreats.',
-    image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=2752&q=80'
+    title: 'SHARK',
+    title2: 'ENCOUNTER',
+    description: 'Dive into the pristine waters of the Galapagos Marine Reserve. Swim alongside hammerhead sharks, playful sea lions, and marine iguanas in one of the planet\'s most protected and spectacular underwater realms.',
+    image: 'https://images.unsplash.com/photo-1551244072-5d12893278ab?auto=format&fit=crop&w=2752&q=80'
   },
   {
     place: 'Pichincha - Quito',
@@ -41,25 +20,39 @@ const DEFAULT_DATA = [
     image: 'https://images.unsplash.com/photo-1616089308119-971c2ba244d2?auto=format&fit=crop&w=2752&q=80'
   },
   {
+    place: 'Azuay - Cuenca',
+    title: 'COLONIAL',
+    title2: 'CHARM',
+    description: 'A deeply enchanting Andean city known for its stunning architecture, artisan traditions, and the picturesque Tomebamba river. Experience the soul of Ecuador in every cobblestone street.',
+    image: 'https://images.unsplash.com/photo-1616110978712-dfdfcce6b412?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
+    place: 'Cotopaxi - Andes',
+    title: 'MAJESTIC',
+    title2: 'VOLCANO',
+    description: 'The perfect snow-capped cone rising proudly over the Ecuadorian Andes. Walk among mystical paramo highlands, witness the condor\'s flight, and behold the grandeur of the Avenue of the Volcanoes.',
+    image: 'https://images.unsplash.com/photo-1589802829985-817e51171b92?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
+    place: 'Manabí - Pacific Coast',
+    title: 'FRAILES',
+    title2: 'BEACH',
+    description: 'A hidden jewel of crystal-clear waters and white sands within the Machalilla National Park. Surrounded by rugged cliffs and dry forests, it remains one of South America\'s most pristine coastal retreats.',
+    image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
+    place: 'Guayas - Guayaquil',
+    title: 'TROPICAL',
+    title2: 'PORT',
+    description: 'The economic heartbeat of Ecuador. Stroll the vibrant Malecón 2000, explore the colorful hillside neighborhood of Las Peñas, and feel the warm, energetic spirit of the Pacific coast.',
+    image: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&w=2752&q=80'
+  },
+  {
     place: 'Cusco - Peru',
     title: 'SACRED',
     title2: 'VALLEY',
     description: 'Journey into the heart of the Inca Empire. Traverse terraced hillsides, discover ancient citadels hidden in the mist, and connect with the timeless heritage of the Andean people.',
     image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2752&q=80'
-  },
-  {
-    place: 'Patagonia - Argentina',
-    title: 'PERITO',
-    title2: 'MORENO',
-    description: 'A colossal river of blue ice advancing into Lake Argentino. Listen to the thunderous roar of calving ice blocks in one of the most breathtaking natural spectacles on the planet.',
-    image: 'https://images.unsplash.com/photo-1549449179-8cb1f414e8c1?auto=format&fit=crop&w=2752&q=80'
-  },
-  {
-    place: 'Potosí - Bolivia',
-    title: 'UYUNI',
-    title2: 'SALT FLATS',
-    description: 'The world\'s largest salt flat, where the earth meets the sky in a mirror-like illusion. A surreal landscape of blinding white expanses, colorful lagoons, and dormant volcanoes.',
-    image: 'https://images.unsplash.com/photo-1533083161350-9c2f6d0fba75?auto=format&fit=crop&w=2752&q=80'
   }
 ];
 
@@ -118,8 +111,8 @@ export function HeroSlider() {
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
         
-        // Critical fix to prevent cards from overlaying text
-        offsetTop = (height * 0.75) - 340; 
+        // height is ALREADY the container's height (75vh). So we just subtract the card height + margin.
+        offsetTop = height - cardHeight - 60; 
         offsetLeft = Math.max(width - 830, 650); 
         
         const [active, ...rest] = order;
@@ -144,7 +137,7 @@ export function HeroSlider() {
       function init() {
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
-        offsetTop = (height * 0.75) - 340;
+        offsetTop = height - cardHeight - 60;
         offsetLeft = Math.max(width - 830, 650);
         
         const [active, ...rest] = order;
@@ -272,7 +265,6 @@ export function HeroSlider() {
                 set(`${detailsInactive} .title-1`, { y: 100 });
                 set(`${detailsInactive} .title-2`, { y: 100 });
                 set(`${detailsInactive} .desc`, { y: 50 });
-                set(`${detailsInactive} .cta`, { y: 60 });
 
                 transitioning = false;
                 if (pendingRelayout) {
@@ -292,8 +284,7 @@ export function HeroSlider() {
           animate(`${detailsActive} .text`, 0.7, { y: 0, delay: 0.1, ease });
           animate(`${detailsActive} .title-1`, 0.7, { y: 0, delay: 0.15, ease });
           animate(`${detailsActive} .title-2`, 0.7, { y: 0, delay: 0.15, ease });
-          animate(`${detailsActive} .desc`, 0.4, { y: 0, delay: 0.3, ease });
-          animate(`${detailsActive} .cta`, 0.4, { y: 0, delay: 0.35, ease, onComplete: resolve });
+          animate(`${detailsActive} .desc`, 0.4, { y: 0, delay: 0.3, ease, onComplete: resolve });
 
           order.forEach((itemIdx, idx) => {
             gsap.to(container.querySelectorAll(`.slide-item-${itemIdx}`), { x: idx * numberSize, ease, duration: 0.8 });
@@ -386,22 +377,10 @@ export function HeroSlider() {
               </div>
             </div>
             
-            <div className="mt-6 w-[90vw] max-w-[500px]">
-              <div className="desc text-white/90 text-sm md:text-lg leading-relaxed drop-shadow-md">
+            <div className="h-[80px] overflow-hidden mt-6">
+              <div className="desc text-sm md:text-lg text-white/90 max-w-xl leading-relaxed drop-shadow-md">
                 <span>{initialData.description}</span>
               </div>
-            </div>
-            
-            <div className="cta w-[90vw] max-w-[500px] mt-8 flex items-center">
-              <button className="w-[42px] h-[42px] border border-white/50 rounded-full text-white grid place-items-center hover:bg-white hover:text-black transition-colors">
-                <Bookmark className="w-5 h-5" />
-              </button>
-              <button 
-                onClick={() => document.getElementById('featured-tours')?.scrollIntoView({ behavior: 'smooth' })}
-                className="h-[42px] rounded-full border border-white bg-transparent text-white px-[24px] py-[4px] text-[12px] font-bold ml-[16px] uppercase hover:bg-white hover:text-black transition-colors tracking-widest"
-              >
-                EXPLORE DESTINATIONS
-              </button>
             </div>
           </div>
         );

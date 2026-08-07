@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Award, Shield, Globe, Users } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Award, Shield, Globe, Users, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 
 export function StatsSection() {
   const [mounted, setMounted] = useState(false);
@@ -17,11 +19,16 @@ export function StatsSection() {
     }
   };
 
+  const scrollToTours = () => {
+    const el = document.getElementById('tours');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   if (!mounted) return null;
 
   return (
     <section className="bg-zinc-950 border-b border-zinc-900 relative z-10 w-full py-4 px-4 sm:px-6 lg:px-8 shadow-2xl">
-      <div className="max-w-7xl mx-auto flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
         
         {/* Compact Stat 1 */}
         <div className="flex-1 min-w-[140px] flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group">
@@ -79,6 +86,20 @@ export function StatsSection() {
             <div className="text-white font-oswald font-bold text-lg leading-none mb-1">100%</div>
             <p className="text-[10px] text-zinc-400 uppercase tracking-wider leading-none">Secure Payments</p>
           </div>
+        </div>
+
+        {/* Divider */}
+        <div className="hidden lg:block w-px h-8 bg-zinc-800" />
+
+        {/* Action Button */}
+        <div className="flex-1 min-w-[200px] flex justify-center lg:justify-end mt-2 lg:mt-0">
+          <Button 
+            onClick={scrollToTours}
+            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white rounded-full px-8 py-6 uppercase tracking-widest text-xs font-bold transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] gap-2 group"
+          >
+            Explore Tours
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Button>
         </div>
 
       </div>
