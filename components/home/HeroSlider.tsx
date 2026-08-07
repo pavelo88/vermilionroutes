@@ -188,10 +188,21 @@ export function HeroSlider() {
         return new Promise((resolve) => gsap.to(container.querySelectorAll(target), { ...properties, duration, onComplete: resolve }));
       }
 
+      // Setup manual navigation hook
+      (window as any).triggerNextSlide = () => {
+        if (!transitioning) {
+          gsap.killTweensOf(".indicator");
+          set(".indicator", { x: -window.innerWidth });
+          step().then(() => {
+            if (!isCancelled) loop();
+          });
+        }
+      };
+
       async function loop() {
         if (isCancelled) return;
-        // User requested NO DEAD TIME. Sweep the bar in 2 seconds, wait 0.3, exit in 0.8.
-        await animate(".indicator", 2, { x: 0 });
+        // User requested 4.5 seconds for the slide duration
+        await animate(".indicator", 4.5, { x: 0 });
         if (isCancelled) return;
         await animate(".indicator", 0.8, { x: window.innerWidth, delay: 0.3 });
         if (isCancelled) return;
@@ -327,11 +338,11 @@ export function HeroSlider() {
         (window as any).gsap.killTweensOf(".card-content");
       }
     };
-  }, [isReady, settings?.hero?.slides]);
+  }, [isReady, settings?.hero?.slides?.length]);
 
   if (!isReady) {
     return (
-      <div className="w-full h-[100svh] bg-zinc-950 flex items-center justify-center">
+      <div className="w-full h-[85svh] min-h-[600px] bg-zinc-950 flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
       </div>
     );
@@ -341,7 +352,7 @@ export function HeroSlider() {
   const initialData = slidesData[0];
 
   return (
-    <div ref={containerRef} className="relative w-full h-[100svh] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
+    <div ref={containerRef} className="relative w-full h-[85svh] min-h-[600px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
       
       {/* Indicator */}
       <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
@@ -358,13 +369,13 @@ export function HeroSlider() {
               </div>
             </div>
             
-            <div className="h-[75px] md:h-[90px] lg:h-[110px] overflow-hidden mt-1">
-              <div className="title-1 font-oswald font-extrabold text-6xl md:text-[80px] lg:text-[100px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
+            <div className="h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden mt-1">
+              <div className="title-1 font-oswald font-extrabold text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
                 <span>{initialData.title}</span>
               </div>
             </div>
-            <div className="h-[75px] md:h-[90px] lg:h-[110px] overflow-hidden">
-              <div className="title-2 font-oswald font-extrabold text-6xl md:text-[80px] lg:text-[100px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-lg">
+            <div className="h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden">
+              <div className="title-2 font-oswald font-extrabold text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-lg">
                 <span>{initialData.title2}</span>
               </div>
             </div>
@@ -413,13 +424,13 @@ export function HeroSlider() {
 
       {/* Pagination HUD */}
       <div id="pagination" className="absolute left-0 top-0 flex items-center">
-        {/* Navigation Arrows (Visual only) */}
+        {/* Navigation Arrows */}
         <div className="hidden md:flex gap-4 mr-6">
-          <div className="w-[42px] h-[42px] rounded-full border border-white/30 flex items-center justify-center">
-            <ChevronLeft className="w-5 h-5 text-white/60" />
+          <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[42px] h-[42px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">
+            <ChevronLeft className="w-5 h-5 text-white/60 group-hover:text-black" />
           </div>
-          <div className="w-[42px] h-[42px] rounded-full border border-white/30 flex items-center justify-center">
-            <ChevronRight className="w-5 h-5 text-white/60" />
+          <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[42px] h-[42px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">
+            <ChevronRight className="w-5 h-5 text-white/60 group-hover:text-black" />
           </div>
         </div>
         
