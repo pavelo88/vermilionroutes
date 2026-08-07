@@ -100,6 +100,7 @@ export function HeroSlider() {
     };
     
     loadGSAP().then((gsap) => {
+      gsap.config({ nullTargetWarn: false });
       if (isCancelled || !containerRef.current) return;
       const container = containerRef.current;
       const set = (target: string, props: any) => gsap.set(container.querySelectorAll(target), props);
