@@ -225,15 +225,16 @@ export function Navbar() {
                 >
                   {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </button>
-                <div className="relative" onMouseEnter={() => setLangOpen(true)} onMouseLeave={() => { setLangOpen(false); setShowGTranslate(false); }}>
+                <div className="relative">
                   <button
                     suppressHydrationWarning
+                    onClick={() => { setLangOpen(!langOpen); if (langOpen) setShowGTranslate(false); }}
                     className="flex items-center gap-2 px-3 py-2 text-xs font-semibold bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 rounded-xl cursor-pointer transition-colors"
                   >
                     <Globe className="w-3.5 h-3.5 text-emerald-600" />
                     <span className="uppercase">{locale} / USD</span>
                   </button>
-                  <div className={`absolute top-full right-0 mt-2 w-52 z-50 animate-in fade-in slide-in-from-top-2 duration-200 notranslate ${langOpen ? 'block' : 'hidden'}`}>
+                  <div className={`absolute top-full right-0 pt-2 w-52 z-50 notranslate ${langOpen ? 'block' : 'hidden'}`}>
                     <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-zinc-200/90 dark:border-zinc-800 max-h-[70vh] overflow-y-auto">
                       <div className="flex flex-col gap-1">
                           {LOCALES.map((l) => (
@@ -267,6 +268,13 @@ export function Navbar() {
                     </div>
                   </div>
                 </div>
+                {/* Backdrop to close menu when clicking outside */}
+                {langOpen && (
+                  <div
+                    className="fixed inset-0 z-40"
+                    onClick={() => { setLangOpen(false); setShowGTranslate(false); }}
+                  />
+                )}
               </>
             )}
             <Button

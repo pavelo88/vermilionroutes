@@ -381,18 +381,18 @@ export function HeroSlider() {
             <div className="h-[46px] overflow-hidden mb-2">
               <div className="text text-white/90 font-medium tracking-widest uppercase text-sm pt-4 relative">
                 <div className="absolute top-0 left-0 w-8 h-[2px] bg-white rounded-full" />
-                <span>{initialData.place}</span>
+                <span className="notranslate">{initialData.place}</span>
               </div>
             </div>
             
             <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden mt-1">
               <div className="title-1 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
-                <span>{initialData.title}</span>
+                <span className="notranslate">{initialData.title}</span>
               </div>
             </div>
             <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden">
               <div className="title-2 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-lg">
-                <span>{initialData.title2}</span>
+                <span className="notranslate">{initialData.title2}</span>
               </div>
             </div>
             
@@ -433,8 +433,8 @@ export function HeroSlider() {
           <div className={`card-content card-content-${idx} absolute left-0 top-0 text-white w-[180px] h-[260px] pointer-events-none`}>
             <div className="absolute bottom-5 left-5 right-5 text-left">
               <div className="w-4 h-[2px] bg-white mb-2" />
-              <p className="text-[9px] uppercase font-bold text-white/80 tracking-widest mb-1 line-clamp-1">{slide.place}</p>
-              <h4 className="text-white font-oswald text-xl uppercase leading-none tracking-wide">{slide.title}</h4>
+              <p className="text-[9px] uppercase font-bold text-white/80 tracking-widest mb-1 line-clamp-1 notranslate">{slide.place}</p>
+              <h4 className="text-white font-oswald text-xl uppercase leading-none tracking-wide notranslate">{slide.title}</h4>
             </div>
           </div>
         </div>
