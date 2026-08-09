@@ -143,7 +143,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
         <div className="hidden md:flex items-stretch justify-center gap-6 px-20 py-4">
           {/* Prev card — dimmed */}
           <div
-            className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-50 scale-95 blur-[0.5px] transition-all duration-500 ease-out cursor-pointer hover:opacity-70"
+            className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-all duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
             onClick={handlePrev}
             style={{ transformOrigin: 'right center' }}
           >
@@ -157,7 +157,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
           {/* Next card — dimmed */}
           <div
-            className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-50 scale-95 blur-[0.5px] transition-all duration-500 ease-out cursor-pointer hover:opacity-70"
+            className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-all duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
             onClick={handleNext}
             style={{ transformOrigin: 'left center' }}
           >
@@ -173,8 +173,8 @@ export function TourCarousel({ tours }: TourCarouselProps) {
             const isNext = idx === nextIdx;
             let cls = 'translate-x-[150%] opacity-0 z-0 scale-90 pointer-events-none';
             if (isCurrent) cls = 'translate-x-0 opacity-100 z-20 scale-100';
-            else if (isPrev) cls = '-translate-x-[115%] opacity-30 z-10 scale-95 pointer-events-none';
-            else if (isNext) cls = 'translate-x-[115%] opacity-30 z-10 scale-95 pointer-events-none';
+            else if (isPrev) cls = '-translate-x-[115%] opacity-70 z-10 scale-95 pointer-events-none';
+            else if (isNext) cls = 'translate-x-[115%] opacity-70 z-10 scale-95 pointer-events-none';
             return (
               <div
                 key={`${tour.id}-${idx}`}

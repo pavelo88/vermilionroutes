@@ -74,21 +74,23 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const tNav = useTranslations('nav');
+
   const navLinks = [
-    { name: 'Home', href: '/' },
+    { name: tNav('home'), href: '/' },
     {
-      name: 'Destinations',
+      name: tNav('destinations'),
       href: '/#destinations',
       hasDropdown: true,
       subItems: [
-        { name: 'Galapagos Islands', href: '/#galapagos', desc: 'Premium Cruises & Island Hopping' },
-        { name: 'Mainland Ecuador', href: '/#ecuador', desc: 'Avenue of Volcanoes & Amazon' },
-        { name: 'Mystical Peru', href: '/#peru', desc: 'Cusco, Sacred Valley & Machu Picchu' },
+        { name: tNav('galapagos'), href: '/#galapagos', desc: 'Premium Cruises & Island Hopping' },
+        { name: tNav('ecuador'), href: '/#ecuador', desc: 'Avenue of Volcanoes & Amazon' },
+        { name: tNav('peru'), href: '/#peru', desc: 'Cusco, Sacred Valley & Machu Picchu' },
       ],
     },
-    { name: 'Featured Tours', href: '/#tours' },
-    { name: 'About Us', href: '/#experience' },
-    { name: 'Contact', href: '/#contact' },
+    { name: tNav('tours'), href: '/#tours' },
+    { name: tNav('about'), href: '/#experience' },
+    { name: tNav('contact'), href: '/#contact' },
   ];
 
   return (
