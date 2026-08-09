@@ -7,12 +7,10 @@ export default function GTranslateWrapper() {
     // Prevent multiple injections
     if (document.getElementById('google-translate-script')) return;
 
-    // Define the init function globally
     (window as any).googleTranslateElementInit = () => {
       new (window as any).google.translate.TranslateElement(
         {
           pageLanguage: 'en',
-          includedLanguages: 'en,es',
           autoDisplay: false,
         },
         'google_translate_element'
@@ -47,9 +45,8 @@ export default function GTranslateWrapper() {
       window.location.reload();
     };
 
-    // MutationObserver to aggressively hide the Google Translate banner
     const hideGoogleTranslateBar = () => {
-      const frames = document.querySelectorAll('.goog-te-banner-frame, .skiptranslate');
+      const frames = document.querySelectorAll('.goog-te-banner-frame');
       frames.forEach((el) => {
         (el as HTMLElement).style.display = 'none';
         (el as HTMLElement).style.visibility = 'hidden';
@@ -73,6 +70,6 @@ export default function GTranslateWrapper() {
   }, []);
 
   return (
-    <div id="google_translate_element" className="hidden opacity-0 w-0 h-0 overflow-hidden" />
+    <div id="google_translate_element" className="w-full overflow-hidden rounded-lg [&>div]:!w-full [&>div>select]:!w-full [&>div>select]:!p-2 [&>div>select]:!border-zinc-200 [&>div>select]:!rounded-lg [&>div>select]:!text-sm" />
   );
 }

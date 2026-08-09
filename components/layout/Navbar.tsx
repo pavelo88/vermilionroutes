@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useSettings } from '@/hooks/useSettings';
 import Image from 'next/image';
+import { GTranslateWrapper } from '@/components/shared/ui';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -33,41 +34,31 @@ export function Navbar() {
   const router = useRouter();
   
   const [mounted, setMounted] = useState(false);
-  const [isTranslating, setIsTranslating] = useState(false);
+  const [showGTranslate, setShowGTranslate] = useState(false);
   const { theme, setTheme } = useTheme();
 
   const LOCALES = [
-    { code: 'en', label: 'EN' },
-    { code: 'es', label: 'ES' },
-    { code: 'fr', label: 'FR' },
-    { code: 'de', label: 'DE' },
-    { code: 'zh', label: 'ZH' },
-    { code: 'it', label: 'IT' },
-    { code: 'pt', label: 'PT' },
-    { code: 'ja', label: 'JA' },
+    { code: 'en', label: 'English', flag: '🇺🇸' },
+    { code: 'es', label: 'Español', flag: '🇪🇸' },
+    { code: 'fr', label: 'Français', flag: '🇫🇷' },
+    { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+    { code: 'zh', label: '中文', flag: '🇨🇳' },
+    { code: 'it', label: 'Italiano', flag: '🇮🇹' },
+    { code: 'pt', label: 'Português', flag: '🇵🇹' },
+    { code: 'ja', label: '日本語', flag: '🇯🇵' },
   ];
 
   const changeLanguage = (newLocale: string) => {
     setLangOpen(false);
     if (newLocale === 'other') {
-      // Trigger Google Translate
-      setIsTranslating(true);
-      if (typeof (window as any).doGTranslate === 'function') {
-        (window as any).doGTranslate('en|es'); // Example trigger, will open standard widget
-      }
-      setTimeout(() => setIsTranslating(false), 1500);
+      setShowGTranslate(true);
       return;
     }
 
     // Native next-intl navigation
-    setIsTranslating(true);
     // Strip the current locale from pathname and append the new one
     const pathWithoutLocale = pathname.replace(new RegExp(`^/${locale}`), '') || '/';
     router.push(`/${newLocale}${pathWithoutLocale}`);
-    
-    setTimeout(() => {
-      setIsTranslating(false);
-    }, 1500);
   };
 
 
@@ -102,19 +93,6 @@ export function Navbar() {
 
   return (
     <>
-      {/* Translation Spinner Overlay */}
-      {isTranslating && (
-        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/60 backdrop-blur-md">
-          <div className="w-16 h-16 border-4 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin shadow-[0_0_15px_rgba(16,185,129,0.5)] mb-6" />
-          <h3 className="text-white font-oswald text-2xl font-bold tracking-wide">
-            {t('sending') || 'Translating...'}
-          </h3>
-          <p className="text-emerald-300 text-sm font-medium mt-2">
-            One moment please.
-          </p>
-        </div>
-      )}
-
       {/* Top Banner */}
       <div className="bg-zinc-950 text-zinc-300 text-xs py-2 px-4 sm:px-8 border-b border-zinc-800/80">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
@@ -247,7 +225,7 @@ export function Navbar() {
                 >
                   {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </button>
-                <div className="relative" onMouseEnter={() => setLangOpen(true)} onMouseLeave={() => setLangOpen(false)}>
+                <div className="relative" onMouseEnter={() => setLangOpen(true)} onMouseLeave={() => { setLangOpen(false); setShowGTranslate(false); }}>
                   <button
                     suppressHydrationWarning
                     className="flex items-center gap-2 px-3 py-2 text-xs font-semibold bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 rounded-xl cursor-pointer transition-colors"
@@ -256,30 +234,38 @@ export function Navbar() {
                     <span className="uppercase">{locale} / USD</span>
                   </button>
                   {langOpen && (
-                    <div className="absolute top-full right-0 mt-2 w-48 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                      <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-zinc-200/90 dark:border-zinc-800">
-                        <div className="grid grid-cols-2 gap-1">
+                    <div className="absolute top-full right-0 mt-2 w-52 z-50 animate-in fade-in slide-in-from-top-2 duration-200 notranslate">
+                      <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-zinc-200/90 dark:border-zinc-800 max-h-[70vh] overflow-y-auto">
+                        <div className="flex flex-col gap-1">
                           {LOCALES.map((l) => (
                             <button
                               key={l.code}
                               onClick={() => changeLanguage(l.code)}
-                              className={`text-xs text-left px-3 py-2 rounded-lg font-semibold transition-colors ${
+                              className={`flex items-center gap-3 text-sm text-left px-3 py-2.5 rounded-lg font-medium transition-colors ${
                                 locale === l.code 
                                 ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400' 
                                 : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                               }`}
                             >
-                              {l.label}
+                              <span className="text-lg leading-none">{l.flag}</span>
+                              <span>{l.label}</span>
                             </button>
                           ))}
                         </div>
                         <div className="pt-2 mt-2 border-t border-zinc-100 dark:border-zinc-800">
-                          <button
-                            onClick={() => changeLanguage('other')}
-                            className="w-full text-xs text-center px-3 py-2 rounded-lg font-semibold text-zinc-500 hover:text-emerald-600 transition-colors"
-                          >
-                            More Languages...
-                          </button>
+                          {!showGTranslate ? (
+                            <button
+                              onClick={() => setShowGTranslate(true)}
+                              className="w-full text-xs text-center px-3 py-2 rounded-lg font-semibold text-zinc-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors"
+                            >
+                              More Languages...
+                            </button>
+                          ) : (
+                            <div className="p-1 animate-in fade-in duration-300">
+                              <span className="text-[10px] uppercase font-bold text-emerald-600 block mb-2 text-center">Powered by Google</span>
+                              <GTranslateWrapper />
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
