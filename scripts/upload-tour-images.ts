@@ -3,6 +3,7 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import fs from 'fs';
 import path from 'path';
+// @ts-ignore
 import firebaseConfigJson from '../firebase-applet-config.json' with { type: 'json' };
 import { mockTours, mockDestinations } from '../data/mock';
 

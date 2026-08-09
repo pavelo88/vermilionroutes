@@ -1,6 +1,7 @@
 export {};
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
+// @ts-ignore
 import firebaseConfigJson from '../firebase-applet-config.json' with { type: 'json' };
 
 const firebaseConfig = {

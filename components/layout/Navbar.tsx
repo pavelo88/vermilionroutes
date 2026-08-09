@@ -38,14 +38,14 @@ export function Navbar() {
   const { theme, setTheme } = useTheme();
 
   const LOCALES = [
-    { code: 'en', label: 'English', flag: '🇺🇸' },
-    { code: 'es', label: 'Español', flag: '🇪🇸' },
-    { code: 'fr', label: 'Français', flag: '🇫🇷' },
-    { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
-    { code: 'zh', label: '中文', flag: '🇨🇳' },
-    { code: 'it', label: 'Italiano', flag: '🇮🇹' },
-    { code: 'pt', label: 'Português', flag: '🇵🇹' },
-    { code: 'ja', label: '日本語', flag: '🇯🇵' },
+    { code: 'en', label: 'English', flagUrl: 'https://flagcdn.com/us.svg' },
+    { code: 'es', label: 'Español', flagUrl: 'https://flagcdn.com/es.svg' },
+    { code: 'fr', label: 'Français', flagUrl: 'https://flagcdn.com/fr.svg' },
+    { code: 'de', label: 'Deutsch', flagUrl: 'https://flagcdn.com/de.svg' },
+    { code: 'zh', label: '中文', flagUrl: 'https://flagcdn.com/cn.svg' },
+    { code: 'it', label: 'Italiano', flagUrl: 'https://flagcdn.com/it.svg' },
+    { code: 'pt', label: 'Português', flagUrl: 'https://flagcdn.com/pt.svg' },
+    { code: 'ja', label: '日本語', flagUrl: 'https://flagcdn.com/jp.svg' },
   ];
 
   const changeLanguage = (newLocale: string) => {
@@ -233,10 +233,9 @@ export function Navbar() {
                     <Globe className="w-3.5 h-3.5 text-emerald-600" />
                     <span className="uppercase">{locale} / USD</span>
                   </button>
-                  {langOpen && (
-                    <div className="absolute top-full right-0 mt-2 w-52 z-50 animate-in fade-in slide-in-from-top-2 duration-200 notranslate">
-                      <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-zinc-200/90 dark:border-zinc-800 max-h-[70vh] overflow-y-auto">
-                        <div className="flex flex-col gap-1">
+                  <div className={`absolute top-full right-0 mt-2 w-52 z-50 animate-in fade-in slide-in-from-top-2 duration-200 notranslate ${langOpen ? 'block' : 'hidden'}`}>
+                    <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-zinc-200/90 dark:border-zinc-800 max-h-[70vh] overflow-y-auto">
+                      <div className="flex flex-col gap-1">
                           {LOCALES.map((l) => (
                             <button
                               key={l.code}
@@ -247,29 +246,26 @@ export function Navbar() {
                                 : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                               }`}
                             >
-                              <span className="text-lg leading-none">{l.flag}</span>
+                              <img src={l.flagUrl} alt={l.code} className="w-5 h-auto rounded-[2px] shadow-sm" />
                               <span>{l.label}</span>
                             </button>
                           ))}
                         </div>
-                        <div className="pt-2 mt-2 border-t border-zinc-100 dark:border-zinc-800">
-                          {!showGTranslate ? (
-                            <button
-                              onClick={() => setShowGTranslate(true)}
-                              className="w-full text-xs text-center px-3 py-2 rounded-lg font-semibold text-zinc-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors"
-                            >
-                              More Languages...
-                            </button>
-                          ) : (
-                            <div className="p-1 animate-in fade-in duration-300">
-                              <span className="text-[10px] uppercase font-bold text-emerald-600 block mb-2 text-center">Powered by Google</span>
-                              <GTranslateWrapper />
-                            </div>
-                          )}
-                        </div>
+                        <div className="pt-2 mt-2 border-t border-zinc-100 dark:border-zinc-800 flex flex-col gap-2">
+                          <button
+                            onClick={() => setShowGTranslate(true)}
+                            className={`w-full text-xs text-center px-3 py-2 rounded-lg font-semibold text-zinc-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors ${showGTranslate ? 'hidden' : 'block'}`}
+                          >
+                            More Languages...
+                          </button>
+                          
+                          <div className={`p-1 animate-in fade-in duration-300 ${showGTranslate ? 'block' : 'hidden'}`}>
+                            <span className="text-[10px] uppercase font-bold text-emerald-600 block mb-2 text-center">Powered by Google</span>
+                            <GTranslateWrapper />
+                          </div>
                       </div>
                     </div>
-                  )}
+                  </div>
                 </div>
               </>
             )}
