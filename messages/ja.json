@@ -1,135 +1,135 @@
 {
   "meta": {
-    "title": "[JA] Vermilion Routes | Tailor-Made Luxury Travel",
-    "description": "[JA] Experience South America with bespoke travel itineraries, luxury Galapagos island cruises, Amazon rainforest expeditions, and Andean volcano treks."
+    "title": "Vermilion Routes | オーダーメイドのラグジュアリートラベル",
+    "description": "オーダーメイドの旅程、ガラパゴス諸島のラグジュアリークルーズ、アマゾン熱帯雨林探検、アンデス登山の旅で、南米をご体験ください。"
   },
   "nav": {
-    "home": "[JA] Home",
-    "destinations": "[JA] Destinations",
-    "galapagos": "[JA] Galapagos Islands",
-    "ecuador": "[JA] Mainland Ecuador",
-    "peru": "[JA] Mystical Peru",
-    "tours": "[JA] Featured Tours",
-    "about": "[JA] About Us",
-    "contact": "[JA] Contact",
-    "quote": "[JA] Request a Quote",
+    "home": "ホーム",
+    "destinations": "目的地",
+    "galapagos": "ガラパゴス諸島",
+    "ecuador": "エクアドル本土",
+    "peru": "神秘のペルー",
+    "tours": "おすすめツアー",
+    "about": "私たちについて",
+    "contact": "お問い合わせ",
+    "quote": "お見積り依頼",
     "banner": {
-      "tagline": "[JA] Tailor-Made Expeditions & Private Small Groups",
-      "badge": "[JA] Exclusive Luxury Journeys"
+      "tagline": "オーダーメイドの探検旅行と少人数プライベートグループ",
+      "badge": "特別なラグジュアリーツアー"
     }
   },
   "hero": {
-    "badge": "[JA] Award-Winning Luxury Travel",
-    "title": "[JA] The World's Most Extraordinary",
-    "subtitle": "[JA] Bespoke expeditions to the Galapagos Islands, Andean Highlands, Amazon Rainforest & Machu Picchu — crafted by expert local guides.",
+    "badge": "受賞歴のあるラグジュアリートラベル",
+    "title": "世界で最も並外れた体験",
+    "subtitle": "ガラパゴス諸島、アンデス高地、アマゾン熱帯雨林、マチュピチュへのオーダーメイド探検旅行 — 現地の専門ガイドが企画します。",
     "cta": {
-      "explore": "[JA] Explore All Tours",
-      "quote": "[JA] Get a Free Quote"
+      "explore": "すべてのツアーを見る",
+      "quote": "無料お見積り"
     },
     "stats": {
-      "tours": "[JA] Tailor-Made Tours",
-      "reviews": "[JA] Five-Star Reviews",
-      "naturalists": "[JA] Expert Naturalists",
-      "support": "[JA] 24/7 Support"
+      "tours": "オーダーメイドツアー",
+      "reviews": "5つ星の評価",
+      "naturalists": "専門のナチュラリスト",
+      "support": "24時間365日のサポート"
     }
   },
   "destinations": {
-    "badge": "[JA] Where Will You Go?",
-    "title": "[JA] Explore Our Destinations",
-    "subtitle": "[JA] From the volcanic peaks of the Andes to the pristine reefs of the Galapagos — we take you where few travelers dare to go.",
-    "cta": "[JA] Explore Tours"
+    "badge": "どこへ行きますか？",
+    "title": "目的地を探索する",
+    "subtitle": "アンデスの火山地帯からガラパゴスの手つかずのサンゴ礁まで — 他の旅行者が足を踏み入れない場所へご案内します。",
+    "cta": "ツアーを見る"
   },
   "tours": {
-    "badge": "[JA] Interactive 3D Carousel Showcase",
-    "title": "[JA] Featured Signature Journeys",
-    "subtitle": "[JA] Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between luxury and adventure.",
+    "badge": "インタラクティブな3Dショーケース",
+    "title": "当社の代表的なツアー",
+    "subtitle": "経験豊富な現地のナチュラリストによるガイド、完璧なロジスティクス、厳選されたブティックホテル、ラグジュアリーとアドベンチャーの究極のバランス。",
     "cta": {
-      "label": "[JA] Looking for something 100% custom?",
-      "title": "[JA] We Design Your Tailor-Made Itinerary At No Extra Cost",
-      "subtitle": "[JA] Our destination specialists will customize travel dates, pacing, hotel luxury level, and private excursions tailored precisely to your preferences.",
-      "button": "[JA] Request Custom Itinerary"
+      "label": "100%オーダーメイドをご希望ですか？",
+      "title": "追加料金なしでオーダーメイドの旅程を設計します",
+      "subtitle": "当社のスペシャリストが、ご希望に合わせて旅行日程、ペース、ホテルのランク、プライベートツアーを正確にカスタマイズします。",
+      "button": "オーダーメイドの旅程をリクエストする"
     },
     "filter": {
-      "all": "[JA] All Expeditions",
-      "galapagos": "[JA] Galapagos Islands",
-      "ecuador": "[JA] Mainland Ecuador",
-      "peru": "[JA] Cusco & Peru"
+      "all": "すべてのツアー",
+      "galapagos": "ガラパゴス諸島",
+      "ecuador": "エクアドル本土",
+      "peru": "クスコとペルー"
     },
     "card": {
-      "from": "[JA] From",
-      "person": "[JA] / person",
-      "view": "[JA] View Details",
-      "bestseller": "[JA] Best Seller"
+      "from": "最低価格",
+      "person": "/ 人",
+      "view": "詳細を見る",
+      "bestseller": "ベストセラー"
     },
-    "showing": "[JA] Showing",
-    "of": "[JA] of",
-    "journeys": "[JA] journeys"
+    "showing": "表示中",
+    "of": "/",
+    "journeys": "件のツアー"
   },
   "about": {
-    "badge": "[JA] Who We Are",
-    "title": "[JA] Boutique Travel Expertise",
-    "subtitle": "[JA] We are a certified boutique tour operator based in Quito, Ecuador, specializing in tailor-made luxury expeditions across Ecuador, the Galapagos, and Peru.",
-    "cta": "[JA] Plan My Journey"
+    "badge": "会社概要",
+    "title": "ブティックトラベルの専門知識",
+    "subtitle": "私たちはエクアドルのキトを拠点とする認定ブティックツアーオペレーターで、エクアドル、ガラパゴス、ペルー全域のラグジュアリーなオーダーメイドツアーを専門としています。",
+    "cta": "旅行を計画する"
   },
   "experience": {
-    "badge": "[JA] About Vermilion Routes",
-    "title": "[JA] Unrivaled Experience, Uncompromising Excellence",
-    "text": "[JA] At Vermilion Routes, we don't just book tours. We craft unique, unforgettable, fully customized expeditions across the spectacular landscapes of Ecuador, Galapagos, and Peru. As direct local operators, we combine regional expertise with uncompromising excellence.",
-    "certified": "[JA] Certified Operator",
-    "sustainable": "[JA] Sustainable Impact"
+    "badge": "Vermilion Routesについて",
+    "title": "比類なき経験、妥協なき卓越性",
+    "text": "Vermilion Routesでは、ただツアーを予約するだけではありません。エクアドル、ガラパゴス、ペルーの壮大な風景を舞台に、ユニークで忘れられない、完全にカスタマイズされた探検を創り出します。現地に直接拠点を置くオペレーターとして、地域の専門知識と妥協なき卓越性を組み合わせています。",
+    "certified": "認定オペレーター",
+    "sustainable": "持続可能な影響"
   },
   "reviews": {
-    "badge": "[JA] Guest Experiences",
-    "title": "[JA] What Our Travelers Say",
-    "verified": "[JA] Verified TripAdvisor"
+    "badge": "旅行者の体験談",
+    "title": "お客様の声",
+    "verified": "TripAdvisor認証済み"
   },
   "faq": {
-    "badge": "[JA] Common Questions",
-    "title": "[JA] Frequently Asked Questions",
-    "subtitle": "[JA] Everything you need to know about planning your luxury expedition with Vermilion Routes."
+    "badge": "よくあるご質問",
+    "title": "よくあるご質問（FAQ）",
+    "subtitle": "Vermilion Routesでのラグジュアリーツアーを計画するために必要なすべてがここにあります。"
   },
   "contact": {
-    "badge": "[JA] Let's Plan Your Trip",
-    "title": "[JA] Request Your Free Quote",
-    "subtitle": "[JA] Tell us about your dream expedition. Our specialists will design a custom itinerary within 24 hours.",
-    "name": "[JA] Your Full Name",
-    "email": "[JA] Email Address",
-    "destination": "[JA] Destination of Interest",
-    "travelers": "[JA] Number of Travelers",
-    "message": "[JA] Tell us about your dream expedition...",
-    "send": "[JA] Send Quote Request",
-    "sending": "[JA] Sending...",
-    "success": "[JA] Thank you! We'll be in touch within 24 hours."
+    "badge": "旅行の計画を始めましょう",
+    "title": "無料お見積りのリクエスト",
+    "subtitle": "夢の旅行についてお聞かせください。当社のスペシャリストが24時間以内にオーダーメイドの旅程を設計します。",
+    "name": "お名前",
+    "email": "メールアドレス",
+    "destination": "ご希望の目的地",
+    "travelers": "旅行者の人数",
+    "message": "夢の旅行についてお聞かせください...",
+    "send": "リクエストを送信する",
+    "sending": "送信中...",
+    "success": "ありがとうございます！24時間以内にご連絡いたします。"
   },
   "tour": {
-    "overview": "[JA] Overview",
-    "itinerary": "[JA] Itinerary",
-    "includes": "[JA] What's Included",
-    "optional": "[JA] Optional Add-Ons",
-    "day": "[JA] Day",
-    "book": "[JA] Book This Tour",
-    "download": "[JA] Download PDF",
+    "overview": "概要",
+    "itinerary": "旅程",
+    "includes": "含まれるもの",
+    "optional": "オプション",
+    "day": "日目",
+    "book": "このツアーを予約する",
+    "download": "PDFをダウンロード",
     "group": {
-      "price": "[JA] Group Rate"
+      "price": "グループ料金"
     },
-    "from": "[JA] From",
+    "from": "最低価格",
     "per": {
-      "person": "[JA] per person"
+      "person": "1人あたり"
     },
-    "duration": "[JA] Duration",
-    "destination": "[JA] Destination",
-    "rating": "[JA] Rating",
-    "gallery": "[JA] Photo Gallery",
-    "highlights": "[JA] Highlights",
-    "included": "[JA] Included",
-    "excluded": "[JA] Not Included",
-    "meals": "[JA] Meals",
-    "accommodation": "[JA] Accommodation"
+    "duration": "期間",
+    "destination": "目的地",
+    "rating": "評価",
+    "gallery": "フォトギャラリー",
+    "highlights": "ハイライト",
+    "included": "含まれるもの",
+    "excluded": "含まれないもの",
+    "meals": "食事",
+    "accommodation": "宿泊施設"
   },
   "footer": {
-    "tagline": "[JA] Premier luxury boutique expedition specialists in Ecuador, Galapagos & Peru since 2005.",
-    "rights": "[JA] All rights reserved.",
-    "privacy": "[JA] Privacy Policy",
-    "terms": "[JA] Terms of Service"
+    "tagline": "2005年以来、エクアドル、ガラパゴス、ペルーの最高級ラグジュアリーブティックツアーを提供。",
+    "rights": "無断転載を禁じます。",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約"
   }
 }
