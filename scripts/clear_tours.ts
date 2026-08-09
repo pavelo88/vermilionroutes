@@ -1,3 +1,4 @@
+export {};
 const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, getDocs, deleteDoc, doc } = require('firebase/firestore');
 require('dotenv').config({ path: '.env' });
@@ -33,3 +34,4 @@ async function clearTours() {
 }
 
 clearTours().catch(console.error);
+

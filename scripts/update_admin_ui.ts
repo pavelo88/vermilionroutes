@@ -1,3 +1,4 @@
+export {};
 const fs = require('fs');
 const path = require('path');
 
@@ -29,3 +30,4 @@ const files = [
 ];
 
 files.forEach(processFile);
+

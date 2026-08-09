@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "title": "[ZH] Vermilion Routes | Tailor-Made Luxury Travel",
+    "description": "[ZH] Experience South America with bespoke travel itineraries, luxury Galapagos island cruises, Amazon rainforest expeditions, and Andean volcano treks."
+  },
+  "nav": {
+    "home": "[ZH] Home",
+    "destinations": "[ZH] Destinations",
+    "galapagos": "[ZH] Galapagos Islands",
+    "ecuador": "[ZH] Mainland Ecuador",
+    "peru": "[ZH] Mystical Peru",
+    "tours": "[ZH] Featured Tours",
+    "about": "[ZH] About Us",
+    "contact": "[ZH] Contact",
+    "quote": "[ZH] Request a Quote",
+    "banner": {
+      "tagline": "[ZH] Tailor-Made Expeditions & Private Small Groups",
+      "badge": "[ZH] Exclusive Luxury Journeys"
+    }
+  },
+  "hero": {
+    "badge": "[ZH] Award-Winning Luxury Travel",
+    "title": "[ZH] The World's Most Extraordinary",
+    "subtitle": "[ZH] Bespoke expeditions to the Galapagos Islands, Andean Highlands, Amazon Rainforest & Machu Picchu — crafted by expert local guides.",
+    "cta": {
+      "explore": "[ZH] Explore All Tours",
+      "quote": "[ZH] Get a Free Quote"
+    },
+    "stats": {
+      "tours": "[ZH] Tailor-Made Tours",
+      "reviews": "[ZH] Five-Star Reviews",
+      "naturalists": "[ZH] Expert Naturalists",
+      "support": "[ZH] 24/7 Support"
+    }
+  },
+  "destinations": {
+    "badge": "[ZH] Where Will You Go?",
+    "title": "[ZH] Explore Our Destinations",
+    "subtitle": "[ZH] From the volcanic peaks of the Andes to the pristine reefs of the Galapagos — we take you where few travelers dare to go.",
+    "cta": "[ZH] Explore Tours"
+  },
+  "tours": {
+    "badge": "[ZH] Interactive 3D Carousel Showcase",
+    "title": "[ZH] Featured Signature Journeys",
+    "subtitle": "[ZH] Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between luxury and adventure.",
+    "cta": {
+      "label": "[ZH] Looking for something 100% custom?",
+      "title": "[ZH] We Design Your Tailor-Made Itinerary At No Extra Cost",
+      "subtitle": "[ZH] Our destination specialists will customize travel dates, pacing, hotel luxury level, and private excursions tailored precisely to your preferences.",
+      "button": "[ZH] Request Custom Itinerary"
+    },
+    "filter": {
+      "all": "[ZH] All Expeditions",
+      "galapagos": "[ZH] Galapagos Islands",
+      "ecuador": "[ZH] Mainland Ecuador",
+      "peru": "[ZH] Cusco & Peru"
+    },
+    "card": {
+      "from": "[ZH] From",
+      "person": "[ZH] / person",
+      "view": "[ZH] View Details",
+      "bestseller": "[ZH] Best Seller"
+    },
+    "showing": "[ZH] Showing",
+    "of": "[ZH] of",
+    "journeys": "[ZH] journeys"
+  },
+  "about": {
+    "badge": "[ZH] Who We Are",
+    "title": "[ZH] Boutique Travel Expertise",
+    "subtitle": "[ZH] We are a certified boutique tour operator based in Quito, Ecuador, specializing in tailor-made luxury expeditions across Ecuador, the Galapagos, and Peru.",
+    "cta": "[ZH] Plan My Journey"
+  },
+  "experience": {
+    "badge": "[ZH] About Vermilion Routes",
+    "title": "[ZH] Unrivaled Experience, Uncompromising Excellence",
+    "text": "[ZH] At Vermilion Routes, we don't just book tours. We craft unique, unforgettable, fully customized expeditions across the spectacular landscapes of Ecuador, Galapagos, and Peru. As direct local operators, we combine regional expertise with uncompromising excellence.",
+    "certified": "[ZH] Certified Operator",
+    "sustainable": "[ZH] Sustainable Impact"
+  },
+  "reviews": {
+    "badge": "[ZH] Guest Experiences",
+    "title": "[ZH] What Our Travelers Say",
+    "verified": "[ZH] Verified TripAdvisor"
+  },
+  "faq": {
+    "badge": "[ZH] Common Questions",
+    "title": "[ZH] Frequently Asked Questions",
+    "subtitle": "[ZH] Everything you need to know about planning your luxury expedition with Vermilion Routes."
+  },
+  "contact": {
+    "badge": "[ZH] Let's Plan Your Trip",
+    "title": "[ZH] Request Your Free Quote",
+    "subtitle": "[ZH] Tell us about your dream expedition. Our specialists will design a custom itinerary within 24 hours.",
+    "name": "[ZH] Your Full Name",
+    "email": "[ZH] Email Address",
+    "destination": "[ZH] Destination of Interest",
+    "travelers": "[ZH] Number of Travelers",
+    "message": "[ZH] Tell us about your dream expedition...",
+    "send": "[ZH] Send Quote Request",
+    "sending": "[ZH] Sending...",
+    "success": "[ZH] Thank you! We'll be in touch within 24 hours."
+  },
+  "tour": {
+    "overview": "[ZH] Overview",
+    "itinerary": "[ZH] Itinerary",
+    "includes": "[ZH] What's Included",
+    "optional": "[ZH] Optional Add-Ons",
+    "day": "[ZH] Day",
+    "book": "[ZH] Book This Tour",
+    "download": "[ZH] Download PDF",
+    "group": {
+      "price": "[ZH] Group Rate"
+    },
+    "from": "[ZH] From",
+    "per": {
+      "person": "[ZH] per person"
+    },
+    "duration": "[ZH] Duration",
+    "destination": "[ZH] Destination",
+    "rating": "[ZH] Rating",
+    "gallery": "[ZH] Photo Gallery",
+    "highlights": "[ZH] Highlights",
+    "included": "[ZH] Included",
+    "excluded": "[ZH] Not Included",
+    "meals": "[ZH] Meals",
+    "accommodation": "[ZH] Accommodation"
+  },
+  "footer": {
+    "tagline": "[ZH] Premier luxury boutique expedition specialists in Ecuador, Galapagos & Peru since 2005.",
+    "rights": "[ZH] All rights reserved.",
+    "privacy": "[ZH] Privacy Policy",
+    "terms": "[ZH] Terms of Service"
+  }
+}

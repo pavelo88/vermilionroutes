@@ -1,3 +1,4 @@
+export {};
 const fs = require('fs');
 const path = require('path');
 
@@ -91,3 +92,4 @@ folders.forEach(folder => {
 console.log(`Successfully parsed ${tours.length} tours.`);
 fs.writeFileSync('C:\\Users\\pablo\\Desktop\\clon-vermilion\\vermilion\\data\\parsed_tours.json', JSON.stringify(tours, null, 2));
 console.log('Saved parsed tours to data/parsed_tours.json');
+

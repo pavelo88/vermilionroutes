@@ -1,3 +1,4 @@
+export {};
 const fs = require('fs');
 const tours = JSON.parse(fs.readFileSync('data/parsed_tours.json', 'utf8'));
 
@@ -40,3 +41,4 @@ for (const tour of tours) {
 
 fs.writeFileSync('data/parsed_tours.json', JSON.stringify(tours, null, 2));
 console.log('\nDestinations fixed!');
+

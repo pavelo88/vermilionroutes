@@ -1,3 +1,4 @@
+export {};
 require('dotenv').config();
 const { initializeApp, cert } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
@@ -25,3 +26,4 @@ async function seed() {
 }
 
 seed().catch(console.error);
+

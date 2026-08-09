@@ -10,4 +10,4 @@ export { TourCard } from '@/components/ui/TourCard';
 export { ConciergeWidget } from '@/components/ui/ConciergeWidget';
 export { WhatsAppButton } from '@/components/ui/WhatsAppButton';
 export { SparkleEffect } from '@/components/ui/SparkleEffect';
-export { GTranslateWrapper } from '@/components/ui/GTranslateWrapper';
+export { default as GTranslateWrapper } from '@/components/ui/GTranslateWrapper';

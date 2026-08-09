@@ -1,3 +1,4 @@
+export {};
 const fs = require('fs');
 
 if (!fs.existsSync('public/images/tours')) {
@@ -20,3 +21,4 @@ for (const tour of tours) {
 
 fs.writeFileSync('data/parsed_tours.json', JSON.stringify(tours, null, 2));
 console.log('Images assigned successfully to parsed_tours.json!');
+

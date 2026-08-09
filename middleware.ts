@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import createMiddleware from 'next-intl/middleware';
+import { locales } from './i18n/request';
 
 /**
  * ✅ W-04 FIX: Rate limiting por IP en todos los endpoints /api/*
@@ -42,11 +44,14 @@ function getClientIp(req: NextRequest): string {
   );
 }
 
+const intlMiddleware = createMiddleware({
+  locales,
+  defaultLocale: 'en'
+});
+
 export function middleware(req: NextRequest) {
-  // Solo aplicar a rutas de API
-  if (!req.nextUrl.pathname.startsWith('/api/')) {
-    return NextResponse.next();
-  }
+  // Solo aplicar rate limiting a rutas de API
+  if (req.nextUrl.pathname.startsWith('/api/')) {
 
   const ip = getClientIp(req);
   const now = Date.now();
@@ -86,9 +91,13 @@ export function middleware(req: NextRequest) {
   response.headers.set('X-RateLimit-Limit', String(limit));
   response.headers.set('X-RateLimit-Remaining', String(Math.max(0, remaining)));
   return response;
+  }
+  
+  // Para páginas y otras rutas, aplicar i18n
+  return intlMiddleware(req);
 }
 
 export const config = {
-  // Solo intercepta rutas de API; no afecta páginas, assets ni _next
-  matcher: ['/api/:path*'],
+  // Intercepta todo excepto /_next, /static, imágenes, favicon, etc.
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|images/.*|.*\\..*).*)'],
 };

@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/Button';
 import {
@@ -23,26 +25,52 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [destinationsOpen, setDestinationsOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const { settings } = useSettings();
-  const [lang, setLang] = useState('EN');
+  const locale = useLocale();
+  const t = useTranslations('contact');
+  const pathname = usePathname();
+  const router = useRouter();
+  
   const [mounted, setMounted] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
   const { theme, setTheme } = useTheme();
 
-  const toggleLanguage = () => {
-    const nextLang = lang === 'EN' ? 'ES' : 'EN';
-    setLang(nextLang);
-    setIsTranslating(true);
-    
-    if (typeof (window as any).doGTranslate === 'function') {
-      (window as any).doGTranslate(nextLang === 'EN' ? 'en|en' : 'en|es');
+  const LOCALES = [
+    { code: 'en', label: 'EN' },
+    { code: 'es', label: 'ES' },
+    { code: 'fr', label: 'FR' },
+    { code: 'de', label: 'DE' },
+    { code: 'zh', label: 'ZH' },
+    { code: 'it', label: 'IT' },
+    { code: 'pt', label: 'PT' },
+    { code: 'ja', label: 'JA' },
+  ];
+
+  const changeLanguage = (newLocale: string) => {
+    setLangOpen(false);
+    if (newLocale === 'other') {
+      // Trigger Google Translate
+      setIsTranslating(true);
+      if (typeof (window as any).doGTranslate === 'function') {
+        (window as any).doGTranslate('en|es'); // Example trigger, will open standard widget
+      }
+      setTimeout(() => setIsTranslating(false), 1500);
+      return;
     }
+
+    // Native next-intl navigation
+    setIsTranslating(true);
+    // Strip the current locale from pathname and append the new one
+    const pathWithoutLocale = pathname.replace(new RegExp(`^/${locale}`), '') || '/';
+    router.push(`/${newLocale}${pathWithoutLocale}`);
     
-    // Google Translate takes a moment, show spinner for 1.5s
     setTimeout(() => {
       setIsTranslating(false);
     }, 1500);
   };
+
+
 
   useEffect(() => {
     setMounted(true);
@@ -51,13 +79,7 @@ export function Navbar() {
     };
     window.addEventListener('scroll', handleScroll);
 
-    // Check initial language from cookie
-    if (document.cookie.includes('googtrans=/en/es')) {
-      setLang('ES');
-    } else {
-      setLang('EN');
-    }
-
+    // Removed legacy cookie check
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -85,10 +107,10 @@ export function Navbar() {
         <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/60 backdrop-blur-md">
           <div className="w-16 h-16 border-4 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin shadow-[0_0_15px_rgba(16,185,129,0.5)] mb-6" />
           <h3 className="text-white font-oswald text-2xl font-bold tracking-wide">
-            {lang === 'ES' ? 'Traduciendo...' : 'Translating...'}
+            {t('sending') || 'Translating...'}
           </h3>
           <p className="text-emerald-300 text-sm font-medium mt-2">
-            {lang === 'ES' ? 'Preparando tu idioma, un momento.' : 'Preparing your language, one moment.'}
+            One moment please.
           </p>
         </div>
       )}
@@ -225,14 +247,44 @@ export function Navbar() {
                 >
                   {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
                 </button>
-                <button
-                  onClick={toggleLanguage}
-                  suppressHydrationWarning
-                  className="flex items-center gap-2 px-3 py-2 text-xs font-semibold bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 rounded-xl cursor-pointer transition-colors"
-                >
-                  <Globe className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>{lang} / USD</span>
-                </button>
+                <div className="relative" onMouseEnter={() => setLangOpen(true)} onMouseLeave={() => setLangOpen(false)}>
+                  <button
+                    suppressHydrationWarning
+                    className="flex items-center gap-2 px-3 py-2 text-xs font-semibold bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 rounded-xl cursor-pointer transition-colors"
+                  >
+                    <Globe className="w-3.5 h-3.5 text-emerald-600" />
+                    <span className="uppercase">{locale} / USD</span>
+                  </button>
+                  {langOpen && (
+                    <div className="absolute top-full right-0 mt-2 w-48 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-zinc-200/90 dark:border-zinc-800">
+                        <div className="grid grid-cols-2 gap-1">
+                          {LOCALES.map((l) => (
+                            <button
+                              key={l.code}
+                              onClick={() => changeLanguage(l.code)}
+                              className={`text-xs text-left px-3 py-2 rounded-lg font-semibold transition-colors ${
+                                locale === l.code 
+                                ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400' 
+                                : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                              }`}
+                            >
+                              {l.label}
+                            </button>
+                          ))}
+                        </div>
+                        <div className="pt-2 mt-2 border-t border-zinc-100 dark:border-zinc-800">
+                          <button
+                            onClick={() => changeLanguage('other')}
+                            className="w-full text-xs text-center px-3 py-2 rounded-lg font-semibold text-zinc-500 hover:text-emerald-600 transition-colors"
+                          >
+                            More Languages...
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </>
             )}
             <Button
@@ -258,12 +310,12 @@ export function Navbar() {
                   {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </button>
                 <button
-                  onClick={toggleLanguage}
+                  onClick={() => changeLanguage(locale === 'en' ? 'es' : 'en')}
                   suppressHydrationWarning
                   className="flex items-center gap-1.5 p-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 rounded-xl cursor-pointer transition-colors"
                 >
                   <Globe className="w-4 h-4 text-emerald-600" />
-                  <span>{lang}</span>
+                  <span className="uppercase">{locale}</span>
                 </button>
               </>
             )}

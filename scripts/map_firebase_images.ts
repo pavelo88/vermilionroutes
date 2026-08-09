@@ -1,3 +1,4 @@
+export {};
 const fs = require('fs');
 const tours = JSON.parse(fs.readFileSync('data/parsed_tours.json', 'utf8'));
 
@@ -58,3 +59,4 @@ export const mockTours: Tour[] = ${JSON.stringify(tours, null, 2)};`;
 }
 
 console.log('Updated parsed_tours.json and mock.ts');
+

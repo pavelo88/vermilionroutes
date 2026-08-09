@@ -1,3 +1,4 @@
+export {};
 const fs = require('fs');
 const cheerio = require('cheerio');
 const html = fs.readFileSync('site/index.html', 'utf8');
@@ -25,3 +26,4 @@ $('.tours-box').each((i, el) => {
 });
 
 fs.writeFileSync('data/parsed_tours.json', JSON.stringify(tours, null, 2));
+

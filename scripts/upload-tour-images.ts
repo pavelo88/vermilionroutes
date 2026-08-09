@@ -1,3 +1,4 @@
+export {};
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import fs from 'fs';
@@ -130,3 +131,4 @@ async function main() {
 }
 
 main().catch(console.error);
+

@@ -6,7 +6,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
   
-  const headersList = headers();
+  const headersList = await headers();
   const adminToken = headersList.get('x-admin-token');
   
   if (!adminToken || adminToken !== process.env.ADMIN_SEED_SECRET) {

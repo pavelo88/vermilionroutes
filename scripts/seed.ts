@@ -1,3 +1,4 @@
+export {};
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
 import firebaseConfigJson from '../firebase-applet-config.json' with { type: 'json' };
@@ -259,3 +260,4 @@ runSeed().catch((err) => {
   console.error('❌ Seed execution failed:', err);
   process.exit(1);
 });
+

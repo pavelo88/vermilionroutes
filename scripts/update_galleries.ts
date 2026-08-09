@@ -1,3 +1,4 @@
+export {};
 const fs = require('fs');
 const path = require('path');
 
@@ -46,3 +47,4 @@ tours.forEach(tour => {
 
 fs.writeFileSync(dataPath, JSON.stringify(tours, null, 2));
 console.log('Tours updated with full galleries successfully.');
+

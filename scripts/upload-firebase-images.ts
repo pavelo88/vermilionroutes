@@ -1,3 +1,4 @@
+export {};
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -151,3 +152,4 @@ async function main() {
 }
 
 main().catch(console.error);
+
