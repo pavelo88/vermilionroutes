@@ -3,8 +3,12 @@
 import React, { useState } from 'react';
 import { useSettings } from '@/hooks/useSettings';
 import { ChevronDown, HelpCircle, Sparkles } from 'lucide-react';
+import { useTranslations, useLocale } from 'next-intl';
+import { getLocalizedText } from '@/utils/i18nHelper';
 
 export function AlsoAskedFaq() {
+  const t = useTranslations('faq');
+  const locale = useLocale();
   const { settings } = useSettings();
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
@@ -17,13 +21,13 @@ export function AlsoAskedFaq() {
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/50 text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Common Traveler Searches - Also Asked</span>
+          <span>{t('badge')}</span>
         </div>
         <h2 className="font-serif text-3xl sm:text-4xl font-bold text-zinc-900 dark:text-white tracking-tight">
-          Planning Your South America Journey
+          {t('title')}
         </h2>
         <p className="text-sm text-zinc-500 max-w-xl mx-auto">
-          We answer the most common questions searched by premium travelers planning expeditions to the Galapagos Islands, Ecuador, and Peru.
+          {t('subtitle')}
         </p>
       </div>
 
@@ -42,7 +46,7 @@ export function AlsoAskedFaq() {
               >
                 <span className="flex items-center gap-3 text-sm sm:text-base">
                   <HelpCircle className="w-5 h-5 text-emerald-600 shrink-0" />
-                  <span>{item.question}</span>
+                  <span className="notranslate">{getLocalizedText(item.question, locale)}</span>
                 </span>
                 <ChevronDown
                   className={`w-4 h-4 text-zinc-400 shrink-0 transition-transform duration-300 ${
@@ -52,13 +56,13 @@ export function AlsoAskedFaq() {
               </button>
 
               <div
-                className={`transition-all duration-300 ease-in-out ${
-                  isOpen ? 'max-h-[300px] border-t border-zinc-100 dark:border-zinc-800/50 opacity-100' : 'max-h-0 opacity-0'
-                } overflow-hidden`}
+                className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${
+                  isOpen ? 'max-h-96 opacity-100 pb-5' : 'max-h-0 opacity-0 pb-0'
+                }`}
               >
-                <div className="p-6 text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed bg-zinc-50 dark:bg-zinc-900/50/50">
-                  {item.answer}
-                </div>
+                <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 pl-8 leading-relaxed notranslate">
+                  {getLocalizedText(item.answer, locale)}
+                </p>
               </div>
             </div>
           );

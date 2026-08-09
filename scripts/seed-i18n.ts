@@ -38,9 +38,9 @@ async function translateString(text: string, to: string, retries = 3): Promise<s
 async function translateField(text: string): Promise<Record<string, string>> {
   const result: Record<string, string> = { en: text };
   for (const lang of TARGET_LANGS) {
+    await delay(500);
     const localeKey = lang === 'zh-CN' ? 'zh' : lang;
     result[localeKey] = await translateString(text, lang);
-    await delay(300); // Prevent rate limiting
   }
   return result;
 }

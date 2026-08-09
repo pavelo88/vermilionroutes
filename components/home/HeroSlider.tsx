@@ -35,7 +35,7 @@ const DEFAULT_DATA = [
     place: { en: 'Cotopaxi - Andes', es: 'Cotopaxi - Andes', fr: 'Cotopaxi - Andes', de: 'Cotopaxi - Anden', it: 'Cotopaxi - Ande', pt: 'Cotopaxi - Andes', ja: 'コトパクシ - アンデス', zh: '科托帕希 - 安第斯山脉' },
     title: { en: 'MAJESTIC', es: 'VOLCÁN', fr: 'VOLCAN', de: 'MAJESTÄTISCHER', it: 'VULCANO', pt: 'VULCÃO', ja: '雄大な', zh: '雄伟的' },
     title2: { en: 'VOLCANO', es: 'MAJESTUOSO', fr: 'MAJESTUEUX', de: 'VULKAN', it: 'MAESTOSO', pt: 'MAJESTOSO', ja: '火山', zh: '火山' },
-    description: { en: 'The perfect snow-capped cone rising proudly over the Ecuadorian Andes.', es: 'El cono nevado perfecto que se alza orgulloso sobre los Andes ecuatorianos.', fr: 'Le cône enneigé parfait s\\'élevant fièrement au-dessus des Andes équatoriennes.', de: 'Der perfekte schneebedeckte Kegel, der stolz über den ecuadorianischen Anden thront.', it: 'Il perfetto cono innevato che si erge orgoglioso sulle Ande ecuadoriane.', pt: 'O cone nevado perfeito que se ergue orgulhosamente sobre os Andes equatorianos.', ja: 'エクアドルのアンデスに誇らしげにそびえ立つ完璧な雪を頂いた円錐。', zh: '完美的白雪皑皑的圆锥体骄傲地耸立在厄瓜多尔安第斯山脉之上。' },
+    description: { en: 'The perfect snow-capped cone rising proudly over the Ecuadorian Andes.', es: 'El cono nevado perfecto que se alza orgulloso sobre los Andes ecuatorianos.', fr: 'Le cône enneigé parfait s\\élevant fièrement au-dessus des Andes équatoriennes.', de: 'Der perfekte schneebedeckte Kegel, der stolz über den ecuadorianischen Anden thront.', it: 'Il perfetto cono innevato che si erge orgoglioso sulle Ande ecuadoriane.', pt: 'O cone nevado perfeito que se ergue orgulhosamente sobre os Andes equatorianos.', ja: 'エクアドルのアンデスに誇らしげにそびえ立つ完璧な雪を頂いた円錐。', zh: '完美的白雪皑皑的圆锥体骄傲地耸立在厄瓜多尔安第斯山脉之上。' },
     image: 'https://images.unsplash.com/photo-1589802829985-817e51171b92?auto=format&fit=crop&w=2752&q=80'
   },
   {
@@ -49,14 +49,18 @@ const DEFAULT_DATA = [
     place: { en: 'Guayas - Guayaquil', es: 'Guayas - Guayaquil', fr: 'Guayas - Guayaquil', de: 'Guayas - Guayaquil', it: 'Guayas - Guayaquil', pt: 'Guayas - Guayaquil', ja: 'グアヤス - グアヤキル', zh: '瓜亚斯 - 瓜亚基尔' },
     title: { en: 'TROPICAL', es: 'PUERTO', fr: 'PORT', de: 'TROPISCHER', it: 'PORTO', pt: 'PORTO', ja: '熱帯の', zh: '热带' },
     title2: { en: 'PORT', es: 'TROPICAL', fr: 'TROPICAL', de: 'HAFEN', it: 'TROPICALE', pt: 'TROPICAL', ja: '港', zh: '港口' },
-    description: { en: 'The economic heartbeat of Ecuador.', es: 'El latido económico del Ecuador.', fr: 'Le cœur économique de l\\'Équateur.', de: 'Der wirtschaftliche Herzschlag Ecuadors.', it: 'Il cuore economico dell\\'Ecuador.', pt: 'O coração econômico do Equador.', ja: 'エクアドルの経済の中心地。', zh: '厄瓜多尔的经济命脉。' },
+    description: {
+      en: 'The economic heartbeat of Ecuador.', es: 'El latido económico del Ecuador.', fr: 'Le cœur économique de l\\Équateur.', de: 'Der wirtschaftliche Herzschlag Ecuadors., it: Il cuore economico dell\\Ecuador.', pt: 'O coração econômico do Equador.', ja: 'エクアドルの経済の中心地。', zh: '厄瓜多尔的经济命脉。'
+    },
     image: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&w=2752&q=80'
   },
   {
     place: { en: 'Cusco - Peru', es: 'Cusco - Perú', fr: 'Cusco - Pérou', de: 'Cusco - Peru', it: 'Cusco - Perù', pt: 'Cusco - Peru', ja: 'クスコ - ペルー', zh: '库斯科 - 秘鲁' },
     title: { en: 'SACRED', es: 'VALLE', fr: 'VALLÉE', de: 'HEILIGES', it: 'VALLE', pt: 'VALE', ja: '神聖な', zh: '神圣' },
     title2: { en: 'VALLEY', es: 'SAGRADO', fr: 'SACRÉE', de: 'TAL', it: 'SACRA', pt: 'SAGRADO', ja: '谷', zh: '山谷' },
-    description: { en: 'Journey into the heart of the Inca Empire.', es: 'Viaje al corazón del Imperio Inca.', fr: 'Voyage au cœur de l\\'Empire Inca.', de: 'Reise in das Herz des Inka-Reiches.', it: 'Viaggio nel cuore dell\\'Impero Inca.', pt: 'Viagem ao coração do Império Inca.', ja: 'インカ帝国の中心への旅。', zh: '深入印加帝国的中心。' },
+    description: {
+      en: 'Journey into the heart of the Inca Empire.', es: 'Viaje al corazón del Imperio Inca.', fr: 'Voyage au cœur de l\\Empire Inca.', de: 'Reise in das Herz des Inka- Reiches.', it: 'Viaggio nel cuore dell\\Impero Inca.', pt: 'Viagem ao coração do Império Inca.', ja: 'インカ帝国の中心への旅。', zh: '深入印加帝国的中心。'
+    },
     image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2752&q=80'
   }
 ];
@@ -201,7 +205,7 @@ export function HeroSlider() {
       });
 
       loopTimeline.to(container.querySelectorAll(".indicator"), { x: 0, duration: 4.5, ease: "none" })
-                  .to(container.querySelectorAll(".indicator"), { x: window.innerWidth, duration: 0.5, ease: "none" });
+        .to(container.querySelectorAll(".indicator"), { x: window.innerWidth, duration: 0.5, ease: "none" });
     }
 
     // Setup manual navigation hook
@@ -344,11 +348,13 @@ export function HeroSlider() {
     }
 
     init();
-    gsap.to(container.querySelectorAll(".cover"), { x: window.innerWidth + 400, delay: 0.5, ease, duration: 1, onComplete: () => {
-      setTimeout(() => {
-        if (!isCancelled) startLoop();
-      }, 500);
-    }});
+    gsap.to(container.querySelectorAll(".cover"), {
+      x: window.innerWidth + 400, delay: 0.5, ease, duration: 1, onComplete: () => {
+        setTimeout(() => {
+          if (!isCancelled) startLoop();
+        }, 500);
+      }
+    });
 
     return () => {
       isCancelled = true;
@@ -374,7 +380,7 @@ export function HeroSlider() {
 
   return (
     <div ref={containerRef} className="relative w-full h-[100svh] min-h-[600px] md:min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
-      
+
       {/* Indicator */}
       <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
 
@@ -389,7 +395,7 @@ export function HeroSlider() {
                 <span className="notranslate">{getLocalizedText(initialData.place, locale)}</span>
               </div>
             </div>
-            
+
             <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden mt-1">
               <div className="title-1 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
                 <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
@@ -400,7 +406,7 @@ export function HeroSlider() {
                 <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
               </div>
             </div>
-            
+
             <div className="h-auto md:h-[80px] lg:h-[120px] overflow-hidden mt-4 md:mt-6">
               <div className="desc text-xs sm:text-sm md:text-lg text-white/90 max-w-xl leading-relaxed drop-shadow-md line-clamp-4 md:line-clamp-none">
                 <span>{getLocalizedText(initialData.description, locale)}</span>
@@ -413,11 +419,11 @@ export function HeroSlider() {
       {/* Cards */}
       {slidesData.map((slide: any, idx: number) => (
         <div key={`card-${idx}`}>
-          <div 
-            className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden w-[180px] h-[260px]`} 
+          <div
+            className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden w-[180px] h-[260px]`}
           >
-            <Image 
-              src={slide.image} 
+            <Image
+              src={slide.image}
               alt={slide.place}
               fill
               priority={idx < 2}
@@ -426,15 +432,15 @@ export function HeroSlider() {
             />
             <div className="absolute inset-0 bg-black/30" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            
+
             {/* Clickable Overlay for Thumbnail */}
-            <div 
+            <div
               className="absolute inset-0 cursor-pointer z-10 hover:bg-white/10 transition-colors"
               onClick={() => (window as any).jumpToSlide?.(idx)}
               title="View destination"
             />
           </div>
-          
+
           <div className={`card-content card-content-${idx} absolute left-0 top-0 text-white w-[180px] h-[260px] pointer-events-none`}>
             <div className="absolute bottom-5 left-5 right-5 text-left">
               <div className="w-4 h-[2px] bg-white mb-2" />
@@ -456,7 +462,7 @@ export function HeroSlider() {
             <ChevronRight className="w-4 h-4 text-white/60 group-hover:text-black" />
           </div>
         </div>
-        
+
         {/* Progress Bar */}
         <div className="w-[300px] md:w-[400px] lg:w-[500px] h-[42px] flex items-center">
           <div className="w-full h-[3px] bg-white/20 relative rounded-full overflow-hidden">

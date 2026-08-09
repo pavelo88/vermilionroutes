@@ -84,7 +84,7 @@ export function CombinedExperienceSection() {
               <span>TripAdvisor Travelers' Choice 2026 Winner</span>
             </div>
             <h2 className="font-serif text-4xl sm:text-5xl font-bold text-zinc-900 dark:text-white leading-tight">
-              Guest Stories & TripAdvisor Excellence
+              {t('reviewsTitle') || 'Guest Stories & TripAdvisor Excellence'}
             </h2>
           </div>
           <div className="flex items-center gap-4 p-4 rounded-3xl bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 shadow-sm shrink-0">

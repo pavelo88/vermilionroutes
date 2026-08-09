@@ -1,135 +1,135 @@
 {
   "meta": {
-    "title": "Vermilion Routes | 量身定制的豪华旅行",
-    "description": "通过量身定制的行程体验南美洲。"
+    "title": "Vermilion Routes | Tailor-Made Luxury Travel",
+    "description": "Experience South America with bespoke travel itineraries, luxury Galapagos island cruises, Amazon rainforest expeditions, and Andean volcano treks."
   },
   "nav": {
-    "home": "主页",
-    "destinations": "目的地",
-    "galapagos": "加拉帕戈斯群岛",
-    "ecuador": "厄瓜多尔大陆",
-    "peru": "神秘的秘鲁",
-    "tours": "特色旅游",
-    "about": "关于我们",
-    "contact": "联系我们",
-    "quote": "请求报价",
+    "home": "Home",
+    "destinations": "Destinations",
+    "galapagos": "Galapagos Islands",
+    "ecuador": "Mainland Ecuador",
+    "peru": "Mystical Peru",
+    "tours": "Featured Tours",
+    "about": "About Us",
+    "contact": "Contact",
+    "quote": "Request a Quote",
     "banner": {
-      "tagline": "量身定制的探险",
-      "badge": "独家豪华旅行"
+      "tagline": "Tailor-Made Expeditions & Private Small Groups",
+      "badge": "Exclusive Luxury Journeys"
     }
   },
   "hero": {
-    "badge": "屡获殊荣的豪华旅行",
-    "title": "最非凡的",
-    "subtitle": "前往安第斯山脉和亚马逊的量身定制探险。",
+    "badge": "Award-Winning Luxury Travel",
+    "title": "The World's Most Extraordinary",
+    "subtitle": "Bespoke expeditions to the Galapagos Islands, Andean Highlands, Amazon Rainforest & Machu Picchu — crafted by expert local guides.",
     "cta": {
-      "explore": "探索旅游",
-      "quote": "免费报价"
+      "explore": "Explore All Tours",
+      "quote": "Get a Free Quote"
     },
     "stats": {
-      "tours": "量身定制",
-      "reviews": "五星好评",
-      "naturalists": "专家向导",
-      "support": "24/7 支持"
+      "tours": "Tailor-Made Tours",
+      "reviews": "Five-Star Reviews",
+      "naturalists": "Expert Naturalists",
+      "support": "24/7 Support"
     }
   },
   "destinations": {
-    "badge": "你要去哪里？",
-    "title": "探索我们的目的地",
-    "subtitle": "我们带您去很少有旅行者敢去的地方。",
-    "cta": "探索"
+    "badge": "Where Will You Go?",
+    "title": "Explore Our Destinations",
+    "subtitle": "From the volcanic peaks of the Andes to the pristine reefs of the Galapagos — we take you where few travelers dare to go.",
+    "cta": "Explore Tours"
   },
   "tours": {
-    "badge": "旅游",
-    "title": "特色旅程",
-    "subtitle": "由专家向导精心策划的体验。",
+    "badge": "Interactive 3D Carousel Showcase",
+    "title": "Featured Signature Journeys",
+    "subtitle": "Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between luxury and adventure.",
     "cta": {
-      "label": "寻找量身定制的服务？",
-      "title": "我们设计您的行程",
-      "subtitle": "我们的专家将定制一切。",
-      "button": "请求行程"
+      "label": "Looking for something 100% custom?",
+      "title": "We Design Your Tailor-Made Itinerary At No Extra Cost",
+      "subtitle": "Our destination specialists will customize travel dates, pacing, hotel luxury level, and private excursions tailored precisely to your preferences.",
+      "button": "Request Custom Itinerary"
     },
     "filter": {
-      "all": "所有探险",
-      "galapagos": "加拉帕戈斯",
-      "ecuador": "厄瓜多尔",
-      "peru": "秘鲁"
+      "all": "All Expeditions",
+      "galapagos": "Galapagos Islands",
+      "ecuador": "Mainland Ecuador",
+      "peru": "Cusco & Peru"
     },
     "card": {
-      "from": "起",
-      "person": "/ 人",
-      "view": "详细信息",
-      "bestseller": "畅销"
+      "from": "From",
+      "person": "/ person",
+      "view": "View Details",
+      "bestseller": "Best Seller"
     },
-    "showing": "显示",
-    "of": "的",
-    "journeys": "旅程"
+    "showing": "Showing",
+    "of": "of",
+    "journeys": "journeys"
   },
   "about": {
-    "badge": "关于我们",
-    "title": "旅行专家",
-    "subtitle": "我们是一家经过认证的精品旅游运营商。",
-    "cta": "计划旅行"
+    "badge": "Who We Are",
+    "title": "Boutique Travel Expertise",
+    "subtitle": "We are a certified boutique tour operator based in Quito, Ecuador, specializing in tailor-made luxury expeditions across Ecuador, the Galapagos, and Peru.",
+    "cta": "Plan My Journey"
   },
   "experience": {
-    "badge": "关于我们",
-    "title": "无与伦比的体验",
-    "text": "我们创造独特而难忘的探险。",
-    "certified": "认证",
-    "sustainable": "可持续"
+    "badge": "About Vermilion Routes",
+    "title": "Unrivaled Experience, Uncompromising Excellence",
+    "text": "At Vermilion Routes, we don't just book tours. We craft unique, unforgettable, fully customized expeditions across the spectacular landscapes of Ecuador, Galapagos, and Peru. As direct local operators, we combine regional expertise with uncompromising excellence.",
+    "certified": "Certified Operator",
+    "sustainable": "Sustainable Impact"
   },
   "reviews": {
-    "badge": "体验",
-    "title": "旅客的话",
-    "verified": "TripAdvisor 已验证"
+    "badge": "Guest Experiences",
+    "title": "What Our Travelers Say",
+    "verified": "Verified TripAdvisor"
   },
   "faq": {
-    "badge": "问题",
-    "title": "常见问题",
-    "subtitle": "您需要知道的一切。"
+    "badge": "Common Questions",
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about planning your luxury expedition with Vermilion Routes."
   },
   "contact": {
-    "badge": "计划",
-    "title": "请求报价",
-    "subtitle": "告诉我们您的梦想之旅。",
-    "name": "姓名",
-    "email": "电子邮件",
-    "destination": "目的地",
-    "travelers": "旅客",
-    "message": "信息...",
-    "send": "发送",
-    "sending": "发送中...",
-    "success": "谢谢！"
+    "badge": "Let's Plan Your Trip",
+    "title": "Request Your Free Quote",
+    "subtitle": "Tell us about your dream expedition. Our specialists will design a custom itinerary within 24 hours.",
+    "name": "Your Full Name",
+    "email": "Email Address",
+    "destination": "Destination of Interest",
+    "travelers": "Number of Travelers",
+    "message": "Tell us about your dream expedition...",
+    "send": "Send Quote Request",
+    "sending": "Sending...",
+    "success": "Thank you! We'll be in touch within 24 hours."
   },
   "tour": {
-    "overview": "概述",
-    "itinerary": "行程",
-    "includes": "包括",
-    "optional": "可选",
-    "day": "天",
-    "book": "预订",
-    "download": "PDF",
+    "overview": "Overview",
+    "itinerary": "Itinerary",
+    "includes": "What's Included",
+    "optional": "Optional Add-Ons",
+    "day": "Day",
+    "book": "Book This Tour",
+    "download": "Download PDF",
     "group": {
-      "price": "团体价格"
+      "price": "Group Rate"
     },
-    "from": "从",
+    "from": "From",
     "per": {
-      "person": "每人"
+      "person": "per person"
     },
-    "duration": "持续时间",
-    "destination": "目的地",
-    "rating": "评分",
-    "gallery": "画廊",
-    "highlights": "亮点",
-    "included": "包括",
-    "excluded": "不包括",
-    "meals": "膳食",
-    "accommodation": "住宿"
+    "duration": "Duration",
+    "destination": "Destination",
+    "rating": "Rating",
+    "gallery": "Photo Gallery",
+    "highlights": "Highlights",
+    "included": "Included",
+    "excluded": "Not Included",
+    "meals": "Meals",
+    "accommodation": "Accommodation"
   },
   "footer": {
-    "tagline": "自 2005 年以来的专家。",
-    "rights": "版权所有。",
-    "privacy": "隐私政策",
-    "terms": "条款"
+    "tagline": "Premier luxury boutique expedition specialists in Ecuador, Galapagos & Peru since 2005.",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
   }
 }

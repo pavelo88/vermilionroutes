@@ -2,11 +2,12 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2, AlertCircle } from 'lucide-react';
 import { createBookingInFirestore } from '@/lib/bookings';
 import { filterPhoneInput, isValidEmail, isValidPhone, sanitizeText } from '@/lib/validation';
+import { useTranslations } from 'next-intl';
 
 export function ContactSection() {
+  const t = useTranslations('contact');
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -105,13 +106,13 @@ export function ContactSection() {
         <div className="lg:col-span-5 space-y-8">
           <div className="space-y-3">
             <span className="text-emerald-600 text-xs font-bold uppercase tracking-wider block">
-              Dedicated 24/7 Specialist Concierge
+              {t('badge')}
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight">
-              Let’s Craft Your Dream Journey
+              {t('title')}
             </h2>
             <p className="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed">
-              Fill out the custom inquiry form or reach out directly. A dedicated destination specialist will respond in under 2 hours with tailored proposal itineraries and pricing.
+              {t('subtitle')}
             </p>
           </div>
 
@@ -196,7 +197,7 @@ export function ContactSection() {
               <div className="flex items-center justify-between pb-2 border-b border-zinc-100 dark:border-zinc-800/50">
                 <h3 className="font-serif font-bold text-xl text-zinc-900 dark:text-white flex items-center gap-2">
                   <MessageSquare className="w-5 h-5 text-emerald-600" />
-                  <span>Request a Custom Quote</span>
+                  <span>{t('title')}</span>
                 </h3>
                 <span className="text-xs text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-full">
                   No Commitment
@@ -212,7 +213,7 @@ export function ContactSection() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Full Name *</label>
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('name')} *</label>
                   <input
                     type="text"
                     required
@@ -233,7 +234,7 @@ export function ContactSection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Email Address *</label>
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('email')} *</label>
                   <input
                     type="email"
                     required
@@ -273,7 +274,7 @@ export function ContactSection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Primary Destination</label>
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('destination')}</label>
                   <select
                     value={formData.destination}
                     onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
@@ -288,7 +289,7 @@ export function ContactSection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Travelers</label>
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('travelers')}</label>
                   <select
                     value={formData.travelers}
                     onChange={(e) => setFormData({ ...formData, travelers: e.target.value })}
@@ -305,7 +306,7 @@ export function ContactSection() {
 
               <div className="space-y-1.5">
                 <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                  Tell us about your trip preferences (estimated dates, style, interest)
+                  {t('message')}
                 </label>
                 <textarea
                   rows={4}
@@ -325,12 +326,12 @@ export function ContactSection() {
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Submitting Request...</span>
+                    <span>{t('sending')}</span>
                   </span>
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    <span>Submit Quote Request</span>
+                    <span>{t('send')}</span>
                   </>
                 )}
               </Button>
