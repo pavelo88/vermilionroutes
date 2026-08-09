@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   // Required for Docker multi-stage build: generates .next/standalone/ with self-contained server.js
   output: 'standalone',
+  transpilePackages: ['motion', 'framer-motion', 'motion-dom'],
   images: {
     remotePatterns: [
       {

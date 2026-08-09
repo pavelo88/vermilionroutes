@@ -67,6 +67,13 @@ export const translations: Record<Lang, Record<string, string>> = {
     'about.title.highlight': 'Since 2005',
     'about.subtitle': 'We are a certified boutique tour operator based in Quito, Ecuador, specializing in tailor-made luxury expeditions across Ecuador, the Galapagos, and Peru.',
     'about.cta': 'Plan My Journey',
+    
+    // Experience Section
+    'experience.badge': 'About Vermilion Routes',
+    'experience.title': 'Unrivaled Experience, Uncompromising Excellence',
+    'experience.text': 'At Vermilion Routes, we don\'t just book tours. We craft unique, unforgettable, fully customized expeditions across the spectacular landscapes of Ecuador, Galapagos, and Peru. As direct local operators, we combine regional expertise with uncompromising excellence.',
+    'experience.certified': 'Certified Operator',
+    'experience.sustainable': 'Sustainable Impact',
 
     // Reviews
     'reviews.badge': 'Guest Experiences',
@@ -179,6 +186,13 @@ export const translations: Record<Lang, Record<string, string>> = {
     'about.title.highlight': 'Desde 2005',
     'about.subtitle': 'Somos un operador turístico boutique certificado con sede en Quito, Ecuador, especializado en expediciones de lujo a medida por Ecuador, Galápagos y Perú.',
     'about.cta': 'Planifica Mi Viaje',
+    
+    // Experience Section
+    'experience.badge': 'Acerca de Vermilion Routes',
+    'experience.title': 'Experiencia inigualable, excelencia sin concesiones',
+    'experience.text': 'En Vermilion Routes, no solo reservamos tours. Creamos expediciones únicas e inolvidables, totalmente personalizadas, a través de los espectaculares paisajes de Ecuador, Galápagos y Perú. Como operadores locales directos, combinamos el conocimiento de la región con una excelencia sin concesiones.',
+    'experience.certified': 'Operador certificado',
+    'experience.sustainable': 'Impacto sostenible',
 
     // Reviews
     'reviews.badge': 'Experiencias de Viajeros',

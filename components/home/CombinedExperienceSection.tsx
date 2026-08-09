@@ -3,10 +3,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Compass, ShieldCheck, Heart, Quote, CheckCircle2, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { useSettings } from '@/hooks/useSettings';
+import { useLanguage } from '@/context/LanguageContext';
 import { mockReviews } from '@/data/mock';
 
 export function CombinedExperienceSection() {
   const { settings } = useSettings();
+  const { t } = useLanguage();
   const reviews = mockReviews;
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -129,26 +131,26 @@ export function CombinedExperienceSection() {
               <div className="space-y-6 relative z-10">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/50 border border-emerald-600/50 text-xs font-semibold text-emerald-200 backdrop-blur-sm">
                   <Compass className="w-3.5 h-3.5" />
-                  <span>Acerca de Vermilion Routes</span>
+                  <span>{t('experience.badge')}</span>
                 </div>
                 
                 <h4 className="font-serif text-3xl font-bold text-white leading-snug">
-                  Experiencia inigualable, excelencia sin concesiones
+                  {t('experience.title')}
                 </h4>
                 
                 <p className="text-emerald-50/90 text-sm sm:text-base leading-relaxed">
-                  En Vermilion Routes, no solo reservamos tours. Creamos expediciones únicas e inolvidables, totalmente personalizadas, a través de los espectaculares paisajes de Ecuador, Galápagos y Perú. Como operadores locales directos, combinamos el conocimiento de la región con una excelencia sin concesiones.
+                  {t('experience.text')}
                 </p>
               </div>
 
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 relative z-10 pt-6 mt-auto border-t border-emerald-700/50">
                 <div className="flex items-center gap-1.5 text-emerald-200 font-bold text-xs bg-emerald-950/40 px-3 py-1.5 rounded-xl border border-emerald-700/50">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Operador certificado</span>
+                  <span>{t('experience.certified')}</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-emerald-200 font-bold text-xs bg-emerald-950/40 px-3 py-1.5 rounded-xl border border-emerald-700/50">
                   <Heart className="w-3.5 h-3.5" />
-                  <span>Impacto sostenible</span>
+                  <span>{t('experience.sustainable')}</span>
                 </div>
               </div>
             </div>
