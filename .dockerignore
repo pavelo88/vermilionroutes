@@ -1,0 +1,35 @@
+# Dependencies & build artifacts
+node_modules
+.next
+out
+build
+
+# Development & test files
+*.test.ts
+*.test.tsx
+tests/
+coverage/
+vitest.config.ts
+
+# Config & secrets — NEVER in the image
+.env
+.env.*
+firebase-applet-config.json
+.gitignore
+.gitattributes
+
+# IDE & OS artifacts
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# Git
+.git
+
+# Scripts (not needed at runtime)
+scripts/
+
+# Docs
+README.md
+PROJECT_STATE.md

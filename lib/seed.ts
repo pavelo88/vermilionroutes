@@ -31,7 +31,7 @@ export const defaultSettings = {
         title: 'SHARK',
         title2: 'ENCOUNTER',
         description: 'Dive into the pristine waters of the Galapagos Marine Reserve. Swim alongside hammerhead sharks, playful sea lions, and marine iguanas in one of the planet\'s most protected and spectacular underwater realms.',
-        image: 'https://images.unsplash.com/photo-1551244072-5d12893278ab?auto=format&fit=crop&w=2752&q=80'
+        image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=2752&q=80'
       },
       {
         place: 'Pichincha - Quito',
@@ -45,7 +45,7 @@ export const defaultSettings = {
         title: 'COLONIAL',
         title2: 'CHARM',
         description: 'A deeply enchanting Andean city known for its stunning architecture, artisan traditions, and the picturesque Tomebamba river. Experience the soul of Ecuador in every cobblestone street.',
-        image: 'https://images.unsplash.com/photo-1616110978712-dfdfcce6b412?auto=format&fit=crop&w=2752&q=80'
+        image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=2752&q=80'
       },
       {
         place: 'Cotopaxi - Andes',

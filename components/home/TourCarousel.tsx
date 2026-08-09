@@ -189,6 +189,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
         {/* ── Navigation Arrows ── */}
         <button
           onClick={handlePrev}
+          suppressHydrationWarning
           aria-label="Previous expedition"
           className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-all duration-200 z-30 opacity-0 group-hover/carousel:opacity-100"
         >
@@ -196,6 +197,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
         </button>
         <button
           onClick={handleNext}
+          suppressHydrationWarning
           aria-label="Next expedition"
           className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-all duration-200 z-30 opacity-0 group-hover/carousel:opacity-100"
         >
@@ -210,6 +212,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
           {filteredTours.map((_, idx) => (
             <button
               key={idx}
+              suppressHydrationWarning
               onClick={() => goTo(idx)}
               aria-label={`Go to expedition ${idx + 1}`}
               className={`rounded-full transition-all duration-300 ${

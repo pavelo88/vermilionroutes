@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Required for Docker multi-stage build: generates .next/standalone/ with self-contained server.js
+  output: 'standalone',
   images: {
     remotePatterns: [
       {
@@ -12,12 +14,21 @@ const nextConfig = {
         hostname: 'firebasestorage.googleapis.com',
       },
       {
+        // Firebase Storage (new *.firebasestorage.app domain — different from googleapis.com)
+        protocol: 'https',
+        hostname: '*.firebasestorage.app',
+      },
+      {
         protocol: 'https',
         hostname: 'media.istockphoto.com',
       },
       {
         protocol: 'https',
         hostname: 'upload.wikimedia.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
       },
     ],
   },
