@@ -20,7 +20,6 @@ import {
 } from 'lucide-react';
 import { useSettings } from '@/hooks/useSettings';
 import Image from 'next/image';
-import { GTranslateWrapper } from '@/components/shared/ui';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -264,8 +263,7 @@ export function Navbar() {
                           
                           <div className={`p-1 animate-in fade-in duration-300 ${showGTranslate ? 'block' : 'hidden'}`}>
                             <span className="text-[10px] uppercase font-bold text-emerald-600 block mb-2 text-center">Powered by Google</span>
-                            <GTranslateWrapper />
-                          </div>
+                            </div>
                       </div>
                     </div>
                   </div>

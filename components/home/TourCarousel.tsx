@@ -5,18 +5,23 @@ import { Tour } from '@/types';
 import { TourCard } from '@/components/ui/TourCard';
 import { ChevronLeft, ChevronRight, Compass } from 'lucide-react';
 
+import { useTranslations, useLocale } from 'next-intl';
+import { getLocalizedText } from '@/utils/i18nHelper';
+
 interface TourCarouselProps {
   tours: Tour[];
 }
 
-const CATEGORIES = [
-  { id: 'all', label: 'All Expeditions' },
-  { id: 'Galapagos', label: '🌊 Galapagos' },
-  { id: 'Ecuador', label: '🏔️ Ecuador' },
-  { id: 'Peru', label: '🦙 Peru' },
-];
-
 export function TourCarousel({ tours }: TourCarouselProps) {
+  const t = useTranslations('tours');
+  const locale = useLocale();
+
+  const CATEGORIES = [
+    { id: 'all', label: t('filter.all') },
+    { id: 'Galapagos', label: `🌊 ${t('filter.galapagos')}` },
+    { id: 'Ecuador', label: `🏔️ ${t('filter.ecuador')}` },
+    { id: 'Peru', label: `🦙 ${t('filter.peru')}` },
+  ];
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isAnimating, setIsAnimating] = useState(false);

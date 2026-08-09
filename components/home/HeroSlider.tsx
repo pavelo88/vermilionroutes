@@ -6,6 +6,8 @@ import { useSettings } from '@/hooks/useSettings';
 import { Bookmark, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import { StatsSection } from './StatsSection';
+import { useTranslations, useLocale } from 'next-intl';
+import { getLocalizedText } from '@/utils/i18nHelper';
 
 const DEFAULT_DATA = [
   {
@@ -63,6 +65,8 @@ export function HeroSlider() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { settings, loading } = useSettings();
   const [isReady, setIsReady] = useState(false);
+  const locale = useLocale();
+  const t = useTranslations('hero');
 
   useEffect(() => {
     // ✅ W-03 FIX: Si loading ya terminó, setIsReady inmediatamente sin timer
@@ -136,7 +140,7 @@ export function HeroSlider() {
     function init() {
       const height = container.clientHeight || window.innerHeight;
       const width = container.clientWidth || window.innerWidth;
-      offsetTop = height - cardHeight - 60;
+      offsetTop = height - cardHeight - 140; // MOVED UP
       offsetLeft = Math.max(width - 830, 650);
 
       const [active, ...rest] = order;
@@ -175,6 +179,7 @@ export function HeroSlider() {
       gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, x: 0, ease, delay: startDelay, duration: 0.8 });
 
       window.addEventListener("resize", onResize);
+      startLoop(); // AUTOSTART CAROUSEL
     }
 
     function animate(target: string, duration: number, properties: any) {
@@ -241,10 +246,10 @@ export function HeroSlider() {
           const title1El = detailsActiveEl.querySelector('.title-1 span');
           const title2El = detailsActiveEl.querySelector('.title-2 span');
           const descEl = detailsActiveEl.querySelector('.desc span');
-          if (textEl) textEl.textContent = currentData.place;
-          if (title1El) title1El.textContent = currentData.title;
-          if (title2El) title2El.textContent = currentData.title2;
-          if (descEl) descEl.textContent = currentData.description;
+          if (textEl) textEl.textContent = getLocalizedText(currentData.place, locale);
+          if (title1El) title1El.textContent = getLocalizedText(currentData.title, locale);
+          if (title2El) title2El.textContent = getLocalizedText(currentData.title2, locale);
+          if (descEl) descEl.textContent = getLocalizedText(currentData.description, locale);
         }
 
         gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });
@@ -368,7 +373,7 @@ export function HeroSlider() {
   const initialData = slidesData[0];
 
   return (
-    <div ref={containerRef} className="relative w-full h-[130svh] md:h-[100svh] min-h-[900px] md:min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
+    <div ref={containerRef} className="relative w-full h-[100svh] min-h-[600px] md:min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
       
       {/* Indicator */}
       <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
@@ -377,28 +382,28 @@ export function HeroSlider() {
       {[0, 1].map((isOdd) => {
         const id = isOdd ? 'details-odd' : 'details-even';
         return (
-          <div key={id} id={id} className="absolute left-[30px] lg:left-[60px] top-[100px] lg:top-[140px] z-[22]">
+          <div key={id} id={id} className="absolute left-[30px] lg:left-[60px] top-[80px] lg:top-[100px] z-[22]">
             <div className="h-[46px] overflow-hidden mb-2">
               <div className="text text-white/90 font-medium tracking-widest uppercase text-sm pt-4 relative">
                 <div className="absolute top-0 left-0 w-8 h-[2px] bg-white rounded-full" />
-                <span className="notranslate">{initialData.place}</span>
+                <span className="notranslate">{getLocalizedText(initialData.place, locale)}</span>
               </div>
             </div>
             
             <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden mt-1">
               <div className="title-1 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
-                <span className="notranslate">{initialData.title}</span>
+                <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
               </div>
             </div>
             <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden">
               <div className="title-2 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-lg">
-                <span className="notranslate">{initialData.title2}</span>
+                <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
               </div>
             </div>
             
             <div className="h-auto md:h-[80px] lg:h-[120px] overflow-hidden mt-4 md:mt-6">
               <div className="desc text-xs sm:text-sm md:text-lg text-white/90 max-w-xl leading-relaxed drop-shadow-md line-clamp-4 md:line-clamp-none">
-                <span>{initialData.description}</span>
+                <span>{getLocalizedText(initialData.description, locale)}</span>
               </div>
             </div>
           </div>
@@ -433,8 +438,8 @@ export function HeroSlider() {
           <div className={`card-content card-content-${idx} absolute left-0 top-0 text-white w-[180px] h-[260px] pointer-events-none`}>
             <div className="absolute bottom-5 left-5 right-5 text-left">
               <div className="w-4 h-[2px] bg-white mb-2" />
-              <p className="text-[9px] uppercase font-bold text-white/80 tracking-widest mb-1 line-clamp-1 notranslate">{slide.place}</p>
-              <h4 className="text-white font-oswald text-xl uppercase leading-none tracking-wide notranslate">{slide.title}</h4>
+              <p className="text-[9px] uppercase font-bold text-white/80 tracking-widest mb-1 line-clamp-1 notranslate">{getLocalizedText(slide.place, locale)}</p>
+              <h4 className="text-xl font-oswald font-bold uppercase leading-tight line-clamp-2 drop-shadow-md notranslate">{getLocalizedText(slide.title, locale)}</h4>
             </div>
           </div>
         </div>

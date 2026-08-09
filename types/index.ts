@@ -1,23 +1,25 @@
+import { LocalizedString } from '@/utils/i18nHelper';
+
 export interface ItineraryDay {
   day: number;
-  title: string;
+  title: LocalizedString;
   titleEs?: string;
-  description: string;
+  description: LocalizedString;
   descriptionEs?: string;
-  highlights?: string[];
+  highlights?: LocalizedString[];
   highlightsEs?: string[];
-  meals?: string;
+  meals?: LocalizedString;
   mealsEs?: string;
-  accommodation?: string;
+  accommodation?: LocalizedString;
   accommodationEs?: string;
 }
 
 export interface Tour {
   id: string;
-  title: string;
+  title: LocalizedString;
   titleEs?: string;
   destination: string;
-  duration: string;
+  duration: LocalizedString;
   durationEs?: string;
   durationDays?: number;
   price: number;
@@ -26,22 +28,22 @@ export interface Tour {
   mainImage?: string;
   rating: number;
   reviewsCount?: number;
-  category?: string;
+  category?: LocalizedString;
   categoryEs?: string;
-  highlights?: string[];
+  highlights?: LocalizedString[];
   highlightsEs?: string[];
   isPopular?: boolean;
   isUpcoming?: boolean;
-  description?: string;
+  description?: LocalizedString;
   descriptionEs?: string;
-  shortDescription?: string;
+  shortDescription?: LocalizedString;
   shortDescriptionEs?: string;
   gallery?: string[];
   itinerary?: ItineraryDay[];
   itineraryEs?: ItineraryDay[];
-  inclusions?: string[];
+  inclusions?: LocalizedString[];
   inclusionsEs?: string[];
-  exclusions?: string[];
+  exclusions?: LocalizedString[];
   exclusionsEs?: string[];
   groupPrice?: number;
   pdfUrl?: string;
@@ -51,9 +53,9 @@ export interface Tour {
 
 export interface Destination {
   id: string;
-  name: string;
-  subtitle: string;
-  description: string;
+  name: LocalizedString;
+  subtitle: LocalizedString;
+  description: LocalizedString;
   imageUrl: string;
   toursCount: number;
   slug: string;
