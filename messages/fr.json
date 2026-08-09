@@ -1,57 +1,57 @@
 {
   "meta": {
-    "title": "Vermilion Routes | Voyage de Luxe sur Mesure",
-    "description": "Découvrez l'Amérique du Sud avec des itinéraires sur mesure, des croisières de luxe aux îles Galápagos, des expéditions en Amazonie et des randonnées dans les Andes."
+    "title": "Vermilion Routes | Voyages de Luxe sur Mesure",
+    "description": "Découvrez l'Amérique du Sud avec des itinéraires sur mesure, des croisières de luxe aux îles Galapagos, des expéditions en Amazonie et des randonnées dans les Andes."
   },
   "nav": {
     "home": "Accueil",
     "destinations": "Destinations",
-    "galapagos": "Îles Galápagos",
+    "galapagos": "Îles Galapagos",
     "ecuador": "Équateur Continental",
     "peru": "Pérou Mystique",
-    "tours": "Circuits Recommandés",
+    "tours": "Circuits Phares",
     "about": "À Propos",
     "contact": "Contact",
     "quote": "Demander un Devis",
     "banner": {
-      "tagline": "Expéditions sur Mesure & Petits Groupes Privés",
+      "tagline": "Expéditions sur Mesure et Petits Groupes Privés",
       "badge": "Voyages de Luxe Exclusifs"
     }
   },
   "hero": {
-    "badge": "Voyage de Luxe Primé",
+    "badge": "Voyages de Luxe Primés",
     "title": "Les Plus Extraordinaires",
-    "subtitle": "Expéditions sur mesure aux Îles Galápagos, dans les Andes, en Amazonie et au Machu Picchu — conçues par des guides locaux experts.",
+    "subtitle": "Des expéditions sur mesure aux îles Galapagos, dans les Andes, la forêt amazonienne et le Machu Picchu.",
     "cta": {
-      "explore": "Voir Tous les Circuits",
+      "explore": "Explorer les Circuits",
       "quote": "Devis Gratuit"
     },
     "stats": {
       "tours": "Circuits sur Mesure",
       "reviews": "Avis 5 Étoiles",
       "naturalists": "Naturalistes Experts",
-      "support": "Assistance 24/7"
+      "support": "Support 24/7"
     }
   },
   "destinations": {
-    "badge": "Où Irez-Vous ?",
+    "badge": "Où Irez-vous ?",
     "title": "Explorez Nos Destinations",
-    "subtitle": "Des sommets volcaniques des Andes aux récifs immaculés des Galápagos — nous vous emmenons là où peu de voyageurs osent aller.",
-    "cta": "Voir les Circuits"
+    "subtitle": "Des sommets volcaniques des Andes aux récifs immaculés des Galapagos — nous vous emmenons là où peu de voyageurs osent s'aventurer.",
+    "cta": "Explorer les Circuits"
   },
   "tours": {
     "badge": "Carrousel Interactif 3D",
-    "title": "Nos Circuits Emblématiques",
-    "subtitle": "Des expériences conçues par des naturalistes locaux experts avec une logistique irréprochable, des séjours en boutiques-hôtels et l'équilibre parfait entre luxe et aventure.",
+    "title": "Voyages Emblématiques",
+    "subtitle": "Des expériences sélectionnées, guidées par des experts naturalistes locaux avec une logistique impeccable.",
     "cta": {
       "label": "Vous cherchez du 100% sur mesure ?",
-      "title": "Nous Créons Votre Itinéraire sur Mesure Sans Frais Supplémentaires",
-      "subtitle": "Nos spécialistes adapteront les dates, le rythme, le niveau de confort et les excursions privées selon vos préférences exactas.",
-      "button": "Demander un Itinéraire sur Mesure"
+      "title": "Nous Concevons Votre Itinéraire Sans Frais",
+      "subtitle": "Nos spécialistes personnaliseront vos dates, le rythme et le luxe selon vos préférences.",
+      "button": "Demander un Itinéraire Personnalisé"
     },
     "filter": {
       "all": "Toutes les Expéditions",
-      "galapagos": "Îles Galápagos",
+      "galapagos": "Îles Galapagos",
       "ecuador": "Équateur Continental",
       "peru": "Cusco & Pérou"
     },
@@ -61,54 +61,54 @@
       "view": "Voir les Détails",
       "bestseller": "Meilleure Vente"
     },
-    "showing": "Affichage de",
+    "showing": "Affichage",
     "of": "sur",
     "journeys": "voyages"
   },
   "about": {
     "badge": "Qui Sommes-Nous",
     "title": "Expertise en Voyage Boutique",
-    "subtitle": "Nous sommes un voyagiste boutique certifié basé à Quito, en Équateur, spécialisé dans les expéditions de luxe sur mesure à travers l'Équateur, les Galápagos et le Pérou.",
+    "subtitle": "Nous sommes un tour-opérateur boutique certifié basé à Quito, en Équateur.",
     "cta": "Planifier Mon Voyage"
   },
   "experience": {
     "badge": "À Propos de Vermilion Routes",
-    "title": "Une Expérience Inégalée, Une Excellence Sans Compromis",
-    "text": "Chez Vermilion Routes, nous ne faisons pas que réserver des circuits. Nous concevons des expéditions uniques, inoubliables et entièrement personnalisées à travers les paysages spectaculaires de l'Équateur, des Galápagos et du Pérou. En tant qu'opérateurs locaux directs, nous combinons expertise régionale et excellence sans compromis.",
+    "title": "Expérience Inégalée, Excellence Absolue",
+    "text": "Chez Vermilion Routes, nous ne nous contentons pas de réserver des circuits. Nous créons des expéditions uniques, inoubliables et personnalisées.",
     "certified": "Opérateur Certifié",
     "sustainable": "Impact Durable"
   },
   "reviews": {
-    "badge": "Expériences de Voyageurs",
-    "title": "Ce Que Disent Nos Voyageurs",
-    "verified": "Vérifié TripAdvisor"
+    "badge": "Expériences des Clients",
+    "title": "Ce que disent nos voyageurs",
+    "verified": "Vérifié sur TripAdvisor"
   },
   "faq": {
     "badge": "Questions Fréquentes",
     "title": "Foire Aux Questions",
-    "subtitle": "Tout ce que vous devez savoir pour planifier votre expédition de luxe avec Vermilion Routes."
+    "subtitle": "Tout ce que vous devez savoir pour planifier votre expédition."
   },
   "contact": {
     "badge": "Planifions Votre Voyage",
-    "title": "Demandez Votre Devis Gratuit",
-    "subtitle": "Parlez-nous de l'expédition de vos rêves. Nos spécialistes concevront un itinéraire sur mesure en moins de 24 heures.",
+    "title": "Demandez Votre Devis",
+    "subtitle": "Parlez-nous de l'expédition de vos rêves.",
     "name": "Nom Complet",
-    "email": "Adresse E-mail",
+    "email": "Adresse Email",
     "destination": "Destination Souhaitée",
     "travelers": "Nombre de Voyageurs",
     "message": "Parlez-nous de l'expédition de vos rêves...",
     "send": "Envoyer la Demande",
-    "sending": "Envoi en cours...",
+    "sending": "Envoi...",
     "success": "Merci ! Nous vous contacterons dans les 24 heures."
   },
   "tour": {
     "overview": "Aperçu",
     "itinerary": "Itinéraire",
     "includes": "Ce Qui Est Inclus",
-    "optional": "Excursions Optionnelles",
+    "optional": "En Option",
     "day": "Jour",
     "book": "Réserver ce Circuit",
-    "download": "Télécharger le PDF",
+    "download": "Télécharger PDF",
     "group": {
       "price": "Tarif de Groupe"
     },
@@ -118,8 +118,8 @@
     },
     "duration": "Durée",
     "destination": "Destination",
-    "rating": "Note",
-    "gallery": "Galerie Photos",
+    "rating": "Évaluation",
+    "gallery": "Galerie de Photos",
     "highlights": "Points Forts",
     "included": "Inclus",
     "excluded": "Non Inclus",
@@ -127,7 +127,7 @@
     "accommodation": "Hébergement"
   },
   "footer": {
-    "tagline": "Spécialistes des expéditions de luxe en Équateur, aux Galápagos et au Pérou depuis 2005.",
+    "tagline": "Spécialistes des expéditions de luxe en Équateur, aux Galapagos et au Pérou depuis 2005.",
     "rights": "Tous droits réservés.",
     "privacy": "Politique de Confidentialité",
     "terms": "Conditions d'Utilisation"

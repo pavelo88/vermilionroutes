@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Vermilion Routes | Viaggi di Lusso su Misura",
-    "description": "Scopri il Sud America con itinerari di viaggio su misura, crociere di lusso alle Isole Galapagos, spedizioni in Amazzonia e trekking sui vulcani andini."
+    "description": "Vivi il Sud America con itinerari su misura."
   },
   "nav": {
     "home": "Home",
@@ -12,54 +12,54 @@
     "tours": "Tour in Evidenza",
     "about": "Chi Siamo",
     "contact": "Contatti",
-    "quote": "Richiedi un Preventivo",
+    "quote": "Richiedi Preventivo",
     "banner": {
-      "tagline": "Spedizioni su Misura e Piccoli Gruppi Privati",
-      "badge": "Viaggi di Lusso Esclusivi"
+      "tagline": "Spedizioni su Misura",
+      "badge": "Viaggi Esclusivi"
     }
   },
   "hero": {
-    "badge": "Viaggi di Lusso Pluripremiati",
-    "title": "Le Più Straordinarie",
-    "subtitle": "Spedizioni su misura alle Isole Galapagos, nelle Ande, nella Foresta Amazzonica e a Machu Picchu — create da guide locali esperte.",
+    "badge": "Viaggi di Lusso Premiati",
+    "title": "Il Più Straordinario",
+    "subtitle": "Spedizioni su misura nelle Ande e in Amazzonia.",
     "cta": {
-      "explore": "Esplora Tutti i Tour",
+      "explore": "Esplora i Tour",
       "quote": "Preventivo Gratuito"
     },
     "stats": {
-      "tours": "Tour su Misura",
-      "reviews": "Recensioni a 5 Stelle",
-      "naturalists": "Naturalisti Esperti",
+      "tours": "Su Misura",
+      "reviews": "Recensioni 5 Stelle",
+      "naturalists": "Guide Esperte",
       "support": "Supporto 24/7"
     }
   },
   "destinations": {
-    "badge": "Dove Andrai?",
-    "title": "Esplora le Nostre Destinazioni",
-    "subtitle": "Dalle vette vulcaniche delle Ande alle barriere coralline incontaminate delle Galapagos — ti portiamo dove pochi viaggiatori osano andare.",
-    "cta": "Esplora i Tour"
+    "badge": "Dove andrai?",
+    "title": "Esplora le nostre destinazioni",
+    "subtitle": "Ti portiamo dove pochi viaggiatori osano andare.",
+    "cta": "Esplora"
   },
   "tours": {
-    "badge": "Carosello Interattivo 3D",
-    "title": "I Nostri Viaggi d'Autore",
-    "subtitle": "Esperienze curate da esperti naturalisti locali con logistica impeccabile, soggiorni in boutique hotel e il perfetto equilibrio tra lusso e avventura.",
+    "badge": "Tour",
+    "title": "Viaggi d'Autore",
+    "subtitle": "Esperienze curate da guide esperte.",
     "cta": {
-      "label": "Cerchi qualcosa di personalizzato al 100%?",
-      "title": "Progettiamo il Tuo Itinerario su Misura Senza Costi Aggiuntivi",
-      "subtitle": "I nostri specialisti adatteranno le date del viaggio, il ritmo, il livello di comfort e le escursioni private in base alle tue preferenze esatte.",
-      "button": "Richiedi Itinerario su Misura"
+      "label": "Cerchi qualcosa su misura?",
+      "title": "Progettiamo il tuo itinerario",
+      "subtitle": "I nostri specialisti personalizzeranno tutto.",
+      "button": "Richiedi Itinerario"
     },
     "filter": {
-      "all": "Tutte le Spedizioni",
-      "galapagos": "Isole Galapagos",
-      "ecuador": "Ecuador Continentale",
-      "peru": "Cusco e Perù"
+      "all": "Tutte le spedizioni",
+      "galapagos": "Galapagos",
+      "ecuador": "Ecuador",
+      "peru": "Perù"
     },
     "card": {
-      "from": "A partire da",
+      "from": "Da",
       "person": "/ persona",
-      "view": "Vedi Dettagli",
-      "bestseller": "I Più Venduti"
+      "view": "Dettagli",
+      "bestseller": "Più Venduto"
     },
     "showing": "Mostrando",
     "of": "di",
@@ -67,50 +67,50 @@
   },
   "about": {
     "badge": "Chi Siamo",
-    "title": "Competenza in Viaggi Boutique",
-    "subtitle": "Siamo un tour operator boutique certificato con sede a Quito, Ecuador, specializzato in spedizioni di lusso su misura in Ecuador, Galapagos e Perù.",
-    "cta": "Pianifica il Mio Viaggio"
+    "title": "Esperti di Viaggi",
+    "subtitle": "Siamo un operatore turistico boutique certificato.",
+    "cta": "Pianifica il Viaggio"
   },
   "experience": {
-    "badge": "Informazioni su Vermilion Routes",
-    "title": "Esperienza Ineguagliabile, Eccellenza Senza Compromessi",
-    "text": "Noi di Vermilion Routes non ci limitiamo a prenotare tour. Creiamo spedizioni uniche, indimenticabili e completamente personalizzate attraverso i paesaggi spettacolari dell'Ecuador, delle Galapagos e del Perù. Come operatori locali diretti, uniamo l'esperienza regionale a un'eccellenza senza compromessi.",
-    "certified": "Operatore Certificato",
-    "sustainable": "Impatto Sostenibile"
+    "badge": "Su di noi",
+    "title": "Esperienza Ineguagliabile",
+    "text": "Creiamo spedizioni uniche e indimenticabili.",
+    "certified": "Certificato",
+    "sustainable": "Sostenibile"
   },
   "reviews": {
-    "badge": "Esperienze dei Viaggiatori",
-    "title": "Cosa Dicono i Nostri Ospiti",
+    "badge": "Esperienze",
+    "title": "Cosa Dicono i Nostri Viaggiatori",
     "verified": "Verificato TripAdvisor"
   },
   "faq": {
-    "badge": "Domande Frequenti",
+    "badge": "Domande",
     "title": "Domande Frequenti",
-    "subtitle": "Tutto ciò che devi sapere per pianificare la tua spedizione di lusso con Vermilion Routes."
+    "subtitle": "Tutto ciò che devi sapere."
   },
   "contact": {
-    "badge": "Pianifichiamo il Tuo Viaggio",
-    "title": "Richiedi il Tuo Preventivo Gratuito",
-    "subtitle": "Raccontaci della tua spedizione dei sogni. I nostri specialisti progetteranno un itinerario su misura entro 24 ore.",
-    "name": "Nome Completo",
-    "email": "Indirizzo Email",
-    "destination": "Destinazione di Interesse",
-    "travelers": "Numero di Viaggiatori",
-    "message": "Raccontaci della tua spedizione dei sogni...",
-    "send": "Invia Richiesta",
-    "sending": "Invio in corso...",
-    "success": "Grazie! Ti contatteremo entro 24 ore."
+    "badge": "Pianifica",
+    "title": "Richiedi Preventivo",
+    "subtitle": "Raccontaci il viaggio dei tuoi sogni.",
+    "name": "Nome",
+    "email": "Email",
+    "destination": "Destinazione",
+    "travelers": "Viaggiatori",
+    "message": "Messaggio...",
+    "send": "Invia",
+    "sending": "Invio...",
+    "success": "Grazie!"
   },
   "tour": {
     "overview": "Panoramica",
     "itinerary": "Itinerario",
     "includes": "Cosa è Incluso",
-    "optional": "Escursioni Opzionali",
+    "optional": "Opzionale",
     "day": "Giorno",
-    "book": "Prenota Questo Tour",
-    "download": "Scarica il PDF",
+    "book": "Prenota",
+    "download": "PDF",
     "group": {
-      "price": "Tariffa per Gruppi"
+      "price": "Prezzo Gruppo"
     },
     "from": "Da",
     "per": {
@@ -119,17 +119,17 @@
     "duration": "Durata",
     "destination": "Destinazione",
     "rating": "Valutazione",
-    "gallery": "Galleria Fotografica",
-    "highlights": "Punti Salienti",
+    "gallery": "Galleria",
+    "highlights": "In Evidenza",
     "included": "Incluso",
     "excluded": "Non Incluso",
     "meals": "Pasti",
     "accommodation": "Alloggio"
   },
   "footer": {
-    "tagline": "Specialisti in spedizioni di lusso in Ecuador, Galapagos e Perù dal 2005.",
+    "tagline": "Specialisti dal 2005.",
     "rights": "Tutti i diritti riservati.",
-    "privacy": "Informativa sulla Privacy",
-    "terms": "Termini di Servizio"
+    "privacy": "Privacy",
+    "terms": "Termini"
   }
 }

@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { translate } from '@vitalets/google-translate-api';
+import { translate } from 'google-translate-api-x';
 
-const locales = ['zh', 'it', 'pt', 'ja', 'fr', 'de'];
+const locales = ['zh', 'it', 'pt', 'ja', 'fr', 'de', 'es'];
 const enPath = path.join(process.cwd(), 'messages', 'en.json');
 const enData = JSON.parse(fs.readFileSync(enPath, 'utf-8'));
 
