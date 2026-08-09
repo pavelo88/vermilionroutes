@@ -50,7 +50,7 @@ const DEFAULT_DATA = [
     title: { en: 'TROPICAL', es: 'PUERTO', fr: 'PORT', de: 'TROPISCHER', it: 'PORTO', pt: 'PORTO', ja: '熱帯の', zh: '热带' },
     title2: { en: 'PORT', es: 'TROPICAL', fr: 'TROPICAL', de: 'HAFEN', it: 'TROPICALE', pt: 'TROPICAL', ja: '港', zh: '港口' },
     description: {
-      en: 'The economic heartbeat of Ecuador.', es: 'El latido económico del Ecuador.', fr: 'Le cœur économique de l\\Équateur.', de: 'Der wirtschaftliche Herzschlag Ecuadors., it: Il cuore economico dell\\Ecuador.', pt: 'O coração econômico do Equador.', ja: 'エクアドルの経済の中心地。', zh: '厄瓜多尔的经济命脉。'
+      en: 'The economic heartbeat of Ecuador.', es: 'El latido económico del Ecuador.', fr: "Le cœur économique de l'Équateur.", de: 'Der wirtschaftliche Herzschlag Ecuadors.', it: "Il cuore economico dell'Ecuador.", pt: 'O coração econômico do Equador.', ja: 'エクアドルの経済の中心地。', zh: '厄瓜多尔的经济命脉。'
     },
     image: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&w=2752&q=80'
   },
@@ -59,7 +59,7 @@ const DEFAULT_DATA = [
     title: { en: 'SACRED', es: 'VALLE', fr: 'VALLÉE', de: 'HEILIGES', it: 'VALLE', pt: 'VALE', ja: '神聖な', zh: '神圣' },
     title2: { en: 'VALLEY', es: 'SAGRADO', fr: 'SACRÉE', de: 'TAL', it: 'SACRA', pt: 'SAGRADO', ja: '谷', zh: '山谷' },
     description: {
-      en: 'Journey into the heart of the Inca Empire.', es: 'Viaje al corazón del Imperio Inca.', fr: 'Voyage au cœur de l\\Empire Inca.', de: 'Reise in das Herz des Inka- Reiches.', it: 'Viaggio nel cuore dell\\Impero Inca.', pt: 'Viagem ao coração do Império Inca.', ja: 'インカ帝国の中心への旅。', zh: '深入印加帝国的中心。'
+      en: 'Journey into the heart of the Inca Empire.', es: 'Viaje al corazón del Imperio Inca.', fr: "Voyage au cœur de l'Empire Inca.", de: 'Reise in das Herz des Inka-Reiches.', it: "Viaggio nel cuore dell'Impero Inca.", pt: 'Viagem ao coração do Império Inca.', ja: 'インカ帝国の中心への旅。', zh: '深入印加帝国的中心。'
     },
     image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2752&q=80'
   }

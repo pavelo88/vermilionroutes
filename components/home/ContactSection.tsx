@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { createBookingInFirestore } from '@/lib/bookings';
 import { filterPhoneInput, isValidEmail, isValidPhone, sanitizeText } from '@/lib/validation';
 import { useTranslations } from 'next-intl';
+import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export function ContactSection() {
   const t = useTranslations('contact');
