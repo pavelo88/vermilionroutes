@@ -21,9 +21,23 @@ const firebaseConfig = {
 const databaseId =
   process.env.NEXT_PUBLIC_FIREBASE_DATABASE_ID ?? '(default)';
 
-const app: FirebaseApp   = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-const auth: Auth         = getAuth(app);
-const db: Firestore      = getFirestore(app, databaseId);
-const storage: FirebaseStorage = getStorage(app);
+let app: FirebaseApp | undefined;
+let auth: Auth | any;
+let db: Firestore | any;
+let storage: FirebaseStorage | any;
+
+try {
+  app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+  // Only initialize services if apiKey is present to prevent synchronous crash
+  if (firebaseConfig.apiKey) {
+    auth = getAuth(app);
+    db = getFirestore(app, databaseId);
+    storage = getStorage(app);
+  } else {
+    console.warn('Firebase API Key is missing. Firebase services will not be initialized.');
+  }
+} catch (error) {
+  console.error('Error initializing Firebase:', error);
+}
 
 export { app, auth, db, storage, firebaseConfig };
