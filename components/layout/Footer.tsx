@@ -167,13 +167,13 @@ export function Footer() {
 
             <div className="pt-2 space-y-2 text-xs text-zinc-400">
               <p className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-emerald-400" /> {settings?.contact?.phone || '+593 99 404 8458'}
+                <Phone className="w-3.5 h-3.5 text-emerald-400" /> {getLocalizedText(settings?.contact?.phone, locale) || '+593 99 404 8458'}
               </p>
               <p className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-emerald-400" /> {settings?.contact?.email || 'info@vermilionroutes.com'}
+                <Mail className="w-3.5 h-3.5 text-emerald-400" /> {getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}
               </p>
               <p className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-emerald-400" /> {settings?.contact?.address || 'Quito, Ecuador • South America'}
+                <MapPin className="w-3.5 h-3.5 text-emerald-400" /> {getLocalizedText(settings?.contact?.address, locale) || 'Quito, Ecuador • South America'}
               </p>
             </div>
           </div>

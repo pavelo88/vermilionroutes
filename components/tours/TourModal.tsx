@@ -8,6 +8,8 @@ import { X, MapPin, Clock, Star, Check, ArrowRight, ShieldCheck, Ship, MessageCi
 import { Tour } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { useSettings } from '@/hooks/useSettings';
+import { useLocale } from 'next-intl';
+import { getLocalizedText } from '@/utils/i18nHelper';
 
 interface TourModalProps {
   tour: Tour | null;
@@ -74,8 +76,10 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
     setCurrentImgIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
   };
 
+  const locale = useLocale();
+
   const handleWhatsApp = () => {
-    const rawNumber = settings?.contact?.whatsappUrl || settings?.contact?.phone || '593994048458';
+    const rawNumber = getLocalizedText(settings?.contact?.whatsappUrl, locale) || getLocalizedText(settings?.contact?.phone, locale) || '593994048458';
     const phoneNumber = rawNumber.replace(/[^0-9]/g, '') || '593994048458';
     const message = encodeURIComponent(`Hello Vermilion Routes, I am interested in booking the "${tour.title}" tour.`);
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');

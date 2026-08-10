@@ -21,6 +21,8 @@ import {
 import { useSettings } from '@/hooks/useSettings';
 import Image from 'next/image';
 
+import { getLocalizedText } from '@/utils/i18nHelper';
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -99,18 +101,18 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
           <div className="flex items-center gap-6">
             <a
-              href={`tel:${settings?.contact?.phone || '+593994048458'}`}
+              href={`tel:${getLocalizedText(settings?.contact?.phone, locale) || '+593994048458'}`}
               className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors"
             >
               <Phone className="w-3.5 h-3.5 text-emerald-500" />
-              <span>{settings?.contact?.phone || '+593 99 404 8458'}</span>
+              <span>{getLocalizedText(settings?.contact?.phone, locale) || '+593 99 404 8458'}</span>
             </a>
             <a
-              href={`mailto:${settings?.contact?.email || 'info@vermilionroutes.com'}`}
+              href={`mailto:${getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}`}
               className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors hidden md:flex"
             >
               <Mail className="w-3.5 h-3.5 text-emerald-500" />
-              <span>{settings?.contact?.email || 'info@vermilionroutes.com'}</span>
+              <span>{getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}</span>
             </a>
           </div>
           <div className="flex items-center gap-4 text-xs">
