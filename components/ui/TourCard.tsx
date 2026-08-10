@@ -42,6 +42,7 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
           }
         }}
         className={`group cursor-pointer outline-none ${className || ''}`}
+        suppressHydrationWarning
       >
         <BaseTourCard
           title={title}
