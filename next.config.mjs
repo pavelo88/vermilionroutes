@@ -10,8 +10,8 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Required for Docker multi-stage build: generates .next/standalone/ with self-contained server.js
-  output: 'standalone',
+  // Conditionally disable on Vercel to prevent ENOENT errors with next-server.js.nft.json
+  output: process.env.VERCEL ? undefined : 'standalone',
   transpilePackages: ['motion', 'framer-motion', 'motion-dom'],
   images: {
     remotePatterns: [
