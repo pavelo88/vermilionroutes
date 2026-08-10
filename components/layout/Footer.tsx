@@ -17,9 +17,12 @@ import {
   Sparkles
 } from 'lucide-react';
 import { useSettings } from '@/hooks/useSettings';
+import { useLocale } from 'next-intl';
+import { getLocalizedText } from '@/utils/i18nHelper';
 
 export function Footer() {
   const { settings } = useSettings();
+  const locale = useLocale();
 
   return (
     <footer className="bg-zinc-950 text-zinc-300 pt-16 pb-8 border-t border-zinc-800">
@@ -42,7 +45,7 @@ export function Footer() {
             </a>
 
             <p className="text-zinc-400 text-sm leading-relaxed max-w-sm">
-              {settings?.footer?.description || 'South America specialists crafting tailor-made private journeys, Galapagos premium cruises, Amazon rainforest expeditions, and Andean cultural discoveries.'}
+              {getLocalizedText(settings?.footer?.description, locale) || 'South America specialists crafting tailor-made private journeys, Galapagos premium cruises, Amazon rainforest expeditions, and Andean cultural discoveries.'}
             </p>
 
             <div className="flex items-center gap-3 pt-2">
@@ -194,7 +197,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-zinc-500">
-          <p>{settings?.footer?.copyright || `© ${new Date().getFullYear()} Vermilion Routes. All Rights Reserved.`}</p>
+          <p>{getLocalizedText(settings?.footer?.copyright, locale) || `© ${new Date().getFullYear()} Vermilion Routes. All Rights Reserved.`}</p>
           <div className="flex gap-6">
             <a href="#privacy" className="hover:text-zinc-300 transition-colors">
               Privacy Policy

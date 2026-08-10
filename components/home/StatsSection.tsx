@@ -4,14 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { Award, Shield, Globe, Users, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useSettings } from '@/hooks/useSettings';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
 
 export function StatsSection() {
   const [mounted, setMounted] = useState(false);
   const { settings } = useSettings();
   const locale = useLocale();
-  const t = useTranslations('hero'); // Assuming you might need translations for static texts like 'Explore Tours'
 
   useEffect(() => {
     setMounted(true);
@@ -102,7 +101,7 @@ export function StatsSection() {
             onClick={scrollToTours}
             className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white rounded-full px-8 py-6 uppercase tracking-widest text-xs font-bold transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] gap-2 group"
           >
-            {t('exploreTours') || 'Explore Tours'}
+            Explore Tours
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>

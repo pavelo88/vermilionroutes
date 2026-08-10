@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useSettings } from '@/hooks/useSettings';
 import { ChevronLeft, ChevronRight, Bookmark } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { useLocale } from 'next-intl';
+import { getLocalizedText } from '@/utils/i18nHelper';
 
 const DEFAULT_DATA = [
   {
@@ -66,6 +68,7 @@ const DEFAULT_DATA = [
 
 export function HeroSection() {
   const { settings } = useSettings();
+  const locale = useLocale();
   const validSlides = settings?.hero?.slides?.filter((s: any) => s.image && s.title);
   const slidesData = validSlides?.length ? validSlides : DEFAULT_DATA;
   
@@ -135,17 +138,17 @@ export function HeroSection() {
             <div className="mb-4">
               <div className="w-10 h-[2px] bg-white mb-3" />
               <h3 className="text-sm md:text-base font-semibold tracking-widest uppercase text-white/90">
-                {currentSlide.place}
+                {getLocalizedText(currentSlide.place, locale)}
               </h3>
             </div>
             
             <h1 className="text-5xl md:text-7xl lg:text-[90px] font-oswald font-extrabold leading-[0.9] mb-6 uppercase tracking-tight text-white drop-shadow-2xl">
-              <span>{currentSlide.title}</span> <br/> 
-              <span>{currentSlide.title2}</span>
+              <span>{getLocalizedText(currentSlide.title, locale)}</span> <br/> 
+              <span>{getLocalizedText(currentSlide.title2, locale)}</span>
             </h1>
             
             <p className="text-sm md:text-lg text-white/90 max-w-xl mb-8 leading-relaxed drop-shadow-md">
-              <span>{currentSlide.description}</span>
+              <span>{getLocalizedText(currentSlide.description, locale)}</span>
             </p>
             
             <div className="flex items-center gap-4">
@@ -178,8 +181,8 @@ export function HeroSection() {
                   
                   <div className="absolute bottom-5 left-5 right-5 text-left">
                     <div className="w-4 h-[2px] bg-white mb-2" />
-                    <p className="text-[9px] uppercase font-bold text-white/80 tracking-widest mb-1 line-clamp-1">{slide.place}</p>
-                    <h4 className="text-white font-oswald text-xl uppercase leading-none tracking-wide">{slide.title}</h4>
+                    <p className="text-[9px] uppercase font-bold text-white/80 tracking-widest mb-1 line-clamp-1">{getLocalizedText(slide.place, locale)}</p>
+                    <h4 className="text-white font-oswald text-xl uppercase leading-none tracking-wide">{getLocalizedText(slide.title, locale)}</h4>
                   </div>
                 </div>
               );
