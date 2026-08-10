@@ -29,7 +29,7 @@ const DEFAULT_DATA = [
     title: { en: 'COLONIAL', es: 'ENCANTO', fr: 'CHARME', de: 'KOLONIALER', it: 'FASCINO', pt: 'ENCANTO', ja: '植民地時代の', zh: '殖民' },
     title2: { en: 'CHARM', es: 'COLONIAL', fr: 'COLONIAL', de: 'CHARME', it: 'COLONIALE', pt: 'COLONIAL', ja: '魅力', zh: '魅力' },
     description: { en: 'A deeply enchanting Andean city known for its stunning architecture.', es: 'Una ciudad andina profundamente encantadora conocida por su impresionante arquitectura.', fr: 'Une ville andine profondément enchanteresse connue pour son architecture.', de: 'Eine tief bezaubernde Andenstadt, bekannt für ihre atemberaubende Architektur.', it: 'Una città andina profondamente incantevole nota per la sua straordinaria architettura.', pt: 'Uma cidade andina profundamente encantadora, conhecida pela sua arquitetura impressionante.', ja: '素晴らしい建築物で知られる魅力的なアンデスの街。', zh: '一座以其令人惊叹的建筑而闻名的迷人安第斯城市。' },
-    image: 'https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=2752&q=80'
+    image: 'https://images.unsplash.com/photo-1589802829985-817e51171b92?auto=format&fit=crop&w=2752&q=80'
   },
   {
     place: { en: 'Cotopaxi - Andes', es: 'Cotopaxi - Andes', fr: 'Cotopaxi - Andes', de: 'Cotopaxi - Anden', it: 'Cotopaxi - Ande', pt: 'Cotopaxi - Andes', ja: 'コトパクシ - アンデス', zh: '科托帕希 - 安第斯山脉' },
@@ -102,11 +102,13 @@ export function HeroSlider() {
     let resizeTimer: any = null;
     let isCancelled = false;
     let loopTimeline: any = null;
+    let onResizeHandler: any = null;
 
-    // ✅ C-05 FIX: gsap importado desde npm (ya instalado) — sin CDN, sin riesgo de supply-chain XSS
     gsap.config({ nullTargetWarn: false });
     if (!containerRef.current) return;
     const container = containerRef.current;
+    
+    const ctx = gsap.context(() => {
     const set = (target: string, props: any) => gsap.set(container.querySelectorAll(target), props);
     const getCard = (index: number) => `.card-${index}`;
     const getCardContent = (index: number) => `.card-content-${index}`;
@@ -140,6 +142,7 @@ export function HeroSlider() {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(relayout, 150);
     }
+    onResizeHandler = onResize;
 
     function init() {
       const height = container.clientHeight || window.innerHeight;
@@ -314,7 +317,7 @@ export function HeroSlider() {
         animate(`${detailsActive} .text`, 0.7, { y: 0, delay: 0.1, ease });
         animate(`${detailsActive} .title-1`, 0.7, { y: 0, delay: 0.15, ease });
         animate(`${detailsActive} .title-2`, 0.7, { y: 0, delay: 0.15, ease });
-        animate(`${detailsActive} .desc`, 0.4, { y: 0, delay: 0.3, ease, onComplete: resolve });
+        animate(`${detailsActive} .desc`, 0.4, { y: 0, delay: 0.3, ease }).then(() => resolve());
 
         order.forEach((itemIdx, idx) => {
           gsap.to(container.querySelectorAll(`.slide-item-${itemIdx}`), { x: idx * numberSize, ease, duration: 0.8 });
@@ -356,12 +359,14 @@ export function HeroSlider() {
       }
     });
 
+    }); // end of gsap.context()
+
     return () => {
       isCancelled = true;
       clearTimeout(resizeTimer);
-      window.removeEventListener("resize", onResize);
+      if (onResizeHandler) window.removeEventListener("resize", onResizeHandler);
       if (loopTimeline) loopTimeline.kill();
-      gsap.killTweensOf(container.querySelectorAll('.card, .card-content'));
+      ctx.revert();
       delete (window as any).triggerNextSlide;
       delete (window as any).jumpToSlide;
     };
@@ -426,7 +431,7 @@ export function HeroSlider() {
               src={slide.image}
               alt={slide.place}
               fill
-              priority={idx < 2}
+              priority={idx === 0} // [RENDIMIENTO] Fuerza carga prioritaria del LCP
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 180px"
             />

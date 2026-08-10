@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import {
   Compass,
@@ -28,16 +29,15 @@ export function Footer() {
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-5">
             <a href="#" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/30">
-                <Compass className="w-6 h-6" />
-              </div>
-              <div>
-                <span className="font-serif font-bold text-2xl text-white tracking-tight leading-none block">
-                  {settings?.footer?.logoText || 'VERMILION'}
-                </span>
-                <span className="text-[10px] uppercase font-semibold tracking-widest text-emerald-400">
-                  {settings?.footer?.logoSubtitle || 'SOUTH AMERICAN ROUTES'}
-                </span>
+              <div className="relative w-[240px] h-[60px] md:w-[280px] md:h-[70px] shrink-0">
+                <Image
+                  src="/logo_obscuro.png"
+                  alt="Vermilion Routes"
+                  fill
+                  sizes="200px"
+                  className="object-contain"
+                  unoptimized
+                />
               </div>
             </a>
 

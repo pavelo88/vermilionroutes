@@ -1,135 +1,136 @@
 {
   "meta": {
-    "title": "Vermilion Routes | Tailor-Made Luxury Travel",
-    "description": "Experience South America with bespoke travel itineraries, luxury Galapagos island cruises, Amazon rainforest expeditions, and Andean volcano treks."
+    "title": "Vermilion Routes | Viagens de Luxo Personalizadas",
+    "description": "Experimente a América do Sul com itinerários de viagem personalizados, cruzeiros de luxo nas Ilhas Galápagos, expedições pela floresta amazônica e caminhadas nos vulcões andinos."
   },
   "nav": {
-    "home": "Home",
-    "destinations": "Destinations",
-    "galapagos": "Galapagos Islands",
-    "ecuador": "Mainland Ecuador",
-    "peru": "Mystical Peru",
-    "tours": "Featured Tours",
-    "about": "About Us",
-    "contact": "Contact",
-    "quote": "Request a Quote",
+    "home": "Início",
+    "destinations": "Destinos",
+    "galapagos": "Ilhas Galápagos",
+    "ecuador": "Equador Continental",
+    "peru": "Peru Místico",
+    "tours": "Passeios em Destaque",
+    "about": "Sobre Nós",
+    "contact": "Contato",
+    "quote": "Solicitar Orçamento",
     "banner": {
-      "tagline": "Tailor-Made Expeditions & Private Small Groups",
-      "badge": "Exclusive Luxury Journeys"
+      "tagline": "Expedições Personalizadas e Pequenos Grupos Privados",
+      "badge": "Viagens de Luxo Exclusivas"
     }
   },
   "hero": {
-    "badge": "Award-Winning Luxury Travel",
-    "title": "The World's Most Extraordinary",
-    "subtitle": "Bespoke expeditions to the Galapagos Islands, Andean Highlands, Amazon Rainforest & Machu Picchu — crafted by expert local guides.",
+    "badge": "Viagens de Luxo Premiadas",
+    "title": "Os Mais Extraordinários do Mundo",
+    "subtitle": "Expedições personalizadas às Ilhas Galápagos, Andes, Floresta Amazônica e Machu Picchu — criadas por guias locais especializados.",
     "cta": {
-      "explore": "Explore All Tours",
-      "quote": "Get a Free Quote"
+      "explore": "Explorar Todos os Passeios",
+      "quote": "Obter um Orçamento Gratuito"
     },
     "stats": {
-      "tours": "Tailor-Made Tours",
-      "reviews": "Five-Star Reviews",
-      "naturalists": "Expert Naturalists",
-      "support": "24/7 Support"
+      "tours": "Passeios Personalizados",
+      "reviews": "Avaliações Cinco Estrelas",
+      "naturalists": "Naturalistas Especialistas",
+      "support": "Suporte 24/7"
     }
   },
   "destinations": {
-    "badge": "Where Will You Go?",
-    "title": "Explore Our Destinations",
-    "subtitle": "From the volcanic peaks of the Andes to the pristine reefs of the Galapagos — we take you where few travelers dare to go.",
-    "cta": "Explore Tours"
+    "badge": "Para Onde Você Irá?",
+    "title": "Explore Nossos Destinos",
+    "subtitle": "Dos picos vulcânicos dos Andes aos recifes intocados das Galápagos — nós o levamos onde poucos viajantes ousam ir.",
+    "cta": "Explorar Passeios"
   },
   "tours": {
-    "badge": "Interactive 3D Carousel Showcase",
-    "title": "Featured Signature Journeys",
-    "subtitle": "Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between luxury and adventure.",
+    "badge": "Vitrine de Carrossel 3D Interativo",
+    "title": "Viagens Assinatura em Destaque",
+    "subtitle": "Experiências selecionadas lideradas por naturalistas locais especializados com logística impecável, estadias em hotéis boutique cuidadosamente escolhidos e o equilíbrio perfeito entre luxo e aventura.",
     "cta": {
-      "label": "Looking for something 100% custom?",
-      "title": "We Design Your Tailor-Made Itinerary At No Extra Cost",
-      "subtitle": "Our destination specialists will customize travel dates, pacing, hotel luxury level, and private excursions tailored precisely to your preferences.",
-      "button": "Request Custom Itinerary"
+      "label": "Procurando algo 100% personalizado?",
+      "title": "Nós Projetamos Seu Itinerário Personalizado Sem Custo Adicional",
+      "subtitle": "Nossos especialistas em destinos personalizarão as datas da viagem, o ritmo, o nível de luxo do hotel e as excursões privadas, adaptadas precisamente às suas preferências.",
+      "button": "Solicitar Itinerário Personalizado"
     },
     "filter": {
-      "all": "All Expeditions",
-      "galapagos": "Galapagos Islands",
-      "ecuador": "Mainland Ecuador",
+      "all": "Todas as Expedições",
+      "galapagos": "Ilhas Galápagos",
+      "ecuador": "Equador Continental",
       "peru": "Cusco & Peru"
     },
     "card": {
-      "from": "From",
-      "person": "/ person",
-      "view": "View Details",
-      "bestseller": "Best Seller"
+      "from": "A partir de",
+      "person": "/ pessoa",
+      "view": "Ver Detalhes",
+      "bestseller": "Mais Vendido"
     },
-    "showing": "Showing",
-    "of": "of",
-    "journeys": "journeys"
+    "showing": "Mostrando",
+    "of": "de",
+    "journeys": "viagens"
   },
   "about": {
-    "badge": "Who We Are",
-    "title": "Boutique Travel Expertise",
-    "subtitle": "We are a certified boutique tour operator based in Quito, Ecuador, specializing in tailor-made luxury expeditions across Ecuador, the Galapagos, and Peru.",
-    "cta": "Plan My Journey"
+    "badge": "Quem Somos",
+    "title": "Experiência em Viagens Boutique",
+    "subtitle": "Somos uma operadora de turismo boutique certificada com sede em Quito, Equador, especializada em expedições de luxo personalizadas pelo Equador, Galápagos e Peru.",
+    "cta": "Planejar Minha Viagem"
   },
   "experience": {
-    "badge": "About Vermilion Routes",
-    "title": "Unrivaled Experience, Uncompromising Excellence",
-    "text": "At Vermilion Routes, we don't just book tours. We craft unique, unforgettable, fully customized expeditions across the spectacular landscapes of Ecuador, Galapagos, and Peru. As direct local operators, we combine regional expertise with uncompromising excellence.",
-    "certified": "Certified Operator",
-    "sustainable": "Sustainable Impact"
+    "badge": "Sobre a Vermilion Routes",
+    "title": "Experiência Inigualável, Excelência Inquestionável",
+    "text": "Na Vermilion Routes, não apenas reservamos passeios. Criamos expedições únicas, inesquecíveis e totalmente personalizadas pelas paisagens espetaculares do Equador, Galápagos e Peru. Como operadores locais diretos, combinamos expertise regional com excelência inquestionável.",
+    "certified": "Operador Certificado",
+    "sustainable": "Impacto Sustentável",
+    "reviewsTitle": "Histórias de Hóspedes & Excelência TripAdvisor"
   },
   "reviews": {
-    "badge": "Guest Experiences",
-    "title": "What Our Travelers Say",
-    "verified": "Verified TripAdvisor"
+    "badge": "Experiências de Hóspedes",
+    "title": "O Que Nossos Viajantes Dizem",
+    "verified": "Verificado pelo TripAdvisor"
   },
   "faq": {
-    "badge": "Common Questions",
-    "title": "Frequently Asked Questions",
-    "subtitle": "Everything you need to know about planning your luxury expedition with Vermilion Routes."
+    "badge": "Perguntas Comuns",
+    "title": "Perguntas Frequentes",
+    "subtitle": "Tudo o que você precisa saber sobre o planejamento da sua expedição de luxo com a Vermilion Routes."
   },
   "contact": {
-    "badge": "Let's Plan Your Trip",
-    "title": "Request Your Free Quote",
-    "subtitle": "Tell us about your dream expedition. Our specialists will design a custom itinerary within 24 hours.",
-    "name": "Your Full Name",
-    "email": "Email Address",
-    "destination": "Destination of Interest",
-    "travelers": "Number of Travelers",
-    "message": "Tell us about your dream expedition...",
-    "send": "Send Quote Request",
-    "sending": "Sending...",
-    "success": "Thank you! We'll be in touch within 24 hours."
+    "badge": "Vamos Planejar Sua Viagem",
+    "title": "Solicite Seu Orçamento Gratuito",
+    "subtitle": "Conte-nos sobre a sua expedição dos sonhos. Nossos especialistas projetarão um itinerário personalizado em até 24 horas.",
+    "name": "Seu Nome Completo",
+    "email": "Endereço de E-mail",
+    "destination": "Destino de Interesse",
+    "travelers": "Número de Viajantes",
+    "message": "Conte-nos sobre a sua expedição dos sonhos...",
+    "send": "Enviar Solicitação de Orçamento",
+    "sending": "Enviando...",
+    "success": "Obrigado! Entraremos em contato em até 24 horas."
   },
   "tour": {
-    "overview": "Overview",
-    "itinerary": "Itinerary",
-    "includes": "What's Included",
-    "optional": "Optional Add-Ons",
-    "day": "Day",
-    "book": "Book This Tour",
-    "download": "Download PDF",
+    "overview": "Visão Geral",
+    "itinerary": "Itinerário",
+    "includes": "O Que Está Incluído",
+    "optional": "Extras Opcionais",
+    "day": "Dia",
+    "book": "Reservar Este Passeio",
+    "download": "Baixar PDF",
     "group": {
-      "price": "Group Rate"
+      "price": "Tarifa de Grupo"
     },
-    "from": "From",
+    "from": "A partir de",
     "per": {
-      "person": "per person"
+      "person": "por pessoa"
     },
-    "duration": "Duration",
-    "destination": "Destination",
-    "rating": "Rating",
-    "gallery": "Photo Gallery",
-    "highlights": "Highlights",
-    "included": "Included",
-    "excluded": "Not Included",
-    "meals": "Meals",
-    "accommodation": "Accommodation"
+    "duration": "Duração",
+    "destination": "Destino",
+    "rating": "Avaliação",
+    "gallery": "Galeria de Fotos",
+    "highlights": "Destaques",
+    "included": "Incluído",
+    "excluded": "Não Incluído",
+    "meals": "Refeições",
+    "accommodation": "Acomodação"
   },
   "footer": {
-    "tagline": "Premier luxury boutique expedition specialists in Ecuador, Galapagos & Peru since 2005.",
-    "rights": "All rights reserved.",
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service"
+    "tagline": "Especialistas em expedições boutique de luxo no Equador, Galápagos e Peru desde 2005.",
+    "rights": "Todos os direitos reservados.",
+    "privacy": "Política de Privacidade",
+    "terms": "Termos de Serviço"
   }
 }

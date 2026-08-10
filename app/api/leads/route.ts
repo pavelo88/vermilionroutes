@@ -3,10 +3,35 @@ import { db } from '@/lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { sanitizeText, isValidEmail, isValidPhone } from '@/lib/validation';
 import { BookingRequest } from '@/types';
+import { z } from 'zod';
+
+const LeadSchema = z.object({
+  customerName: z.string().optional(),
+  name: z.string().optional(),
+  customerEmail: z.string().optional(),
+  email: z.string().optional(),
+  customerPhone: z.string().optional(),
+  phone: z.string().optional(),
+  tourId: z.string().optional(),
+  tourTitle: z.string().optional(),
+  destination: z.string().optional(),
+  travelDates: z.string().optional(),
+  date: z.string().optional(),
+  guestsCount: z.string().optional(),
+  travelers: z.string().optional(),
+  message: z.string().optional(),
+});
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const rawBody = await req.json();
+    const result = LeadSchema.safeParse(rawBody);
+    
+    if (!result.success) {
+      return NextResponse.json({ success: false, error: 'Invalid payload data', details: result.error.format() }, { status: 400 });
+    }
+    
+    const body = result.data;
 
     const customerName = sanitizeText(body.customerName || body.name || '');
     const customerEmail = sanitizeText(body.customerEmail || body.email || '');

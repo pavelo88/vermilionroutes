@@ -1,113 +1,114 @@
 {
   "meta": {
-    "title": "Vermilion Routes | Tailor-Made Luxury Travel",
-    "description": "Experience South America with bespoke travel itineraries, luxury Galapagos island cruises, Amazon rainforest expeditions, and Andean volcano treks."
+    "title": "ヴァーミリオン・ルート | オーダーメイドのラグジュアリー旅行",
+    "description": "オーダーメイドの旅行日程、豪華なガラパゴス諸島クルーズ、アマゾン熱帯雨林探検、アンデス火山のトレッキングで南米を体験してください。"
   },
   "nav": {
-    "home": "Home",
-    "destinations": "Destinations",
-    "galapagos": "Galapagos Islands",
-    "ecuador": "Mainland Ecuador",
-    "peru": "Mystical Peru",
-    "tours": "Featured Tours",
-    "about": "About Us",
-    "contact": "Contact",
-    "quote": "Request a Quote",
+    "home": "ホーム",
+    "destinations": "目的地",
+    "galapagos": "ガラパゴス諸島",
+    "ecuador": "エクアドル本土",
+    "peru": "神秘のペルー",
+    "tours": "おすすめツアー",
+    "about": "会社概要",
+    "contact": "お問い合わせ",
+    "quote": "見積もりを依頼",
     "banner": {
-      "tagline": "Tailor-Made Expeditions & Private Small Groups",
-      "badge": "Exclusive Luxury Journeys"
+      "tagline": "オーダーメイドの探検 & 少人数制プライベートグループ",
+      "badge": "特別なラグジュアリーな旅"
     }
   },
   "hero": {
-    "badge": "Award-Winning Luxury Travel",
-    "title": "The World's Most Extraordinary",
-    "subtitle": "Bespoke expeditions to the Galapagos Islands, Andean Highlands, Amazon Rainforest & Machu Picchu — crafted by expert local guides.",
+    "badge": "受賞歴のあるラグジュアリー旅行",
+    "title": "世界で最も特別な旅",
+    "subtitle": "ガラパゴス諸島、アンデス高地、アマゾン熱帯雨林、マチュピチュへのオーダーメイドの探検 — 現地のエキスパートガイドが企画します。",
     "cta": {
-      "explore": "Explore All Tours",
-      "quote": "Get a Free Quote"
+      "explore": "全ツアーを見る",
+      "quote": "無料見積もりを依頼"
     },
     "stats": {
-      "tours": "Tailor-Made Tours",
-      "reviews": "Five-Star Reviews",
-      "naturalists": "Expert Naturalists",
-      "support": "24/7 Support"
+      "tours": "オーダーメイドツアー",
+      "reviews": "5つ星レビュー",
+      "naturalists": "専門のナチュラリスト",
+      "support": "24時間年中無休サポート"
     }
   },
   "destinations": {
-    "badge": "どこへ行きますか?",
-    "title": "目的地を探索する",
-    "subtitle": "アンデスの火山の頂上からガラパゴスの自然のままのサンゴ礁まで、ほとんど旅行者があえて行かない場所へご案内します。",
-    "cta": "ツアーを探索する"
+    "badge": "どこへ行きますか？",
+    "title": "目的地を探索",
+    "subtitle": "アンデス山脈の火山峰からガラパゴスの手つかずのサンゴ礁まで — 私たちはごく少数の旅行者だけが踏み入れる場所へお連れします。",
+    "cta": "ツアーを探索"
   },
   "tours": {
-    "badge": "インタラクティブな 3D カルーセル ショーケース",
-    "title": "注目のシグネチャー ジャーニー",
-    "subtitle": "シームレスな物流、厳選されたブティックでの滞在、贅沢と冒険の究極のバランスを備えた地元の専門知識人が主導する厳選された体験。",
+    "badge": "インタラクティブ3Dカルーセルショーケース",
+    "title": "注目のシグネチャージャーニー",
+    "subtitle": "専門の現地ナチュラリストによる厳選された体験で、スムーズなロジスティクス、厳選されたブティックホテル滞在、そしてラグジュアリーとアドベンチャーの究極のバランスを提供します。",
     "cta": {
-      "label": "100% カスタムのものをお探しですか?",
+      "label": "100%カスタムメイドの旅をお探しですか？",
       "title": "追加料金なしでオーダーメイドの旅程をデザインします",
-      "subtitle": "当社の目的地のスペシャリストが、お客様のご希望に合わせて旅行日程、ペース、ホテルの高級レベル、プライベートツアーをカスタマイズいたします。",
-      "button": "カスタム旅程のリクエスト"
+      "subtitle": "当社のデスティネーションスペシャリストが、お客様の好みに合わせて旅行日程、ペース、ホテルのラグジュアリーレベル、プライベート遠足を正確にカスタマイズします。",
+      "button": "カスタム旅程を依頼"
     },
     "filter": {
-      "all": "すべての遠征",
+      "all": "すべての探検",
       "galapagos": "ガラパゴス諸島",
       "ecuador": "エクアドル本土",
-      "peru": "クスコとペルー"
+      "peru": "クスコ＆ペルー"
     },
     "card": {
       "from": "から",
-      "person": "/ 人",
+      "person": " / 人",
       "view": "詳細を見る",
       "bestseller": "ベストセラー"
     },
     "showing": "表示中",
-    "of": "の",
-    "journeys": "旅"
+    "of": "/",
+    "journeys": "の旅"
   },
   "about": {
-    "badge": "私たちは誰なのか",
-    "title": "ブティックトラベルの専門知識",
-    "subtitle": "当社はエクアドルのキトを拠点とする認定ブティック ツアー オペレーターで、エクアドル、ガラパゴス、ペルーにわたるオーダーメイドの豪華な遠征を専門としています。",
+    "badge": "私たちについて",
+    "title": "ブティック旅行の専門知識",
+    "subtitle": "私たちはエクアドルのキトを拠点とする認定ブティックツアーオペレーターで、エクアドル、ガラパゴス、ペルー全域でのオーダーメイドのラグジュアリー探検を専門としています。",
     "cta": "私の旅を計画する"
   },
   "experience": {
-    "badge": "ヴァーミリオンルートについて",
-    "title": "比類のない経験、妥協のない卓越性",
-    "text": "ヴァーミリオン・ルートでは、ただツアーを予約するだけではありません。 私たちは、エクアドル、ガラパゴス、ペルーの壮大な風景を巡る、ユニークで忘れられない、完全にカスタマイズされた遠征を企画します。 直接の地元オペレーターとして、当社は地域の専門知識と妥協のない卓越性を組み合わせています。",
+    "badge": "ヴァーミリオン・ルートについて",
+    "title": "比類なき経験、妥協なき卓越性",
+    "text": "ヴァーミリオン・ルートでは、単にツアーを予約するだけではありません。エクアドル、ガラパゴス、ペルーの壮大な風景を巡る、ユニークで忘れられない、完全にカスタマイズされた探検を企画します。現地の直接運営会社として、地域の専門知識と妥協なき卓越性を融合させています。",
     "certified": "認定オペレーター",
-    "sustainable": "持続可能な影響"
+    "sustainable": "持続可能な影響",
+    "reviewsTitle": "お客様の声 & トリップアドバイザーの評価"
   },
   "reviews": {
-    "badge": "ゲストエクスペリエンス",
-    "title": "旅行者の声",
-    "verified": "確認済みのトリップアドバイザー"
+    "badge": "お客様の体験",
+    "title": "お客様の声",
+    "verified": "トリップアドバイザー認証済み"
   },
   "faq": {
     "badge": "よくある質問",
     "title": "よくある質問",
-    "subtitle": "Vermilion Routes で贅沢な遠征を計画するために知っておくべきすべてのこと。"
+    "subtitle": "ヴァーミリオン・ルートでのラグジュアリー探検の計画について知っておくべきことすべて。"
   },
   "contact": {
-    "badge": "旅行を計画しましょう",
-    "title": "無料見積もりをリクエストする",
-    "subtitle": "あなたの夢の遠征について教えてください。 当社のスペシャリストが 24 時間以内にカスタム旅程を作成します。",
-    "name": "あなたのフルネーム",
-    "email": "電子メールアドレス",
+    "badge": "旅を計画しましょう",
+    "title": "無料見積もりを依頼",
+    "subtitle": "夢の探検についてお聞かせください。当社のスペシャリストが24時間以内にカスタム旅程をデザインします。",
+    "name": "お名前",
+    "email": "メールアドレス",
     "destination": "興味のある目的地",
     "travelers": "旅行者数",
-    "message": "あなたの夢の遠征について教えてください...",
-    "send": "見積もりリクエストの送信",
+    "message": "夢の探検についてお聞かせください...",
+    "send": "見積もりリクエストを送信",
     "sending": "送信中...",
-    "success": "ありがとう！ 24時間以内にご連絡させていただきます。"
+    "success": "ありがとうございます！24時間以内にご連絡いたします。"
   },
   "tour": {
     "overview": "概要",
     "itinerary": "旅程",
     "includes": "含まれるもの",
     "optional": "オプションのアドオン",
-    "day": "日",
-    "book": "このツアーを予約する",
+    "day": "日目",
+    "book": "このツアーを予約",
     "download": "PDFをダウンロード",
     "group": {
       "price": "団体料金"
@@ -116,19 +117,19 @@
     "per": {
       "person": "1人あたり"
     },
-    "duration": "間隔",
-    "destination": "行き先",
+    "duration": "期間",
+    "destination": "目的地",
     "rating": "評価",
     "gallery": "フォトギャラリー",
     "highlights": "ハイライト",
-    "included": "付属",
-    "excluded": "含まれていない",
+    "included": "含まれるもの",
+    "excluded": "含まれないもの",
     "meals": "食事",
-    "accommodation": "宿泊施設"
+    "accommodation": "宿泊"
   },
   "footer": {
-    "tagline": "2005 年以来、エクアドル、ガラパゴス、ペルーのプレミア高級ブティック遠征のスペシャリストです。",
-    "rights": "無断転載を禁じます。",
+    "tagline": "2005年以来、エクアドル、ガラパゴス、ペルーにおける一流のラグジュアリー・ブティック探検スペシャリスト。",
+    "rights": "全著作権所有。",
     "privacy": "プライバシーポリシー",
     "terms": "利用規約"
   }

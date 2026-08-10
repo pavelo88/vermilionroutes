@@ -1,5 +1,14 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { z } from 'zod';
+
+const CheckoutSchema = z.object({
+  tourId: z.string().optional(),
+  tourTitle: z.string().optional(),
+  clientEmail: z.string().email('Valid email is required'),
+  customLinkId: z.string().optional(),
+  amount: z.number().optional(),
+});
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_fake', {
   apiVersion: '2026-07-29.dahlia' as any,
@@ -7,7 +16,15 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_fake', {
 
 export async function POST(request: Request) {
   try {
-    const { tourId, tourTitle, clientEmail, customLinkId, amount } = await request.json();
+    const body = await request.json();
+    
+    // Validate payload with Zod
+    const result = CheckoutSchema.safeParse(body);
+    if (!result.success) {
+      return NextResponse.json({ error: 'Invalid payload data', details: result.error.format() }, { status: 400 });
+    }
+
+    const { tourId, tourTitle, clientEmail, customLinkId, amount } = result.data;
     
     // In production NEXT_PUBLIC_BASE_URL should be set, fallback to localhost for dev
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';

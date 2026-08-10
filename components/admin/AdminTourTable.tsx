@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Tour } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Database, Search, Plus, MapPin, Clock, Pencil, Trash2 } from 'lucide-react';
+import { BaseTourCard } from '@/components/shared/ui/BaseTourCard';
 
 interface AdminTourTableProps {
   tours: Tour[];
@@ -64,94 +65,70 @@ export function AdminTourTable({
         </div>
       </div>
 
-      {/* Table Container */}
-      <div className="overflow-x-auto rounded-2xl border border-zinc-200 dark:border-zinc-800">
-        <table className="w-full text-left text-xs text-zinc-700 dark:text-zinc-300">
-          <thead className="text-zinc-500 dark:text-zinc-400 uppercase tracking-widest font-bold border-b border-zinc-200/50 dark:border-zinc-800/50">
-            <tr>
-              <th className="p-4">Tour Title & Image</th>
-              <th className="p-4">Destination</th>
-              <th className="p-4">Duration</th>
-              <th className="p-4">Price</th>
-              <th className="p-4 text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-zinc-200/50 dark:divide-zinc-800/50 bg-transparent">
-            {isLoading ? (
-              <tr>
-                <td colSpan={5} className="p-8 text-center text-zinc-500">
-                  <div className="flex items-center justify-center gap-2">
-                    <span className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-                    <span>Loading tours from Firestore...</span>
-                  </div>
-                </td>
-              </tr>
-            ) : filteredTours.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="p-8 text-center text-zinc-500">
-                  No tours found matching "{searchTerm}". Click "Add New Tour" or "Reseed Firestore Data".
-                </td>
-              </tr>
-            ) : (
-              filteredTours.map((tour) => (
-                <tr key={tour.id} className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors group">
-                  <td className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-zinc-200 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800">
-                        {tour.imageUrl ? (
-                          <Image src={tour.imageUrl} alt={tour.title} fill className="object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-[10px] text-zinc-400">
-                            No Img
-                          </div>
-                        )}
-                      </div>
-                      <div>
-                        <div className="font-bold text-zinc-900 dark:text-zinc-100 uppercase tracking-widest line-clamp-1 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                          {tour.title}
-                        </div>
-                        <div className="text-[10px] text-zinc-500 font-mono mt-0.5">ID: {tour.id}</div>
-                      </div>
+      {/* Grid Container */}
+      <div className="pt-4">
+        {isLoading ? (
+          <div className="flex items-center justify-center gap-2 p-8 text-zinc-500">
+            <span className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+            <span>Loading tours from Firestore...</span>
+          </div>
+        ) : filteredTours.length === 0 ? (
+          <div className="p-8 text-center text-zinc-500">
+            No tours found matching "{searchTerm}". Click "Add New Tour" or "Reseed Firestore Data".
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredTours.map((tour) => (
+              <BaseTourCard
+                key={tour.id}
+                title={tour.title}
+                price={tour.price}
+                isAdmin={true}
+                imageNode={
+                  tour.imageUrl ? (
+                    <Image src={tour.imageUrl} alt={tour.title} fill className="object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-xs text-zinc-400">
+                      No Img
                     </div>
-                  </td>
-                  <td className="p-4">
-                    <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60 px-2.5 py-1 rounded-full font-medium">
-                      <MapPin className="w-3 h-3" />
-                      {tour.destination}
-                    </span>
-                  </td>
-                  <td className="p-4 font-medium text-zinc-300">
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-zinc-500" />
-                      {tour.duration}
-                    </span>
-                  </td>
-                  <td className="p-4 font-bold text-zinc-900 dark:text-white text-sm">
-                    ${tour.price.toLocaleString()}
-                  </td>
-                  <td className="p-4 text-right space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onOpenEditModal(tour)}
-                      className="w-8 h-8 p-0 bg-transparent hover:bg-emerald-50/50 text-zinc-600 dark:text-zinc-400 hover:text-emerald-600 border-zinc-200/50 dark:border-zinc-800/50 transition-colors"
-                    >
-                      <Pencil className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onDeleteTour(tour.id, tour.title)}
-                      className="w-8 h-8 p-0 glass-input hover:text-rose-600 hover:bg-rose-50 hover:border-rose-500/50"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+                  )
+                }
+                actionNode={
+                  <div className="flex items-center justify-between mt-4">
+                    <div className="flex flex-col gap-1">
+                      <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 font-medium">
+                        <MapPin className="w-3 h-3" />
+                        {tour.destination}
+                      </span>
+                      <span className="flex items-center gap-1 text-xs text-zinc-500">
+                        <Clock className="w-3.5 h-3.5" />
+                        {tour.duration}
+                      </span>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => onOpenEditModal(tour)}
+                        className="w-8 h-8 p-0 bg-transparent hover:bg-emerald-50/50 text-zinc-600 dark:text-zinc-400 hover:text-emerald-600 border-zinc-200/50 dark:border-zinc-800/50 transition-colors"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => onDeleteTour(tour.id, tour.title)}
+                        className="w-8 h-8 p-0 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-500/50"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                }
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
