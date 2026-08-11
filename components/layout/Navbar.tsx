@@ -137,13 +137,13 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 relative z-10 group notranslate">
-            <div className="relative w-[240px] h-[60px] md:w-[280px] md:h-[70px] shrink-0">
+            <div className="relative w-[180px] h-[45px] sm:w-[240px] sm:h-[60px] md:w-[280px] md:h-[70px] shrink-0">
               {/* Light Mode Logo */}
               <Image
                 src="/logo_claro.png"
                 alt="Vermilion Routes"
                 fill
-                sizes="200px"
+                sizes="(max-width: 640px) 180px, 200px"
                 className="object-contain transition-transform group-hover:scale-105 block dark:hidden"
                 priority
                 unoptimized
@@ -153,7 +153,7 @@ export function Navbar() {
                 src="/logo_obscuro.png"
                 alt="Vermilion Routes"
                 fill
-                sizes="200px"
+                sizes="(max-width: 640px) 180px, 200px"
                 className="object-contain transition-transform group-hover:scale-105 hidden dark:block"
                 priority
                 unoptimized
