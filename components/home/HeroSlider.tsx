@@ -207,7 +207,7 @@ export function HeroSlider() {
       function init() {
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
-        
+
         // AQUÍ SE AJUSTA LA ALTURA DE LAS TARJETAS (números más pequeños = tarjetas más abajo)
         offsetTop = height - cardHeight - 80;
         offsetLeft = Math.max(width - 830, 650);
@@ -448,7 +448,7 @@ export function HeroSlider() {
     const initialData = DEFAULT_DATA[0];
     return (
       <div className="relative w-full h-[95svh] lg:h-[88svh] min-h-[600px] md:min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
-        
+
         {/* Background Image Loading Eagerly */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -463,26 +463,26 @@ export function HeroSlider() {
         </div>
 
         {/* Details Panels Skeleton */}
-        <div className="absolute left-[30px] lg:left-[60px] top-[50px] lg:top-[70px] z-[22]">
+        <div className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[100px] md:top-[50px] lg:top-[70px] z-[22] flex flex-col items-center md:items-start text-center md:text-left">
           <div className="h-[46px] mb-2">
-            <div className="text-white/90 font-medium tracking-widest uppercase text-sm pt-4 relative animate-pulse">
-              <div className="absolute top-0 left-0 w-8 h-[2px] bg-white rounded-full" />
-              <span className="notranslate">{getLocalizedText(initialData.place, locale)}</span>
+            <div className="text-white/90 font-medium tracking-widest uppercase text-base md:text-sm pt-4 relative animate-pulse flex flex-col items-center md:items-start">
+              <div className="absolute top-0 w-8 h-[2px] bg-white rounded-full" />
+              <span className="notranslate mt-2 md:mt-0">{getLocalizedText(initialData.place, locale)}</span>
             </div>
           </div>
-          
-          <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] mt-1 animate-pulse">
-            <div className="font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg text-white/90">
+
+          <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] mt-1 animate-pulse flex flex-col items-center md:items-start w-full">
+            <div className="font-oswald font-extrabold text-5xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg text-white/90">
               <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
             </div>
           </div>
-          <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] animate-pulse">
-            <div className="font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white/90 drop-shadow-lg">
+          <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] animate-pulse flex flex-col items-center md:items-start w-full">
+            <div className="font-oswald font-extrabold text-5xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white/90 drop-shadow-lg">
               <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
             </div>
           </div>
 
-          <div className="h-auto md:h-[80px] lg:h-[120px] mt-4 md:mt-6 animate-pulse opacity-60">
+          <div className="h-auto md:h-[80px] lg:h-[120px] mt-4 md:mt-6 animate-pulse opacity-60 flex flex-col items-center md:items-start w-full">
             <div className="w-[300px] sm:w-[400px] h-3 bg-white/30 rounded mb-3"></div>
             <div className="w-[250px] sm:w-[350px] h-3 bg-white/30 rounded mb-3"></div>
             <div className="w-[200px] sm:w-[280px] h-3 bg-white/30 rounded"></div>
@@ -491,19 +491,19 @@ export function HeroSlider() {
 
         {/* Fake Cards Skeleton - Right aligned */}
         <div className="hidden lg:flex absolute right-0 top-[60%] -translate-y-1/2 translate-x-1/4 z-[30] gap-5 opacity-60">
-           {[1, 2, 3].map((i) => (
-              <div key={i} className="w-[180px] h-[260px] rounded-xl bg-white/10 backdrop-blur-md border border-white/20 animate-pulse shadow-2xl" />
-           ))}
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="w-[180px] h-[260px] rounded-xl bg-white/10 backdrop-blur-md border border-white/20 animate-pulse shadow-2xl" />
+          ))}
         </div>
 
         {/* Subtle Spinner */}
         <div className="absolute bottom-8 right-8 z-[100] md:top-8 md:bottom-auto">
-           <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin" />
         </div>
 
         {/* Mobile Stats Skeleton */}
         <div className="absolute bottom-4 left-0 w-full z-50 block md:hidden opacity-50 animate-pulse">
-           <div className="h-20 bg-white/5 rounded-xl mx-4"></div>
+          <div className="h-20 bg-white/5 rounded-xl mx-4"></div>
         </div>
       </div>
     );
@@ -513,7 +513,7 @@ export function HeroSlider() {
   const initialData = slidesData[0];
 
   return (
-    <div ref={containerRef} className="relative w-full h-[95svh] lg:h-[88svh] min-h-[600px] md:min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
+    <div ref={containerRef} className="relative w-full h-[100svh] lg:h-[88svh] min-h-[900px] md:min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
 
       {/* Indicator */}
       <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
@@ -522,27 +522,27 @@ export function HeroSlider() {
       {[0, 1].map((isOdd) => {
         const id = isOdd ? 'details-odd' : 'details-even';
         return (
-          <div key={id} id={id} className="absolute left-[30px] lg:left-[60px] top-[50px] lg:top-[70px] z-[22]">
+          <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[100px] md:top-[50px] lg:top-[70px] z-[22] flex flex-col items-center md:items-start text-center md:text-left">
             <div className="h-[46px] overflow-hidden mb-2">
-              <div className="text text-white/90 font-medium tracking-widest uppercase text-sm pt-4 relative">
-                <div className="absolute top-0 left-0 w-8 h-[2px] bg-white rounded-full" />
-                <span className="notranslate">{getLocalizedText(initialData.place, locale)}</span>
+              <div className="text text-white/90 font-medium tracking-widest uppercase text-base md:text-sm pt-4 relative flex flex-col items-center md:items-start">
+                <div className="absolute top-0 w-8 h-[2px] bg-white rounded-full" />
+                <span className="notranslate mt-2 md:mt-0">{getLocalizedText(initialData.place, locale)}</span>
               </div>
             </div>
 
-            <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden mt-1">
-              <div className="title-1 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
+            <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
+              <div className="title-1 font-oswald font-extrabold text-5xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
                 <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
               </div>
             </div>
-            <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden">
-              <div className="title-2 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-lg">
+            <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden flex flex-col items-center md:items-start w-full">
+              <div className="title-2 font-oswald font-extrabold text-5xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-lg">
                 <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
               </div>
             </div>
 
-            <div className="h-auto md:h-[80px] lg:h-[120px] overflow-hidden mt-4 md:mt-6">
-              <div className="desc text-xs sm:text-sm md:text-lg text-white/90 max-w-xl leading-relaxed drop-shadow-md line-clamp-4 md:line-clamp-none">
+            <div className="h-auto md:h-[80px] lg:h-[120px] overflow-hidden mt-4 md:mt-6 flex flex-col items-center md:items-start w-full">
+              <div className="desc text-sm sm:text-base md:text-lg text-white/90 max-w-xl leading-relaxed drop-shadow-md line-clamp-4 md:line-clamp-none">
                 <span>{getLocalizedText(initialData.description, locale)}</span>
               </div>
             </div>
