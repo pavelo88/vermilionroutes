@@ -71,7 +71,7 @@ export function HeroSection() {
   const locale = useLocale();
   const validSlides = settings?.hero?.slides?.filter((s: any) => s.image && s.title);
   const slidesData = validSlides?.length ? validSlides : DEFAULT_DATA;
-  
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -105,17 +105,20 @@ export function HeroSection() {
   };
 
   return (
-    <div className="relative w-full h-[85svh] min-h-[600px] overflow-hidden bg-zinc-950 font-sans text-white">
+    // [MODIFICA ESTO] Para cambiar el alto del Hero:
+    // h-[95svh] controla el alto en celulares (95% de la pantalla)
+    // lg:h-[75svh] controla el alto en pantallas grandes/PC (75% de la pantalla)
+    <div className="relative w-full h-[95svh] lg:h-[75svh] min-h-[600px] overflow-hidden bg-zinc-950 font-sans text-white">
       {/* Background Image with crossfade and Ken Burns slow zoom */}
       {slidesData.map((slide: any, idx: number) => (
-        <div 
+        <div
           key={idx}
           className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100 z-[1]' : 'opacity-0 z-0'}`}
         >
           {/* The image div with the slow zoom */}
-          <div 
+          <div
             className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform ease-out"
-            style={{ 
+            style={{
               backgroundImage: `url(${slide.image})`,
               transform: idx === currentIndex ? 'scale(1.05)' : 'scale(1)',
               transitionDuration: '4000ms'
@@ -130,9 +133,9 @@ export function HeroSection() {
 
       {/* Main Content Area */}
       <div className="absolute inset-0 z-20 flex flex-col justify-end px-6 md:px-16 lg:px-24 pb-32">
-        
+
         <div className="flex flex-col lg:flex-row lg:items-end justify-between w-full relative">
-          
+
           {/* Left Text Content - Key forces React to recreate DOM, preventing Google Translate glitches */}
           <div key={currentIndex} className="flex-1 max-w-2xl mb-12 lg:mb-0 transition-all duration-700 animate-in fade-in slide-in-from-bottom-4">
             <div className="mb-4">
@@ -141,21 +144,21 @@ export function HeroSection() {
                 {getLocalizedText(currentSlide.place, locale)}
               </h3>
             </div>
-            
+
             <h1 className="text-5xl md:text-7xl lg:text-[90px] font-oswald font-extrabold leading-[0.9] mb-6 uppercase tracking-tight text-white drop-shadow-2xl">
-              <span>{getLocalizedText(currentSlide.title, locale)}</span> <br/> 
+              <span>{getLocalizedText(currentSlide.title, locale)}</span> <br />
               <span>{getLocalizedText(currentSlide.title2, locale)}</span>
             </h1>
-            
+
             <p className="text-sm md:text-lg text-white/90 max-w-xl mb-8 leading-relaxed drop-shadow-md">
               <span>{getLocalizedText(currentSlide.description, locale)}</span>
             </p>
-            
+
             <div className="flex items-center gap-4">
               <button className="w-12 h-12 rounded-full border border-white/50 hover:bg-white hover:text-black flex items-center justify-center transition-colors">
                 <Bookmark className="w-5 h-5" />
               </button>
-              <Button 
+              <Button
                 onClick={scrollToTours}
                 className="bg-transparent border border-white hover:bg-white hover:text-black text-white rounded-full px-8 py-6 uppercase tracking-widest text-xs font-bold transition-colors"
               >
@@ -169,16 +172,16 @@ export function HeroSection() {
             {[1, 2, 3, 4].map((offset) => {
               const idx = (currentIndex + offset) % slidesData.length;
               const slide = slidesData[idx];
-              
+
               return (
-                <div 
+                <div
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
                   className="w-[180px] h-[260px] rounded-2xl overflow-hidden relative group cursor-pointer border border-white/20 hover:border-white transition-all flex-shrink-0 bg-black"
                 >
                   <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-100" style={{ backgroundImage: `url(${slide.image})` }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                  
+
                   <div className="absolute bottom-5 left-5 right-5 text-left">
                     <div className="w-4 h-[2px] bg-white mb-2" />
                     <p className="text-[9px] uppercase font-bold text-white/80 tracking-widest mb-1 line-clamp-1">{getLocalizedText(slide.place, locale)}</p>
@@ -195,16 +198,16 @@ export function HeroSection() {
 
       {/* Bottom Navigation Bar */}
       <div className="absolute bottom-6 left-0 w-full z-20 flex items-center justify-between px-6 md:px-16 lg:px-24">
-        
+
         {/* Navigation Arrows */}
         <div className="flex items-center gap-4">
-          <button 
+          <button
             onClick={handlePrev}
             className="w-10 h-10 rounded-full border border-white/50 flex items-center justify-center hover:bg-white hover:text-black text-white transition-colors"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <button 
+          <button
             onClick={handleNext}
             className="w-10 h-10 rounded-full border border-white/50 flex items-center justify-center hover:bg-white hover:text-black text-white transition-colors"
           >
@@ -215,7 +218,7 @@ export function HeroSection() {
         {/* Progress Line */}
         <div className="hidden md:flex items-center gap-6 flex-1 max-w-md mx-8">
           <div className="h-[2px] w-full bg-white/20 relative rounded-full overflow-hidden">
-            <div 
+            <div
               className="absolute top-0 left-0 h-full bg-white transition-all duration-500 ease-out rounded-full"
               style={{ width: `${((currentIndex + 1) / slidesData.length) * 100}%` }}
             />

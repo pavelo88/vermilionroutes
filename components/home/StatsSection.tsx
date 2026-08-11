@@ -31,69 +31,69 @@ export function StatsSection() {
   if (!mounted) return null;
 
   return (
-    <section className="bg-zinc-950 border-b border-zinc-900 relative z-10 w-full py-4 px-4 sm:px-6 lg:px-8 shadow-2xl">
+    <section className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-900 relative z-10 w-full py-4 px-4 sm:px-6 lg:px-8 shadow-xl">
       <div className="max-w-7xl mx-auto flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
 
         {/* Compact Stat 1 */}
-        <div className="flex-1 min-w-[140px] flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group">
-          <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-            <Globe className="w-5 h-5 text-emerald-400" />
+        <div className="flex-1 min-w-[140px] flex items-center gap-3 p-2 rounded-lg hover:bg-zinc-100/50 dark:hover:bg-white/5 transition-colors group">
+          <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <Globe className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
-            <div className="text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric1Val, locale) || '+500'}</div>
-            <p className="text-[10px] text-zinc-400 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric1Lbl, locale) || 'Curated Expeditions'}</p>
+            <div className="text-zinc-900 dark:text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric1Val, locale) || '+500'}</div>
+            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric1Lbl, locale) || 'Curated Expeditions'}</p>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="hidden md:block w-px h-8 bg-zinc-800" />
+        <div className="hidden md:block w-px h-8 bg-zinc-200 dark:bg-zinc-800" />
 
         {/* Compact Stat 2 */}
-        <div className="flex-1 min-w-[140px] flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group">
-          <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-            <Award className="w-5 h-5 text-emerald-400" />
+        <div className="flex-1 min-w-[140px] flex items-center gap-3 p-2 rounded-lg hover:bg-zinc-100/50 dark:hover:bg-white/5 transition-colors group">
+          <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <Award className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
-            <div className="text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric2Val, locale) || '+10'}</div>
-            <p className="text-[10px] text-zinc-400 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric2Lbl, locale) || 'Years of Expertise'}</p>
+            <div className="text-zinc-900 dark:text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric2Val, locale) || '+10'}</div>
+            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric2Lbl, locale) || 'Years of Expertise'}</p>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="hidden md:block w-px h-8 bg-zinc-800" />
+        <div className="hidden md:block w-px h-8 bg-zinc-200 dark:bg-zinc-800" />
 
         {/* Compact Stat 3 (Clickable) */}
         <div
           onClick={scrollToReviews}
           role="button"
           tabIndex={0}
-          className="flex-1 min-w-[140px] flex items-center gap-3 p-2 rounded-lg hover:bg-emerald-900/30 transition-colors group cursor-pointer"
+          className="flex-1 min-w-[140px] flex items-center gap-3 p-2 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition-colors group cursor-pointer"
         >
-          <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-            <Users className="w-5 h-5 text-emerald-400" />
+          <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(16,185,129,0.2)] dark:shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+            <Users className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
-            <div className="text-emerald-400 font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric3Val, locale) || '99%'}</div>
-            <p className="text-[10px] text-emerald-100/70 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric3Lbl, locale) || '5-Star Satisfaction'}</p>
+            <div className="text-emerald-600 dark:text-emerald-400 font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric3Val, locale) || '99%'}</div>
+            <p className="text-[10px] text-emerald-700/80 dark:text-emerald-100/70 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric3Lbl, locale) || '5-Star Satisfaction'}</p>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="hidden md:block w-px h-8 bg-zinc-800" />
+        <div className="hidden md:block w-px h-8 bg-zinc-200 dark:bg-zinc-800" />
 
         {/* Compact Stat 4 */}
-        <div className="flex-1 min-w-[140px] flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors group">
-          <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-            <Shield className="w-5 h-5 text-emerald-400" />
+        <div className="flex-1 min-w-[140px] flex items-center gap-3 p-2 rounded-lg hover:bg-zinc-100/50 dark:hover:bg-white/5 transition-colors group">
+          <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
-            <div className="text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric4Val, locale) || '100%'}</div>
-            <p className="text-[10px] text-zinc-400 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric4Lbl, locale) || 'Secure Payments'}</p>
+            <div className="text-zinc-900 dark:text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric4Val, locale) || '100%'}</div>
+            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric4Lbl, locale) || 'Secure Payments'}</p>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="hidden lg:block w-px h-8 bg-zinc-800" />
+        <div className="hidden lg:block w-px h-8 bg-zinc-200 dark:bg-zinc-800" />
 
         {/* Action Button */}
         <div className="flex-1 min-w-[200px] flex justify-center lg:justify-end mt-2 lg:mt-0">
