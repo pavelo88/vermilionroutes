@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Vermilion Routes | Viagens de Luxo Personalizadas",
-    "description": "Experimente a América do Sul com itinerários de viagem personalizados, cruzeiros de luxo nas Ilhas Galápagos, expedições pela floresta amazônica e caminhadas nos vulcões andinos."
+    "title": "Vermilion Routes | Viagens Personalizadas de Natureza e Conforto",
+    "description": "Experimente a América do Sul com itinerários de viagem personalizados, cruzeiros de natureza e conforto nas Ilhas Galápagos, expedições pela floresta amazônica e caminhadas nos vulcões andinos."
   },
   "nav": {
     "home": "Início",
@@ -15,16 +15,17 @@
     "quote": "Solicitar Orçamento",
     "banner": {
       "tagline": "Expedições Personalizadas e Pequenos Grupos Privados",
-      "badge": "Viagens de Luxo Exclusivas"
+      "badge": "Viagens de Natureza e Conforto"
     }
   },
   "hero": {
-    "badge": "Viagens de Luxo Premiadas",
+    "badge": "Viagens Premiadas de Natureza e Conforto",
     "title": "Os Mais Extraordinários do Mundo",
     "subtitle": "Expedições personalizadas às Ilhas Galápagos, Andes, Floresta Amazônica e Machu Picchu — criadas por guias locais especializados.",
     "cta": {
-      "explore": "Explorar Todos os Passeios",
-      "quote": "Obter um Orçamento Gratuito"
+      "explore": "Explorar Passeios",
+      "quote": "Obter um Orçamento Gratuito",
+      "plan": "Planeje Sua Viagem"
     },
     "stats": {
       "tours": "Passeios Personalizados",
@@ -42,11 +43,11 @@
   "tours": {
     "badge": "Vitrine de Carrossel 3D Interativo",
     "title": "Viagens Assinatura em Destaque",
-    "subtitle": "Experiências selecionadas lideradas por naturalistas locais especializados com logística impecável, estadias em hotéis boutique cuidadosamente escolhidos e o equilíbrio perfeito entre luxo e aventura.",
+    "subtitle": "Experiências selecionadas lideradas por naturalistas locais especializados com logística impecável, estadias em hotéis boutique cuidadosamente escolhidos e o equilíbrio perfeito entre natureza, conforto e aventura.",
     "cta": {
       "label": "Procurando algo 100% personalizado?",
       "title": "Nós Projetamos Seu Itinerário Personalizado Sem Custo Adicional",
-      "subtitle": "Nossos especialistas em destinos personalizarão as datas da viagem, o ritmo, o nível de luxo do hotel e as excursões privadas, adaptadas precisamente às suas preferências.",
+      "subtitle": "Nossos especialistas em destinos personalizarão as datas da viagem, o ritmo, o nível de conforto do hotel e as excursões privadas, adaptadas precisamente às suas preferências.",
       "button": "Solicitar Itinerário Personalizado"
     },
     "filter": {
@@ -68,8 +69,7 @@
   "about": {
     "badge": "Quem Somos",
     "title": "Experiência em Viagens Boutique",
-    "subtitle": "Somos uma operadora de turismo boutique certificada com sede em Quito, Equador, especializada em expedições de luxo personalizadas pelo Equador, Galápagos e Peru.",
-    "cta": "Planejar Minha Viagem"
+    "subtitle": "Somos uma operadora de turismo boutique certificada com sede em Quito, Equador, especializada em expedições de natureza e conforto personalizadas pelo Equador, Galápagos e Peru."
   },
   "experience": {
     "badge": "Sobre a Vermilion Routes",
@@ -87,7 +87,7 @@
   "faq": {
     "badge": "Perguntas Comuns",
     "title": "Perguntas Frequentes",
-    "subtitle": "Tudo o que você precisa saber sobre o planejamento da sua expedição de luxo com a Vermilion Routes."
+    "subtitle": "Tudo o que você precisa saber sobre o planejamento da sua expedição de natureza e conforto com a Vermilion Routes."
   },
   "contact": {
     "badge": "Vamos Planejar Sua Viagem",
@@ -128,7 +128,7 @@
     "accommodation": "Acomodação"
   },
   "footer": {
-    "tagline": "Especialistas em expedições boutique de luxo no Equador, Galápagos e Peru desde 2005.",
+    "tagline": "Especialistas em expedições boutique de natureza e conforto no Equador, Galápagos e Peru desde 2005.",
     "rights": "Todos os direitos reservados.",
     "privacy": "Política de Privacidade",
     "terms": "Termos de Serviço"

@@ -92,20 +92,6 @@ export function StatsSection() {
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="hidden lg:block w-px h-8 bg-zinc-200 dark:bg-zinc-800" />
-
-        {/* Action Button */}
-        <div className="flex-1 min-w-[200px] flex justify-center lg:justify-end mt-2 lg:mt-0">
-          <Button
-            onClick={scrollToTours}
-            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white rounded-full px-8 py-6 uppercase tracking-widest text-xs font-bold transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_30px_rgba(16,185,129,0.5)] gap-2 group"
-          >
-            Explore Tours
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </div>
-
       </div>
     </section>
   );

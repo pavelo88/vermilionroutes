@@ -3,11 +3,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { useSettings } from '@/hooks/useSettings';
-import { Bookmark, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Bookmark, ChevronLeft, ChevronRight, MessageCircle, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { StatsSection } from './StatsSection';
 import { useTranslations, useLocale } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
+import { SplashScreen } from './SplashScreen';
 
 const DEFAULT_DATA = [
   {
@@ -128,9 +129,54 @@ export function HeroSlider() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { settings, loading } = useSettings();
   const [isReady, setIsReady] = useState(false);
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return !sessionStorage.getItem('vermilion_splash_shown');
+    }
+    return true;
+  });
   const locale = useLocale();
   const t = useTranslations('hero');
+
+  const getPlanLabel = () => {
+    const fallbackMap: Record<string, string> = {
+      es: 'Planifica Tu Viaje',
+      en: 'Plan Your Trip',
+      fr: 'Planifiez Votre Voyage',
+      de: 'Planen Sie Ihre Reise',
+      it: 'Pianifica Il Tuo Viaggio',
+      pt: 'Planeje Sua Viagem',
+      ja: '旅行を計画する',
+      zh: '规划您的行程'
+    };
+    try {
+      const val = t('cta.plan');
+      return (!val || val.includes('hero.cta.plan')) ? (fallbackMap[locale] || 'Plan Your Trip') : val;
+    } catch {
+      return fallbackMap[locale] || 'Plan Your Trip';
+    }
+  };
+
+  const getExploreLabel = () => {
+    const fallbackMap: Record<string, string> = {
+      es: 'Explorar Tours',
+      en: 'Explore Tours',
+      fr: 'Explorer les Circuits',
+      de: 'Touren Entdecken',
+      it: 'Esplora i Tour',
+      pt: 'Explorar Passeios',
+      ja: 'ツアーを見る',
+      zh: '探索行程'
+    };
+    try {
+      const val = t('cta.explore');
+      return (!val || val.includes('hero.cta.explore') || val.toLowerCase().includes('todos') || val.toLowerCase().includes('all'))
+        ? (fallbackMap[locale] || 'Explore Tours')
+        : val;
+    } catch {
+      return fallbackMap[locale] || 'Explore Tours';
+    }
+  };
 
   useEffect(() => {
     // ✅ W-03 FIX: Si loading ya terminó, setIsReady inmediatamente sin timer
@@ -182,7 +228,7 @@ export function HeroSlider() {
         const width = container.clientWidth || window.innerWidth;
 
         // AQUÍ SE AJUSTA LA ALTURA DE LAS TARJETAS (números más pequeños = tarjetas más abajo)
-        offsetTop = height - cardHeight - 80;
+        offsetTop = height - cardHeight - 100;
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
@@ -210,16 +256,16 @@ export function HeroSlider() {
         const width = container.clientWidth || window.innerWidth;
 
         // AQUÍ SE AJUSTA LA ALTURA DE LAS TARJETAS (números más pequeños = tarjetas más abajo)
-        offsetTop = height - cardHeight - 80;
+        offsetTop = height - cardHeight - 100;
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
         const detailsActive = detailsEven ? "#details-even" : "#details-odd";
         const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
 
-        set("#pagination", { top: offsetTop + cardHeight + 5, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
+        set("#pagination", { top: offsetTop + cardHeight + 20, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
         set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", zIndex: 20 });
-        gsap.to(container.querySelectorAll(getCard(active)), { scale: 1.05, duration: 5.7, ease: "none" });
+        // Removed scale animation from here, it starts when the screen is black
         set(getCardContent(active), { opacity: 0 });
 
         set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
@@ -325,7 +371,7 @@ export function HeroSlider() {
             const textEl = detailsActiveEl.querySelector('.text span');
             const title1El = detailsActiveEl.querySelector('.title-1 span');
             const title2El = detailsActiveEl.querySelector('.title-2 span');
-            const descEl = detailsActiveEl.querySelector('.desc span');
+            const descEl = detailsActiveEl.querySelector('.hero-desc-text');
             if (textEl) textEl.textContent = getLocalizedText(currentData.place, locale);
             if (title1El) title1El.textContent = getLocalizedText(currentData.title, locale);
             if (title2El) title2El.textContent = getLocalizedText(currentData.title2, locale);
@@ -424,14 +470,49 @@ export function HeroSlider() {
       }
 
       init();
-      gsap.to(container.querySelectorAll(".splash-screen"), {
-        opacity: 0, delay: 1, ease: "power2.inOut", duration: 1.5, onComplete: () => {
-          setShowSplash(false);
-          setTimeout(() => {
-            if (!isCancelled) startLoop();
-          }, 200);
-        }
-      });
+      if (showSplash) {
+        // 1. Fade out text & subtext upwards smoothly
+        gsap.to("#splash-text-content, #splash-subtext", {
+          opacity: 0,
+          y: -15,
+          duration: 0.8,
+          ease: "power2.inOut",
+          delay: 0.4
+        });
+
+        // 2. Gradually dissolve the logo glass background card with slight expansion & blur transition
+        gsap.to("#splash-glass-card", {
+          opacity: 0,
+          scale: 1.06,
+          filter: "blur(8px)",
+          duration: 1.4,
+          ease: "power2.out",
+          delay: 0.5
+        });
+
+        // 3. Start card zoom animation
+        gsap.to(container.querySelectorAll(getCard(order[0])), { scale: 1.05, duration: 6.5, ease: "none", delay: 0.8 });
+
+        // 4. Fade out the splash background screen smoothly to reveal slider underneath
+        gsap.to("#splash-screen", {
+          opacity: 0,
+          ease: "power2.inOut",
+          duration: 1.5,
+          delay: 0.9,
+          onComplete: () => {
+            setShowSplash(false);
+            if (typeof window !== 'undefined') {
+              sessionStorage.setItem('vermilion_splash_shown', 'true');
+            }
+            setTimeout(() => {
+              if (!isCancelled) startLoop();
+            }, 200);
+          }
+        });
+      } else {
+        gsap.to(container.querySelectorAll(getCard(order[0])), { scale: 1.05, duration: 6.5, ease: "none" });
+        if (!isCancelled) startLoop();
+      }
 
     }); // end of gsap.context()
 
@@ -447,194 +528,151 @@ export function HeroSlider() {
   }, [isReady, settings?.hero?.slides?.length]);
 
   if (!isReady) {
-    return (
-      <div className="fixed inset-0 z-[1000] w-full h-[100svh] bg-zinc-950 overflow-hidden flex items-center justify-center">
-        <Image
-          src="/splash-4-worlds.png"
-          alt="Vermilion Routes Welcome"
-          fill
-          priority
-          className="object-cover scale-[1.02] transition-transform duration-[3000ms] ease-out"
-        />
-        {/* Deep cinematic gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
-        
-        {/* Overlay Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center text-center px-4">
-          <div className="relative w-[240px] h-[55px] md:w-[320px] md:h-[70px] mb-8">
-            <Image
-              src="/logo_claro.png"
-              alt="Vermilion Routes"
-              fill
-              className="object-contain drop-shadow-2xl"
-              priority
-            />
-          </div>
-          <h2 className="font-oswald text-3xl md:text-5xl lg:text-6xl font-bold tracking-widest uppercase text-white/95 drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] mb-3">
-            All You Need Is Ecuador
-          </h2>
-          <div className="flex items-center gap-3 md:gap-4 text-white/90 font-medium tracking-[0.2em] uppercase text-[10px] md:text-sm drop-shadow-md">
-            <span>Galápagos</span>
-            <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
-            <span>Andes</span>
-            <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
-            <span>Amazon</span>
-            <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
-            <span>Pacific</span>
-          </div>
-        </div>
-      </div>
-    );
+    return <SplashScreen />;
   }
 
   const slidesData = settings?.hero?.slides?.length ? settings.hero.slides : DEFAULT_DATA;
   const initialData = slidesData[0];
 
   return (
-    <div ref={containerRef} className="relative w-full h-[100svh] lg:h-[88svh] min-h-[900px] md:min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
+    <>
+      {/* Splash Screen Overlay for smooth transition OUTSIDE z-0 context */}
+      {showSplash && <SplashScreen />}
 
-      {/* Indicator */}
-      <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
+      <div ref={containerRef} className="relative w-full h-[100svh] lg:h-[94svh] min-h-[950px] md:min-h-[660px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
 
-      {/* Details Panels */}
-      {[0, 1].map((isOdd) => {
-        const id = isOdd ? 'details-odd' : 'details-even';
-        return (
-          <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[100px] md:top-[50px] lg:top-[70px] z-[22] flex flex-col items-center md:items-start text-center md:text-left">
-            <div className="h-auto overflow-hidden mb-2">
-              <div className="text text-white/90 font-medium tracking-widest uppercase text-base md:text-sm pt-4 relative flex flex-col items-center md:items-start">
-                <div className="absolute top-0 w-8 h-[2px] bg-white rounded-full" />
-                <span className="notranslate mt-2 md:mt-0">{getLocalizedText(initialData.place, locale)}</span>
+        {/* Indicator */}
+        <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
+
+        {/* Details Panels */}
+        {[0, 1].map((isOdd) => {
+          const id = isOdd ? 'details-odd' : 'details-even';
+          return (
+            <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[115px] md:top-[95px] lg:top-[105px] z-[22] flex flex-col items-center md:items-start text-center md:text-left">
+              <div className="h-auto overflow-hidden mb-2">
+                <div className="text text-white/90 font-medium tracking-widest uppercase text-base md:text-sm pt-4 relative flex flex-col items-center md:items-start">
+                  <div className="absolute top-0 w-8 h-[2px] bg-white rounded-full" />
+                  <span className="notranslate mt-2 md:mt-0">{getLocalizedText(initialData.place, locale)}</span>
+                </div>
+              </div>
+
+              <div className="h-auto md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
+                <div className="title-1 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
+                  <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
+                </div>
+              </div>
+              <div className="h-auto md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
+                <div className="title-2 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-lg">
+                  <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
+                </div>
+              </div>
+
+              <div className="h-auto mt-3 md:mt-5 flex flex-col items-center md:items-start w-full max-w-xl">
+                <div className="desc flex flex-col items-center md:items-start w-full">
+                  <p className="hero-desc-text text-sm sm:text-base text-white/90 leading-relaxed drop-shadow-md">
+                    {getLocalizedText(initialData.description, locale)}
+                  </p>
+                </div>
               </div>
             </div>
+          );
+        })}
 
-            <div className="h-auto md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
-              <div className="title-1 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
-                <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
-              </div>
-            </div>
-            <div className="h-auto md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
-              <div className="title-2 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-lg">
-                <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
-              </div>
-            </div>
-
-            <div className="h-auto md:h-[80px] lg:h-[120px] overflow-hidden mt-4 md:mt-6 flex flex-col items-center md:items-start w-full">
-              <div className="desc text-sm sm:text-base md:text-lg text-white/90 max-w-xl leading-relaxed drop-shadow-md">
-                <span>{getLocalizedText(initialData.description, locale)}</span>
-              </div>
-            </div>
-          </div>
-        );
-      })}
-
-      {/* Cards */}
-      {slidesData.map((slide: any, idx: number) => (
-        <div key={`card-${idx}`}>
-          <div
-            className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden w-[180px] h-[260px]`}
+        {/* Fixed Bottom Action Buttons */}
+        <div className="absolute left-4 md:left-[30px] lg:left-[60px] bottom-8 md:bottom-10 z-30 flex items-center gap-3 sm:gap-4 flex-wrap">
+          <button
+            className="px-6 sm:px-7 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/50 hover:scale-105 active:scale-95 group cursor-pointer"
+            onClick={() => {
+              const el = document.getElementById('tours');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
           >
-            <Image
-              src={slide.image}
-              alt={slide.place}
-              fill
-              priority={idx === 0} // [RENDIMIENTO] Fuerza carga prioritaria del LCP
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 180px"
-            />
-            <div className="absolute inset-0 bg-black/30" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <span>{getExploreLabel()}</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
+          <button
+            className="px-5 sm:px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 border border-white/30 hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-sm"
+            onClick={() => {
+              const event = new CustomEvent('open-tour-chat', { detail: { tourTitle: getLocalizedText(initialData.title, locale) } });
+              window.dispatchEvent(event);
+            }}
+          >
+            <MessageCircle className="w-4 h-4" />
+            <span>{getPlanLabel()}</span>
+          </button>
+        </div>
 
-            {/* Clickable Overlay for Thumbnail */}
+        {/* Cards */}
+        {slidesData.map((slide: any, idx: number) => (
+          <div key={`card-${idx}`}>
             <div
-              className="absolute inset-0 cursor-pointer z-10 hover:bg-white/10 transition-colors"
-              onClick={() => (window as any).jumpToSlide?.(idx)}
-              title="View destination"
-            />
-          </div>
-
-          <div className={`card-content card-content-${idx} absolute left-0 top-0 text-white w-[180px] h-[260px] pointer-events-none`}>
-            <div className="absolute bottom-5 left-5 right-5 text-left">
-              <div className="w-4 h-[2px] bg-white mb-2" />
-              <p className="text-[9px] uppercase font-bold text-white/80 tracking-widest mb-1 line-clamp-1 notranslate">{getLocalizedText(slide.place, locale)}</p>
-              <h4 className="text-xl font-oswald font-bold uppercase leading-tight line-clamp-2 drop-shadow-md notranslate">{getLocalizedText(slide.title, locale)}</h4>
-            </div>
-          </div>
-        </div>
-      ))}
-
-      {/* Pagination HUD */}
-      <div id="pagination" className="absolute left-0 top-0 flex items-center">
-        {/* Navigation Arrows */}
-        <div className="hidden md:flex gap-4 mr-6">
-          <div onClick={() => (window as any).triggerPrevSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">
-            <ChevronLeft className="w-4 h-4 text-white/60 group-hover:text-black" />
-          </div>
-          <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">
-            <ChevronRight className="w-4 h-4 text-white/60 group-hover:text-black" />
-          </div>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="w-[300px] md:w-[400px] lg:w-[500px] h-[42px] flex items-center">
-          <div className="w-full h-[3px] bg-white/20 relative rounded-full overflow-hidden">
-            <div className="progress-sub-foreground absolute top-0 left-0 h-full bg-white rounded-full" />
-          </div>
-        </div>
-
-        {/* Slide Numbers */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 overflow-hidden h-[50px] w-12 hidden md:block">
-          <div className="indicator absolute right-0 top-0 h-full bg-white/20" style={{ width: '100vw' }} />
-          {slidesData.map((_: any, index: number) => (
-            <div key={`num-${index}`} className={`slide-item-${index} absolute top-1/2 -translate-y-1/2 left-0 w-[50px] h-[50px] grid place-items-center text-white font-oswald text-xl md:text-2xl font-bold tracking-widest`}>
-              0{index + 1}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Mobile Stats Section injected into Hero */}
-      <div className="absolute bottom-4 left-0 w-full z-50 block md:hidden">
-        <StatsSection />
-      </div>
-
-      {/* Splash Screen Overlay for smooth fade out */}
-      {showSplash && (
-        <div className="splash-screen absolute inset-0 z-[1000] w-full h-[130svh] md:h-[100svh] bg-zinc-950 overflow-hidden flex items-center justify-center">
-          <Image
-            src="/splash-4-worlds.png"
-            alt="Vermilion Routes Welcome"
-            fill
-            priority
-            className="object-cover scale-[1.05] transition-transform duration-[4000ms] ease-out"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
-          
-          <div className="relative z-10 flex flex-col items-center justify-center text-center px-4">
-            <div className="relative w-[240px] h-[55px] md:w-[320px] md:h-[70px] mb-8">
+              className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden w-[180px] h-[260px]`}
+            >
               <Image
-                src="/logo_claro.png"
-                alt="Vermilion Routes"
+                src={slide.image}
+                alt={slide.place}
                 fill
-                className="object-contain drop-shadow-2xl"
-                priority
+                priority={idx === 0} // [RENDIMIENTO] Fuerza carga prioritaria del LCP
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 180px"
+              />
+              <div className="absolute inset-0 bg-black/30" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+              {/* Clickable Overlay for Thumbnail */}
+              <div
+                className="absolute inset-0 cursor-pointer z-10 hover:bg-white/10 transition-colors"
+                onClick={() => (window as any).jumpToSlide?.(idx)}
+                title="View destination"
               />
             </div>
-            <h2 className="font-oswald text-3xl md:text-5xl lg:text-6xl font-bold tracking-widest uppercase text-white/95 drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] mb-3">
-              All You Need Is Ecuador
-            </h2>
-            <div className="flex items-center gap-3 md:gap-4 text-white/90 font-medium tracking-[0.2em] uppercase text-[10px] md:text-sm drop-shadow-md">
-              <span>Galápagos</span>
-              <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
-              <span>Andes</span>
-              <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
-              <span>Amazon</span>
-              <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
-              <span>Pacific</span>
+
+            <div className={`card-content card-content-${idx} absolute left-0 top-0 text-white w-[180px] h-[260px] pointer-events-none`}>
+              <div className="absolute bottom-5 left-5 right-5 text-left">
+                <h4 className="text-lg font-oswald font-medium tracking-wider uppercase leading-snug drop-shadow-md notranslate">
+                  {getLocalizedText(slide.title, locale)}{slide.title2 ? ` ${getLocalizedText(slide.title2, locale)}` : ''}
+                </h4>
+              </div>
             </div>
           </div>
+        ))}
+
+        {/* Pagination HUD */}
+        <div id="pagination" className="absolute left-0 top-0 z-40 flex items-center pointer-events-auto">
+          {/* Navigation Arrows */}
+          <div className="hidden md:flex gap-3 mr-5">
+            <div onClick={() => (window as any).triggerPrevSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-all hover:scale-105 active:scale-95 group">
+              <ChevronLeft className="w-4 h-4 text-white group-hover:text-black" />
+            </div>
+            <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-all hover:scale-105 active:scale-95 group">
+              <ChevronRight className="w-4 h-4 text-white group-hover:text-black" />
+            </div>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="w-[300px] md:w-[400px] lg:w-[500px] h-[42px] flex items-center">
+            <div className="w-full h-[3px] bg-white/20 relative rounded-full overflow-hidden">
+              <div className="progress-sub-foreground absolute top-0 left-0 h-full bg-white rounded-full" />
+            </div>
+          </div>
+
+          {/* Slide Numbers */}
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 overflow-hidden h-[50px] w-12 hidden md:block">
+            <div className="indicator absolute right-0 top-0 h-full bg-white/20" style={{ width: '100vw' }} />
+            {slidesData.map((_: any, index: number) => (
+              <div key={`num-${index}`} className={`slide-item-${index} absolute top-1/2 -translate-y-1/2 left-0 w-[50px] h-[50px] grid place-items-center text-white font-oswald text-xl md:text-2xl font-bold tracking-widest`}>
+                0{index + 1}
+              </div>
+            ))}
+          </div>
         </div>
-      )}
-    </div>
+
+        {/* Mobile Stats Section injected into Hero */}
+        <div className="absolute bottom-4 left-0 w-full z-50 block md:hidden">
+          <StatsSection />
+        </div>
+
+      </div>
+    </>
   );
 }

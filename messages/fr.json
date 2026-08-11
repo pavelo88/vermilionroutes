@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Vermilion Routes | Voyages de Luxe Sur Mesure",
-    "description": "Découvrez l'Amérique du Sud avec des itinéraires de voyage personnalisés, des croisières de luxe aux îles Galápagos, des expéditions dans la forêt amazonienne et des treks sur les volcans andins."
+    "title": "Vermilion Routes | Voyages Nature & Confort Sur Mesure",
+    "description": "Découvrez l'Amérique du Sud avec des itinéraires de voyage personnalisés, des croisières nature & confort aux îles Galápagos, des expéditions en Amazonie et des treks sur les volcans andins."
   },
   "nav": {
     "home": "Accueil",
@@ -15,16 +15,17 @@
     "quote": "Demander un Devis",
     "banner": {
       "tagline": "Expéditions Sur Mesure & Petits Groupes Privés",
-      "badge": "Voyages de Luxe Exclusifs"
+      "badge": "Voyages Nature & Confort"
     }
   },
   "hero": {
-    "badge": "Voyages de Luxe Primés",
+    "badge": "Voyages Nature & Confort Primés",
     "title": "Les Plus Extraordinaires du Monde",
     "subtitle": "Expéditions sur mesure aux îles Galápagos, dans les Andes, en Amazonie et au Machu Picchu — conçues par des guides locaux experts.",
     "cta": {
-      "explore": "Explorer Tous les Circuits",
-      "quote": "Obtenir un Devis Gratuit"
+      "explore": "Explorer les Circuits",
+      "quote": "Obtenir un Devis Gratuit",
+      "plan": "Planifiez Votre Voyage"
     },
     "stats": {
       "tours": "Circuits Sur Mesure",
@@ -42,11 +43,11 @@
   "tours": {
     "badge": "Vitrine Carrousel 3D Interactive",
     "title": "Voyages Signature en Vedette",
-    "subtitle": "Expériences sélectionnées menées par des naturalistes locaux experts, avec une logistique impeccable, des séjours en boutiques hôtels triés sur le volet et l'équilibre parfait entre luxe et aventure.",
+    "subtitle": "Expériences sélectionnées menées par des naturalistes locaux experts, avec une logistique impeccable, des séjours en boutique-hôtels triés sur le volet et l'équilibre parfait entre nature, confort et aventure.",
     "cta": {
       "label": "Vous cherchez quelque chose de 100% personnalisé ?",
       "title": "Nous Concevons Votre Itinéraire Sur Mesure Sans Frais Supplémentaires",
-      "subtitle": "Nos spécialistes des destinations personnaliseront les dates de voyage, le rythme, le niveau de luxe de l'hôtel et les excursions privées, adaptés précisément à vos préférences.",
+      "subtitle": "Nos spécialistes des destinations personnaliseront les dates de voyage, le rythme, le niveau de confort de l'hôtel et les excursions privées, adaptés précisément à vos préférences.",
       "button": "Demander un Itinéraire Personnalisé"
     },
     "filter": {
@@ -67,9 +68,8 @@
   },
   "about": {
     "badge": "Qui Sommes-Nous",
-    "title": "Expertise en Voyages de Luxe",
-    "subtitle": "Nous sommes un tour-opérateur boutique certifié basé à Quito, en Équateur, spécialisé dans les expéditions de luxe sur mesure à travers l'Équateur, les Galápagos et le Pérou.",
-    "cta": "Planifier Mon Voyage"
+    "title": "Expertise en Voyages Boutique",
+    "subtitle": "Nous sommes un tour-opérateur boutique certifié basé à Quito, en Équateur, spécialisé dans les expéditions nature & confort sur mesure à travers l'Équateur, les Galápagos et le Pérou."
   },
   "experience": {
     "badge": "À Propos de Vermilion Routes",
@@ -87,7 +87,7 @@
   "faq": {
     "badge": "Questions Fréquentes",
     "title": "Foire Aux Questions",
-    "subtitle": "Tout ce que vous devez savoir pour planifier votre expédition de luxe avec Vermilion Routes."
+    "subtitle": "Tout ce que vous devez savoir pour planifier votre expédition nature & confort avec Vermilion Routes."
   },
   "contact": {
     "badge": "Planifions Votre Voyage",
@@ -128,7 +128,7 @@
     "accommodation": "Hébergement"
   },
   "footer": {
-    "tagline": "Spécialistes des expéditions de luxe boutique en Équateur, Galápagos et Pérou depuis 2005.",
+    "tagline": "Spécialistes des expéditions boutique nature & confort en Équateur, Galápagos et Pérou depuis 2005.",
     "rights": "Tous droits réservés.",
     "privacy": "Politique de Confidentialité",
     "terms": "Conditions Générales de Service"

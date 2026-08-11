@@ -151,7 +151,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="paper-bg text-zinc-900 dark:text-zinc-50 font-sans antialiased selection:bg-emerald-600 selection:text-white flex flex-col min-h-screen" suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <NextIntlClientProvider messages={messages} locale={locale}>
             <Navbar />
             <main className="flex-1 w-full relative">{children}</main>

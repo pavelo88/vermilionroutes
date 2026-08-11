@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Vermilion Routes | Tailor-Made Luxury Travel",
-    "description": "Experience South America with bespoke travel itineraries, luxury Galapagos island cruises, Amazon rainforest expeditions, and Andean volcano treks."
+    "title": "Vermilion Routes | Tailor-Made Nature & Comfort Travel",
+    "description": "Experience South America with bespoke travel itineraries, Galapagos island nature & comfort cruises, Amazon rainforest expeditions, and Andean volcano treks."
   },
   "nav": {
     "home": "Home",
@@ -15,16 +15,17 @@
     "quote": "Request a Quote",
     "banner": {
       "tagline": "Tailor-Made Expeditions & Private Small Groups",
-      "badge": "Exclusive Luxury Journeys"
+      "badge": "Nature & Comfort Expeditions"
     }
   },
   "hero": {
-    "badge": "Award-Winning Luxury Travel",
+    "badge": "Award-Winning Nature & Comfort Travel",
     "title": "The World's Most Extraordinary",
     "subtitle": "Bespoke expeditions to the Galapagos Islands, Andean Highlands, Amazon Rainforest & Machu Picchu — crafted by expert local guides.",
     "cta": {
-      "explore": "Explore All Tours",
-      "quote": "Get a Free Quote"
+      "explore": "Explore Tours",
+      "quote": "Get a Free Quote",
+      "plan": "Plan Your Trip"
     },
     "stats": {
       "tours": "Tailor-Made Tours",
@@ -42,11 +43,11 @@
   "tours": {
     "badge": "Interactive 3D Carousel Showcase",
     "title": "Featured Signature Journeys",
-    "subtitle": "Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between luxury and adventure.",
+    "subtitle": "Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between nature, comfort and adventure.",
     "cta": {
       "label": "Looking for something 100% custom?",
       "title": "We Design Your Tailor-Made Itinerary At No Extra Cost",
-      "subtitle": "Our destination specialists will customize travel dates, pacing, hotel luxury level, and private excursions tailored precisely to your preferences.",
+      "subtitle": "Our destination specialists will customize travel dates, pacing, hotel comfort level, and private excursions tailored precisely to your preferences.",
       "button": "Request Custom Itinerary"
     },
     "filter": {
@@ -68,8 +69,7 @@
   "about": {
     "badge": "Who We Are",
     "title": "Boutique Travel Expertise",
-    "subtitle": "We are a certified boutique tour operator based in Quito, Ecuador, specializing in tailor-made luxury expeditions across Ecuador, the Galapagos, and Peru.",
-    "cta": "Plan My Journey"
+    "subtitle": "We are a certified boutique tour operator based in Quito, Ecuador, specializing in tailor-made nature & comfort expeditions across Ecuador, the Galapagos, and Peru."
   },
   "experience": {
     "badge": "About Vermilion Routes",
@@ -87,7 +87,7 @@
   "faq": {
     "badge": "Common Questions",
     "title": "Frequently Asked Questions",
-    "subtitle": "Everything you need to know about planning your luxury expedition with Vermilion Routes."
+    "subtitle": "Everything you need to know about planning your nature & comfort expedition with Vermilion Routes."
   },
   "contact": {
     "badge": "Let's Plan Your Trip",
@@ -128,7 +128,7 @@
     "accommodation": "Accommodation"
   },
   "footer": {
-    "tagline": "Premier luxury boutique expedition specialists in Ecuador, Galapagos & Peru since 2005.",
+    "tagline": "Premier nature & comfort boutique expedition specialists in Ecuador, Galapagos & Peru since 2005.",
     "rights": "All rights reserved.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service"

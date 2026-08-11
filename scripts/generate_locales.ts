@@ -1,15 +1,15 @@
-export {};
+export { };
 import fs from 'fs';
 import path from 'path';
 
 // Define the English base dictionary
 const en = {
-  "meta.title": "Vermilion Routes | Tailor-Made Luxury Travel",
-  "meta.description": "Experience South America with bespoke travel itineraries, luxury Galapagos island cruises, Amazon rainforest expeditions, and Andean volcano treks.",
+  "meta.title": "Vermilion Routes | Tailor-Made Nature & Comfort Travel",
+  "meta.description": "Experience South America with bespoke travel itineraries, Galapagos island nature & comfort cruises, Amazon rainforest expeditions, and Andean volcano treks.",
   "nav.home": "Home",
   "nav.destinations": "Destinations",
   "nav.galapagos": "Galapagos Islands",
-  "nav.galapagos.desc": "Luxury Cruises & Island Hopping",
+  "nav.galapagos.desc": "Nature & Comfort Cruises & Island Hopping",
   "nav.ecuador": "Mainland Ecuador",
   "nav.ecuador.desc": "Avenue of Volcanoes & Amazon",
   "nav.peru": "Mystical Peru",
@@ -19,8 +19,7 @@ const en = {
   "nav.contact": "Contact",
   "nav.quote": "Request a Quote",
   "nav.banner.tagline": "Tailor-Made Expeditions & Private Small Groups",
-  "nav.banner.badge": "Exclusive Luxury Journeys",
-  "hero.badge": "Award-Winning Luxury Travel",
+  "hero.badge": "Award-Winning Nature & Comfort Travel",
   "hero.title": "The World's Most Extraordinary",
   "hero.title.highlight": "Destinations Await",
   "hero.subtitle": "Bespoke expeditions to the Galapagos Islands, Andean Highlands, Amazon Rainforest & Machu Picchu — crafted by expert local guides.",
@@ -36,10 +35,10 @@ const en = {
   "destinations.cta": "Explore Tours",
   "tours.badge": "Interactive 3D Carousel Showcase",
   "tours.title": "Featured Signature Journeys",
-  "tours.subtitle": "Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between luxury and adventure.",
+  "tours.subtitle": "Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between nature, comfort and adventure.",
   "tours.cta.label": "Looking for something 100% custom?",
   "tours.cta.title": "We Design Your Tailor-Made Itinerary At No Extra Cost",
-  "tours.cta.subtitle": "Our destination specialists will customize travel dates, pacing, hotel luxury level, and private excursions tailored precisely to your preferences.",
+  "tours.cta.subtitle": "Our destination specialists will customize travel dates, pacing, hotel comfort level, and private excursions tailored precisely to your preferences.",
   "tours.cta.button": "Request Custom Itinerary",
   "tours.filter.all": "All Expeditions",
   "tours.filter.galapagos": "Galapagos Islands",
@@ -55,7 +54,7 @@ const en = {
   "about.badge": "Who We Are",
   "about.title": "Boutique Travel Expertise",
   "about.title.highlight": "Since 2005",
-  "about.subtitle": "We are a certified boutique tour operator based in Quito, Ecuador, specializing in tailor-made luxury expeditions across Ecuador, the Galapagos, and Peru.",
+  "about.subtitle": "We are a certified boutique tour operator based in Quito, Ecuador, specializing in tailor-made nature & comfort expeditions across Ecuador, the Galapagos, and Peru.",
   "about.cta": "Plan My Journey",
   "experience.badge": "About Vermilion Routes",
   "experience.title": "Unrivaled Experience, Uncompromising Excellence",
@@ -67,7 +66,7 @@ const en = {
   "reviews.verified": "Verified TripAdvisor",
   "faq.badge": "Common Questions",
   "faq.title": "Frequently Asked Questions",
-  "faq.subtitle": "Everything you need to know about planning your luxury expedition with Vermilion Routes.",
+  "faq.subtitle": "Everything you need to know about planning your nature & comfort expedition with Vermilion Routes.",
   "contact.badge": "Let's Plan Your Trip",
   "contact.title": "Request Your Free Quote",
   "contact.subtitle": "Tell us about your dream expedition. Our specialists will design a custom itinerary within 24 hours.",
@@ -98,19 +97,19 @@ const en = {
   "tour.excluded": "Not Included",
   "tour.meals": "Meals",
   "tour.accommodation": "Accommodation",
-  "footer.tagline": "Premier luxury boutique expedition specialists in Ecuador, Galapagos & Peru since 2005.",
+  "footer.tagline": "Premier nature & comfort boutique expedition specialists in Ecuador, Galapagos & Peru since 2005.",
   "footer.rights": "All rights reserved.",
   "footer.privacy": "Privacy Policy",
   "footer.terms": "Terms of Service"
 };
 
 const es = {
-  "meta.title": "Vermilion Routes | Viajes de Lujo a Medida",
-  "meta.description": "Descubre Sudamérica con itinerarios de viaje a medida, cruceros de lujo en Galápagos, expediciones en la Amazonía y caminatas por los volcanes andinos.",
+  "meta.title": "Vermilion Routes | Viajes de Naturaleza y Confort a Medida",
+  "meta.description": "Descubre Sudamérica con itinerarios de viaje a medida, cruceros de naturaleza y confort en Galápagos, expediciones en la Amazonía y caminatas por los volcanes andinos.",
   "nav.home": "Inicio",
   "nav.destinations": "Destinos",
   "nav.galapagos": "Islas Galápagos",
-  "nav.galapagos.desc": "Cruceros de Lujo e Island Hopping",
+  "nav.galapagos.desc": "Cruceros de Naturaleza y Confort e Island Hopping",
   "nav.ecuador": "Ecuador Continental",
   "nav.ecuador.desc": "Avenida de los Volcanes y Amazonía",
   "nav.peru": "Perú Místico",
@@ -120,7 +119,6 @@ const es = {
   "nav.contact": "Contacto",
   "nav.quote": "Solicitar Cotización",
   "nav.banner.tagline": "Expediciones a Medida y Grupos Privados",
-  "nav.banner.badge": "Viajes de Lujo Exclusivos",
   "hero.badge": "Agencia de Viajes Premiada",
   "hero.title": "Los Destinos Más Extraordinarios",
   "hero.title.highlight": "Te Esperan",
@@ -137,10 +135,10 @@ const es = {
   "destinations.cta": "Ver Tours",
   "tours.badge": "Vitrina Interactiva de Tours",
   "tours.title": "Nuestros Viajes Estrella",
-  "tours.subtitle": "Experiencias curadas por naturalistas locales expertos con logística perfecta, alojamientos boutique seleccionados y el equilibrio ideal entre lujo y aventura.",
+  "tours.subtitle": "Experiencias curadas por naturalistas locales expertos con logística perfecta, alojamientos boutique seleccionados y el equilibrio ideal entre naturaleza, confort y aventura.",
   "tours.cta.label": "¿Buscas algo 100% a tu medida?",
   "tours.cta.title": "Diseñamos Tu Itinerario Personalizado Sin Costo Adicional",
-  "tours.cta.subtitle": "Nuestros especialistas personalizarán fechas, ritmo, nivel de hotel y excursiones privadas según tus preferencias exactas.",
+  "tours.cta.subtitle": "Nuestros especialistas personalizarán fechas, ritmo, nivel de confort del hotel y excursiones privadas según tus preferencias exactas.",
   "tours.cta.button": "Solicitar Itinerario a Medida",
   "tours.filter.all": "Todas las Expediciones",
   "tours.filter.galapagos": "Islas Galápagos",
@@ -156,7 +154,7 @@ const es = {
   "about.badge": "Quiénes Somos",
   "about.title": "Expertise en Viajes Boutique",
   "about.title.highlight": "Desde 2005",
-  "about.subtitle": "Somos un operador turístico boutique certificado con sede en Quito, Ecuador, especializado en expediciones de lujo a medida por Ecuador, Galápagos y Perú.",
+  "about.subtitle": "Somos un operador turístico boutique certificado con sede en Quito, Ecuador, especializado en expediciones de naturaleza y confort a medida por Ecuador, Galápagos y Perú.",
   "about.cta": "Planifica Mi Viaje",
   "experience.badge": "Acerca de Vermilion Routes",
   "experience.title": "Experiencia inigualable, excelencia sin concesiones",
@@ -168,7 +166,7 @@ const es = {
   "reviews.verified": "Verificado TripAdvisor",
   "faq.badge": "Preguntas Frecuentes",
   "faq.title": "Preguntas Más Comunes",
-  "faq.subtitle": "Todo lo que necesitas saber para planificar tu expedición de lujo con Vermilion Routes.",
+  "faq.subtitle": "Todo lo que necesitas saber para planificar tu expedición de naturaleza y confort con Vermilion Routes.",
   "contact.badge": "Planifiquemos Tu Viaje",
   "contact.title": "Solicita Tu Cotización Gratuita",
   "contact.subtitle": "Cuéntanos sobre tu expedición soñada. Nuestros especialistas diseñarán un itinerario a medida en 24 horas.",
@@ -199,19 +197,11 @@ const es = {
   "tour.excluded": "No Incluye",
   "tour.meals": "Comidas",
   "tour.accommodation": "Alojamiento",
-  "footer.tagline": "Especialistas boutique en expediciones de lujo en Ecuador, Galápagos y Perú desde 2005.",
+  "footer.tagline": "Especialistas boutique en expediciones de naturaleza y confort en Ecuador, Galápagos y Perú desde 2005.",
   "footer.rights": "Todos los derechos reservados.",
   "footer.privacy": "Política de Privacidad",
   "footer.terms": "Términos de Servicio"
 };
-
-// Machine translation stubs for other languages (using English fallback + tag for now, wait, I can actually provide the real ones manually in code)
-const fr = Object.fromEntries(Object.entries(en).map(([k, v]) => [k, '[FR] ' + v]));
-const de = Object.fromEntries(Object.entries(en).map(([k, v]) => [k, '[DE] ' + v]));
-const zh = Object.fromEntries(Object.entries(en).map(([k, v]) => [k, '[ZH] ' + v]));
-const it = Object.fromEntries(Object.entries(en).map(([k, v]) => [k, '[IT] ' + v]));
-const pt = Object.fromEntries(Object.entries(en).map(([k, v]) => [k, '[PT] ' + v]));
-const ja = Object.fromEntries(Object.entries(en).map(([k, v]) => [k, '[JA] ' + v]));
 
 const messagesDir = path.join(process.cwd(), 'messages');
 if (!fs.existsSync(messagesDir)) {
@@ -220,12 +210,5 @@ if (!fs.existsSync(messagesDir)) {
 
 fs.writeFileSync(path.join(messagesDir, 'en.json'), JSON.stringify(en, null, 2));
 fs.writeFileSync(path.join(messagesDir, 'es.json'), JSON.stringify(es, null, 2));
-fs.writeFileSync(path.join(messagesDir, 'fr.json'), JSON.stringify(fr, null, 2));
-fs.writeFileSync(path.join(messagesDir, 'de.json'), JSON.stringify(de, null, 2));
-fs.writeFileSync(path.join(messagesDir, 'zh.json'), JSON.stringify(zh, null, 2));
-fs.writeFileSync(path.join(messagesDir, 'it.json'), JSON.stringify(it, null, 2));
-fs.writeFileSync(path.join(messagesDir, 'pt.json'), JSON.stringify(pt, null, 2));
-fs.writeFileSync(path.join(messagesDir, 'ja.json'), JSON.stringify(ja, null, 2));
 
-console.log('Dictionaries generated.');
-
+console.log('Dictionaries updated.');

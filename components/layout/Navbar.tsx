@@ -78,65 +78,88 @@ export function Navbar() {
   const tNav = useTranslations('nav');
 
   const navLinks = [
-    { name: tNav('home'), href: '/' },
+    { name: tNav('home'), href: `/${locale}` },
     {
       name: tNav('destinations'),
-      href: '/#destinations',
+      href: `/${locale}#destinations`,
       hasDropdown: true,
       subItems: [
-        { name: tNav('galapagos'), href: '/#galapagos', desc: 'Premium Cruises & Island Hopping' },
-        { name: tNav('ecuador'), href: '/#ecuador', desc: 'Avenue of Volcanoes & Amazon' },
-        { name: tNav('peru'), href: '/#peru', desc: 'Cusco, Sacred Valley & Machu Picchu' },
+        { name: tNav('galapagos'), href: `/${locale}#galapagos`, desc: 'Premium Cruises & Island Hopping' },
+        { name: tNav('ecuador'), href: `/${locale}#ecuador`, desc: 'Avenue of Volcanoes & Amazon' },
+        { name: tNav('peru'), href: `/${locale}#peru`, desc: 'Cusco, Sacred Valley & Machu Picchu' },
       ],
     },
-    { name: tNav('tours'), href: '/#tours' },
-    { name: tNav('about'), href: '/#experience' },
-    { name: tNav('contact'), href: '/#contact' },
+    { name: tNav('tours'), href: `/${locale}#tours` },
+    { name: tNav('about'), href: `/${locale}#experience` },
+    { name: tNav('contact'), href: `/${locale}#contact` },
   ];
 
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
+    if (href.includes('#')) {
+      const hash = href.split('#')[1];
+      const el = document.getElementById(hash);
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth' });
+        setMobileMenuOpen(false);
+        setDestinationsOpen(false);
+        return;
+      }
+    }
+    setMobileMenuOpen(false);
+    setDestinationsOpen(false);
+  };
+
   return (
-    <>
-      {/* Top Banner */}
-      <div className="bg-zinc-950 text-zinc-300 text-xs py-2 px-4 sm:px-8 border-b border-zinc-800/80">
+    <div className="fixed top-0 left-0 w-full z-50 flex flex-col">
+      {/* Top Banner (Desaparece al hacer scroll hacia abajo) */}
+      <div
+        className={`transition-all duration-500 overflow-hidden border-b bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-800 text-white border-emerald-800/80 ${
+          isScrolled ? 'max-h-0 opacity-0 py-0 border-none' : 'max-h-16 opacity-100 py-2 px-4 sm:px-8'
+        }`}
+      >
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
           <div className="flex items-center gap-6">
             <a
               href={`tel:${getLocalizedText(settings?.contact?.phone, locale) || '+593994048458'}`}
               className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors"
             >
-              <Phone className="w-3.5 h-3.5 text-emerald-500" />
-              <span>{getLocalizedText(settings?.contact?.phone, locale) || '+593 99 404 8458'}</span>
+              <Phone className="w-3.5 h-3.5 text-emerald-300" />
+              <span className="text-white">{getLocalizedText(settings?.contact?.phone, locale) || '+593 99 404 8458'}</span>
             </a>
             <a
               href={`mailto:${getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}`}
               className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors hidden md:flex"
             >
-              <Mail className="w-3.5 h-3.5 text-emerald-500" />
-              <span>{getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}</span>
+              <Mail className="w-3.5 h-3.5 text-emerald-300" />
+              <span className="text-white">{getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}</span>
             </a>
           </div>
           <div className="flex items-center gap-4 text-xs">
-            <span className="text-zinc-400 hidden lg:inline">
+            <span className="text-emerald-100 hidden lg:inline">
               {tNav('banner.tagline')}
             </span>
-            <div className="flex items-center gap-1 text-emerald-400 font-medium bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-800/60">
-              <Sparkles className="w-3 h-3 text-emerald-400" />
+            <div className="flex items-center gap-1 text-emerald-100 font-medium bg-emerald-950/50 px-2.5 py-0.5 rounded-full border border-emerald-700/60 shadow-sm">
+              <Sparkles className="w-3 h-3 text-emerald-300" />
               <span>{tNav('banner.badge')}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Sticky Header */}
+      {/* 
+        Main Sticky Header 
+        * CONTROLA LA ALTURA / PADDING VERTICAL DEL NAVBAR AQUÍ *
+        py-1.5 = altura mínima. Para más altura, cambia 'py-1.5' a 'py-2.5', 'py-3' o 'py-4'.
+      */}
       <header
-        className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled
-          ? 'glass-panel shadow-md border-b border-zinc-200/80 dark:border-zinc-800/80 py-3'
-          : 'bg-white/70 dark:bg-zinc-950/50 backdrop-blur-sm border-b border-zinc-200/50 dark:border-zinc-800/50 py-4'
-          }`}
+        className={`transition-all duration-300 backdrop-blur-md border-b border-white/20 dark:border-zinc-800/30 ${
+          isScrolled ? 'py-1 shadow-sm bg-white/40 dark:bg-zinc-950/55' : 'py-1.5 bg-white/35 dark:bg-zinc-950/40'
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 relative z-10 group notranslate">
+          <Link href={`/${locale}`} className="flex items-center gap-3 relative z-10 group notranslate">
             <div className="relative w-[140px] h-[35px] sm:w-[180px] sm:h-[45px] md:w-[220px] md:h-[55px] shrink-0">
               {/* Light Mode Logo */}
               <Image
@@ -174,6 +197,7 @@ export function Navbar() {
                   >
                     <a
                       href={link.href}
+                      onClick={(e) => handleAnchorClick(e, link.href)}
                       className="flex items-center gap-1 px-3 py-2 text-[11px] uppercase tracking-widest font-bold text-zinc-800 dark:text-zinc-200 hover:text-emerald-600 rounded-xl hover:bg-zinc-100/70 dark:hover:bg-zinc-800/50 transition-colors"
                     >
                       {link.name}
@@ -191,6 +215,7 @@ export function Navbar() {
                             <a
                               key={sub.name}
                               href={sub.href}
+                              onClick={(e) => handleAnchorClick(e, sub.href)}
                               className="flex flex-col gap-0.5 p-3 rounded-xl hover:bg-emerald-50/80 dark:hover:bg-emerald-900/30 text-zinc-800 dark:text-zinc-200 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors group"
                             >
                               <span className="text-sm font-semibold flex items-center justify-between">
@@ -213,6 +238,7 @@ export function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
+                  onClick={(e) => handleAnchorClick(e, link.href)}
                   className="px-3 py-2 text-[11px] uppercase tracking-widest font-bold text-zinc-800 dark:text-zinc-200 hover:text-emerald-600 rounded-xl hover:bg-zinc-100/70 dark:hover:bg-zinc-800/50 transition-colors"
                 >
                   {link.name}
@@ -287,7 +313,7 @@ export function Navbar() {
               variant="primary"
               size="sm"
               className="shadow-md shadow-emerald-600/15"
-              onClick={() => window.location.href = '/#contact'}
+              onClick={(e) => handleAnchorClick(e, `/${locale}#contact`)}
             >
               Request a Quote
             </Button>
@@ -367,7 +393,7 @@ export function Navbar() {
                 <div key={link.name}>
                   <a
                     href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={(e) => handleAnchorClick(e, link.href)}
                     className="block px-4 py-2.5 rounded-xl text-base font-medium text-zinc-800 dark:text-zinc-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
                   >
                     {link.name}
@@ -378,7 +404,7 @@ export function Navbar() {
                         <a
                           key={sub.name}
                           href={sub.href}
-                          onClick={() => setMobileMenuOpen(false)}
+                          onClick={(e) => handleAnchorClick(e, sub.href)}
                           className="block px-3 py-1.5 rounded-lg text-sm text-zinc-600 dark:text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400"
                         >
                           {sub.name}
@@ -394,10 +420,7 @@ export function Navbar() {
               <Button
                 variant="primary"
                 className="w-full"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  window.location.href = '/#contact';
-                }}
+                onClick={(e) => handleAnchorClick(e, `/${locale}#contact`)}
               >
                 Request Custom Itinerary
               </Button>
@@ -405,6 +428,6 @@ export function Navbar() {
           </div>
         )}
       </header>
-    </>
+    </div>
   );
 }

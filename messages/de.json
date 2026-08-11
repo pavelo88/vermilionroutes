@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Vermilion Routes | Maßgeschneiderte Luxusreisen",
-    "description": "Erleben Sie Südamerika mit maßgeschneiderten Reiserouten, luxuriösen Galapagos-Kreuzfahrten, Expeditionen in den Amazonas-Regenwald und Anden-Vulkan-Trekkings."
+    "title": "Vermilion Routes | Maßgeschneiderte Reisen für Natur & Komfort",
+    "description": "Erleben Sie Südamerika mit maßgeschneiderten Reiserouten, Galapagos-Natur- & Komfort-Kreuzfahrten, Expeditionen in den Amazonas-Regenwald und Anden-Vulkan-Trekkings."
   },
   "nav": {
     "home": "Startseite",
@@ -15,16 +15,17 @@
     "quote": "Angebot anfordern",
     "banner": {
       "tagline": "Maßgeschneiderte Expeditionen & private Kleingruppen",
-      "badge": "Exklusive Luxusreisen"
+      "badge": "Natur & Komfort Reisen"
     }
   },
   "hero": {
-    "badge": "Preisgekrönte Luxusreisen",
+    "badge": "Preisgekrönte Reisen für Natur & Komfort",
     "title": "Das Außergewöhnlichste der Welt",
     "subtitle": "Maßgeschneiderte Expeditionen zu den Galapagosinseln, dem Andenhochland, dem Amazonas-Regenwald & Machu Picchu – gestaltet von erfahrenen lokalen Guides.",
     "cta": {
-      "explore": "Alle Touren entdecken",
-      "quote": "Kostenloses Angebot einholen"
+      "explore": "Touren Entdecken",
+      "quote": "Kostenloses Angebot einholen",
+      "plan": "Planen Sie Ihre Reise"
     },
     "stats": {
       "tours": "Maßgeschneiderte Touren",
@@ -42,11 +43,11 @@
   "tours": {
     "badge": "Interaktive 3D-Karussell-Präsentation",
     "title": "Ausgewählte Signature-Reisen",
-    "subtitle": "Kuratierte Erlebnisse, geleitet von erfahrenen lokalen Naturforschern, mit nahtloser Logistik, handverlesenen Boutique-Unterkünften und der ultimativen Balance zwischen Luxus und Abenteuer.",
+    "subtitle": "Kuratierte Erlebnisse, geleitet von erfahrenen lokalen Naturforschern, mit nahtloser Logistik, handverlesenen Boutique-Unterkünften und der ultimativen Balance zwischen Natur, Komfort und Abenteuer.",
     "cta": {
       "label": "Suchen Sie etwas zu 100 % Maßgeschneidertes?",
       "title": "Wir entwerfen Ihre maßgeschneiderte Reiseroute ohne zusätzliche Kosten",
-      "subtitle": "Unsere Reisespezialisten passen Reisedaten, Tempo, Luxusniveau des Hotels und private Ausflüge präzise an Ihre Vorlieben an.",
+      "subtitle": "Unsere Reisespezialisten passen Reisedaten, Tempo, Komfortniveau des Hotels und private Ausflüge präzise an Ihre Vorlieben an.",
       "button": "Maßgeschneiderte Reiseroute anfordern"
     },
     "filter": {
@@ -68,8 +69,7 @@
   "about": {
     "badge": "Wer wir sind",
     "title": "Boutique-Reisekompetenz",
-    "subtitle": "Wir sind ein zertifizierter Boutique-Reiseveranstalter mit Sitz in Quito, Ecuador, spezialisiert auf maßgeschneiderte Luxus-Expeditionen durch Ecuador, die Galapagosinseln und Peru.",
-    "cta": "Meine Reise planen"
+    "subtitle": "Wir sind ein zertifizierter Boutique-Reiseveranstalter mit Sitz in Quito, Ecuador, spezialisiert auf maßgeschneiderte Natur- & Komfort-Expeditionen durch Ecuador, die Galapagosinseln und Peru."
   },
   "experience": {
     "badge": "Über Vermilion Routes",
@@ -87,7 +87,7 @@
   "faq": {
     "badge": "Häufige Fragen",
     "title": "Häufig gestellte Fragen",
-    "subtitle": "Alles, was Sie über die Planung Ihrer Luxusexpedition mit Vermilion Routes wissen müssen."
+    "subtitle": "Alles, was Sie über die Planung Ihrer Natur- & Komfort-Expedition mit Vermilion Routes wissen müssen."
   },
   "contact": {
     "badge": "Lassen Sie uns Ihre Reise planen",
@@ -128,7 +128,7 @@
     "accommodation": "Unterkunft"
   },
   "footer": {
-    "tagline": "Führende Spezialisten für luxuriöse Boutique-Expeditionen in Ecuador, Galapagos & Peru seit 2005.",
+    "tagline": "Führende Spezialisten für Boutique-Expeditionen mit Fokus auf Natur & Komfort in Ecuador, Galapagos & Peru seit 2005.",
     "rights": "Alle Rechte vorbehalten.",
     "privacy": "Datenschutzbestimmungen",
     "terms": "Nutzungsbedingungen"

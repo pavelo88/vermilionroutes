@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Vermilion Routes | Viajes de Lujo a Medida",
-    "description": "Experimente Sudamérica con itinerarios de viaje a medida, cruceros de lujo por las Islas Galápagos, expediciones a la selva amazónica y caminatas por volcanes andinos."
+    "title": "Vermilion Routes | Viajes de Naturaleza y Confort a Medida",
+    "description": "Experimente Sudamérica con itinerarios de viaje a medida, cruceros de naturaleza y confort por las Islas Galápagos, expediciones a la selva amazónica y caminatas por volcanes andinos."
   },
   "nav": {
     "home": "Inicio",
@@ -15,16 +15,17 @@
     "quote": "Solicitar Presupuesto",
     "banner": {
       "tagline": "Expediciones a Medida y Grupos Pequeños Privados",
-      "badge": "Viajes de Lujo Exclusivos"
+      "badge": "Viajes de Naturaleza y Confort"
     }
   },
   "hero": {
-    "badge": "Viajes de Lujo Premiados",
+    "badge": "Viajes de Naturaleza y Confort Premiados",
     "title": "Lo Más Extraordinario del Mundo",
     "subtitle": "Expediciones a medida a las Islas Galápagos, Tierras Altas Andinas, Selva Amazónica y Machu Picchu — creadas por guías locales expertos.",
     "cta": {
-      "explore": "Explorar Todos los Tours",
-      "quote": "Obtener un Presupuesto Gratis"
+      "explore": "Explorar Tours",
+      "quote": "Cotización Gratuita",
+      "plan": "Planifica Tu Viaje"
     },
     "stats": {
       "tours": "Tours a Medida",
@@ -42,11 +43,11 @@
   "tours": {
     "badge": "Showcase Interactivo de Carrusel 3D",
     "title": "Viajes Emblemáticos Destacados",
-    "subtitle": "Experiencias curadas lideradas por naturalistas locales expertos con logística impecable, estancias en hoteles boutique seleccionados y el equilibrio definitivo entre lujo y aventura.",
+    "subtitle": "Experiencias curadas lideradas por naturalistas locales expertos con logística impecable, estancias en hoteles boutique seleccionados y el equilibrio definitivo entre naturaleza, confort y aventura.",
     "cta": {
       "label": "¿Buscas algo 100% personalizado?",
       "title": "Diseñamos Tu Itinerario a Medida Sin Costo Adicional",
-      "subtitle": "Nuestros especialistas en destinos personalizarán las fechas de viaje, el ritmo, el nivel de lujo del hotel y las excursiones privadas adaptadas precisamente a tus preferencias.",
+      "subtitle": "Nuestros especialistas en destinos personalizarán las fechas de viaje, el ritmo, el nivel de confort del hotel y las excursiones privadas adaptadas precisamente a tus preferencias.",
       "button": "Solicitar Itinerario Personalizado"
     },
     "filter": {
@@ -68,8 +69,7 @@
   "about": {
     "badge": "Quiénes Somos",
     "title": "Experiencia en Viajes Boutique",
-    "subtitle": "Somos un operador turístico boutique certificado con sede en Quito, Ecuador, especializado en expediciones de lujo a medida por Ecuador, Galápagos y Perú.",
-    "cta": "Planificar Mi Viaje"
+    "subtitle": "Somos un operador turístico boutique certificado con sede en Quito, Ecuador, especializado en expediciones de naturaleza y confort a medida por Ecuador, Galápagos y Perú."
   },
   "experience": {
     "badge": "Sobre Vermilion Routes",
@@ -87,7 +87,7 @@
   "faq": {
     "badge": "Preguntas Frecuentes",
     "title": "Preguntas Frecuentes",
-    "subtitle": "Todo lo que necesitas saber para planificar tu expedición de lujo con Vermilion Routes."
+    "subtitle": "Todo lo que necesitas saber para planificar tu expedición de naturaleza y confort con Vermilion Routes."
   },
   "contact": {
     "badge": "Planifiquemos Tu Viaje",
@@ -128,7 +128,7 @@
     "accommodation": "Alojamiento"
   },
   "footer": {
-    "tagline": "Especialistas boutique de expediciones de lujo en Ecuador, Galápagos y Perú desde 2005.",
+    "tagline": "Especialistas boutique de expediciones de naturaleza y confort en Ecuador, Galápagos y Perú desde 2005.",
     "rights": "Todos los derechos reservados.",
     "privacy": "Política de Privacidad",
     "terms": "Términos de Servicio"

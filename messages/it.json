@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Vermilion Routes | Viaggi di lusso su misura",
-    "description": "Vivi il Sud America con itinerari di viaggio personalizzati, crociere di lusso alle isole Galapagos, spedizioni nella foresta amazzonica e trekking sui vulcani andini."
+    "title": "Vermilion Routes | Viaggi Su Misura Tra Natura e Comfort",
+    "description": "Vivi il Sud America con itinerari su misura, crociere tra natura e comfort alle Isole Galapagos, spedizioni nella foresta amazzonica e trekking sui vulcani andini."
   },
   "nav": {
     "home": "Home",
@@ -15,16 +15,17 @@
     "quote": "Richiedi un Preventivo",
     "banner": {
       "tagline": "Spedizioni su Misura & Piccoli Gruppi Privati",
-      "badge": "Viaggi di Lusso Esclusivi"
+      "badge": "Viaggi di Natura e Comfort"
     }
   },
   "hero": {
-    "badge": "Viaggi di Lusso Pluripremiati",
+    "badge": "Viaggi Premiati Tra Natura e Comfort",
     "title": "Le Cose Più Straordinarie del Mondo",
     "subtitle": "Spedizioni su misura alle Isole Galapagos, Altopiani Andini, Foresta Amazzonica e Machu Picchu — create da guide locali esperte.",
     "cta": {
-      "explore": "Esplora Tutti i Tour",
-      "quote": "Richiedi un Preventivo Gratuito"
+      "explore": "Esplora i Tour",
+      "quote": "Richiedi un Preventivo Gratuito",
+      "plan": "Pianifica Il Tuo Viaggio"
     },
     "stats": {
       "tours": "Tour Su Misura",
@@ -42,11 +43,11 @@
   "tours": {
     "badge": "Vetrina Interattiva 3D",
     "title": "Viaggi D'Autore in Evidenza",
-    "subtitle": "Esperienze curate guidate da esperti naturalisti locali con logistica impeccabile, soggiorni in boutique hotel selezionati e il perfetto equilibrio tra lusso e avventura.",
+    "subtitle": "Esperienze curate guidate da esperti naturalisti locali con logistica impeccabile, soggiorni in boutique hotel selezionati e il perfetto equilibrio tra natura, comfort e avventura.",
     "cta": {
       "label": "Cerchi qualcosa di 100% personalizzato?",
       "title": "Progettiamo il Tuo Itinerario Su Misura Senza Costi Aggiuntivi",
-      "subtitle": "I nostri specialisti delle destinazioni personalizzeranno date di viaggio, ritmo, livello di lusso dell'hotel ed escursioni private su misura per le tue preferenze.",
+      "subtitle": "I nostri specialisti delle destinazioni personalizzeranno date di viaggio, ritmo, livello di comfort dell'hotel ed escursioni private su misura per le tue preferenze.",
       "button": "Richiedi Itinerario Personalizzato"
     },
     "filter": {
@@ -67,9 +68,8 @@
   },
   "about": {
     "badge": "Chi Siamo",
-    "title": "Competenza nel Viaggio di Lusso",
-    "subtitle": "Siamo un tour operator boutique certificato con sede a Quito, Ecuador, specializzato in spedizioni di lusso su misura in Ecuador, Galapagos e Perù.",
-    "cta": "Pianifica il Mio Viaggio"
+    "title": "Competenza nel Viaggio Boutique",
+    "subtitle": "Siamo un tour operator boutique certificato con sede a Quito, Ecuador, specializzato in spedizioni su misura tra natura e comfort in Ecuador, Galapagos e Perù."
   },
   "experience": {
     "badge": "Su Vermilion Routes",
@@ -87,7 +87,7 @@
   "faq": {
     "badge": "Domande Frequenti",
     "title": "Domande Frequenti",
-    "subtitle": "Tutto ciò che devi sapere per pianificare la tua spedizione di lusso con Vermilion Routes."
+    "subtitle": "Tutto ciò che devi sapere per pianificare la tua spedizione tra natura e comfort con Vermilion Routes."
   },
   "contact": {
     "badge": "Pianifichiamo il Tuo Viaggio",
@@ -128,7 +128,7 @@
     "accommodation": "Alloggio"
   },
   "footer": {
-    "tagline": "Specialisti boutique di spedizioni di lusso in Ecuador, Galapagos e Perù dal 2005.",
+    "tagline": "Specialisti in spedizioni boutique tra natura e comfort in Ecuador, Galapagos e Perù dal 2005.",
     "rights": "Tutti i diritti riservati.",
     "privacy": "Informativa sulla Privacy",
     "terms": "Termini di Servizio"
