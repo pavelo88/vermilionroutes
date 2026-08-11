@@ -445,9 +445,66 @@ export function HeroSlider() {
   }, [isReady, settings?.hero?.slides?.length]);
 
   if (!isReady) {
+    const initialData = DEFAULT_DATA[0];
     return (
-      <div className="w-full h-[130svh] md:h-[100svh] min-h-[900px] md:min-h-[550px] bg-zinc-950 flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+      <div className="relative w-full h-[95svh] lg:h-[88svh] min-h-[600px] md:min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
+        
+        {/* Background Image Loading Eagerly */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={initialData.image}
+            alt="Loading..."
+            fill
+            priority
+            className="object-cover scale-105 opacity-80"
+          />
+          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        </div>
+
+        {/* Details Panels Skeleton */}
+        <div className="absolute left-[30px] lg:left-[60px] top-[50px] lg:top-[70px] z-[22]">
+          <div className="h-[46px] mb-2">
+            <div className="text-white/90 font-medium tracking-widest uppercase text-sm pt-4 relative animate-pulse">
+              <div className="absolute top-0 left-0 w-8 h-[2px] bg-white rounded-full" />
+              <span className="notranslate">{getLocalizedText(initialData.place, locale)}</span>
+            </div>
+          </div>
+          
+          <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] mt-1 animate-pulse">
+            <div className="font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg text-white/90">
+              <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
+            </div>
+          </div>
+          <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] animate-pulse">
+            <div className="font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white/90 drop-shadow-lg">
+              <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
+            </div>
+          </div>
+
+          <div className="h-auto md:h-[80px] lg:h-[120px] mt-4 md:mt-6 animate-pulse opacity-60">
+            <div className="w-[300px] sm:w-[400px] h-3 bg-white/30 rounded mb-3"></div>
+            <div className="w-[250px] sm:w-[350px] h-3 bg-white/30 rounded mb-3"></div>
+            <div className="w-[200px] sm:w-[280px] h-3 bg-white/30 rounded"></div>
+          </div>
+        </div>
+
+        {/* Fake Cards Skeleton - Right aligned */}
+        <div className="hidden lg:flex absolute right-0 top-[60%] -translate-y-1/2 translate-x-1/4 z-[30] gap-5 opacity-60">
+           {[1, 2, 3].map((i) => (
+              <div key={i} className="w-[180px] h-[260px] rounded-xl bg-white/10 backdrop-blur-md border border-white/20 animate-pulse shadow-2xl" />
+           ))}
+        </div>
+
+        {/* Subtle Spinner */}
+        <div className="absolute bottom-8 right-8 z-[100] md:top-8 md:bottom-auto">
+           <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+        </div>
+
+        {/* Mobile Stats Skeleton */}
+        <div className="absolute bottom-4 left-0 w-full z-50 block md:hidden opacity-50 animate-pulse">
+           <div className="h-20 bg-white/5 rounded-xl mx-4"></div>
+        </div>
       </div>
     );
   }
