@@ -464,20 +464,20 @@ export function HeroSlider() {
 
         {/* Details Panels Skeleton */}
         <div className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[100px] md:top-[50px] lg:top-[70px] z-[22] flex flex-col items-center md:items-start text-center md:text-left">
-          <div className="h-[46px] mb-2">
+          <div className="h-auto mb-2">
             <div className="text-white/90 font-medium tracking-widest uppercase text-base md:text-sm pt-4 relative animate-pulse flex flex-col items-center md:items-start">
               <div className="absolute top-0 w-8 h-[2px] bg-white rounded-full" />
               <span className="notranslate mt-2 md:mt-0">{getLocalizedText(initialData.place, locale)}</span>
             </div>
           </div>
 
-          <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] mt-1 animate-pulse flex flex-col items-center md:items-start w-full">
-            <div className="font-oswald font-extrabold text-5xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg text-white/90">
+          <div className="h-auto md:h-[80px] lg:h-[90px] mt-1 animate-pulse flex flex-col items-center md:items-start w-full">
+            <div className="font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg text-white/90">
               <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
             </div>
           </div>
-          <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] animate-pulse flex flex-col items-center md:items-start w-full">
-            <div className="font-oswald font-extrabold text-5xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white/90 drop-shadow-lg">
+          <div className="h-auto md:h-[80px] lg:h-[90px] mt-1 animate-pulse flex flex-col items-center md:items-start w-full">
+            <div className="font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white/90 drop-shadow-lg">
               <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
             </div>
           </div>
@@ -523,26 +523,26 @@ export function HeroSlider() {
         const id = isOdd ? 'details-odd' : 'details-even';
         return (
           <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[100px] md:top-[50px] lg:top-[70px] z-[22] flex flex-col items-center md:items-start text-center md:text-left">
-            <div className="h-[46px] overflow-hidden mb-2">
+            <div className="h-auto overflow-hidden mb-2">
               <div className="text text-white/90 font-medium tracking-widest uppercase text-base md:text-sm pt-4 relative flex flex-col items-center md:items-start">
                 <div className="absolute top-0 w-8 h-[2px] bg-white rounded-full" />
                 <span className="notranslate mt-2 md:mt-0">{getLocalizedText(initialData.place, locale)}</span>
               </div>
             </div>
 
-            <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
-              <div className="title-1 font-oswald font-extrabold text-5xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
+            <div className="h-auto md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
+              <div className="title-1 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
                 <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
               </div>
             </div>
-            <div className="h-[45px] sm:h-[60px] md:h-[80px] lg:h-[90px] overflow-hidden flex flex-col items-center md:items-start w-full">
-              <div className="title-2 font-oswald font-extrabold text-5xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-lg">
+            <div className="h-auto md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
+              <div className="title-2 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-lg">
                 <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
               </div>
             </div>
 
             <div className="h-auto md:h-[80px] lg:h-[120px] overflow-hidden mt-4 md:mt-6 flex flex-col items-center md:items-start w-full">
-              <div className="desc text-sm sm:text-base md:text-lg text-white/90 max-w-xl leading-relaxed drop-shadow-md line-clamp-4 md:line-clamp-none">
+              <div className="desc text-sm sm:text-base md:text-lg text-white/90 max-w-xl leading-relaxed drop-shadow-md">
                 <span>{getLocalizedText(initialData.description, locale)}</span>
               </div>
             </div>

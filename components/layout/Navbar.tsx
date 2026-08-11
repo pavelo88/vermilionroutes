@@ -305,14 +305,47 @@ export function Navbar() {
                 >
                   {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </button>
-                <button
-                  onClick={() => changeLanguage(locale === 'en' ? 'es' : 'en')}
-                  suppressHydrationWarning
-                  className="flex items-center gap-1.5 p-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 rounded-xl cursor-pointer transition-colors"
-                >
-                  <Globe className="w-4 h-4 text-emerald-600" />
-                  <span className="uppercase">{locale}</span>
-                </button>
+                <div className="relative">
+                  <button
+                    onClick={() => { setLangOpen(!langOpen); if (langOpen) setShowGTranslate(false); }}
+                    suppressHydrationWarning
+                    className="flex items-center gap-1.5 p-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 rounded-xl cursor-pointer transition-colors"
+                  >
+                    <Globe className="w-4 h-4 text-emerald-600" />
+                    <span className="uppercase">{locale}</span>
+                  </button>
+                  <div className={`absolute top-full right-0 pt-2 w-52 z-50 notranslate ${langOpen ? 'block' : 'hidden'}`}>
+                    <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-zinc-200/90 dark:border-zinc-800 max-h-[70vh] overflow-y-auto">
+                      <div className="flex flex-col gap-1">
+                        {LOCALES.map((l) => (
+                          <button
+                            key={l.code}
+                            onClick={() => changeLanguage(l.code)}
+                            className={`flex items-center gap-3 text-sm text-left px-3 py-2.5 rounded-lg font-medium transition-colors ${locale === l.code
+                              ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400'
+                              : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                              }`}
+                          >
+                            <img src={l.flagUrl} alt={l.code} className="w-5 h-auto rounded-[2px] shadow-sm" />
+                            <span>{l.label}</span>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="pt-2 mt-2 border-t border-zinc-100 dark:border-zinc-800 flex flex-col gap-2">
+                        <button
+                          onClick={() => setShowGTranslate(true)}
+                          className={`w-full text-xs text-center px-3 py-2 rounded-lg font-semibold text-zinc-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors ${showGTranslate ? 'hidden' : 'block'}`}
+                        >
+                          More Languages...
+                        </button>
+
+                        <div className={`p-1 animate-in fade-in duration-300 ${showGTranslate ? 'block' : 'hidden'}`}>
+                          <span className="text-[10px] uppercase font-bold text-emerald-600 block mb-2 text-center">Powered by Google</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </>
             )}
             <button
