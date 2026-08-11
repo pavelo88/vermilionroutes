@@ -572,14 +572,38 @@ export function HeroSlider() {
                   <p className="hero-desc-text text-sm sm:text-base text-white/90 leading-relaxed drop-shadow-md">
                     {getLocalizedText(initialData.description, locale)}
                   </p>
+
+                  {/* Mobile CTA Action Buttons (renderizados directamente debajo del texto) */}
+                  <div className="mt-5 flex md:hidden items-center gap-3 flex-wrap justify-center w-full">
+                    <button
+                      className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-widest text-xs rounded-full transition-all flex items-center gap-1.5 shadow-lg shadow-emerald-900/50 hover:scale-105 active:scale-95 group cursor-pointer"
+                      onClick={() => {
+                        const el = document.getElementById('tours');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      <span>{getExploreLabel()}</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                    <button
+                      className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-widest text-xs rounded-full transition-all flex items-center gap-1.5 border border-white/30 hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-sm"
+                      onClick={() => {
+                        const event = new CustomEvent('open-tour-chat', { detail: { tourTitle: getLocalizedText(initialData.title, locale) } });
+                        window.dispatchEvent(event);
+                      }}
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" />
+                      <span>{getPlanLabel()}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           );
         })}
 
-        {/* Fixed Bottom Action Buttons */}
-        <div className="absolute left-4 md:left-[30px] lg:left-[60px] bottom-8 md:bottom-10 z-30 flex items-center gap-3 sm:gap-4 flex-wrap">
+        {/* Fixed Desktop Action Buttons */}
+        <div className="hidden md:flex absolute left-4 md:left-[30px] lg:left-[60px] bottom-8 md:bottom-10 z-30 items-center gap-3 sm:gap-4 flex-wrap">
           <button
             className="px-6 sm:px-7 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/50 hover:scale-105 active:scale-95 group cursor-pointer"
             onClick={() => {
