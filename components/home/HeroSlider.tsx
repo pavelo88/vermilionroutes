@@ -450,14 +450,39 @@ export function HeroSlider() {
     return (
       <div className="fixed inset-0 z-[1000] w-full h-[100svh] bg-zinc-950 overflow-hidden flex items-center justify-center">
         <Image
-          src="/splash-vermilion.jpg"
+          src="/splash-4-worlds.png"
           alt="Vermilion Routes Welcome"
           fill
           priority
           className="object-cover scale-[1.02] transition-transform duration-[3000ms] ease-out"
         />
-        {/* Subtle dark gradient to make it look cinematic */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20" />
+        {/* Deep cinematic gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
+        
+        {/* Overlay Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center text-center px-4">
+          <div className="relative w-[240px] h-[55px] md:w-[320px] md:h-[70px] mb-8">
+            <Image
+              src="/logo_claro.png"
+              alt="Vermilion Routes"
+              fill
+              className="object-contain drop-shadow-2xl"
+              priority
+            />
+          </div>
+          <h2 className="font-oswald text-3xl md:text-5xl lg:text-6xl font-bold tracking-widest uppercase text-white/95 drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] mb-3">
+            All You Need Is Ecuador
+          </h2>
+          <div className="flex items-center gap-3 md:gap-4 text-white/90 font-medium tracking-[0.2em] uppercase text-[10px] md:text-sm drop-shadow-md">
+            <span>Galápagos</span>
+            <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
+            <span>Andes</span>
+            <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
+            <span>Amazon</span>
+            <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
+            <span>Pacific</span>
+          </div>
+        </div>
       </div>
     );
   }
@@ -577,13 +602,37 @@ export function HeroSlider() {
       {showSplash && (
         <div className="splash-screen absolute inset-0 z-[1000] w-full h-[130svh] md:h-[100svh] bg-zinc-950 overflow-hidden flex items-center justify-center">
           <Image
-            src="/splash-vermilion.jpg"
+            src="/splash-4-worlds.png"
             alt="Vermilion Routes Welcome"
             fill
             priority
             className="object-cover scale-[1.05] transition-transform duration-[4000ms] ease-out"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
+          
+          <div className="relative z-10 flex flex-col items-center justify-center text-center px-4">
+            <div className="relative w-[240px] h-[55px] md:w-[320px] md:h-[70px] mb-8">
+              <Image
+                src="/logo_claro.png"
+                alt="Vermilion Routes"
+                fill
+                className="object-contain drop-shadow-2xl"
+                priority
+              />
+            </div>
+            <h2 className="font-oswald text-3xl md:text-5xl lg:text-6xl font-bold tracking-widest uppercase text-white/95 drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)] mb-3">
+              All You Need Is Ecuador
+            </h2>
+            <div className="flex items-center gap-3 md:gap-4 text-white/90 font-medium tracking-[0.2em] uppercase text-[10px] md:text-sm drop-shadow-md">
+              <span>Galápagos</span>
+              <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
+              <span>Andes</span>
+              <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
+              <span>Amazon</span>
+              <span className="w-1 h-1 rounded-full bg-emerald-500"></span>
+              <span>Pacific</span>
+            </div>
+          </div>
         </div>
       )}
     </div>
