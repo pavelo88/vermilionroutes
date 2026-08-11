@@ -137,7 +137,7 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 relative z-10 group notranslate">
-            <div className="relative w-[180px] h-[45px] sm:w-[240px] sm:h-[60px] md:w-[280px] md:h-[70px] shrink-0">
+            <div className="relative w-[140px] h-[35px] sm:w-[180px] sm:h-[45px] md:w-[220px] md:h-[55px] shrink-0">
               {/* Light Mode Logo */}
               <Image
                 src="/logo_claro.png"

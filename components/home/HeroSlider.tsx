@@ -180,7 +180,8 @@ export function HeroSlider() {
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
 
-        offsetTop = height - cardHeight - 180;
+        // AQUÍ SE AJUSTA LA ALTURA DE LAS TARJETAS (números más pequeños = tarjetas más abajo)
+        offsetTop = height - cardHeight - 80;
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
@@ -206,7 +207,9 @@ export function HeroSlider() {
       function init() {
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
-        offsetTop = height - cardHeight - 180; // MOVED UP FURTHER
+        
+        // AQUÍ SE AJUSTA LA ALTURA DE LAS TARJETAS (números más pequeños = tarjetas más abajo)
+        offsetTop = height - cardHeight - 80;
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
@@ -275,6 +278,16 @@ export function HeroSlider() {
         if (!transitioning) {
           if (loopTimeline) loopTimeline.kill();
           clicks = 1;
+          step().then(() => {
+            if (!isCancelled) startLoop();
+          });
+        }
+      };
+
+      (window as any).triggerPrevSlide = () => {
+        if (!transitioning) {
+          if (loopTimeline) loopTimeline.kill();
+          clicks = order.length - 1; // Avanza rápidamente para dar la vuelta
           step().then(() => {
             if (!isCancelled) startLoop();
           });
@@ -519,7 +532,7 @@ export function HeroSlider() {
       <div id="pagination" className="absolute left-0 top-0 flex items-center">
         {/* Navigation Arrows */}
         <div className="hidden md:flex gap-4 mr-6">
-          <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">
+          <div onClick={() => (window as any).triggerPrevSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">
             <ChevronLeft className="w-4 h-4 text-white/60 group-hover:text-black" />
           </div>
           <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-colors group">

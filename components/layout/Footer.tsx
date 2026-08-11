@@ -92,7 +92,7 @@ export function Footer() {
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-5">
             <a href="#" className="flex items-center gap-3">
-              <div className="relative w-[240px] h-[60px] md:w-[280px] md:h-[70px] shrink-0">
+              <div className="relative w-[160px] h-[40px] md:w-[220px] md:h-[55px] shrink-0">
                 <Image
                   src="/logo_obscuro.png"
                   alt="Vermilion Routes"
