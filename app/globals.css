@@ -3,13 +3,13 @@
 
 @layer base {
   :root {
-    --background: #FFFFFF;
-    --foreground: #09090B;
+    --background: #F9F6F0; /* Warm elegant cream background */
+    --foreground: #141716;
     --primary: #059669;
   }
 
   .dark {
-    --background: #04080F; /* Deep rich onyx blue-ish */
+    --background: #05140C; /* Subtle dark emerald green background */
     --foreground: #FAFAFA;
     --primary: #10B981;
   }

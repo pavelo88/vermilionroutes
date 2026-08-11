@@ -548,7 +548,7 @@ export function HeroSlider() {
         {[0, 1].map((isOdd) => {
           const id = isOdd ? 'details-odd' : 'details-even';
           return (
-            <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[115px] md:top-[95px] lg:top-[105px] z-[22] flex flex-col items-center md:items-start text-center md:text-left">
+            <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[125px] sm:top-[120px] md:top-[95px] lg:top-[105px] z-[22] flex flex-col items-center md:items-start text-center md:text-left">
               <div className="h-auto overflow-hidden mb-2">
                 <div className="text text-white/90 font-medium tracking-widest uppercase text-base md:text-sm pt-4 relative flex flex-col items-center md:items-start">
                   <div className="absolute top-0 w-8 h-[2px] bg-white rounded-full" />
@@ -572,40 +572,26 @@ export function HeroSlider() {
                   <p className="hero-desc-text text-sm sm:text-base text-white/90 leading-relaxed drop-shadow-md">
                     {getLocalizedText(initialData.description, locale)}
                   </p>
-
-                  {/* Mobile CTA Action Buttons (renderizados directamente debajo del texto) */}
-                  <div className="mt-5 flex md:hidden items-center gap-3 flex-wrap justify-center w-full">
-                    <button
-                      className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-widest text-xs rounded-full transition-all flex items-center gap-1.5 shadow-lg shadow-emerald-900/50 hover:scale-105 active:scale-95 group cursor-pointer"
-                      onClick={() => {
-                        const el = document.getElementById('tours');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                    >
-                      <span>{getExploreLabel()}</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                    <button
-                      className="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-widest text-xs rounded-full transition-all flex items-center gap-1.5 border border-white/30 hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-sm"
-                      onClick={() => {
-                        const event = new CustomEvent('open-tour-chat', { detail: { tourTitle: getLocalizedText(initialData.title, locale) } });
-                        window.dispatchEvent(event);
-                      }}
-                    >
-                      <MessageCircle className="w-3.5 h-3.5" />
-                      <span>{getPlanLabel()}</span>
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
           );
         })}
 
-        {/* Fixed Desktop Action Buttons */}
-        <div className="hidden md:flex absolute left-4 md:left-[30px] lg:left-[60px] bottom-8 md:bottom-10 z-30 items-center gap-3 sm:gap-4 flex-wrap">
+        {/* 
+          ========================================================================================
+          CONTROLES DE POSICIÓN VERTICAL DE BOTONES (EXPLORAR TOURS Y PLANIFICA TU VIAJE):
+          - MÓVIL (celulares < 768px): Modifica 'bottom-[300px]' 
+            • Para SUBIRLOS más: aumenta el número, por ejemplo 'bottom-[340px]' o 'bottom-[380px]'.
+            • Para BAJARLOS: disminuye el número, por ejemplo 'bottom-[240px]' o 'bottom-[200px]'.
+          - ESCRITORIO (pantallas md de 768px en adelante): Modifica 'md:bottom-10'
+            • Para SUBIRLOS en PC: cambia a 'md:bottom-16' o 'md:bottom-20'.
+            • Para BAJARLOS en PC: cambia a 'md:bottom-6' o 'md:bottom-4'.
+          ========================================================================================
+        */}
+        <div className="flex absolute left-0 md:left-[30px] lg:left-[60px] w-full md:w-auto bottom-[300px] sm:bottom-[280px] md:bottom-10 z-30 items-center justify-center md:justify-start gap-3 sm:gap-4 flex-wrap px-4 md:px-0">
           <button
-            className="px-6 sm:px-7 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/50 hover:scale-105 active:scale-95 group cursor-pointer"
+            className="px-6 sm:px-7 py-2.5 sm:py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/50 hover:scale-105 active:scale-95 group cursor-pointer"
             onClick={() => {
               const el = document.getElementById('tours');
               if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -615,7 +601,7 @@ export function HeroSlider() {
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
           <button
-            className="px-5 sm:px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 border border-white/30 hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-sm"
+            className="px-5 sm:px-6 py-2.5 sm:py-3 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 border border-white/30 hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-sm"
             onClick={() => {
               const event = new CustomEvent('open-tour-chat', { detail: { tourTitle: getLocalizedText(initialData.title, locale) } });
               window.dispatchEvent(event);
@@ -692,7 +678,7 @@ export function HeroSlider() {
         </div>
 
         {/* Mobile Stats Section injected into Hero */}
-        <div className="absolute bottom-4 left-0 w-full z-50 block md:hidden">
+        <div className="absolute bottom-0 left-0 w-full z-40 block md:hidden">
           <StatsSection />
         </div>
 

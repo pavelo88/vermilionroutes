@@ -115,7 +115,7 @@ export function Navbar() {
       {/* Top Banner (Desaparece al hacer scroll hacia abajo) */}
       <div
         className={`transition-all duration-500 overflow-hidden border-b bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-800 text-white border-emerald-800/80 ${
-          isScrolled ? 'max-h-0 opacity-0 py-0 border-none' : 'max-h-16 opacity-100 py-2 px-4 sm:px-8'
+          isScrolled ? 'max-h-0 opacity-0 py-0 border-none' : 'max-h-24 sm:max-h-16 opacity-100 py-2.5 sm:py-2 px-4 sm:px-8 pb-3 sm:pb-2'
         }`}
       >
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
@@ -135,11 +135,11 @@ export function Navbar() {
               <span className="text-white">{getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}</span>
             </a>
           </div>
-          <div className="flex items-center gap-4 text-xs">
+          <div className="flex items-center gap-4 text-xs mb-1 sm:mb-0">
             <span className="text-emerald-100 hidden lg:inline">
               {tNav('banner.tagline')}
             </span>
-            <div className="flex items-center gap-1 text-emerald-100 font-medium bg-emerald-950/50 px-2.5 py-0.5 rounded-full border border-emerald-700/60 shadow-sm">
+            <div className="flex items-center gap-1 text-emerald-100 font-medium bg-emerald-950/50 px-2.5 py-1 rounded-full border border-emerald-700/60 shadow-sm">
               <Sparkles className="w-3 h-3 text-emerald-300" />
               <span>{tNav('banner.badge')}</span>
             </div>
@@ -154,13 +154,13 @@ export function Navbar() {
       */}
       <header
         className={`transition-all duration-300 backdrop-blur-md border-b border-white/20 dark:border-zinc-800/30 ${
-          isScrolled ? 'py-1 shadow-sm bg-white/40 dark:bg-zinc-950/55' : 'py-1.5 bg-white/35 dark:bg-zinc-950/40'
+          isScrolled ? 'pt-2.5 pb-2 sm:py-1 shadow-sm bg-[#F9F6F0]/50 dark:bg-[#05140C]/75' : 'pt-3 pb-2.5 sm:py-1.5 bg-[#F9F6F0]/35 dark:bg-[#05140C]/55'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
           <Link href={`/${locale}`} className="flex items-center gap-3 relative z-10 group notranslate">
-            <div className="relative w-[140px] h-[35px] sm:w-[180px] sm:h-[45px] md:w-[220px] md:h-[55px] shrink-0">
+            <div className="relative w-[165px] h-[40px] sm:w-[180px] sm:h-[45px] md:w-[220px] md:h-[55px] shrink-0">
               {/* Light Mode Logo */}
               <Image
                 src="/logo_claro.png"
