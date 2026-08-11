@@ -125,7 +125,7 @@ export function HeroSlider() {
       offsetLeft = Math.max(width - 830, 650);
 
       const [active, ...rest] = order;
-      set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", borderRadius: 0, scale: 1.05 });
+      set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", borderRadius: 0, scale: 1.05 });
       set(getCardContent(active), { opacity: 0 });
 
       rest.forEach((i, index) => {
@@ -155,7 +155,7 @@ export function HeroSlider() {
       const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
 
       set("#pagination", { top: offsetTop + cardHeight + 5, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
-      set(getCard(active), { x: 0, y: 0, width: "100vw", height: "75vh", zIndex: 20 });
+      set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", zIndex: 20 });
       gsap.to(container.querySelectorAll(getCard(active)), { scale: 1.05, duration: 5.7, ease: "none" });
       set(getCardContent(active), { opacity: 0 });
 
@@ -384,7 +384,7 @@ export function HeroSlider() {
   const initialData = slidesData[0];
 
   return (
-    <div ref={containerRef} className="relative w-full h-[100svh] min-h-[600px] md:min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
+    <div ref={containerRef} className="relative w-full h-[95svh] lg:h-[75svh] min-h-[600px] md:min-h-[550px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
 
       {/* Indicator */}
       <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
