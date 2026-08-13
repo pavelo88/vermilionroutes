@@ -1,7 +1,15 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
-import { getFirestore, Firestore } from 'firebase/firestore';
+import { getFirestore, Firestore, setLogLevel } from 'firebase/firestore';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
+
+if (typeof window !== 'undefined') {
+  try {
+    setLogLevel('silent');
+  } catch {
+    // Ignore log level errors
+  }
+}
 
 /**
  * Firebase Web SDK configuration.

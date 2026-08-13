@@ -3,12 +3,18 @@
 import * as React from 'react';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 
-// Mute the specific React 19 script tag warning caused by next-themes
+// Mute non-fatal script tag & firebase connection timeout warnings
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
   const originalError = console.error;
   console.error = (...args) => {
-    if (args[0] && typeof args[0] === 'string' && args[0].includes('Encountered a script tag while rendering React component')) {
-      return;
+    if (args[0] && typeof args[0] === 'string') {
+      if (
+        args[0].includes('Encountered a script tag while rendering React component') ||
+        args[0].includes('Could not reach Cloud Firestore backend') ||
+        args[0].includes('@firebase/firestore')
+      ) {
+        return;
+      }
     }
     originalError.call(console, ...args);
   };

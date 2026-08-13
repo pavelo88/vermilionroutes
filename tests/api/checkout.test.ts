@@ -5,7 +5,7 @@
  * de Stripe funciona correctamente y maneja los errores sin exponer
  * información sensible al cliente.
  */
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, beforeAll, afterAll } from 'vitest';
 
 // ── Mocks ────────────────────────────────────────────────────────────────────
 
@@ -42,6 +42,17 @@ function makeRequest(body: Record<string, unknown>): Request {
 // ── Test Suite ────────────────────────────────────────────────────────────────
 
 describe('POST /api/checkout/session', () => {
+  let originalStripeKey: string | undefined;
+
+  beforeAll(() => {
+    originalStripeKey = process.env.STRIPE_SECRET_KEY;
+    process.env.STRIPE_SECRET_KEY = 'sk_test_mock';
+  });
+
+  afterAll(() => {
+    process.env.STRIPE_SECRET_KEY = originalStripeKey;
+  });
+
   beforeEach(() => {
     vi.clearAllMocks();
     // Default: Stripe resolves successfully

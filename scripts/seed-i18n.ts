@@ -2,7 +2,7 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
 import translate from 'google-translate-api-x';
 // @ts-ignore
-import firebaseConfigJson from '../firebase-applet-config.json' assert { type: 'json' };
+import firebaseConfigJson from '../firebase-applet-config.json' with { type: 'json' };
 import { mockDestinations, mockTours } from '../data/mock.js';
 
 const firebaseConfig = {
@@ -63,13 +63,13 @@ async function processTours() {
   console.log('Seeding Tours...');
   for (const tour of mockTours) {
     const translatedTour: any = { ...tour };
-    
+
     translatedTour.title = await translateField(tour.title);
     translatedTour.duration = await translateField(tour.duration);
     if (tour.category) translatedTour.category = await translateField(tour.category);
     if (tour.description) translatedTour.description = await translateField(tour.description);
     if (tour.shortDescription) translatedTour.shortDescription = await translateField(tour.shortDescription);
-    
+
     if (tour.highlights) {
       translatedTour.highlights = await Promise.all(tour.highlights.map((h: string) => translateField(h)));
     }
@@ -79,7 +79,7 @@ async function processTours() {
     if (tour.exclusions) {
       translatedTour.exclusions = await Promise.all(tour.exclusions.map((e: string) => translateField(e)));
     }
-    
+
     if (tour.itinerary) {
       translatedTour.itinerary = [];
       for (const day of tour.itinerary) {
@@ -93,7 +93,7 @@ async function processTours() {
         translatedTour.itinerary.push(translatedDay);
       }
     }
-    
+
     await setDoc(doc(db, 'tours', tour.id), translatedTour);
     console.log(`Saved Tour: ${tour.id}`);
   }
@@ -128,7 +128,7 @@ async function processSettings() {
       image: slide.image
     });
   }
-  
+
   await setDoc(doc(db, 'settings', 'general'), { hero: { slides: translatedSlides } }, { merge: true });
   console.log('Saved Settings');
 }

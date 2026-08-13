@@ -58,7 +58,11 @@ export async function POST(request: Request) {
 
         return NextResponse.json({ sessionId: session.id, url: session.url });
       } catch (stripeErr: any) {
-        console.warn('Stripe checkout creation failed, falling back to direct payment link:', stripeErr.message);
+        console.error('Stripe checkout creation failed:', stripeErr.message);
+        return NextResponse.json(
+          { error: 'Payment session could not be created' },
+          { status: 500 }
+        );
       }
     }
 

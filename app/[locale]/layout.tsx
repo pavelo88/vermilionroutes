@@ -56,7 +56,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     openGraph: {
       title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel',
       description: t('description') || 'Experience South America with bespoke travel itineraries.',
-      description: t('description') || 'Experience Ecuador with bespoke travel itineraries.',
       url: `https://vermilionroutes.com/${locale}`,
       siteName: 'Vermilion Routes',
       images: [

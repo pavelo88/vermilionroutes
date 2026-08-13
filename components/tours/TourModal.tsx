@@ -96,8 +96,18 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
     window.dispatchEvent(new CustomEvent('open-tour-chat', { detail: { tourTitle: titleText } }));
   };
 
-  const handleDownloadPDF = () => {
-    generateTourPDF(tour, locale);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+
+  const handleDownloadPDF = async () => {
+    if (!tour || isGeneratingPDF) return;
+    setIsGeneratingPDF(true);
+    try {
+      await generateTourPDF(tour, locale);
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+    } finally {
+      setIsGeneratingPDF(false);
+    }
   };
 
   const price3Star = tour.price3Star || tour.price;
@@ -284,11 +294,12 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                       <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                         <Button 
                           variant="outline" 
-                          className="gap-2 px-4 py-2 text-xs font-bold border-emerald-500 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 transition-all w-full sm:w-auto justify-center shadow-sm"
+                          className="gap-2 px-4 py-2 text-xs font-bold border-emerald-500 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 transition-all w-full sm:w-auto justify-center shadow-sm disabled:opacity-50"
                           onClick={handleDownloadPDF}
+                          disabled={isGeneratingPDF}
                         >
-                          <Download className="w-4 h-4" />
-                          {downloadText}
+                          <Download className={`w-4 h-4 ${isGeneratingPDF ? 'animate-bounce' : ''}`} />
+                          {isGeneratingPDF ? '...' : downloadText}
                         </Button>
 
                         {!showBookingOptions ? (

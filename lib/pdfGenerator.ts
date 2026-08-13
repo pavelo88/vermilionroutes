@@ -1,3 +1,4 @@
+import { jsPDF } from 'jspdf';
 import { Tour } from '@/types';
 import { getLocalizedText } from '@/utils/i18nHelper';
 
@@ -12,14 +13,14 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     hotel4star: "4★ Luxury / Premium Hotels",
     dayByDay: "Day-by-Day Detailed Itinerary",
     day: "Day",
-    meals: "Meals Included",
+    meals: "Meals",
     accommodation: "Accommodation",
     inclusions: "Program Includes",
     exclusions: "Program Does Not Include",
     importantNotes: "Important Travel Notes",
-    footerText: "Vermilion South American Routes • Certified Tour Operator Ecuador & Galapagos • 24/7 Specialist Support",
+    footerText: "Vermilion South American Routes • Certified Tour Operator • 24/7 Support",
     downloadBtnText: "Download Itinerary",
-    printNotice: "Your PDF is being generated..."
+    generatingMsg: "Generating your luxury PDF..."
   },
   es: {
     itineraryTitle: "Itinerario Oficial y Guía de Viaje 2026",
@@ -31,14 +32,14 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     hotel4star: "Hoteles 4★ Lujo / Premium",
     dayByDay: "Itinerario Detallado Día por Día",
     day: "Día",
-    meals: "Comidas Incluidas",
+    meals: "Comidas",
     accommodation: "Hospedaje",
     inclusions: "El Programa Incluye",
     exclusions: "El Programa No Incluye",
     importantNotes: "Notas Importantes de Viaje",
-    footerText: "Vermilion South American Routes • Operador Turístico Certificado Ecuador y Galápagos • Soporte 24/7",
+    footerText: "Vermilion South American Routes • Operador Turístico Certificado • Soporte 24/7",
     downloadBtnText: "Descargar Itinerario",
-    printNotice: "Generando tu PDF de lujo..."
+    generatingMsg: "Generando tu PDF de lujo..."
   },
   fr: {
     itineraryTitle: "Itinéraire Officiel & Guide de Voyage 2026",
@@ -50,14 +51,14 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     hotel4star: "Hôtels 4★ Luxe",
     dayByDay: "Itinéraire Détaillé Jour par Jour",
     day: "Jour",
-    meals: "Repas Inclus",
+    meals: "Repas",
     accommodation: "Hébergement",
     inclusions: "Le Programme Comprend",
     exclusions: "Le Programme Ne Comprend Pas",
     importantNotes: "Remarques Importantes",
-    footerText: "Vermilion South American Routes • Voyagiste Certifié Équateur & Galapagos",
+    footerText: "Vermilion South American Routes • Voyagiste Certifié",
     downloadBtnText: "Télécharger Itinéraire",
-    printNotice: "Génération de votre PDF..."
+    generatingMsg: "Génération de votre PDF..."
   },
   de: {
     itineraryTitle: "Offizieller Reiseplan & Reiseführer 2026",
@@ -69,14 +70,14 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     hotel4star: "4★ Luxus Hotels",
     dayByDay: "Detaillierter Tagesablauf",
     day: "Tag",
-    meals: "Enthaltene Mahlzeiten",
+    meals: "Mahlzeiten",
     accommodation: "Unterkunft",
     inclusions: "Im Preis Enthalten",
     exclusions: "Nicht Enthalten",
     importantNotes: "Wichtige Hinweise",
     footerText: "Vermilion South American Routes • Zertifizierter Reiseveranstalter",
     downloadBtnText: "Reiseplan Herunterladen",
-    printNotice: "PDF wird erstellt..."
+    generatingMsg: "PDF wird erstellt..."
   },
   it: {
     itineraryTitle: "Itinerario Ufficiale e Guida 2026",
@@ -88,14 +89,14 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     hotel4star: "Hotel 4★ Lusso",
     dayByDay: "Itinerario Dettagliato Giorno per Giorno",
     day: "Giorno",
-    meals: "Pasti Inclusi",
+    meals: "Pasti",
     accommodation: "Alloggio",
     inclusions: "Il Programma Include",
     exclusions: "Il Programma Non Include",
     importantNotes: "Note Importanti",
     footerText: "Vermilion South American Routes • Tour Operator Certificato",
     downloadBtnText: "Scarica Itinerario",
-    printNotice: "Generazione del PDF..."
+    generatingMsg: "Generazione del PDF..."
   },
   pt: {
     itineraryTitle: "Itinerário Oficial e Guia de Viagem 2026",
@@ -107,14 +108,14 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     hotel4star: "Hotéis 4★ Luxo",
     dayByDay: "Itinerário Detalhado Dia a Dia",
     day: "Dia",
-    meals: "Refeições Incluídas",
+    meals: "Refeições",
     accommodation: "Hospedagem",
     inclusions: "O Programa Inclui",
     exclusions: "O Programa Não Inclui",
     importantNotes: "Notas Importantes",
     footerText: "Vermilion South American Routes • Operador Turístico Certificado",
     downloadBtnText: "Baixar Itinerário",
-    printNotice: "Gerando seu PDF..."
+    generatingMsg: "Gerando seu PDF..."
   },
   ja: {
     itineraryTitle: "公式旅程＆旅行ガイド 2026",
@@ -126,14 +127,14 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     hotel4star: "4★ラグジュアリーホテル",
     dayByDay: "日別の詳細旅程",
     day: "日目",
-    meals: "含まれる食事",
-    accommodation: "宿泊施設",
+    meals: "食事",
+    accommodation: "宿泊",
     inclusions: "ツアーに含まれるもの",
     exclusions: "ツアーに含まれないもの",
-    importantNotes: "重要な注意事項",
+    importantNotes: "注意事項",
     footerText: "Vermilion South American Routes • 認定旅行会社",
     downloadBtnText: "旅程をダウンロード",
-    printNotice: "PDFを作成中..."
+    generatingMsg: "PDFを作成中..."
   },
   zh: {
     itineraryTitle: "官方行程与旅行指南 2026",
@@ -149,15 +150,49 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     accommodation: "住宿安排",
     inclusions: "费用包含",
     exclusions: "费用不含",
-    importantNotes: "重要注意事项",
+    importantNotes: "注意事项",
     footerText: "Vermilion South American Routes • 官方认证旅行社",
     downloadBtnText: "下载行程单",
-    printNotice: "正在为您生成PDF..."
+    generatingMsg: "正在为您生成PDF..."
   }
 };
 
-export function generateTourPDF(tour: Tour, locale: string = 'es') {
-  if (typeof window === 'undefined') return;
+/**
+ * Loads an image from a URL and converts it to Base64 JPEG data
+ */
+async function loadImageAsBase64(url: string): Promise<string | null> {
+  if (typeof window === 'undefined' || !url) return null;
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    const cleanUrl = url.startsWith('/') ? `${window.location.origin}${url}` : url;
+    img.src = cleanUrl;
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          const dataURL = canvas.toDataURL('image/jpeg', 0.85);
+          resolve(dataURL);
+        } else {
+          resolve(null);
+        }
+      } catch {
+        resolve(null);
+      }
+    };
+    img.onerror = () => resolve(null);
+  });
+}
+
+/**
+ * Generates and directly downloads a luxury PDF file for a tour itinerary
+ */
+export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promise<void> {
+  if (typeof window === 'undefined' || !tour) return;
 
   const t = PDF_TRANSLATIONS[locale] || PDF_TRANSLATIONS['es'];
 
@@ -173,302 +208,295 @@ export function generateTourPDF(tour: Tour, locale: string = 'es') {
   const itinerary = tour.itinerary || [];
   const inclusions = tour.inclusions || [];
   const exclusions = tour.exclusions || [];
+  const gallery = tour.gallery || [];
 
-  const origin = window.location.origin;
-  const logoUrl = `${origin}/logo_inicio.png`;
-  const bannerUrl = `${origin}/images/brand_assets/21_banner_branding.png`;
-  const rawCover = tour.desktopImage || tour.imageUrl;
-  const tourCoverUrl = rawCover.startsWith('http') ? rawCover : `${origin}${rawCover}`;
+  // Create jsPDF instance (A4 format, millimeters unit)
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: 'a4'
+  });
 
-  const htmlContent = `
-    <!DOCTYPE html>
-    <html lang="${locale}">
-    <head>
-      <meta charset="UTF-8">
-      <title>${title} - ${t.itineraryTitle}</title>
-      <style>
-        @page {
-          size: A4;
-          margin: 10mm 12mm 12mm 12mm;
-        }
-        body {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-          color: #0f172a;
-          margin: 0;
-          padding: 15px;
-          background: #ffffff;
-          font-size: 13px;
-          line-height: 1.5;
-        }
-        .header-letterhead {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 15px 20px;
-          background: linear-gradient(135deg, #022c22 0%, #064e3b 100%);
-          border-radius: 12px;
-          color: #ffffff;
-          margin-bottom: 20px;
-          box-shadow: 0 4px 12px rgba(2, 44, 34, 0.15);
-        }
-        .logo-img {
-          height: 48px;
-          object-fit: contain;
-        }
-        .brand-meta {
-          text-align: right;
-          font-size: 11px;
-          color: #a7f3d0;
-        }
-        .brand-title {
-          font-size: 15px;
-          font-weight: 800;
-          color: #ffffff;
-          letter-spacing: 1px;
-          text-transform: uppercase;
-        }
-        .tour-cover-box {
-          position: relative;
-          width: 100%;
-          height: 220px;
-          border-radius: 12px;
-          overflow: hidden;
-          margin-bottom: 20px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        .tour-cover-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-        .tour-cover-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(to top, rgba(2, 44, 34, 0.85) 0%, transparent 60%);
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          padding: 20px;
-          color: #ffffff;
-        }
-        .tour-title {
-          font-size: 24px;
-          font-weight: 900;
-          color: #ffffff;
-          margin: 0 0 6px 0;
-          text-transform: uppercase;
-          letter-spacing: -0.5px;
-          text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        .tour-badge-row {
-          display: flex;
-          gap: 10px;
-          font-size: 11px;
-          font-weight: 700;
-          flex-wrap: wrap;
-        }
-        .badge-item {
-          background: rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(4px);
-          color: #ffffff;
-          padding: 4px 12px;
-          border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .tour-desc-box {
-          font-size: 13px;
-          color: #334155;
-          line-height: 1.6;
-          margin-bottom: 20px;
-          padding: 14px 18px;
-          background: #f8fafc;
-          border-left: 4px solid #059669;
-          border-radius: 0 8px 8px 0;
-        }
-        .pricing-card-container {
-          display: flex;
-          gap: 15px;
-          margin: 20px 0;
-        }
-        .price-box {
-          flex: 1;
-          background: #f0fdf4;
-          padding: 14px;
-          border-radius: 10px;
-          border: 1px solid #a7f3d0;
-        }
-        .price-title {
-          font-size: 11px;
-          font-weight: 700;
-          color: #166534;
-          text-transform: uppercase;
-          margin-bottom: 4px;
-        }
-        .price-val {
-          font-size: 22px;
-          font-weight: 900;
-          color: #047857;
-        }
-        .section-heading {
-          font-size: 15px;
-          font-weight: 800;
-          color: #064e3b;
-          border-bottom: 2px solid #e2e8f0;
-          padding-bottom: 6px;
-          margin-top: 25px;
-          margin-bottom: 15px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-        .day-block {
-          margin-bottom: 16px;
-          padding: 12px 14px;
-          background: #ffffff;
-          border-left: 4px solid #059669;
-          border-radius: 0 8px 8px 0;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-          page-break-inside: avoid;
-        }
-        .day-num {
-          font-size: 11px;
-          font-weight: 800;
-          color: #059669;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-        }
-        .day-title {
-          font-size: 14px;
-          font-weight: 700;
-          color: #0f172a;
-          margin: 2px 0 6px 0;
-        }
-        .day-desc {
-          color: #334155;
-          font-size: 12px;
-          margin-bottom: 6px;
-        }
-        .day-meta {
-          font-size: 11px;
-          font-weight: 600;
-          color: #475569;
-          margin-top: 4px;
-        }
-        .inc-list {
-          padding-left: 20px;
-          margin: 0;
-        }
-        .inc-list li {
-          margin-bottom: 6px;
-          font-size: 12px;
-          color: #1e293b;
-        }
-        .footer-note {
-          margin-top: 35px;
-          padding-top: 15px;
-          border-top: 1px solid #e2e8f0;
-          text-align: center;
-          font-size: 11px;
-          color: #64748b;
-          font-weight: 600;
-        }
+  const pageWidth = 210;
+  const pageHeight = 297;
+  const marginX = 14;
+  const contentWidth = pageWidth - (marginX * 2); // 182mm
+  let yPos = 14;
 
-        @media print {
-          body {
-            padding: 0;
-          }
-          .no-print {
-            display: none !important;
-          }
-        }
-      </style>
-      <script>
-        window.onload = function() {
-          setTimeout(function() {
-            window.print();
-          }, 400);
-        };
-      </script>
-    </head>
-    <body>
-      <!-- Header Banner -->
-      <div class="header-letterhead">
-        <img src="${logoUrl}" class="logo-img" alt="Vermilion Routes" />
-        <div class="brand-meta">
-          <div class="brand-title">VERMILION ROUTES</div>
-          <div>Bespoke Travel • Ecuador & Galapagos</div>
-        </div>
-      </div>
+  // Pre-load images (cover + day images)
+  const coverImgPath = tour.desktopImage || tour.imageUrl;
+  const coverBase64 = await loadImageAsBase64(coverImgPath);
 
-      <!-- Tour Cover Image -->
-      <div class="tour-cover-box">
-        <img src="${tourCoverUrl}" class="tour-cover-img" alt="${title}" />
-        <div class="tour-cover-overlay">
-          <h1 class="tour-title">${title}</h1>
-          <div class="tour-badge-row">
-            <span class="badge-item">📍 ${destination}</span>
-            <span class="badge-item">⏱️ ${duration}</span>
-            <span class="badge-item">✨ ${category}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Description -->
-      <div class="tour-desc-box">
-        ${description}
-      </div>
-
-      <!-- Pricing Options -->
-      <div class="pricing-card-container">
-        <div class="price-box">
-          <div class="price-title">${t.hotel3star}</div>
-          <div class="price-val">$${price3Star} USD <span style="font-size: 12px; font-weight: normal; color: #475569;">/ pers.</span></div>
-        </div>
-        <div class="price-box" style="background: #faf5ff; border-color: #e9d5ff;">
-          <div class="price-title" style="color: #7e22ce;">${t.hotel4star}</div>
-          <div class="price-val" style="color: #7e22ce;">$${price4Star} USD <span style="font-size: 12px; font-weight: normal; color: #475569;">/ pers.</span></div>
-        </div>
-      </div>
-
-      <!-- Itinerary -->
-      ${itinerary.length > 0 ? `
-        <div class="section-heading">${t.dayByDay}</div>
-        ${itinerary.map((dayItem) => `
-          <div class="day-block">
-            <div class="day-num">${t.day} ${dayItem.day}</div>
-            <div class="day-title">${getLocalizedText(dayItem.title, locale)}</div>
-            <div class="day-desc">${getLocalizedText(dayItem.description, locale)}</div>
-            ${dayItem.meals ? `<div class="day-meta">🍽️ ${t.meals}: ${getLocalizedText(dayItem.meals, locale)}</div>` : ''}
-            ${dayItem.accommodation ? `<div class="day-meta">🏨 ${t.accommodation}: ${getLocalizedText(dayItem.accommodation, locale)}</div>` : ''}
-          </div>
-        `).join('')}
-      ` : ''}
-
-      <!-- Inclusions -->
-      ${inclusions.length > 0 ? `
-        <div class="section-heading">${t.inclusions}</div>
-        <ul class="inc-list">
-          ${inclusions.map((inc) => `<li>✔️ ${getLocalizedText(inc, locale)}</li>`).join('')}
-        </ul>
-      ` : ''}
-
-      <!-- Exclusions -->
-      ${exclusions.length > 0 ? `
-        <div class="section-heading">${t.exclusions}</div>
-        <ul class="inc-list">
-          ${exclusions.map((exc) => `<li style="color: #64748b;">❌ ${getLocalizedText(exc, locale)}</li>`).join('')}
-        </ul>
-      ` : ''}
-
-      <div class="footer-note">
-        ${t.footerText}
-      </div>
-    </body>
-    </html>
-  `;
-
-  const printWindow = window.open('', '_blank');
-  if (printWindow) {
-    printWindow.document.write(htmlContent);
-    printWindow.document.close();
+  const dayImagesBase64: (string | null)[] = [];
+  for (let i = 0; i < itinerary.length; i++) {
+    const imgUrl = gallery[i] || gallery[i % gallery.length] || coverImgPath;
+    const b64 = await loadImageAsBase64(imgUrl);
+    dayImagesBase64.push(b64);
   }
+
+  // 1. BRAND HEADER (Emerald Banner)
+  doc.setFillColor(2, 44, 34); // #022c22
+  doc.rect(0, 0, pageWidth, 26, 'F');
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.text('VERMILION ROUTES', marginX, 12);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(167, 243, 208); // #a7f3d0
+  doc.text('SOUTH AMERICAN ROUTES • BESPOKE TRAVEL', marginX, 19);
+
+  doc.setFontSize(9);
+  doc.setTextColor(255, 255, 255);
+  doc.text(t.itineraryTitle, pageWidth - marginX, 15, { align: 'right' });
+
+  yPos = 32;
+
+  // 2. HERO COVER IMAGE
+  if (coverBase64) {
+    const coverHeight = 55;
+    doc.addImage(coverBase64, 'JPEG', marginX, yPos, contentWidth, coverHeight);
+    
+    // Dark overlay at the bottom of hero cover
+    doc.setFillColor(0, 0, 0);
+    doc.setGState(new (doc.GState as any)({ opacity: 0.45 }));
+    doc.rect(marginX, yPos + 35, contentWidth, 20, 'F');
+    doc.setGState(new (doc.GState as any)({ opacity: 1.0 }));
+
+    // Overlay Title & Badges
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.setTextColor(255, 255, 255);
+    doc.text(title.toUpperCase(), marginX + 6, yPos + 46);
+
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`[ ${destination} ]   •   [ ${duration} ]   •   [ ${category} ]`, marginX + 6, yPos + 51);
+
+    yPos += coverHeight + 8;
+  } else {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(18);
+    doc.setTextColor(2, 44, 34);
+    doc.text(title.toUpperCase(), marginX, yPos + 6);
+    yPos += 14;
+  }
+
+  // 3. OVERVIEW / DESCRIPTION BOX
+  if (description) {
+    doc.setFillColor(248, 250, 252); // #f8fafc
+    doc.setDrawColor(5, 150, 105); // #059669
+    doc.setLineWidth(1);
+
+    const splitDesc = doc.splitTextToSize(description, contentWidth - 10);
+    const descBoxHeight = (splitDesc.length * 4.5) + 8;
+
+    doc.rect(marginX, yPos, contentWidth, descBoxHeight, 'F');
+    doc.line(marginX, yPos, marginX, yPos + descBoxHeight); // Left accent border
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9.5);
+    doc.setTextColor(51, 65, 85); // #334155
+    doc.text(splitDesc, marginX + 5, yPos + 6);
+
+    yPos += descBoxHeight + 8;
+  }
+
+  // 4. PRICING CARDS
+  const cardWidth = (contentWidth - 6) / 2; // 88mm each
+  const cardHeight = 20;
+
+  // 3 Star Card
+  doc.setFillColor(240, 253, 244); // #f0fdf4
+  doc.setDrawColor(167, 243, 208);
+  doc.roundedRect(marginX, yPos, cardWidth, cardHeight, 2, 2, 'FD');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8.5);
+  doc.setTextColor(22, 101, 52);
+  doc.text(t.hotel3star.toUpperCase(), marginX + 6, yPos + 7);
+  doc.setFontSize(13);
+  doc.setTextColor(4, 120, 87);
+  doc.text(`$${price3Star} USD`, marginX + 6, yPos + 15);
+
+  // 4 Star Card
+  const card2X = marginX + cardWidth + 6;
+  doc.setFillColor(250, 245, 255); // #faf5ff
+  doc.setDrawColor(233, 213, 255);
+  doc.roundedRect(card2X, yPos, cardWidth, cardHeight, 2, 2, 'FD');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8.5);
+  doc.setTextColor(126, 34, 206);
+  doc.text(t.hotel4star.toUpperCase(), card2X + 6, yPos + 7);
+  doc.setFontSize(13);
+  doc.setTextColor(126, 34, 206);
+  doc.text(`$${price4Star} USD`, card2X + 6, yPos + 15);
+
+  yPos += cardHeight + 10;
+
+  // Helper for adding new pages cleanly
+  const checkPageBreak = (neededHeight: number) => {
+    if (yPos + neededHeight > pageHeight - 20) {
+      doc.addPage();
+      yPos = 16;
+      // Mini top accent line on new page
+      doc.setFillColor(2, 44, 34);
+      doc.rect(0, 0, pageWidth, 5, 'F');
+      return true;
+    }
+    return false;
+  };
+
+  // 5. DAY-BY-DAY ITINERARY WITH IMAGES
+  if (itinerary.length > 0) {
+    checkPageBreak(15);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(6, 78, 59); // #064e3b
+    doc.text(t.dayByDay.toUpperCase(), marginX, yPos);
+    doc.setDrawColor(226, 232, 240);
+    doc.setLineWidth(0.5);
+    doc.line(marginX, yPos + 2, marginX + contentWidth, yPos + 2);
+    yPos += 8;
+
+    for (let i = 0; i < itinerary.length; i++) {
+      const dayItem = itinerary[i];
+      const dayTitle = getLocalizedText(dayItem.title, locale);
+      const dayDesc = getLocalizedText(dayItem.description, locale);
+      const dayMeals = dayItem.meals ? getLocalizedText(dayItem.meals, locale) : '';
+      const dayAcc = dayItem.accommodation ? getLocalizedText(dayItem.accommodation, locale) : '';
+      const dayImgBase64 = dayImagesBase64[i];
+
+      const hasImg = !!dayImgBase64;
+      const imgWidth = hasImg ? 58 : 0; // 58mm photo width
+      const imgHeight = hasImg ? 38 : 0; // 38mm photo height
+      const textWidth = hasImg ? contentWidth - imgWidth - 6 : contentWidth;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      const splitDayDesc = doc.splitTextToSize(dayDesc, textWidth - 6);
+
+      const textBlockHeight = 12 + (splitDayDesc.length * 4) + (dayMeals ? 5 : 0) + (dayAcc ? 5 : 0);
+      const blockHeight = Math.max(textBlockHeight, hasImg ? imgHeight + 4 : 0);
+
+      checkPageBreak(blockHeight + 6);
+
+      // Left green accent border
+      doc.setFillColor(248, 250, 252);
+      doc.rect(marginX, yPos, contentWidth, blockHeight, 'F');
+      doc.setFillColor(5, 150, 105);
+      doc.rect(marginX, yPos, 2.5, blockHeight, 'F');
+
+      // Text Content
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(5, 150, 105);
+      doc.text(`${t.day.toUpperCase()} ${dayItem.day}`, marginX + 6, yPos + 6);
+
+      doc.setFontSize(10);
+      doc.setTextColor(15, 23, 42);
+      doc.text(dayTitle, marginX + 6, yPos + 11);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(51, 65, 85);
+      let descY = yPos + 16;
+      doc.text(splitDayDesc, marginX + 6, descY);
+      descY += (splitDayDesc.length * 4) + 1;
+
+      if (dayMeals) {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(7.5);
+        doc.setTextColor(71, 85, 105);
+        doc.text(`MEALS: ${dayMeals}`, marginX + 6, descY);
+        descY += 4;
+      }
+
+      if (dayAcc) {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(7.5);
+        doc.setTextColor(71, 85, 105);
+        doc.text(`HOTEL: ${dayAcc}`, marginX + 6, descY);
+      }
+
+      // Embedded Destination Image for the day
+      if (hasImg && dayImgBase64) {
+        const imgX = marginX + textWidth + 2;
+        doc.addImage(dayImgBase64, 'JPEG', imgX, yPos + 2, imgWidth, imgHeight);
+      }
+
+      yPos += blockHeight + 5;
+    }
+  }
+
+  // 6. INCLUSIONS & EXCLUSIONS
+  if (inclusions.length > 0 || exclusions.length > 0) {
+    checkPageBreak(35);
+    yPos += 4;
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(6, 78, 59);
+    doc.text(t.inclusions.toUpperCase(), marginX, yPos);
+    doc.line(marginX, yPos + 2, marginX + contentWidth, yPos + 2);
+    yPos += 8;
+
+    inclusions.forEach((inc) => {
+      const incText = getLocalizedText(inc, locale);
+      checkPageBreak(6);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(5, 150, 105);
+      doc.text('[✓]', marginX + 2, yPos);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(30, 41, 59);
+      doc.text(incText, marginX + 10, yPos);
+      yPos += 5;
+    });
+
+    if (exclusions.length > 0) {
+      yPos += 4;
+      checkPageBreak(25);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(6, 78, 59);
+      doc.text(t.exclusions.toUpperCase(), marginX, yPos);
+      doc.line(marginX, yPos + 2, marginX + contentWidth, yPos + 2);
+      yPos += 8;
+
+      exclusions.forEach((exc) => {
+        const excText = getLocalizedText(exc, locale);
+        checkPageBreak(6);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(225, 29, 72);
+        doc.text('[X]', marginX + 2, yPos);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+        doc.setTextColor(100, 116, 139);
+        doc.text(excText, marginX + 10, yPos);
+        yPos += 5;
+      });
+    }
+  }
+
+  // 7. FOOTER ON ALL PAGES
+  const totalPages = doc.getNumberOfPages();
+  for (let p = 1; p <= totalPages; p++) {
+    doc.setPage(p);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(148, 163, 184);
+    doc.text(t.footerText, marginX, pageHeight - 8);
+    doc.text(`Page ${p} of ${totalPages}`, pageWidth - marginX, pageHeight - 8, { align: 'right' });
+  }
+
+  // Sanitize filename
+  const cleanFilename = title.replace(/[^a-zA-Z0-9]/g, '-').replace(/-+/g, '-');
+  const filename = `Vermilion-Routes-Itinerario-${cleanFilename}.pdf`;
+
+  // DIRECT FILE DOWNLOAD IN BROWSER
+  doc.save(filename);
 }

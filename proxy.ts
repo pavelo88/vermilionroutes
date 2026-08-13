@@ -49,7 +49,7 @@ const intlMiddleware = createMiddleware({
   defaultLocale: 'en'
 });
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   // Solo aplicar rate limiting a rutas de API
   if (req.nextUrl.pathname.startsWith('/api/')) {
 
