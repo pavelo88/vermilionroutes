@@ -23,8 +23,12 @@ export interface Tour {
   durationEs?: string;
   durationDays?: number;
   price: number;
+  price3Star?: number;
+  price4Star?: number;
   priceFromUSD?: number;
   imageUrl: string;
+  desktopImage?: string;
+  mobileImage?: string;
   mainImage?: string;
   rating: number;
   reviewsCount?: number;

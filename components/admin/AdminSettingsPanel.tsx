@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useSettings } from '@/hooks/useSettings';
 import { Button } from '@/components/ui/Button';
+import { getLocalizedText } from '@/utils/i18nHelper';
 import { Save, Upload, Plus, Trash2, HelpCircle, FileText, Phone, Award, Layers, Globe } from 'lucide-react';
 
 export function AdminSettingsPanel() {
@@ -650,7 +651,7 @@ export function AdminSettingsPanel() {
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Footer Description Copy</label>
                 <textarea
-                  value={localSettings.footer?.description || ''}
+                  value={getLocalizedText(localSettings.footer?.description, 'en')}
                   onChange={(e) => handleTextChange('footer', 'description', e.target.value)}
                   rows={2}
                   className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"

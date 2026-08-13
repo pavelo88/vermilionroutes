@@ -1,106 +1,120 @@
 {
   "meta": {
-    "title": "朱红路线 | 量身定制的自然与舒适之旅",
-    "description": "通过定制旅行行程、加拉帕戈斯群岛自然与舒适游轮、亚马逊雨林探险和安第斯火山徒步旅行，体验南美风情。"
+    "title": "Vermilion Routes | 尊享定制自然与舒适之旅",
+    "description": "体验厄瓜多尔与加拉帕戈斯群岛的定制旅游行程、加拉帕戈斯精品邮轮、亚马逊雨林树屋及安第斯火山徒步。"
   },
   "nav": {
     "home": "首页",
     "destinations": "目的地",
     "galapagos": "加拉帕戈斯群岛",
     "ecuador": "厄瓜多尔大陆",
-    "peru": "神秘秘鲁",
-    "tours": "特色行程",
+    "fullday": "一日游精选",
+    "tours": "精选路线",
     "about": "关于我们",
     "contact": "联系我们",
-    "quote": "申请报价",
+    "quote": "获取报价",
     "banner": {
-      "tagline": "定制探险及私人小团",
-      "badge": "自然与舒适探索之旅"
+      "tagline": "私人小团与专属定制探险",
+      "badge": "自然与舒适之旅"
     }
   },
   "hero": {
     "badge": "屡获殊荣的自然与舒适旅行",
-    "title": "世界上最非凡的体验",
-    "subtitle": "由当地专家导游精心策划，前往加拉帕戈斯群岛、安第斯高地、亚马逊雨林和马丘比丘的定制探险。",
+    "title": "探索地球上最非凡的奇迹",
+    "subtitle": "前往加拉帕戈斯群岛、安第斯高地及亚马逊雨林的高端定制探险 — 由当地专家导游打造。",
     "cta": {
       "explore": "探索行程",
-      "quote": "获取免费报价",
+      "quote": "免费获取报价",
       "plan": "规划您的行程"
     },
     "stats": {
-      "tours": "定制行程",
-      "reviews": "五星好评",
-      "naturalists": "专业博物学家",
-      "support": "24/7 支持"
+      "tours": "定制探险路线",
+      "reviews": "五星客户好评",
+      "naturalists": "专家级博物学家",
+      "support": "24/7 礼宾服务"
     }
   },
   "destinations": {
-    "badge": "您将去往何处？",
+    "badge": "下一站去哪里？",
     "title": "探索我们的目的地",
-    "subtitle": "从安第斯山脉的火山峰到加拉帕戈斯群岛原始的珊瑚礁——我们带您去少数旅行者敢于涉足的地方。",
+    "subtitle": "从安第斯火山山峰到加拉帕戈斯原始珊瑚礁 — 带您前往极少数旅行者到达的奇域。",
     "cta": "探索行程"
   },
   "tours": {
-    "badge": "互动式3D旋转展示",
-    "title": "特色招牌旅程",
-    "subtitle": "由当地专家博物学家带领的精心策划体验，无缝的后勤安排，精选精品住宿，以及自然、舒适与冒险的终极平衡。",
+    "badge": "3D 交互式轮播展厅",
+    "title": "招牌旗舰探索之旅",
+    "subtitle": "由当地专家级博物学家领队，精选精品酒店，完美平衡自然、舒适与探险。",
     "cta": {
-      "label": "寻找100%定制的行程？",
-      "title": "我们免费为您设计定制行程",
-      "subtitle": "我们的目的地专家将根据您的偏好，精确定制旅行日期、行程节奏、酒店舒适度级别和私人游览。",
-      "button": "申请定制行程"
+      "label": "寻找 100% 完全专属定制的行程？",
+      "title": "为您免费设计私人专属定制行程",
+      "subtitle": "我们的目的地专家将根据您的偏好定制出行日期、节奏、酒店舒适级别及私人游览。",
+      "button": "申请定制行程 proposal"
     },
     "filter": {
-      "all": "所有探险",
+      "all": "全部探险路线",
       "galapagos": "加拉帕戈斯群岛",
       "ecuador": "厄瓜多尔大陆",
-      "peru": "库斯科与秘鲁"
+      "fullday": "一日游精选"
     },
     "card": {
       "from": "起价",
-      "person": "/人",
+      "person": "/ 人",
       "view": "查看详情",
       "bestseller": "畅销"
     },
-    "showing": "显示",
-    "of": "共",
-    "journeys": "旅程"
+    "showing": "正在显示",
+    "of": "/",
+    "journeys": "条路线"
   },
   "about": {
-    "badge": "我们是谁",
-    "title": "精品旅行专家",
-    "subtitle": "我们是一家位于厄瓜多尔基多的认证精品旅行社，专门提供厄瓜多尔、加拉帕戈斯和秘鲁的定制自然与舒适探险。"
+    "badge": "关于我们",
+    "title": "精品定制旅行专家",
+    "subtitle": "我们是一家位于厄瓜多尔基多的认证精品旅行社，专注于厄瓜多尔与加拉帕戈斯群岛的高端自然与舒适探险。"
   },
   "experience": {
-    "badge": "关于朱红路线",
-    "title": "无与伦比的经验，不妥协的卓越",
-    "text": "在朱红路线，我们不只是预订旅行。我们策划独特、难忘、完全定制的探险，穿越厄瓜多尔、加拉帕戈斯和秘鲁壮丽的景观。作为直接的本地运营商，我们将区域专业知识与不妥协的卓越相结合。",
-    "certified": "认证运营商",
-    "sustainable": "可持续影响",
-    "reviewsTitle": "客户故事与猫途鹰卓越评价"
+    "badge": "关于 Vermilion Routes",
+    "title": "卓越专家品质，无与伦比体验",
+    "text": "在 Vermilion Routes，我们不仅预订行程，更致力于在厄瓜多尔与加拉帕戈斯群岛打造独一无二、令人难忘的深度定制探险。作为当地直营地接社，我们将丰富的区域知识与卓越的服务品质完美结合。",
+    "certified": "官方认证地接社",
+    "sustainable": "可持续生态发展",
+    "reviewsTitle": "猫途鹰 TripAdvisor 客户五星好评"
   },
   "reviews": {
-    "badge": "客户体验",
-    "title": "我们的旅行者怎么说",
-    "verified": "猫途鹰认证"
+    "badge": "旅行者评价",
+    "title": "听听我们的客户怎么说",
+    "verified": "猫途鹰真实认证"
   },
   "faq": {
     "badge": "常见问题",
     "title": "常见问题解答",
-    "subtitle": "所有关于规划您与朱红路线的自然与舒适探险所需了解的一切。"
+    "subtitle": "规划您的 Vermilion Routes 自然与舒适探险之旅所需了解的一切。"
   },
   "contact": {
-    "badge": "让我们规划您的旅行",
-    "title": "申请您的免费报价",
-    "subtitle": "告诉我们您梦想中的探险。我们的专家将在24小时内设计定制行程。",
-    "name": "您的全名",
+    "badge": "开始规划您的旅程",
+    "title": "索取免费定制报价",
+    "subtitle": "告诉我们您梦想中的探险之旅，我们的专家将在24小时内为您设计私人定制行程。",
+    "name": "您的姓名",
     "email": "电子邮件地址",
     "destination": "感兴趣的目的地",
-    "travelers": "旅行人数",
+    "travelers": "出行人数",
     "message": "告诉我们您梦想中的探险...",
     "send": "发送报价请求",
     "sending": "正在发送...",
-    "success": "谢谢您！我们将在24小时内与您联系。"
+    "success": "谢谢您！我们将在24小时内与您联系。",
+    "directCall": "电话与 WhatsApp 直连",
+    "emailAddress": "电子邮件地址",
+    "headquarters": "总部",
+    "address": "厄瓜多尔基多 • 加拉帕戈斯及厄瓜多尔大陆运营部",
+    "noCommitment": "免承诺咨询",
+    "phone": "电话 / WhatsApp",
+    "optGalapagos": "加拉帕戈斯群岛",
+    "optMainland": "厄瓜多尔大陆",
+    "optCombo": "加拉帕戈斯 + 厄瓜多尔大陆组合行程",
+    "optFullDay": "一日游精选 (Full Day Tours)",
+    "opt1": "1位旅行者（单人）",
+    "opt2": "2位旅行者（双人/情侣）",
+    "opt35": "家庭/小团（3-5人）",
+    "opt6plus": "包船/大团（6人以上）"
   },
   "tour": {
     "overview": "概览",
@@ -125,10 +139,20 @@
     "included": "包含",
     "excluded": "不包含",
     "meals": "膳食",
-    "accommodation": "住宿"
+    "accommodation": "住宿",
+    "hotelCategory": "住宿级别：",
+    "hotels3Star": "舒适型",
+    "hotels4Star": "尊享型",
+    "ratePerPerson": "每人费用（{tier}）",
+    "experienceSummary": "行程概览",
+    "mainActivities": "主要活动",
+    "bookNow": "立即预订",
+    "withAI": "AI咨询",
+    "online": "在线预订",
+    "downloadItinerary": "下载行程单"
   },
   "footer": {
-    "tagline": "自2005年起在厄瓜多尔、加拉帕戈斯和秘鲁提供优质自然与舒适精品探险的专家。",
+    "tagline": "自2005年起在厄瓜多尔与加拉帕戈斯群岛提供优质自然与舒适精品探险的专家。",
     "rights": "保留所有权利。",
     "privacy": "隐私政策",
     "terms": "服务条款"

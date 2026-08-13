@@ -86,7 +86,7 @@ export function Navbar() {
       subItems: [
         { name: tNav('galapagos'), href: `/${locale}#galapagos`, desc: 'Premium Cruises & Island Hopping' },
         { name: tNav('ecuador'), href: `/${locale}#ecuador`, desc: 'Avenue of Volcanoes & Amazon' },
-        { name: tNav('peru'), href: `/${locale}#peru`, desc: 'Cusco, Sacred Valley & Machu Picchu' },
+        { name: tNav('fullday'), href: `/${locale}#fullday`, desc: 'Galapagos & Mainland 1-Day Tours' },
       ],
     },
     { name: tNav('tours'), href: `/${locale}#tours` },
@@ -114,9 +114,8 @@ export function Navbar() {
     <div className="fixed top-0 left-0 w-full z-50 flex flex-col">
       {/* Top Banner (Desaparece al hacer scroll hacia abajo) */}
       <div
-        className={`transition-all duration-500 overflow-hidden border-b bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-800 text-white border-emerald-800/80 ${
-          isScrolled ? 'max-h-0 opacity-0 py-0 border-none' : 'max-h-24 sm:max-h-16 opacity-100 py-2.5 sm:py-2 px-4 sm:px-8 pb-3 sm:pb-2'
-        }`}
+        className={`transition-all duration-500 overflow-hidden border-b bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-800 text-white border-emerald-800/80 ${isScrolled ? 'max-h-0 opacity-0 py-0 border-none' : 'max-h-24 sm:max-h-16 opacity-100 py-2.5 sm:py-2 px-4 sm:px-8 pb-3 sm:pb-2'
+          }`}
       >
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
           <div className="flex items-center gap-6">
@@ -153,9 +152,8 @@ export function Navbar() {
         py-1.5 = altura mínima. Para más altura, cambia 'py-1.5' a 'py-2.5', 'py-3' o 'py-4'.
       */}
       <header
-        className={`transition-all duration-300 backdrop-blur-md border-b border-white/20 dark:border-zinc-800/30 ${
-          isScrolled ? 'pt-2.5 pb-2 sm:py-1 shadow-sm bg-[#F9F6F0]/50 dark:bg-[#05140C]/75' : 'pt-3 pb-2.5 sm:py-1.5 bg-[#F9F6F0]/35 dark:bg-[#05140C]/55'
-        }`}
+        className={`transition-all duration-300 backdrop-blur-md border-b border-white/20 dark:border-zinc-800/30 ${isScrolled ? 'pt-2.5 pb-2 sm:py-1 shadow-sm bg-[#F9F6F0]/50 dark:bg-[#05140C]/75' : 'pt-3 pb-2.5 sm:py-1.5 bg-[#F9F6F0]/35 dark:bg-[#05140C]/55'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
@@ -163,7 +161,7 @@ export function Navbar() {
             <div className="relative w-[165px] h-[40px] sm:w-[180px] sm:h-[45px] md:w-[220px] md:h-[55px] shrink-0">
               {/* Light Mode Logo */}
               <Image
-                src="/logo_claro.png"
+                src="/logo_inicio.png"
                 alt="Vermilion Routes"
                 fill
                 sizes="(max-width: 640px) 180px, 200px"
@@ -173,7 +171,7 @@ export function Navbar() {
               />
               {/* Dark Mode Logo */}
               <Image
-                src="/logo_obscuro.png"
+                src="/logo_inicio.png"
                 alt="Vermilion Routes"
                 fill
                 sizes="(max-width: 640px) 180px, 200px"

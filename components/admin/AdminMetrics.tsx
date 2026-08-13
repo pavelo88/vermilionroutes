@@ -21,7 +21,7 @@ export function AdminMetrics({ toursCount, onReseed, isReseeding }: AdminMetrics
       <div className="glass-panel p-5 rounded-3xl space-y-1">
         <span className="text-xs text-zinc-600 dark:text-zinc-400 font-medium">Destinations Covered</span>
         <p className="font-serif text-3xl font-bold text-amber-500 dark:text-amber-400">3 Regions</p>
-        <p className="text-[11px] text-zinc-500">Galapagos, Ecuador, Peru</p>
+        <p className="text-[11px] text-zinc-500">Galapagos, Ecuador Continental</p>
       </div>
 
       <div className="glass-panel p-5 rounded-3xl space-y-1">

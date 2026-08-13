@@ -4,12 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, Clock, Star, Check, ArrowRight, ShieldCheck, Ship, MessageCircle, ChevronLeft, ChevronRight, Download, Sparkles, Calendar } from 'lucide-react';
+import { X, MapPin, Clock, Star, Check, ShieldCheck, MessageCircle, ChevronLeft, ChevronRight, Download, Sparkles, Calendar } from 'lucide-react';
 import { Tour } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { useSettings } from '@/hooks/useSettings';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
+import { generateTourPDF } from '@/lib/pdfGenerator';
 
 interface TourModalProps {
   tour: Tour | null;
@@ -22,6 +23,10 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
   const [mounted, setMounted] = useState(false);
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const [showBookingOptions, setShowBookingOptions] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<'3star' | '4star'>('3star');
+
+  const locale = useLocale();
+  const t = useTranslations('tour');
 
   useEffect(() => {
     setMounted(true);
@@ -43,9 +48,10 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
   useEffect(() => {
     setCurrentImgIndex(0);
     setShowBookingOptions(false);
+    setSelectedTier('3star');
   }, [tour?.id]);
 
-  // Auto carousel rotation (resets on manual click because currentImgIndex is a dependency)
+  // Auto carousel rotation
   useEffect(() => {
     if (!isOpen || galleryImages.length <= 1) return;
     const timer = setInterval(() => {
@@ -76,20 +82,34 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
     setCurrentImgIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
   };
 
-  const locale = useLocale();
-
   const handleWhatsApp = () => {
     const rawNumber = getLocalizedText(settings?.contact?.whatsappUrl, locale) || getLocalizedText(settings?.contact?.phone, locale) || '593994048458';
     const phoneNumber = rawNumber.replace(/[^0-9]/g, '') || '593994048458';
-    const message = encodeURIComponent(`Hello Vermilion Routes, I am interested in booking the "${tour.title}" tour.`);
+    const titleText = getLocalizedText(tour.title, locale);
+    const message = encodeURIComponent(`Hello Vermilion Routes, I am interested in booking the "${titleText}" tour.`);
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   };
 
   const handleAIBooking = () => {
     onClose();
-    // Dispatch event to open ConciergeWidget and send message
-    window.dispatchEvent(new CustomEvent('open-tour-chat', { detail: { tourTitle: tour.title } }));
+    const titleText = getLocalizedText(tour.title, locale);
+    window.dispatchEvent(new CustomEvent('open-tour-chat', { detail: { tourTitle: titleText } }));
   };
+
+  const handleDownloadPDF = () => {
+    generateTourPDF(tour, locale);
+  };
+
+  const price3Star = tour.price3Star || tour.price;
+  const price4Star = tour.price4Star || Math.round(tour.price * 1.15);
+  const activePrice = selectedTier === '3star' ? price3Star : price4Star;
+
+  const tourTitleText = getLocalizedText(tour.title, locale);
+  const tourDestinationText = getLocalizedText(tour.destination, locale);
+  const tourDurationText = getLocalizedText(tour.duration, locale);
+  const tourDescriptionText = getLocalizedText(tour.description, locale);
+
+  const downloadText = t('downloadItinerary');
 
   const modalContent = (
     <AnimatePresence>
@@ -113,18 +133,18 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               onPointerDown={(e) => e.stopPropagation()}
               onTouchStart={(e) => e.stopPropagation()}
-              className="glass-panel rounded-none sm:rounded-3xl shadow-2xl w-full h-full sm:h-auto max-w-5xl max-h-[100dvh] sm:max-h-[90vh] overflow-hidden flex flex-col md:flex-row relative pointer-events-auto border-0 sm:border border-zinc-200 dark:border-zinc-800"
+              className="glass-panel rounded-none sm:rounded-3xl shadow-2xl w-full h-full sm:h-auto max-w-5xl max-h-[100dvh] sm:max-h-[90vh] overflow-hidden flex flex-col md:flex-row-reverse relative pointer-events-auto border-0 sm:border border-zinc-200 dark:border-zinc-800"
             >
-              {/* Close Button - positioned in right panel on desktop, over image on mobile */}
+              {/* Close Button */}
               <button
                 onClick={onClose}
-                className="absolute top-3 right-3 md:top-5 md:right-5 z-[60] p-2 rounded-full transition-all cursor-pointer bg-black/40 hover:bg-black/60 text-white backdrop-blur-md shadow-sm md:bg-zinc-100 md:text-zinc-500 md:hover:text-zinc-900 dark:md:text-zinc-400 dark:md:hover:text-white dark:md:bg-zinc-800"
+                className="absolute top-3 right-3 md:top-5 md:right-5 z-[60] p-2 rounded-full transition-all cursor-pointer bg-black/40 hover:bg-black/60 text-white backdrop-blur-md shadow-sm"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              {/* Left Side - Image Carousel (Magazine Style) */}
+              {/* Left Side - Image Carousel */}
               <div className="w-full md:w-2/5 h-64 md:h-auto relative bg-zinc-900 shrink-0 group overflow-hidden">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -137,7 +157,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                   >
                     <Image
                       src={galleryImages[currentImgIndex] || tour.imageUrl}
-                      alt={`${tour.title} - Image ${currentImgIndex + 1}`}
+                      alt={`${tourTitleText} - Image ${currentImgIndex + 1}`}
                       fill
                       className="object-cover opacity-90"
                       sizes="(max-width: 1024px) 100vw, 40vw"
@@ -148,7 +168,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
-                {/* Carousel Nav Arrows */}
+                {/* Nav Arrows */}
                 {galleryImages.length > 1 && (
                   <>
                     <button
@@ -168,7 +188,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                   </>
                 )}
 
-                {/* Carousel Pagination Dots */}
+                {/* Pagination Dots */}
                 {galleryImages.length > 1 && (
                   <div className="absolute top-4 left-4 z-20 flex gap-1.5 bg-black/40 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-white/10">
                     {galleryImages.map((_, idx) => (
@@ -195,15 +215,15 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                   >
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-md text-white border border-white/30 mb-3">
                       <MapPin className="w-3.5 h-3.5" />
-                      {tour.destination}
+                      {tourDestinationText}
                     </span>
                     <h2 className="font-serif text-xl md:text-2xl font-bold leading-tight mb-2">
-                      {tour.title}
+                      {tourTitleText}
                     </h2>
                     <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-zinc-200">
                       <span className="flex items-center gap-1.5">
                         <Clock className="w-4 h-4 text-emerald-400" />
-                        {tour.duration}
+                        {tourDurationText}
                       </span>
                       <span className="flex items-center gap-1.5">
                         <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
@@ -214,85 +234,114 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                 </div>
               </div>
 
-              {/* Right Side - Content & Actions */}
+              {/* Right Side - Concise Summary & PDF Download */}
               <div className="w-full md:w-3/5 flex flex-col h-full max-h-[calc(100vh-16rem)] md:max-h-[90vh] bg-white/50 dark:bg-zinc-900/50 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 <style dangerouslySetInnerHTML={{__html: `div::-webkit-scrollbar { display: none; }`}} />
-                <div className="p-4 md:p-6 md:pt-16 space-y-5 md:space-y-6 flex-1 pb-8 sm:pb-6">
+                <div className="p-4 md:p-6 space-y-5 md:space-y-6 flex-1 pb-8 sm:pb-6">
                   
-                  {/* Price Banner */}
+                  {/* Hotel Tier Selector & Price Banner */}
                   <motion.div 
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="flex flex-wrap items-center justify-between gap-3 bg-emerald-50 dark:bg-zinc-900 rounded-2xl p-3 border border-emerald-100 dark:border-zinc-800"
+                    className="flex flex-col gap-3 bg-emerald-50 dark:bg-zinc-900 rounded-2xl p-4 border border-emerald-100 dark:border-zinc-800"
                   >
-                    <div>
-                      <span className="text-[10px] uppercase font-bold text-emerald-700 dark:text-emerald-400 tracking-wider">Starting from</span>
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="font-serif font-bold text-2xl text-zinc-900 dark:text-white">${tour.price.toLocaleString('en-US')}</span>
-                        <span className="text-zinc-600 dark:text-zinc-400 text-xs">/ person</span>
+                    {/* Hotel Category Selector (3★ vs 4★) */}
+                    <div className="flex items-center justify-between gap-2 border-b border-emerald-200/50 dark:border-zinc-800 pb-3">
+                      <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">{t('hotelCategory')}</span>
+                      <div className="inline-flex rounded-lg p-1 bg-zinc-200/70 dark:bg-zinc-800">
+                        <button
+                          onClick={() => setSelectedTier('3star')}
+                          className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
+                            selectedTier === '3star'
+                              ? 'bg-emerald-600 text-white shadow-sm'
+                              : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900'
+                          }`}
+                        >
+                          {t('hotels3Star')}
+                        </button>
+                        <button
+                          onClick={() => setSelectedTier('4star')}
+                          className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
+                            selectedTier === '4star'
+                              ? 'bg-amber-600 text-white shadow-sm'
+                              : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900'
+                          }`}
+                        >
+                          {t('hotels4Star')}
+                        </button>
                       </div>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-2 mt-2 sm:mt-0 w-full sm:w-auto">
-                      <Button 
-                        variant="outline" 
-                        className="gap-1.5 px-3 py-1.5 text-xs border-emerald-200 dark:border-emerald-900/50 text-emerald-700 dark:text-emerald-400 w-full sm:w-auto justify-center"
-                        onClick={() => window.open(tour.pdfUrl || 'https://drive.google.com/drive/folders/1DfBnCx-TbKK9FuuKTy-7q6yaCeSzveM3', '_blank')}
-                      >
-                        <Download className="w-3.5 h-3.5" />
-                        PDF Itinerary
-                      </Button>
-                      
-                      {!showBookingOptions ? (
-                        <Button 
-                          variant="primary" 
-                          className="gap-1.5 shadow-lg shadow-emerald-600/20 px-6 py-1.5 text-xs w-full sm:w-auto justify-center"
-                          onClick={() => setShowBookingOptions(true)}
-                        >
-                          Reservar
-                        </Button>
-                      ) : (
-                        <div className="flex items-center gap-2 animate-in fade-in zoom-in duration-200 flex-wrap sm:flex-nowrap">
-                          <Button 
-                            variant="primary" 
-                            className="gap-1.5 px-3 py-1.5 text-xs w-full sm:w-auto justify-center bg-zinc-900 hover:bg-zinc-800 text-white"
-                            onClick={handleAIBooking}
-                          >
-                            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                            Con IA
-                          </Button>
-                          <Button 
-                            variant="outline" 
-                            className="gap-1.5 px-3 py-1.5 text-xs w-full sm:w-auto justify-center border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100"
-                            onClick={() => {
-                              window.location.href = `/booking?tourId=${tour.id}`;
-                            }}
-                          >
-                            <Calendar className="w-3.5 h-3.5" />
-                            Web / Online
-                          </Button>
-                          <Button 
-                            variant="primary" 
-                            className="gap-1.5 px-3 py-1.5 text-xs w-full sm:w-auto justify-center bg-[#25D366] hover:bg-[#20bd5a] text-white"
-                            onClick={handleWhatsApp}
-                          >
-                            <MessageCircle className="w-3.5 h-3.5" />
-                            WhatsApp
-                          </Button>
+
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <span className="text-[10px] uppercase font-bold text-emerald-700 dark:text-emerald-400 tracking-wider">{t('ratePerPerson', { tier: selectedTier === '3star' ? t('hotels3Star') : t('hotels4Star') })}</span>
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="font-serif font-bold text-2xl text-zinc-900 dark:text-white">${activePrice.toLocaleString('en-US')} USD</span>
                         </div>
-                      )}
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                        <Button 
+                          variant="outline" 
+                          className="gap-2 px-4 py-2 text-xs font-bold border-emerald-500 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 transition-all w-full sm:w-auto justify-center shadow-sm"
+                          onClick={handleDownloadPDF}
+                        >
+                          <Download className="w-4 h-4" />
+                          {downloadText}
+                        </Button>
+
+                        {!showBookingOptions ? (
+                          <Button 
+                            variant="primary" 
+                            className="gap-1.5 shadow-lg shadow-emerald-600/20 px-6 py-2 text-xs font-bold w-full sm:w-auto justify-center"
+                            onClick={() => setShowBookingOptions(true)}
+                          >
+                            {t('bookNow')}
+                          </Button>
+                        ) : (
+                          <div className="flex items-center gap-2 animate-in fade-in zoom-in duration-200 flex-wrap sm:flex-nowrap">
+                            <Button 
+                              variant="primary" 
+                              className="gap-1.5 px-3 py-2 text-xs w-full sm:w-auto justify-center bg-zinc-900 hover:bg-zinc-800 text-white"
+                              onClick={handleAIBooking}
+                            >
+                              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                              {t('withAI')}
+                            </Button>
+                            <Button 
+                              variant="outline" 
+                              className="gap-1.5 px-3 py-2 text-xs w-full sm:w-auto justify-center border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100"
+                              onClick={() => {
+                                window.location.href = `/booking?tourId=${tour.id}`;
+                              }}
+                            >
+                              <Calendar className="w-3.5 h-3.5" />
+                              {t('online')}
+                            </Button>
+                            <Button 
+                              variant="primary" 
+                              className="gap-1.5 px-3 py-2 text-xs w-full sm:w-auto justify-center bg-[#25D366] hover:bg-[#20bd5a] text-white"
+                              onClick={handleWhatsApp}
+                            >
+                              <MessageCircle className="w-3.5 h-3.5" />
+                              WhatsApp
+                            </Button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </motion.div>
 
-                  {/* Description */}
+                  {/* Concise Description */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4 }}
                   >
-                    <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white mb-2">About this experience</h3>
+                    <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white mb-2">{t('experienceSummary')}</h3>
                     <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed text-sm md:text-base">
-                      {tour.description}
+                      {tourDescriptionText}
                     </p>
                   </motion.div>
 
@@ -305,7 +354,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     >
                       <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
                         <Star className="w-4 h-4 text-amber-500" />
-                        Highlights
+                        {t('mainActivities')}
                       </h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {tour.highlights.map((highlight, idx) => (
@@ -313,7 +362,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                             <div className="mt-0.5 bg-emerald-100 dark:bg-emerald-900/50 rounded-full p-1 shrink-0">
                               <Check className="w-2.5 h-2.5 text-emerald-600 dark:text-emerald-400" />
                             </div>
-                            <span className="text-xs text-zinc-700 dark:text-zinc-300 leading-snug">{highlight}</span>
+                            <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300 leading-snug">{getLocalizedText(highlight, locale)}</span>
                           </div>
                         ))}
                       </div>
@@ -330,13 +379,13 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     <div>
                       <h3 className="font-serif text-base font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2">
                         <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                        Included
+                        {t('included')}
                       </h3>
                       <ul className="space-y-1.5">
                         {tour.inclusions?.map((inc, i) => (
                           <li key={i} className="flex items-start gap-1.5 text-xs text-zinc-600 dark:text-zinc-400">
                             <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                            <span>{inc}</span>
+                            <span>{getLocalizedText(inc, locale)}</span>
                           </li>
                         ))}
                       </ul>
@@ -344,13 +393,13 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     <div>
                       <h3 className="font-serif text-base font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2">
                         <X className="w-4 h-4 text-red-500" />
-                        Not Included
+                        {t('excluded')}
                       </h3>
                       <ul className="space-y-1.5">
                         {tour.exclusions?.map((exc, i) => (
                           <li key={i} className="flex items-start gap-1.5 text-xs text-zinc-600 dark:text-zinc-400">
                             <X className="w-3.5 h-3.5 text-red-400 shrink-0 mt-0.5" />
-                            <span>{exc}</span>
+                            <span>{getLocalizedText(exc, locale)}</span>
                           </li>
                         ))}
                       </ul>

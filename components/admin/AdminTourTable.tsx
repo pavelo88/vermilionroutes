@@ -7,12 +7,23 @@ import { Button } from '@/components/ui/Button';
 import { Database, Search, Plus, MapPin, Clock, Pencil, Trash2 } from 'lucide-react';
 import { BaseTourCard } from '@/components/shared/ui/BaseTourCard';
 
+import { useLocale } from 'next-intl';
+
 interface AdminTourTableProps {
   tours: Tour[];
   isLoading: boolean;
   onOpenCreateModal: () => void;
   onOpenEditModal: (tour: Tour) => void;
   onDeleteTour: (id: string, title: string) => void;
+}
+
+function getSafeString(value: any, locale: string = 'es'): string {
+  if (!value) return '';
+  if (typeof value === 'string') return value;
+  if (typeof value === 'object') {
+    return value[locale] || value.es || value.en || Object.values(value)[0] || '';
+  }
+  return String(value);
 }
 
 export function AdminTourTable({
@@ -23,12 +34,14 @@ export function AdminTourTable({
   onDeleteTour
 }: AdminTourTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const locale = useLocale();
 
-  const filteredTours = tours.filter(
-    (t) =>
-      t.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      t.destination.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredTours = tours.filter((t) => {
+    const titleStr = getSafeString(t.title, locale).toLowerCase();
+    const destStr = getSafeString(t.destination, locale).toLowerCase();
+    const search = searchTerm.toLowerCase();
+    return titleStr.includes(search) || destStr.includes(search);
+  });
 
   return (
     <div className="glass-panel rounded-3xl p-6 space-y-6">
@@ -81,12 +94,12 @@ export function AdminTourTable({
             {filteredTours.map((tour) => (
               <BaseTourCard
                 key={tour.id}
-                title={tour.title}
-                price={tour.price}
+                title={getSafeString(tour.title, locale)}
+                price={tour.price || tour.price3Star || tour.price4Star || 0}
                 isAdmin={true}
                 imageNode={
                   tour.imageUrl ? (
-                    <Image src={tour.imageUrl} alt={tour.title} fill className="object-cover" />
+                    <Image src={tour.imageUrl} alt={getSafeString(tour.title, locale)} fill sizes="(max-width: 768px) 100vw, 360px" className="object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 text-xs text-zinc-400">
                       No Img
@@ -98,11 +111,11 @@ export function AdminTourTable({
                     <div className="flex flex-col gap-1">
                       <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 font-medium">
                         <MapPin className="w-3 h-3" />
-                        {tour.destination}
+                        {getSafeString(tour.destination, locale)}
                       </span>
                       <span className="flex items-center gap-1 text-xs text-zinc-500">
                         <Clock className="w-3.5 h-3.5" />
-                        {tour.duration}
+                        {getSafeString(tour.duration, locale)}
                       </span>
                     </div>
                     <div className="flex gap-2">
@@ -117,7 +130,7 @@ export function AdminTourTable({
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => onDeleteTour(tour.id, tour.title)}
+                        onClick={() => onDeleteTour(tour.id, getSafeString(tour.title, locale))}
                         className="w-8 h-8 p-0 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-500/50"
                       >
                         <Trash2 className="w-4 h-4" />

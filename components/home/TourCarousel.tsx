@@ -20,7 +20,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
     { id: 'all', label: t('filter.all') },
     { id: 'Galapagos', label: `🌊 ${t('filter.galapagos')}` },
     { id: 'Ecuador', label: `🏔️ ${t('filter.ecuador')}` },
-    { id: 'Peru', label: `🦙 ${t('filter.peru')}` },
+    { id: 'FullDay', label: `☀️ ${t('filter.fullday')}` },
   ];
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -37,7 +37,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
           const dest = tour.destination.toLowerCase();
           if (activeFilter === 'Galapagos') return dest.includes('galapagos');
           if (activeFilter === 'Ecuador') return dest.includes('ecuador');
-          if (activeFilter === 'Peru') return dest.includes('peru');
+          if (activeFilter === 'FullDay') return dest.includes('full') || dest.includes('1') || dest.includes('daily') || tour.id.includes('daily');
           return false;
         });
 

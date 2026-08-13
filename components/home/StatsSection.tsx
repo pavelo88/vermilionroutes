@@ -28,6 +28,26 @@ export function StatsSection() {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const defaultLabels: Record<string, [string, string, string, string]> = {
+    es: ['Expediciones a Medida', 'Años de Experiencia', 'Satisfacción 5 Estrellas', 'Atención Concierge 24/7'],
+    en: ['Bespoke & Tailor-Made', 'Field Travel Expertise', '5-Star Satisfaction', 'On-Trip Concierge Care'],
+    zh: ['100% 量身定制', '15+ 年专业路线经验', '99% 客户满意度', '24/7 礼宾关怀'],
+    fr: ['Sur Mesure & Personnalisé', 'Années d\'Expertise', 'Satisfaction 5 Étoiles', 'Service Concierge 24/7'],
+    de: ['Maßgeschneiderte Reisen', 'Jahrelange Erfahrung', '5-Sterne-Zufriedenheit', '24/7 Concierge-Betreuung'],
+    it: ['Su Misura e Personalizzato', 'Anni di Esperienza', 'Soddisfazione a 5 Stelle', 'Assistenza Concierge 24/7'],
+    pt: ['Sob Medida & Personalizado', 'Anos de Experiência', 'Satisfação 5 Estrelas', 'Atendimento Concierge 24/7'],
+    ja: ['100% オーダーメイド', '長年の専門知識', '五つ星の満足度', '24/7 コンシェルジュケア']
+  };
+
+  const labels = defaultLabels[locale] || defaultLabels['en'];
+
+  const getLabel = (settingVal: any, fallbackIdx: number) => {
+    if (settingVal && typeof settingVal === 'object') {
+      return getLocalizedText(settingVal, locale);
+    }
+    return labels[fallbackIdx];
+  };
+
   if (!mounted) return null;
 
   return (
@@ -40,8 +60,8 @@ export function StatsSection() {
             <Globe className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
-            <div className="text-zinc-900 dark:text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric1Val, locale) || '+500'}</div>
-            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric1Lbl, locale) || 'Curated Expeditions'}</p>
+            <div className="text-zinc-900 dark:text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric1Val, locale) || '100%'}</div>
+            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider leading-none">{getLabel(settings?.about?.metric1Lbl, 0)}</p>
           </div>
         </div>
 
@@ -54,8 +74,8 @@ export function StatsSection() {
             <Award className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
-            <div className="text-zinc-900 dark:text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric2Val, locale) || '+10'}</div>
-            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric2Lbl, locale) || 'Years of Expertise'}</p>
+            <div className="text-zinc-900 dark:text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric2Val, locale) || '+15 Yrs'}</div>
+            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider leading-none">{getLabel(settings?.about?.metric2Lbl, 1)}</p>
           </div>
         </div>
 
@@ -73,8 +93,8 @@ export function StatsSection() {
             <Users className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
-            <div className="text-emerald-600 dark:text-emerald-400 font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric3Val, locale) || '99%'}</div>
-            <p className="text-[10px] text-emerald-700/80 dark:text-emerald-100/70 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric3Lbl, locale) || '5-Star Satisfaction'}</p>
+            <div className="text-emerald-600 dark:text-emerald-400 font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric3Val, locale) || '4.9/5'}</div>
+            <p className="text-[10px] text-emerald-700/80 dark:text-emerald-100/70 uppercase tracking-wider leading-none">{getLabel(settings?.about?.metric3Lbl, 2)}</p>
           </div>
         </div>
 
@@ -87,8 +107,8 @@ export function StatsSection() {
             <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
-            <div className="text-zinc-900 dark:text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric4Val, locale) || '100%'}</div>
-            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider leading-none">{getLocalizedText(settings?.about?.metric4Lbl, locale) || 'Secure Payments'}</p>
+            <div className="text-zinc-900 dark:text-white font-oswald font-bold text-lg leading-none mb-1">{getLocalizedText(settings?.about?.metric4Val, locale) || '24/7'}</div>
+            <p className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-wider leading-none">{getLabel(settings?.about?.metric4Lbl, 3)}</p>
           </div>
         </div>
 

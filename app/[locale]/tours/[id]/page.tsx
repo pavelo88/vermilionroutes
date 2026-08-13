@@ -86,7 +86,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
           Tour Package Not Found
         </h1>
         <p className="text-zinc-600 text-sm leading-relaxed">
-          The requested travel itinerary could not be found. We invite you to explore our curated selection of exclusive journeys through Ecuador, Galapagos, and Peru.
+          The requested travel itinerary could not be found. We invite you to explore our curated selection of exclusive journeys through Ecuador and Galapagos.
         </p>
         <Link href="/">
           <Button variant="primary" className="gap-2">

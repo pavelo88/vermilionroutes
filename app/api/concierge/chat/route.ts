@@ -34,13 +34,13 @@ export async function POST(req: NextRequest) {
         try {
           const bookingPayload = {
             tourId: 'ai-concierge-lead',
-            tourTitle: `AI Concierge Lead (${destination || 'South America'})`,
+            tourTitle: `AI Concierge Lead (${destination || 'Galapagos / Ecuador'})`,
             customerName: name || 'Valued Guest',
             customerEmail: email || 'pending@guest.com',
             customerPhone: phone || '',
             travelDates: travelDates || 'Flexible',
             guestsCount: travelers || '2 Travelers',
-            destination: destination || 'Galapagos / Ecuador / Peru',
+            destination: destination || 'Galapagos / Mainland Ecuador',
             message: 'Lead automatically captured by AI Virtual Concierge chatbot',
             status: 'pending' as const,
             createdAt: new Date().toISOString(),

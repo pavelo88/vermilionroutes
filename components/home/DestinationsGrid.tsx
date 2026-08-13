@@ -17,7 +17,7 @@ export function DestinationsGrid() {
     const filterMap: Record<string, string> = {
       galapagos: 'Galapagos',
       ecuador: 'Ecuador',
-      peru: 'Peru',
+      'full-day': 'Full Day',
     };
     const targetFilter = filterMap[destId.toLowerCase()] || 'all';
     window.dispatchEvent(new CustomEvent('selectDestinationFilter', { detail: targetFilter }));

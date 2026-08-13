@@ -126,7 +126,7 @@ export function ContactSection() {
                 <Phone className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-xs text-zinc-400 font-medium block">Direct Call & WhatsApp</span>
+                <span className="text-xs text-zinc-400 font-medium block">{t('directCall')}</span>
                 <span className="font-semibold text-zinc-900 dark:text-white text-sm group-hover:text-emerald-600 transition-colors">
                   +593 99 404 8458
                 </span>
@@ -141,7 +141,7 @@ export function ContactSection() {
                 <Mail className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-xs text-zinc-400 font-medium block">Email Address</span>
+                <span className="text-xs text-zinc-400 font-medium block">{t('emailAddress')}</span>
                 <span className="font-semibold text-zinc-900 dark:text-white text-sm group-hover:text-emerald-600 transition-colors">
                   info@vermilionroutes.com
                 </span>
@@ -153,9 +153,9 @@ export function ContactSection() {
                 <MapPin className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-xs text-zinc-400 font-medium block">Headquarters</span>
+                <span className="text-xs text-zinc-400 font-medium block">{t('headquarters')}</span>
                 <span className="font-semibold text-zinc-900 dark:text-white text-sm">
-                  Quito, Ecuador • Operations in Cusco, Peru
+                  {t('address')}
                 </span>
               </div>
             </div>
@@ -170,10 +170,10 @@ export function ContactSection() {
                 <CheckCircle2 className="w-10 h-10" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-zinc-900 dark:text-white">
-                Quote Request Submitted Successfully!
+                {t('success')}
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400 text-sm max-w-md mx-auto">
-                Thank you, <span className="font-semibold">{formData.name}</span>. A Vermilion Routes travel specialist will be in touch shortly via email or WhatsApp to review your custom itinerary options.
+                {formData.name}
               </p>
               <Button
                 variant="outline"
@@ -201,7 +201,7 @@ export function ContactSection() {
                   <span>{t('title')}</span>
                 </h3>
                 <span className="text-xs text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-full">
-                  No Commitment
+                  {t('noCommitment')}
                 </span>
               </div>
 
@@ -258,7 +258,7 @@ export function ContactSection() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">Phone / WhatsApp</label>
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('phone')}</label>
                   <input
                     type="tel"
                     placeholder="+1 (555) 000-0000"
@@ -282,10 +282,10 @@ export function ContactSection() {
                     suppressHydrationWarning
                     className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
                   >
-                    <option value="Galapagos Islands">Galapagos Islands</option>
-                    <option value="Mainland Ecuador">Mainland Ecuador</option>
-                    <option value="Mystical Peru">Cusco & Machu Picchu</option>
-                    <option value="Grand Combination">Grand Galapagos + Peru Combination</option>
+                    <option value="Galapagos Islands">{t('optGalapagos')}</option>
+                    <option value="Mainland Ecuador">{t('optMainland')}</option>
+                    <option value="Galapagos & Ecuador Combo">{t('optCombo')}</option>
+                    <option value="Full Day Excursions">{t('optFullDay')}</option>
                   </select>
                 </div>
 
@@ -297,10 +297,10 @@ export function ContactSection() {
                     suppressHydrationWarning
                     className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
                   >
-                    <option value="1 Traveler">1 Traveler (Solo)</option>
-                    <option value="2 Travelers">2 Travelers (Duo / Couple)</option>
-                    <option value="3-5 Travelers">Family / Small Group (3-5)</option>
-                    <option value="6+ Travelers">Private Charter / Large Group (6+)</option>
+                    <option value="1 Traveler">{t('opt1')}</option>
+                    <option value="2 Travelers">{t('opt2')}</option>
+                    <option value="3-5 Travelers">{t('opt35')}</option>
+                    <option value="6+ Travelers">{t('opt6plus')}</option>
                   </select>
                 </div>
               </div>

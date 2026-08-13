@@ -307,12 +307,10 @@ function generateFallbackConciergeReply(
   let reply = '';
   if (lastUserMsg.includes('galapagos') || lastUserMsg.includes('island')) {
     reply = `Greetings! I would be delighted to assist you with our **Galapagos Islands Luxury Expeditions**.\n\nOur top-rated experiences include:\n- **Andes, Amazon Jungle & Enchanted Galapagos Expedition** (12 Days - $2,731 USD)\n- **Enchanted Islands Luxury Island Hopping** (7 Days - $1,799 USD)\n\nMay I ask your estimated travel dates and how many guests will be traveling? I can customize the itinerary for you immediately.`;
-  } else if (lastUserMsg.includes('peru') || lastUserMsg.includes('machu picchu') || lastUserMsg.includes('cusco')) {
-    reply = `Welcome to Vermilion Routes! Peru offers an unforgettable blend of Inca heritage and world-class luxury.\n\nWe recommend:\n- **Inca Wonders: Cusco, Sacred Valley & Machu Picchu** (9 Days - $2,300 USD) featuring panoramic Vistadome train tickets.\n\nWould you like me to send you a detailed day-by-day proposal or connect you with a specialist on WhatsApp?`;
   } else if (lastUserMsg.includes('price') || lastUserMsg.includes('cost') || lastUserMsg.includes('quote')) {
     reply = `Our tailor-made expeditions range from $1,799 USD to $2,731 USD per guest, including boutique luxury stays, private expert naturalist guides, and seamless internal transfers.\n\nIf you provide your **Name**, **Email**, and **WhatsApp number**, I will instantly submit a custom quote request for our team to review.`;
   } else {
-    reply = `Hello! I am **Valentina**, Lead Luxury Concierge at Vermilion Routes.\n\nWhether you dream of snorkeling with sea lions in the **Galapagos Islands**, exploring the **Ecuadorian Amazon**, or taking the luxury panoramic train to **Machu Picchu**, I am here to design your perfect journey.\n\nHow may I assist you today?`;
+    reply = `Hello! I am **Valentina**, Lead Luxury Concierge at Vermilion Routes.\n\nWhether you dream of snorkeling with sea lions in the **Galapagos Islands**, exploring the **Ecuadorian Amazon**, or hiking the **Volcanoes Avenue**, I am here to design your perfect journey.\n\nHow may I assist you today?`;
   }
 
   return {

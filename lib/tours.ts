@@ -49,7 +49,7 @@ export function subscribeToursFromFirestore(
 ): () => void {
   if (typeof window === 'undefined') {
     onUpdate(mockTours);
-    return () => {};
+    return () => { };
   }
 
   try {
@@ -64,11 +64,34 @@ export function subscribeToursFromFirestore(
             console.warn('Auto-seed attempt failed or timed out:', seedErr);
           });
         } else {
+          const officialIds = new Set(mockTours.map(t => t.id));
           const tours: Tour[] = [];
           snapshot.forEach((docSnap) => {
-            tours.push({ id: docSnap.id, ...docSnap.data() } as Tour);
+            if (officialIds.has(docSnap.id)) {
+              const data = docSnap.data();
+              const mockTour = mockTours.find(m => m.id === docSnap.id);
+              // If image URL is missing or legacy Unsplash URL, use the updated mockTour image
+              const imageUrl = (!data.imageUrl || data.imageUrl.includes('images.unsplash.com'))
+                ? (mockTour?.imageUrl || data.imageUrl)
+                : data.imageUrl;
+
+              tours.push({
+                id: docSnap.id,
+                ...data,
+                imageUrl
+              } as Tour);
+            }
           });
-          onUpdate(tours);
+
+          if (tours.length === 0) {
+            onUpdate(mockTours);
+            seedDatabaseToFirestore().catch((seedErr) => {
+              console.warn('Auto-seed attempt failed or timed out:', seedErr);
+            });
+          } else {
+            tours.sort((a, b) => mockTours.findIndex(m => m.id === a.id) - mockTours.findIndex(m => m.id === b.id));
+            onUpdate(tours);
+          }
         }
       },
       (err) => {
@@ -81,7 +104,7 @@ export function subscribeToursFromFirestore(
   } catch (err: any) {
     console.warn('Failed to subscribe to Firestore tours:', err);
     onUpdate(mockTours);
-    return () => {};
+    return () => { };
   }
 }
 
@@ -106,11 +129,17 @@ export async function getToursFromFirestore(): Promise<Tour[]> {
       return mockTours;
     }
 
+    const officialIds = new Set(mockTours.map(t => t.id));
     const tours: Tour[] = [];
     snapshot.forEach((docSnap) => {
-      tours.push({ id: docSnap.id, ...docSnap.data() } as Tour);
+      if (officialIds.has(docSnap.id)) {
+        tours.push({ id: docSnap.id, ...docSnap.data() } as Tour);
+      }
     });
 
+    if (tours.length === 0) return mockTours;
+
+    tours.sort((a, b) => mockTours.findIndex(m => m.id === a.id) - mockTours.findIndex(m => m.id === b.id));
     return tours;
   } catch (err) {
     console.warn('Error fetching tours from Firestore, falling back to mock data:', err);

@@ -15,13 +15,22 @@ export function useDestinationsData() {
     try {
       const db = getFirestore(getApp());
       const destQuery = query(collection(db, 'destinations'));
+      const validIds = new Set(['galapagos', 'ecuador', 'full-day']);
       unsubscribe = onSnapshot(destQuery, (snapshot) => {
         if (!snapshot.empty) {
-          const fetched = snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          })) as Destination[];
-          setDestinations(fetched);
+          const fetched = snapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() } as Destination))
+            .filter(d => validIds.has(d.id.toLowerCase()));
+
+          if (fetched.length > 0) {
+            fetched.sort((a, b) => {
+              const order = ['galapagos', 'ecuador', 'full-day'];
+              return order.indexOf(a.id.toLowerCase()) - order.indexOf(b.id.toLowerCase());
+            });
+            setDestinations(fetched);
+          } else {
+            setDestinations(mockDestinations);
+          }
         }
         setLoading(false);
       }, (err) => {

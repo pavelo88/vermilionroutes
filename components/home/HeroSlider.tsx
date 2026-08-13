@@ -45,8 +45,8 @@ const DEFAULT_DATA = [
   },
   {
     place: { en: 'Azuay - Cuenca', es: 'Azuay - Cuenca', fr: 'Azuay - Cuenca', de: 'Azuay - Cuenca', it: 'Azuay - Cuenca', pt: 'Azuay - Cuenca', ja: 'アスアイ - クエンカ', zh: '阿苏艾 - 昆卡' },
-    title: { en: 'COLONIAL', es: 'ENCANTO', fr: 'CHARME', de: 'KOLONIALER', it: 'FASCINO', pt: 'ENCANTO', ja: '植民地時代の', zh: '殖民' },
-    title2: { en: 'CHARM', es: 'COLONIAL', fr: 'COLONIAL', de: 'CHARME', it: 'COLONIALE', pt: 'COLONIAL', ja: '魅力', zh: '魅力' },
+    title: { en: 'EMERALD CRATER', es: 'LAGUNA', fr: 'LAGUNE DE', de: 'SMARAGD', it: 'LAGUNA DI', pt: 'LAGUNA DE', ja: 'エメラルドの', zh: '翡翠' },
+    title2: { en: 'LAKE', es: 'QUILOTOA', fr: 'QUILOTOA', de: 'KRATERSEE', it: 'QUILOTOA', pt: 'QUILOTOA', ja: 'キロトア湖', zh: '火山湖' },
     description: {
       en: 'A deeply enchanting Andean city known for its stunning architecture, four crossing rivers, and the iconic Panama hat. Discover a peaceful haven where rich cultural heritage meets bohemian art scenes, offering an unforgettable and deeply authentic South American experience.',
       es: 'Una ciudad andina profundamente encantadora conocida por su impresionante arquitectura, sus cuatro ríos cruzados y el icónico sombrero de paja toquilla. Descubre un remanso de paz donde la rica herencia cultural se encuentra con escenas artísticas bohemias, ofreciendo una experiencia sudamericana inolvidable.',
@@ -93,8 +93,8 @@ const DEFAULT_DATA = [
   },
   {
     place: { en: 'Guayas - Guayaquil', es: 'Guayas - Guayaquil', fr: 'Guayas - Guayaquil', de: 'Guayas - Guayaquil', it: 'Guayas - Guayaquil', pt: 'Guayas - Guayaquil', ja: 'グアヤス - グアヤキル', zh: '瓜亚斯 - 瓜亚基尔' },
-    title: { en: 'TROPICAL', es: 'PUERTO', fr: 'PORT', de: 'TROPISCHER', it: 'PORTO', pt: 'PORTO', ja: '熱帯の', zh: '热带' },
-    title2: { en: 'PORT', es: 'TROPICAL', fr: 'TROPICAL', de: 'HAFEN', it: 'TROPICALE', pt: 'TROPICAL', ja: '港', zh: '港口' },
+    title: { en: 'CAJAS NATIONAL', es: 'PARQUE NACIONAL', fr: 'PARC NATIONAL', de: 'CAJAS NATIONAL', it: 'PARCO NAZIONALE', pt: 'PARQUE NACIONAL', ja: 'カハス国立', zh: '卡哈斯' },
+    title2: { en: 'PARK', es: 'CAJAS', fr: 'CAJAS', de: 'PARK', it: 'CAJAS', pt: 'CAJAS', ja: '公園', zh: '国家公园' },
     description: {
       en: 'The pulsating economic heartbeat of Ecuador. A dynamic and vibrant tropical port city where modern skyline meets historic cobblestone neighborhoods, serving as the perfect gateway connecting the lush coastal plains to the magical Galapagos Islands.',
       es: 'El palpitante latido económico del Ecuador. Una dinámica y vibrante ciudad portuaria tropical donde el horizonte moderno se encuentra con barrios históricos de piedra, sirviendo como la puerta de entrada perfecta que conecta las exuberantes llanuras costeras con las mágicas Islas Galápagos.',
@@ -129,6 +129,16 @@ export function HeroSlider() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { settings, loading } = useSettings();
   const [isReady, setIsReady] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const [showSplash, setShowSplash] = useState(() => {
     if (typeof window !== 'undefined') {
       return !sessionStorage.getItem('vermilion_splash_shown');
@@ -192,7 +202,7 @@ export function HeroSlider() {
   useEffect(() => {
     if (!isReady) return;
 
-    const slidesData = settings?.hero?.slides?.length ? settings.hero.slides : DEFAULT_DATA;
+    const slidesData = DEFAULT_DATA;
     let order = slidesData.map((_: any, i: number) => i);
     let detailsEven = true;
     let offsetTop = 200;
@@ -331,11 +341,20 @@ export function HeroSlider() {
         }
       };
 
+      // Setup manual navigation hook
+      (window as any).triggerNextSlide = () => {
+        if (!transitioning) {
+          if (loopTimeline) loopTimeline.kill();
+          step('next').then(() => {
+            if (!isCancelled) startLoop();
+          });
+        }
+      };
+
       (window as any).triggerPrevSlide = () => {
         if (!transitioning) {
           if (loopTimeline) loopTimeline.kill();
-          clicks = order.length - 1; // Avanza rápidamente para dar la vuelta
-          step().then(() => {
+          step('prev').then(() => {
             if (!isCancelled) startLoop();
           });
         }
@@ -344,22 +363,28 @@ export function HeroSlider() {
       (window as any).jumpToSlide = (targetIdx: number) => {
         if (transitioning) return;
         if (order[0] === targetIdx) return;
+        if (loopTimeline) loopTimeline.kill();
 
         const currentPos = order.indexOf(targetIdx);
         if (currentPos > 0) {
-          if (loopTimeline) loopTimeline.kill();
-          clicks = currentPos;
-          step().then(() => {
+          order = [...order.slice(currentPos), ...order.slice(0, currentPos)];
+          step('jump').then(() => {
             if (!isCancelled) startLoop();
           });
         }
       };
 
-      function step() {
+      function step(dir: 'next' | 'prev' | 'jump' = 'next') {
         return new Promise<void>((resolve) => {
           if (isCancelled) { resolve(); return; }
           transitioning = true;
-          order.push(order.shift() as number);
+          
+          if (dir === 'prev') {
+            order.unshift(order.pop() as number);
+          } else if (dir === 'next') {
+            order.push(order.shift() as number);
+          }
+
           detailsEven = !detailsEven;
 
           const detailsActive = detailsEven ? "#details-even" : "#details-odd";
@@ -381,14 +406,10 @@ export function HeroSlider() {
           gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });
 
           const [active, ...rest] = order;
-          const prv = rest[rest.length - 1];
 
-          set(getCard(prv), { zIndex: 10 });
+          // Pure photographic brightness on active background (0% dark overlay)
+          set(`${getCard(active)} .card-overlay`, { opacity: 0 });
           set(getCard(active), { zIndex: 20 });
-
-          const activeCardEl = container.querySelector(getCard(prv));
-          if (activeCardEl) gsap.to(activeCardEl, { scale: 1.5, ease, duration: 1.2 });
-
           const activeContentEl = container.querySelector(getCardContent(active));
           if (activeContentEl) gsap.to(activeContentEl, { opacity: 0, duration: 0.3, ease });
 
@@ -403,28 +424,10 @@ export function HeroSlider() {
               ease,
               duration: 1.2,
               onComplete: () => {
-                const xNew = offsetLeft + (rest.length - 1) * (cardWidth + gap);
-                set(getCard(prv), { x: xNew, y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, scale: 1 });
-                set(getCardContent(prv), { x: xNew, y: offsetTop, opacity: 1, zIndex: 40 });
-                set(`.slide-item-${prv}`, { x: rest.length * numberSize });
-
-                set(detailsInactive, { opacity: 0, zIndex: 12 });
-                set(`${detailsInactive} .text`, { y: 100 });
-                set(`${detailsInactive} .title-1`, { y: 100 });
-                set(`${detailsInactive} .title-2`, { y: 100 });
-                set(`${detailsInactive} .desc`, { y: 50 });
-
                 transitioning = false;
                 if (pendingRelayout) {
                   pendingRelayout = false;
                   relayout();
-                }
-
-                if (clicks > 1) {
-                  clicks -= 1;
-                  step();
-                } else {
-                  clicks = 0;
                 }
               }
             });
@@ -445,8 +448,8 @@ export function HeroSlider() {
           gsap.to(container.querySelectorAll(".progress-sub-foreground"), { width: 500 * (1 / order.length) * (active + 1), ease, duration: 0.8 });
 
           rest.forEach((i, index) => {
-            if (i === prv) return;
             set(getCard(i), { zIndex: 30 });
+            set(`${getCard(i)} .card-overlay`, { opacity: 1 });
             gsap.to(container.querySelectorAll(getCard(i)), {
               x: offsetLeft + index * (cardWidth + gap),
               y: offsetTop,
@@ -531,7 +534,7 @@ export function HeroSlider() {
     return <SplashScreen />;
   }
 
-  const slidesData = settings?.hero?.slides?.length ? settings.hero.slides : DEFAULT_DATA;
+  const slidesData = DEFAULT_DATA;
   const initialData = slidesData[0];
 
   return (
@@ -548,28 +551,28 @@ export function HeroSlider() {
         {[0, 1].map((isOdd) => {
           const id = isOdd ? 'details-odd' : 'details-even';
           return (
-            <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[125px] sm:top-[120px] md:top-[95px] lg:top-[105px] z-[22] flex flex-col items-center md:items-start text-center md:text-left">
+            <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[175px] sm:top-[170px] md:top-[95px] lg:top-[105px] pt-4 sm:pt-6 md:pt-0 z-[22] flex flex-col items-center md:items-start text-center md:text-left">
               <div className="h-auto overflow-hidden mb-2">
-                <div className="text text-white/90 font-medium tracking-widest uppercase text-base md:text-sm pt-4 relative flex flex-col items-center md:items-start">
+                <div className="text text-white font-medium tracking-widest uppercase text-base md:text-sm pt-4 relative flex flex-col items-center md:items-start drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                   <div className="absolute top-0 w-8 h-[2px] bg-white rounded-full" />
                   <span className="notranslate mt-2 md:mt-0">{getLocalizedText(initialData.place, locale)}</span>
                 </div>
               </div>
 
               <div className="h-auto md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
-                <div className="title-1 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-lg">
+                <div className="title-1 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)]">
                   <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
                 </div>
               </div>
               <div className="h-auto md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
-                <div className="title-2 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-lg">
+                <div className="title-2 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)]">
                   <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
                 </div>
               </div>
 
               <div className="h-auto mt-3 md:mt-5 flex flex-col items-center md:items-start w-full max-w-xl">
                 <div className="desc flex flex-col items-center md:items-start w-full">
-                  <p className="hero-desc-text text-sm sm:text-base text-white/90 leading-relaxed drop-shadow-md">
+                  <p className="hero-desc-text text-sm sm:text-base text-white/95 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] font-medium">
                     {getLocalizedText(initialData.description, locale)}
                   </p>
                 </div>
@@ -591,17 +594,17 @@ export function HeroSlider() {
         */}
         <div className="flex absolute left-0 md:left-[30px] lg:left-[60px] w-full md:w-auto bottom-[300px] sm:bottom-[280px] md:bottom-10 z-30 items-center justify-center md:justify-start gap-3 sm:gap-4 flex-wrap px-4 md:px-0">
           <button
-            className="px-6 sm:px-7 py-2.5 sm:py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/50 hover:scale-105 active:scale-95 group cursor-pointer"
+            className="px-6 sm:px-7 py-2.5 sm:py-3 bg-emerald-600 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/50 active:scale-95 cursor-pointer"
             onClick={() => {
               const el = document.getElementById('tours');
               if (el) el.scrollIntoView({ behavior: 'smooth' });
             }}
           >
             <span>{getExploreLabel()}</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 transition-transform" />
           </button>
           <button
-            className="px-5 sm:px-6 py-2.5 sm:py-3 bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 border border-white/30 hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-sm"
+            className="px-5 sm:px-6 py-2.5 sm:py-3 bg-white/10 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 border border-white/30 active:scale-95 cursor-pointer backdrop-blur-sm"
             onClick={() => {
               const event = new CustomEvent('open-tour-chat', { detail: { tourTitle: getLocalizedText(initialData.title, locale) } });
               window.dispatchEvent(event);
@@ -619,21 +622,20 @@ export function HeroSlider() {
               className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden w-[180px] h-[260px]`}
             >
               <Image
-                src={slide.image}
-                alt={slide.place}
+                src={isMobile && slide.mobileImage ? slide.mobileImage : (slide.image || slide.imageUrl || '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg')}
+                alt={getLocalizedText(slide.place, locale) || 'Vermilion Routes'}
                 fill
-                priority={idx === 0} // [RENDIMIENTO] Fuerza carga prioritaria del LCP
+                priority={idx === 0}
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 180px"
               />
-              <div className="absolute inset-0 bg-black/30" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              {/* Subtle Gradient Overlay ONLY for thumbnail cards */}
+              <div className="card-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none transition-opacity duration-300" />
 
               {/* Clickable Overlay for Thumbnail */}
               <div
-                className="absolute inset-0 cursor-pointer z-10 hover:bg-white/10 transition-colors"
+                className="absolute inset-0 cursor-pointer z-10"
                 onClick={() => (window as any).jumpToSlide?.(idx)}
-                title="View destination"
               />
             </div>
 
@@ -650,12 +652,12 @@ export function HeroSlider() {
         {/* Pagination HUD */}
         <div id="pagination" className="absolute left-0 top-0 z-40 flex items-center pointer-events-auto">
           {/* Navigation Arrows */}
-          <div className="hidden md:flex gap-3 mr-5">
-            <div onClick={() => (window as any).triggerPrevSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-all hover:scale-105 active:scale-95 group">
-              <ChevronLeft className="w-4 h-4 text-white group-hover:text-black" />
+          <div className="flex gap-3 mr-5">
+            <div onClick={() => (window as any).triggerPrevSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center cursor-pointer transition-all active:scale-95">
+              <ChevronLeft className="w-4 h-4 text-white" />
             </div>
-            <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center cursor-pointer hover:bg-white hover:text-black transition-all hover:scale-105 active:scale-95 group">
-              <ChevronRight className="w-4 h-4 text-white group-hover:text-black" />
+            <div onClick={() => (window as any).triggerNextSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center cursor-pointer transition-all active:scale-95">
+              <ChevronRight className="w-4 h-4 text-white" />
             </div>
           </div>
 

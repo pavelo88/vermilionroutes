@@ -1,60 +1,60 @@
 {
   "meta": {
-    "title": "Vermilion Routes | Tailor-Made Nature & Comfort Travel",
-    "description": "Experience South America with bespoke travel itineraries, Galapagos island nature & comfort cruises, Amazon rainforest expeditions, and Andean volcano treks."
+    "title": "Vermilion Routes | Tailor-Made Nature & Comfort Journeys",
+    "description": "Experience Ecuador & Galapagos with bespoke travel itineraries, Galapagos nature & comfort cruises, Amazon rainforest lodges, and Andean volcanic treks."
   },
   "nav": {
     "home": "Home",
     "destinations": "Destinations",
     "galapagos": "Galapagos Islands",
     "ecuador": "Mainland Ecuador",
-    "peru": "Mystical Peru",
+    "fullday": "Full-Day Excursions",
     "tours": "Featured Tours",
     "about": "About Us",
     "contact": "Contact",
-    "quote": "Request a Quote",
+    "quote": "Get a Quote",
     "banner": {
       "tagline": "Tailor-Made Expeditions & Private Small Groups",
-      "badge": "Nature & Comfort Expeditions"
+      "badge": "Nature & Comfort Journeys"
     }
   },
   "hero": {
     "badge": "Award-Winning Nature & Comfort Travel",
-    "title": "The World's Most Extraordinary",
-    "subtitle": "Bespoke expeditions to the Galapagos Islands, Andean Highlands, Amazon Rainforest & Machu Picchu — crafted by expert local guides.",
+    "title": "Earth's Most Extraordinary",
+    "subtitle": "Bespoke expeditions to the Galapagos Islands, Andean Highlands, and Amazon Rainforest — crafted by local expert guides.",
     "cta": {
       "explore": "Explore Tours",
-      "quote": "Get a Free Quote",
+      "quote": "Free Quote",
       "plan": "Plan Your Trip"
     },
     "stats": {
-      "tours": "Tailor-Made Tours",
+      "tours": "Bespoke Journeys",
       "reviews": "Five-Star Reviews",
       "naturalists": "Expert Naturalists",
-      "support": "24/7 Support"
+      "support": "24/7 Concierge"
     }
   },
   "destinations": {
-    "badge": "Where Will You Go?",
+    "badge": "Where To Next?",
     "title": "Explore Our Destinations",
-    "subtitle": "From the volcanic peaks of the Andes to the pristine reefs of the Galapagos — we take you where few travelers dare to go.",
+    "subtitle": "From volcanic Andean peaks to pristine Galapagos reefs — taking you where few travelers tread.",
     "cta": "Explore Tours"
   },
   "tours": {
     "badge": "Interactive 3D Carousel Showcase",
     "title": "Featured Signature Journeys",
-    "subtitle": "Curated experiences led by expert local naturalists with seamless logistics, handpicked boutique stays, and the ultimate balance between nature, comfort and adventure.",
+    "subtitle": "Curated experiences led by expert local naturalists with seamless logistics, boutique stays, and the ultimate balance of nature, comfort, and adventure.",
     "cta": {
-      "label": "Looking for something 100% custom?",
-      "title": "We Design Your Tailor-Made Itinerary At No Extra Cost",
-      "subtitle": "Our destination specialists will customize travel dates, pacing, hotel comfort level, and private excursions tailored precisely to your preferences.",
+      "label": "Looking for something 100% customized?",
+      "title": "We Design Your Custom Itinerary At No Extra Cost",
+      "subtitle": "Our destination specialists will customize travel dates, pace, hotel comfort tiers, and private excursions tailored precisely to your preferences.",
       "button": "Request Custom Itinerary"
     },
     "filter": {
       "all": "All Expeditions",
       "galapagos": "Galapagos Islands",
       "ecuador": "Mainland Ecuador",
-      "peru": "Cusco & Peru"
+      "fullday": "Full-Day Excursions"
     },
     "card": {
       "from": "From",
@@ -68,13 +68,13 @@
   },
   "about": {
     "badge": "Who We Are",
-    "title": "Boutique Travel Expertise",
-    "subtitle": "We are a certified boutique tour operator based in Quito, Ecuador, specializing in tailor-made nature & comfort expeditions across Ecuador, the Galapagos, and Peru."
+    "title": "Bespoke Travel Expertise",
+    "subtitle": "We are a certified boutique tour operator based in Quito, Ecuador, specializing in tailor-made nature & comfort expeditions across Ecuador and the Galapagos."
   },
   "experience": {
     "badge": "About Vermilion Routes",
-    "title": "Unrivaled Experience, Uncompromising Excellence",
-    "text": "At Vermilion Routes, we don't just book tours. We craft unique, unforgettable, fully customized expeditions across the spectacular landscapes of Ecuador, Galapagos, and Peru. As direct local operators, we combine regional expertise with uncompromising excellence.",
+    "title": "Unmatched Expertise, Uncompromising Excellence",
+    "text": "At Vermilion Routes, we don't just book tours. We craft unique, unforgettable, fully customized expeditions across the spectacular landscapes of Ecuador and the Galapagos. As direct local operators, we combine regional expertise with uncompromising excellence.",
     "certified": "Certified Operator",
     "sustainable": "Sustainable Impact",
     "reviewsTitle": "Guest Stories & TripAdvisor Excellence"
@@ -82,15 +82,15 @@
   "reviews": {
     "badge": "Guest Experiences",
     "title": "What Our Travelers Say",
-    "verified": "Verified TripAdvisor"
+    "verified": "Verified on TripAdvisor"
   },
   "faq": {
-    "badge": "Common Questions",
+    "badge": "Frequently Asked Questions",
     "title": "Frequently Asked Questions",
-    "subtitle": "Everything you need to know about planning your nature & comfort expedition with Vermilion Routes."
+    "subtitle": "Everything you need to know to plan your nature & comfort expedition with Vermilion Routes."
   },
   "contact": {
-    "badge": "Let's Plan Your Trip",
+    "badge": "Let's Plan Your Journey",
     "title": "Request Your Free Quote",
     "subtitle": "Tell us about your dream expedition. Our specialists will design a custom itinerary within 24 hours.",
     "name": "Your Full Name",
@@ -100,13 +100,27 @@
     "message": "Tell us about your dream expedition...",
     "send": "Send Quote Request",
     "sending": "Sending...",
-    "success": "Thank you! We'll be in touch within 24 hours."
+    "success": "Thank you! We will reach out within 24 hours.",
+    "directCall": "Direct Call & WhatsApp",
+    "emailAddress": "Email Address",
+    "headquarters": "Headquarters",
+    "address": "Quito, Ecuador • Operations in Galapagos & Mainland Ecuador",
+    "noCommitment": "No Commitment",
+    "phone": "Phone / WhatsApp",
+    "optGalapagos": "Galapagos Islands",
+    "optMainland": "Mainland Ecuador",
+    "optCombo": "Galapagos + Mainland Ecuador Combo",
+    "optFullDay": "Full-Day Excursions (1-Day Tours)",
+    "opt1": "1 Traveler (Solo)",
+    "opt2": "2 Travelers (Couple)",
+    "opt35": "Family / Small Group (3-5)",
+    "opt6plus": "Private Charter / Large Group (6+)"
   },
   "tour": {
     "overview": "Overview",
     "itinerary": "Itinerary",
     "includes": "What's Included",
-    "optional": "Optional Add-Ons",
+    "optional": "Optional Add-ons",
     "day": "Day",
     "book": "Book This Tour",
     "download": "Download PDF",
@@ -125,10 +139,20 @@
     "included": "Included",
     "excluded": "Not Included",
     "meals": "Meals",
-    "accommodation": "Accommodation"
+    "accommodation": "Accommodation",
+    "hotelCategory": "Accommodation Tier:",
+    "hotels3Star": "Comfort Class",
+    "hotels4Star": "Premium Class",
+    "ratePerPerson": "Rate per person ({tier})",
+    "experienceSummary": "Experience Summary",
+    "mainActivities": "Main Activities",
+    "bookNow": "Book Now",
+    "withAI": "With AI",
+    "online": "Online",
+    "downloadItinerary": "Download Itinerary"
   },
   "footer": {
-    "tagline": "Premier nature & comfort boutique expedition specialists in Ecuador, Galapagos & Peru since 2005.",
+    "tagline": "Premier nature & comfort boutique expedition specialists in Ecuador & Galapagos since 2005.",
     "rights": "All rights reserved.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service"

@@ -7,7 +7,7 @@ import { Tour } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { TourModal } from '@/components/tours/TourModal';
 import { Check, Clock, MapPin, Star, ArrowRight } from 'lucide-react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
 import { SparkleEffect } from '@/components/ui/SparkleEffect';
 import { BaseTourCard } from '@/components/shared/ui/BaseTourCard';
@@ -20,6 +20,7 @@ interface TourCardProps {
 export function TourCard({ tour, className = '' }: TourCardProps) {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const locale = useLocale();
+  const t = useTranslations('tours');
 
   const title = getLocalizedText(tour.title, locale);
   const destination = getLocalizedText(tour.destination, locale);
@@ -66,7 +67,7 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
                 </span>
                 {tour.isPopular && (
                   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-600 text-white shadow-md shadow-emerald-600/30">
-                    Best Seller
+                    {t('card.bestseller')}
                   </span>
                 )}
               </div>
@@ -100,13 +101,13 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
               <div className="flex items-center justify-between gap-3 mt-2">
                 <div>
                   <span className="text-[10px] uppercase tracking-wider font-medium text-zinc-400 block">
-                    From
+                    {t('card.from')}
                   </span>
                   <div className="flex items-baseline gap-1">
                     <span className="font-serif font-bold text-2xl text-zinc-900 dark:text-white">
                       ${tour.price.toLocaleString('en-US')}
                     </span>
-                    <span className="text-xs text-zinc-500 font-normal">/ person</span>
+                    <span className="text-xs text-zinc-500 font-normal">{t('card.person')}</span>
                   </div>
                 </div>
                 <Button 
@@ -115,7 +116,7 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
                   className="gap-1.5 text-xs shrink-0 pointer-events-none"
                   tabIndex={-1}
                 >
-                  <span>View Details</span>
+                  <span>{t('card.view')}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>

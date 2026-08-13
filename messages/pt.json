@@ -1,60 +1,60 @@
 {
   "meta": {
-    "title": "Vermilion Routes | Viagens Personalizadas de Natureza e Conforto",
-    "description": "Experimente a América do Sul com itinerários de viagem personalizados, cruzeiros de natureza e conforto nas Ilhas Galápagos, expedições pela floresta amazônica e caminhadas nos vulcões andinos."
+    "title": "Vermilion Routes | Viagens Personalizadas de Natureza & Conforto",
+    "description": "Experimente o Equador e Galápagos com itinerários sob medida, cruzeiros de natureza e conforto pelas Ilhas Galápagos, expedições na Amazônia e caminhadas por vulcões andinos."
   },
   "nav": {
     "home": "Início",
     "destinations": "Destinos",
     "galapagos": "Ilhas Galápagos",
     "ecuador": "Equador Continental",
-    "peru": "Peru Místico",
+    "fullday": "Passeios de 1 Dia",
     "tours": "Passeios em Destaque",
     "about": "Sobre Nós",
     "contact": "Contato",
     "quote": "Solicitar Orçamento",
     "banner": {
-      "tagline": "Expedições Personalizadas e Pequenos Grupos Privados",
-      "badge": "Viagens de Natureza e Conforto"
+      "tagline": "Expedições Sob Medida & Pequenos Grupos Privados",
+      "badge": "Viagens de Natureza & Conforto"
     }
   },
   "hero": {
-    "badge": "Viagens Premiadas de Natureza e Conforto",
-    "title": "Os Mais Extraordinários do Mundo",
-    "subtitle": "Expedições personalizadas às Ilhas Galápagos, Andes, Floresta Amazônica e Machu Picchu — criadas por guias locais especializados.",
+    "badge": "Viagens Premiadas de Natureza & Conforto",
+    "title": "O Mais Extraordinário Do Mundo",
+    "subtitle": "Expedições sob medida para as Ilhas Galápagos, Andes e Floresta Amazônica — criadas por guias locais especialistas.",
     "cta": {
       "explore": "Explorar Passeios",
-      "quote": "Obter um Orçamento Gratuito",
+      "quote": "Orçamento Gratuito",
       "plan": "Planeje Sua Viagem"
     },
     "stats": {
-      "tours": "Passeios Personalizados",
-      "reviews": "Avaliações Cinco Estrelas",
+      "tours": "Viagens Sob Medida",
+      "reviews": "Avaliações 5 Estrelas",
       "naturalists": "Naturalistas Especialistas",
-      "support": "Suporte 24/7"
+      "support": "Atendimento 24/7"
     }
   },
   "destinations": {
-    "badge": "Para Onde Você Irá?",
+    "badge": "Para Onde Você Vai?",
     "title": "Explore Nossos Destinos",
-    "subtitle": "Dos picos vulcânicos dos Andes aos recifes intocados das Galápagos — nós o levamos onde poucos viajantes ousam ir.",
+    "subtitle": "Dos picos vulcânicos dos Andes aos recifes intocados de Galápagos — levando você onde poucos viajantes vão.",
     "cta": "Explorar Passeios"
   },
   "tours": {
-    "badge": "Vitrine de Carrossel 3D Interativo",
-    "title": "Viagens Assinatura em Destaque",
-    "subtitle": "Experiências selecionadas lideradas por naturalistas locais especializados com logística impecável, estadias em hotéis boutique cuidadosamente escolhidos e o equilíbrio perfeito entre natureza, conforto e aventura.",
+    "badge": "Showcase Interativo de Carrossel 3D",
+    "title": "Viagens Emblemáticas em Destaque",
+    "subtitle": "Experiências guiadas por naturalistas locais especialistas com logística impecável e o equilíbrio definitivo entre natureza, conforto e aventura.",
     "cta": {
       "label": "Procurando algo 100% personalizado?",
-      "title": "Nós Projetamos Seu Itinerário Personalizado Sem Custo Adicional",
-      "subtitle": "Nossos especialistas em destinos personalizarão as datas da viagem, o ritmo, o nível de conforto do hotel e as excursões privadas, adaptadas precisamente às suas preferências.",
+      "title": "Desenhamos Seu Itinerário Sob Medida Sem Custo Adicional",
+      "subtitle": "Nossos especialistas personalizarão datas, ritmo, categoria de conforto e passeios privados.",
       "button": "Solicitar Itinerário Personalizado"
     },
     "filter": {
       "all": "Todas as Expedições",
       "galapagos": "Ilhas Galápagos",
       "ecuador": "Equador Continental",
-      "peru": "Cusco & Peru"
+      "fullday": "Passeios Full Day"
     },
     "card": {
       "from": "A partir de",
@@ -68,45 +68,59 @@
   },
   "about": {
     "badge": "Quem Somos",
-    "title": "Experiência em Viagens Boutique",
-    "subtitle": "Somos uma operadora de turismo boutique certificada com sede em Quito, Equador, especializada em expedições de natureza e conforto personalizadas pelo Equador, Galápagos e Peru."
+    "title": "Expertise em Viagens Boutique",
+    "subtitle": "Somos uma operadora de turismo boutique certificada com sede em Quito, Equador, especializada em expedições de natureza e conforto pelo Equador e Galápagos."
   },
   "experience": {
     "badge": "Sobre a Vermilion Routes",
-    "title": "Experiência Inigualável, Excelência Inquestionável",
-    "text": "Na Vermilion Routes, não apenas reservamos passeios. Criamos expedições únicas, inesquecíveis e totalmente personalizadas pelas paisagens espetaculares do Equador, Galápagos e Peru. Como operadores locais diretos, combinamos expertise regional com excelência inquestionável.",
-    "certified": "Operador Certificado",
+    "title": "Expertise Incomparável, Excelência Inquestionável",
+    "text": "Na Vermilion Routes, criamos expedições únicas, inesquecíveis e totalmente personalizadas pelas paisagens espetaculares do Equador e Galápagos.",
+    "certified": "Operadora Certificada",
     "sustainable": "Impacto Sustentável",
-    "reviewsTitle": "Histórias de Hóspedes & Excelência TripAdvisor"
+    "reviewsTitle": "Depoimentos & Excelência TripAdvisor"
   },
   "reviews": {
-    "badge": "Experiências de Hóspedes",
-    "title": "O Que Nossos Viajantes Dizem",
-    "verified": "Verificado pelo TripAdvisor"
+    "badge": "Experiências dos Clientes",
+    "title": "O Que Dizem Nossos Viajantes",
+    "verified": "Verificado no TripAdvisor"
   },
   "faq": {
-    "badge": "Perguntas Comuns",
+    "badge": "Perguntas Frequentes",
     "title": "Perguntas Frequentes",
-    "subtitle": "Tudo o que você precisa saber sobre o planejamento da sua expedição de natureza e conforto com a Vermilion Routes."
+    "subtitle": "Tudo o que você precisa saber para planejar sua expedição."
   },
   "contact": {
     "badge": "Vamos Planejar Sua Viagem",
     "title": "Solicite Seu Orçamento Gratuito",
-    "subtitle": "Conte-nos sobre a sua expedição dos sonhos. Nossos especialistas projetarão um itinerário personalizado em até 24 horas.",
+    "subtitle": "Conte-nos sobre a viagem dos seus sonhos. Nossos especialistas criarão um itinerário em 24 horas.",
     "name": "Seu Nome Completo",
-    "email": "Endereço de E-mail",
+    "email": "E-mail",
     "destination": "Destino de Interesse",
     "travelers": "Número de Viajantes",
-    "message": "Conte-nos sobre a sua expedição dos sonhos...",
-    "send": "Enviar Solicitação de Orçamento",
+    "message": "Conte-nos sobre a viagem dos seus sonhos...",
+    "send": "Enviar Solicitação",
     "sending": "Enviando...",
-    "success": "Obrigado! Entraremos em contato em até 24 horas."
+    "success": "Obrigado! Entraremos em contato em até 24 horas.",
+    "directCall": "Chamada Direta & WhatsApp",
+    "emailAddress": "Endereço de E-mail",
+    "headquarters": "Sede Principal",
+    "address": "Quito, Equador • Operações em Galápagos & Equador Continental",
+    "noCommitment": "Sem Compromisso",
+    "phone": "Telefone / WhatsApp",
+    "optGalapagos": "Ilhas Galápagos",
+    "optMainland": "Equador Continental",
+    "optCombo": "Combinado Galápagos + Equador Continental",
+    "optFullDay": "Passeios de 1 Dia (Full Day)",
+    "opt1": "1 Viajante (Solo)",
+    "opt2": "2 Viajantes (Casal)",
+    "opt35": "Família / Grupo Pequeno (3-5)",
+    "opt6plus": "Fretamento Privado / Grupo Grande (6+)"
   },
   "tour": {
-    "overview": "Visão Geral",
+    "overview": "Resumo",
     "itinerary": "Itinerário",
-    "includes": "O Que Está Incluído",
-    "optional": "Extras Opcionais",
+    "includes": "O Que Inclui",
+    "optional": "Adicionais Opcionais",
     "day": "Dia",
     "book": "Reservar Este Passeio",
     "download": "Baixar PDF",
@@ -125,10 +139,20 @@
     "included": "Incluído",
     "excluded": "Não Incluído",
     "meals": "Refeições",
-    "accommodation": "Acomodação"
+    "accommodation": "Hospedagem",
+    "hotelCategory": "Categoria de Hospedagem:",
+    "hotels3Star": "Conforto",
+    "hotels4Star": "Premium",
+    "ratePerPerson": "Tarifa por pessoa ({tier})",
+    "experienceSummary": "Resumo da Experiência",
+    "mainActivities": "Atividades Principais",
+    "bookNow": "Reservar Agora",
+    "withAI": "Com IA",
+    "online": "Online",
+    "downloadItinerary": "Baixar Itinerário"
   },
   "footer": {
-    "tagline": "Especialistas em expedições boutique de natureza e conforto no Equador, Galápagos e Peru desde 2005.",
+    "tagline": "Especialistas em expedições boutique de natureza e conforto no Equador e Galápagos desde 2005.",
     "rights": "Todos os direitos reservados.",
     "privacy": "Política de Privacidade",
     "terms": "Termos de Serviço"

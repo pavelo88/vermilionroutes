@@ -33,7 +33,7 @@ export function ConciergeWidget() {
       id: '1',
       role: 'assistant',
       content:
-        'Hello! I am **Valentina**, Lead Concierge at Vermilion Routes.\n\nWhether you are planning a **Galapagos Yacht Cruise**, exploring the **Amazon Rainforest**, or taking the panoramic train to **Machu Picchu**, I am here to assist you instantly with itineraries and prices.\n\nHow can I help customize your journey today?',
+        'Hello! I am **Valentina**, Lead Concierge at Vermilion Routes.\n\nWhether you are planning a **Galapagos Expedition**, exploring the **Amazon Rainforest**, or hiking through the **Avenue of Volcanoes in Baños & Cotopaxi**, I am here to assist you instantly with itineraries and prices.\n\nHow can I help customize your journey today?',
       timestamp: new Date(),
     },
   ]);
@@ -329,10 +329,10 @@ export function ConciergeWidget() {
             </button>
             <button
               suppressHydrationWarning
-              onClick={() => handleSendMessage('How to combine Galapagos and Machu Picchu in one trip?')}
+              onClick={() => handleSendMessage('How to combine Galapagos and Mainland Ecuador in one trip?')}
               className="text-[11px] whitespace-nowrap bg-zinc-800 hover:bg-amber-950/50 hover:border-amber-500/40 border border-zinc-700/60 text-zinc-200 px-2.5 py-1 rounded-full transition-colors"
             >
-              ⛰️ Galapagos + Peru
+              🌋 Galapagos + Ecuador
             </button>
             <button
               suppressHydrationWarning

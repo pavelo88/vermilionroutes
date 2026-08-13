@@ -119,7 +119,7 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
                 <option value="all">All Destinations</option>
                 <option value="galapagos">Galapagos Islands</option>
                 <option value="ecuador">Mainland Ecuador</option>
-                <option value="peru">Cusco & Machu Picchu</option>
+                <option value="fullday">Full Day Excursions</option>
               </select>
             </div>
           </div>

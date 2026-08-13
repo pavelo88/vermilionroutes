@@ -11,15 +11,41 @@ export default function AdminPage() {
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
+    const checkMasterSession = () => {
+      const isMaster = localStorage.getItem('vermilion_admin_session') === 'true';
+      if (isMaster) {
+        return {
+          email: process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@vermilionroutes.com',
+          uid: 'master-admin-session',
+          displayName: 'Master Administrator'
+        } as User;
+      }
+      return null;
+    };
+
+    const masterUser = checkMasterSession();
+    if (masterUser) {
+      setCurrentUser(masterUser);
+      setAuthLoading(false);
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+      if (user) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser(checkMasterSession());
+      }
       setAuthLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
   const handleSignOut = async () => {
-    await signOut(auth);
+    localStorage.removeItem('vermilion_admin_session');
+    try {
+      await signOut(auth);
+    } catch {}
+    setCurrentUser(null);
   };
 
   if (authLoading) {

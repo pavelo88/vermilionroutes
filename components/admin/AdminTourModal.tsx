@@ -23,6 +23,13 @@ interface AdminTourModalProps {
   onSave: (tour: Tour) => Promise<void>;
 }
 
+function getValString(val: any): string {
+  if (!val) return '';
+  if (typeof val === 'string') return val;
+  if (typeof val === 'object') return val.es || val.en || Object.values(val)[0] || '';
+  return String(val);
+}
+
 export function AdminTourModal({
   isOpen,
   editingTour,
@@ -209,9 +216,9 @@ export function AdminTourModal({
                 <input
                   type="text"
                   required
-                  value={formData.destination || ''}
+                  value={getValString(formData.destination)}
                   onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
-                  placeholder="e.g. Galapagos, Ecuador, Peru"
+                  placeholder="e.g. Galapagos, Ecuador, Full Day"
                   className="w-full p-2.5 glass-input rounded-xl focus:border-emerald-500 focus:outline-none"
                 />
               </div>
@@ -224,7 +231,7 @@ export function AdminTourModal({
               <input
                 type="text"
                 required
-                value={formData.title || ''}
+                value={getValString(formData.title)}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 placeholder="e.g. Andes, Amazon Jungle & Galapagos Expedition"
                 className="w-full p-2.5 glass-input rounded-xl text-sm font-semibold focus:border-emerald-500 focus:outline-none"
@@ -239,7 +246,7 @@ export function AdminTourModal({
                 <input
                   type="text"
                   required
-                  value={formData.duration || ''}
+                  value={getValString(formData.duration)}
                   onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                   placeholder="12 Days / 11 Nights"
                   className="w-full p-2.5 glass-input rounded-xl focus:border-emerald-500 focus:outline-none"

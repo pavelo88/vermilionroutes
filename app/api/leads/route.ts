@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     const customerPhone = sanitizeText(body.customerPhone || body.phone || '');
     const tourId = sanitizeText(body.tourId || 'general-inquiry');
     const tourTitle = sanitizeText(body.tourTitle || 'Custom Trip Inquiry');
-    const destination = sanitizeText(body.destination || 'Galapagos / Ecuador / Peru');
+    const destination = sanitizeText(body.destination || 'Galapagos / Mainland Ecuador');
     const travelDates = sanitizeText(body.travelDates || body.date || 'Flexible');
     const guestsCount = sanitizeText(body.guestsCount || body.travelers || '2 Travelers');
     const message = sanitizeText(body.message || '');

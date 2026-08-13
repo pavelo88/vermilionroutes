@@ -56,6 +56,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     openGraph: {
       title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel',
       description: t('description') || 'Experience South America with bespoke travel itineraries.',
+      description: t('description') || 'Experience Ecuador with bespoke travel itineraries.',
       url: `https://vermilionroutes.com/${locale}`,
       siteName: 'Vermilion Routes',
       images: [
@@ -72,7 +73,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     twitter: {
       card: 'summary_large_image',
       title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel',
-      description: t('description') || 'Experience South America with bespoke travel itineraries.',
+      description: t('description') || 'Experience Ecuador with bespoke travel itineraries.',
       images: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80'],
     },
     robots: {
@@ -110,7 +111,7 @@ export default async function RootLayout({
     '@type': 'TravelAgency',
     name: 'Vermilion Routes',
     description:
-      'Premier luxury boutique tour operator specializing in bespoke travel itineraries, Galapagos island cruises, Amazon lodges, and Andean expeditions in Ecuador and Peru.',
+      'Premier luxury boutique tour operator specializing in bespoke travel itineraries, Galapagos island cruises, Amazon lodges, and Andean expeditions in Ecuador.',
     url: 'https://vermilionroutes.com',
     logo: 'https://vermilionroutes.com/logo.png',
     image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
