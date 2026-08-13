@@ -255,7 +255,8 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   const contentWidth = pageWidth - (marginX * 2); // 182mm
   let yPos = 14;
 
-  // Pre-load cover & gallery images
+  // Pre-load logo, cover & gallery images
+  const logoBase64 = await loadImageAsBase64('/logo_inicio.png');
   const coverImgPath = tour.desktopImage || tour.imageUrl;
   const coverBase64 = await loadImageAsBase64(coverImgPath);
 
@@ -271,17 +272,22 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   doc.rect(0, 0, pageWidth, 26, 'F');
 
   // LOGO STRICTLY ON THE LEFT
-  doc.setTextColor(255, 255, 255);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(16);
-  doc.text('VERMILION ROUTES', marginX, 12);
+  if (logoBase64) {
+    doc.addImage(logoBase64, 'PNG', marginX, 3.5, 48, 19);
+  } else {
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    doc.text('VERMILION ROUTES', marginX, 12);
 
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8.5);
-  doc.setTextColor(167, 243, 208); // #a7f3d0
-  doc.text('SOUTH AMERICAN ROUTES • BESPOKE TRAVEL', marginX, 19);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(167, 243, 208); // #a7f3d0
+    doc.text('SOUTH AMERICAN ROUTES • BESPOKE TRAVEL', marginX, 19);
+  }
 
   // Document title aligned right
+  doc.setFont('helvetica', 'normal');
   doc.setFontSize(8.5);
   doc.setTextColor(255, 255, 255);
   doc.text(t.itineraryTitle, pageWidth - marginX, 15, { align: 'right' });
@@ -618,10 +624,20 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     }
   }
 
-  // 7. FOOTER ON ALL PAGES
+  // 7. WATERMARK & FOOTER ON ALL PAGES
   const totalPages = doc.getNumberOfPages();
   for (let p = 1; p <= totalPages; p++) {
     doc.setPage(p);
+
+    // Subtle Brand Watermark Centered on Every Page
+    if (logoBase64) {
+      doc.setGState(new (doc as any).GState({ opacity: 0.06 }));
+      const wmWidth = 110;
+      const wmHeight = 44;
+      doc.addImage(logoBase64, 'PNG', (pageWidth - wmWidth) / 2, (pageHeight - wmHeight) / 2, wmWidth, wmHeight);
+      doc.setGState(new (doc as any).GState({ opacity: 1.0 }));
+    }
+
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(148, 163, 184);
