@@ -11,6 +11,8 @@ import { useSettings } from '@/hooks/useSettings';
 import { useLocale, useTranslations } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
 import { generateTourPDF } from '@/lib/pdfGenerator';
+import { ExpeditionFacts } from '@/components/tours/ExpeditionFacts';
+import { ExpeditionRouteMap } from '@/components/tours/ExpeditionRouteMap';
 
 interface TourModalProps {
   tour: Tour | null;
@@ -344,16 +346,42 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     </div>
                   </motion.div>
 
-                  {/* Concise Description */}
+                  {/* Editorial Summary with Drop-Cap */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4 }}
+                    className="border-l-2 border-emerald-600 pl-4 py-1"
                   >
                     <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white mb-2">{t('experienceSummary')}</h3>
-                    <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed text-sm md:text-base">
+                    <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed text-sm md:text-base first-letter:font-serif first-letter:text-4xl first-letter:font-bold first-letter:float-left first-letter:mr-2.5 first-letter:text-emerald-700 dark:first-letter:text-emerald-400 first-letter:leading-none">
                       {tourDescriptionText}
                     </p>
+                  </motion.div>
+
+                  {/* Expedition Technical Sheet ("At a Glance") */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.45 }}
+                  >
+                    <ExpeditionFacts 
+                      tourId={tour.id} 
+                      destination={tourDestinationText} 
+                      duration={tourDurationText} 
+                    />
+                  </motion.div>
+
+                  {/* Illustrated Expedition Route Map */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    <ExpeditionRouteMap 
+                      tourId={tour.id} 
+                      destination={tourDestinationText} 
+                    />
                   </motion.div>
 
                   {/* Highlights Grid */}
@@ -361,7 +389,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
+                      transition={{ delay: 0.55 }}
                     >
                       <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
                         <Star className="w-4 h-4 text-amber-500" />

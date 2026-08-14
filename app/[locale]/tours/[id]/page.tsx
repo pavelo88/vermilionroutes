@@ -8,6 +8,8 @@ import { TourItinerary } from '@/components/tours/TourItinerary';
 import { BookingSidebar } from '@/components/tours/BookingSidebar';
 import { TripAdvisorReviews } from '@/components/home/TripAdvisorReviews';
 import { Button } from '@/components/ui/Button';
+import { ExpeditionFacts } from '@/components/tours/ExpeditionFacts';
+import { ExpeditionRouteMap } from '@/components/tours/ExpeditionRouteMap';
 import {
   MapPin,
   Clock,
@@ -207,17 +209,30 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
           {/* Photo Gallery */}
           <TourGallery images={galleryImages} title={tour.title} />
 
-          {/* Tour Overview */}
+          {/* Tour Overview with Editorial Drop Cap */}
           {tour.description && (
             <div className="space-y-4 pt-4 border-t border-zinc-200/80">
               <h3 className="font-serif font-bold text-2xl text-zinc-900">
                 Expedition Overview
               </h3>
-              <p className="text-zinc-700 text-base leading-relaxed">
+              <p className="text-zinc-700 text-base leading-relaxed first-letter:font-serif first-letter:text-5xl first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:text-emerald-800 first-letter:leading-none">
                 {tour.description}
               </p>
             </div>
           )}
+
+          {/* Expedition Technical Sheet ("At a Glance") */}
+          <ExpeditionFacts 
+            tourId={tour.id} 
+            destination={tour.destination} 
+            duration={tour.duration} 
+          />
+
+          {/* Illustrated Expedition Route Map */}
+          <ExpeditionRouteMap 
+            tourId={tour.id} 
+            destination={tour.destination} 
+          />
 
           {/* Highlights */}
           {tour.highlights && tour.highlights.length > 0 && (
