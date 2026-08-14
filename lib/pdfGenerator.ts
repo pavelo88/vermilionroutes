@@ -272,30 +272,38 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     dayImagesBase64.push(b64);
   }
 
-  // 1. BRAND HEADER (Strictly Left-Aligned Logo & Branding)
-  doc.setFillColor(2, 44, 34); // #022c22 (Dark Emerald)
+  // 1. BRAND HEADER (Clean White Luxury Header for logo_inicio.png)
+  doc.setFillColor(255, 255, 255);
   doc.rect(0, 0, pageWidth, 26, 'F');
+  doc.setDrawColor(241, 245, 249);
+  doc.setLineWidth(0.4);
+  doc.line(0, 26, pageWidth, 26);
 
   // LOGO STRICTLY ON THE LEFT
   if (logoBase64) {
     doc.addImage(logoBase64, 'PNG', marginX, 3.5, 48, 19);
   } else {
-    doc.setTextColor(255, 255, 255);
+    doc.setTextColor(15, 23, 42);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(16);
     doc.text('VERMILION ROUTES', marginX, 12);
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8.5);
-    doc.setTextColor(167, 243, 208); // #a7f3d0
+    doc.setTextColor(5, 150, 105);
     doc.text('SOUTH AMERICAN ROUTES • BESPOKE TRAVEL', marginX, 19);
   }
 
-  // Document title aligned right
-  doc.setFont('helvetica', 'normal');
+  // Document title aligned right (refined dark slate on white header)
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
-  doc.setTextColor(255, 255, 255);
-  doc.text(t.itineraryTitle, pageWidth - marginX, 15, { align: 'right' });
+  doc.setTextColor(51, 65, 85);
+  doc.text(t.itineraryTitle.toUpperCase(), pageWidth - marginX, 13, { align: 'right' });
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(100, 116, 139);
+  doc.text('CURATED EXPEDITIONS', pageWidth - marginX, 18.5, { align: 'right' });
 
   yPos = 32;
 
