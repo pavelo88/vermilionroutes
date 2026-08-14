@@ -4,8 +4,8 @@ import { z } from 'zod';
 
 const CheckoutSchema = z.object({
   tourId: z.string().nullable().optional(),
-  tourTitle: z.string().optional(),
-  clientEmail: z.string().email('Valid email is required'),
+  tourTitle: z.union([z.string(), z.record(z.string(), z.any())]).optional(),
+  clientEmail: z.string().min(3),
   customLinkId: z.string().optional(),
   amount: z.number().optional(),
   paymentType: z.enum(['deposit', 'full', 'custom']).optional(),
@@ -22,6 +22,12 @@ export async function POST(request: Request) {
     }
 
     const { tourId, tourTitle, clientEmail, customLinkId, amount, paymentType } = result.data;
+    const rawTitle = tourTitle as any;
+    const resolvedTitle: string = typeof rawTitle === 'string'
+      ? rawTitle
+      : (rawTitle && typeof rawTitle === 'object' && (rawTitle.en || rawTitle.es))
+        ? String(rawTitle.en || rawTitle.es)
+        : 'Vermilion Routes - Itinerary Payment';
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
     const finalAmountUSD = amount && amount > 0 ? amount : 500;
     const stripeKey = process.env.STRIPE_SECRET_KEY;
@@ -37,7 +43,7 @@ export async function POST(request: Request) {
               price_data: {
                 currency: 'usd',
                 product_data: {
-                  name: tourTitle || 'Vermilion Routes - Itinerary Payment',
+                  name: resolvedTitle,
                   description: `${paymentType === 'full' ? 'Full Tour Payment' : 'Deposit Reservation'} for ${clientEmail}`,
                 },
                 unit_amount: Math.round(finalAmountUSD * 100),
@@ -69,7 +75,7 @@ export async function POST(request: Request) {
     // 2. Direct Payment Link fallback for instant processing & VIP reservation links
     const queryParams = new URLSearchParams({
       tourId: tourId || 'custom',
-      tourTitle: tourTitle || 'Custom Itinerary',
+      tourTitle: resolvedTitle,
       email: clientEmail,
       amount: String(finalAmountUSD),
       type: paymentType || 'deposit',

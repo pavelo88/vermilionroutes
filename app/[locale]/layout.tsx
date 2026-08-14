@@ -143,7 +143,7 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang={locale} className={`${inter.variable} ${playfair.variable} scroll-smooth`} suppressHydrationWarning>
+    <html lang={locale} className={`${inter.variable} ${playfair.variable} scroll-smooth`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"

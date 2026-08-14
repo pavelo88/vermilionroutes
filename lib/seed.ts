@@ -51,7 +51,7 @@ export const defaultSettings = {
         title: 'MAJESTIC',
         title2: 'COTOPAXI VOLCANO',
         description: 'The iconic snow-capped volcano rising proudly over 5,897 meters across the Avenue of Volcanoes, surrounded by wild horses and high-altitude Andean páramo.',
-        image: '/images/tours/16-9/cotopaxi-16-9.jpg'
+        image: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg'
       },
       {
         place: 'Cotopaxi - Quilotoa',
@@ -65,7 +65,7 @@ export const defaultSettings = {
         title: 'AMAZON',
         title2: 'RAINFOREST',
         description: 'Navigate pristine Amazonian rivers by motorized canoe, encounter native wildlife at rescue sanctuaries, and connect with authentic Kichwa indigenous families.',
-        image: '/images/tours/16-9/amazon-jungle-16-9.jpg'
+        image: '/images/tours/16-9/tena-amazon-jungle-16-9.jpg'
       },
       {
         place: 'Galapagos - Isabela Island',
@@ -102,7 +102,7 @@ export const defaultSettings = {
     subtitle: "OUR CREDENTIALS",
     paragraph1: "At Vermilion Routes, we don't just book tours. We curate deeply personal, once-in-a-lifetime expeditions across the spectacular landscapes of Ecuador and the Galapagos. As direct local operators, we combine local wisdom with uncompromising exclusivity.",
     paragraph2: "Whether you are navigating the volcanic channels of the Galapagos on a private yacht charter, staying in remote, eco-friendly Amazon rainforest canopy suites, or walking the cobblestone paths of Quito historic center, we handle every detail with absolute precision.",
-    imageUrl: "/images/tours/fantastic-ecuador-hero.jpg",
+    imageUrl: "/images/tours/16-9/cajas-national-park-16-9.jpg",
     metric1Val: "100%",
     metric1Lbl: "Bespoke & Tailor-Made",
     metric2Val: "+15 Yrs",

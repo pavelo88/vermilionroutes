@@ -13,8 +13,8 @@ const LeadSchema = z.object({
   customerPhone: z.string().optional(),
   phone: z.string().optional(),
   tourId: z.string().optional(),
-  tourTitle: z.string().optional(),
-  destination: z.string().optional(),
+  tourTitle: z.union([z.string(), z.record(z.string(), z.any())]).optional(),
+  destination: z.union([z.string(), z.record(z.string(), z.any())]).optional(),
   travelDates: z.string().optional(),
   date: z.string().optional(),
   guestsCount: z.string().optional(),
@@ -37,8 +37,23 @@ export async function POST(req: NextRequest) {
     const customerEmail = sanitizeText(body.customerEmail || body.email || '');
     const customerPhone = sanitizeText(body.customerPhone || body.phone || '');
     const tourId = sanitizeText(body.tourId || 'general-inquiry');
-    const tourTitle = sanitizeText(body.tourTitle || 'Custom Trip Inquiry');
-    const destination = sanitizeText(body.destination || 'Galapagos / Mainland Ecuador');
+    
+    const rawTitle = body.tourTitle as any;
+    const resolvedTitleStr = typeof rawTitle === 'string'
+      ? rawTitle
+      : (rawTitle && typeof rawTitle === 'object' && (rawTitle.en || rawTitle.es))
+        ? String(rawTitle.en || rawTitle.es)
+        : 'Custom Trip Inquiry';
+    const tourTitle = sanitizeText(resolvedTitleStr);
+
+    const rawDest = body.destination as any;
+    const resolvedDestStr = typeof rawDest === 'string'
+      ? rawDest
+      : (rawDest && typeof rawDest === 'object' && (rawDest.en || rawDest.es))
+        ? String(rawDest.en || rawDest.es)
+        : 'Galapagos / Mainland Ecuador';
+    const destination = sanitizeText(resolvedDestStr);
+
     const travelDates = sanitizeText(body.travelDates || body.date || 'Flexible');
     const guestsCount = sanitizeText(body.guestsCount || body.travelers || '2 Travelers');
     const message = sanitizeText(body.message || '');

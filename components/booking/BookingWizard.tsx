@@ -59,12 +59,13 @@ export function BookingWizard() {
     setIsProcessing(true);
     
     try {
+      const tourTitleStr = typeof selectedTour.title === 'string' ? selectedTour.title : (selectedTour.title?.en || selectedTour.title?.es || 'Tour Expedition');
       const res = await fetch('/api/checkout/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           tourId: selectedTour.id,
-          tourTitle: selectedTour.title,
+          tourTitle: tourTitleStr,
           clientEmail: contactInfo.email,
           amount: pricing.total,
         }),

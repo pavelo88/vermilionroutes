@@ -74,7 +74,7 @@ const DEFAULT_DATA: SlideData[] = [
       ja: '野生の馬や高山植物に囲まれ、火山の街道に誇らしげにそびえる標高5,897メートルのコトパクシ火山。',
       zh: '海拔5897米白雪皑皑的完美火山锥，雄踞火山大道，周围环绕着高山草甸与野马。'
     },
-    image: '/images/tours/16-9/cotopaxi-16-9.jpg'
+    image: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg'
   },
   {
     place: { en: 'Cotopaxi - Quilotoa', es: 'Cotopaxi - Quilotoa', fr: 'Cotopaxi - Quilotoa', de: 'Cotopaxi - Quilotoa', it: 'Cotopaxi - Quilotoa', pt: 'Cotopaxi - Quilotoa', ja: 'キロトア - アンデス', zh: '基洛托阿 - 火山湖' },
@@ -106,7 +106,7 @@ const DEFAULT_DATA: SlideData[] = [
       ja: '動力付きカヌーで手付かずのアマゾン川を航行し、固有の野生生物に出会い、先住民族キチュワの家族と交流しましょう。',
       zh: '乘坐机动独木舟穿行于原始亚马逊支流，探访野生动物保护区，融入传统奇瓦印第安社区。'
     },
-    image: '/images/tours/16-9/amazon-jungle-16-9.jpg'
+    image: '/images/tours/16-9/tena-amazon-jungle-16-9.jpg'
   },
   {
     place: { en: 'Galapagos - Isabela Island', es: 'Galápagos - Isla Isabela', fr: 'Galapagos - Île Isabela', de: 'Galapagos - Insel Isabela', it: 'Galapagos - Isola Isabela', pt: 'Galápagos - Ilha Isabela', ja: 'ガラパゴス - イサベラ島', zh: '加拉帕戈斯 - 伊莎贝拉岛' },

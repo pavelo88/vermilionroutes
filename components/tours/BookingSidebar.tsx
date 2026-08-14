@@ -126,17 +126,21 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
     setIsSubmitting(true);
     setErrors({});
 
+    const tourTitleStr = typeof tour.title === 'string' ? tour.title : (tour.title?.en || tour.title?.es || 'Expedition');
+
     try {
       const res = await fetch('/api/checkout/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           tourId: tour.id,
+          tourTitle: tourTitleStr,
           clientEmail: formData.email,
           customerName: formData.name,
           customerPhone: formData.phone,
           travelDates: formData.date || 'Flexible',
           guestsCount: formData.travelers,
+          amount: tour.price || 500,
           customLinkId: 'direct-web'
         })
       });
@@ -156,8 +160,10 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
     }
   };
 
+  const tourTitleStr = typeof tour.title === 'string' ? tour.title : (tour.title?.en || tour.title?.es || 'Expedition');
+  const tourDurationStr = typeof tour.duration === 'string' ? tour.duration : (tour.duration?.en || tour.duration?.es || '');
   const whatsappMessage = encodeURIComponent(
-    `Hello Vermilion Routes! I am interested in the tour "${tour.title}" (${tour.duration}) for ${formData.travelers}. Could you please send me a custom quote and departure availability?`
+    `Hello Vermilion Routes! I am interested in the tour "${tourTitleStr}" (${tourDurationStr}) for ${formData.travelers}. Could you please send me a custom quote and departure availability?`
   );
 
   return (
