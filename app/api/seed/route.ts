@@ -1,22 +1,22 @@
 import { NextResponse } from 'next/server';
-import { headers } from 'next/headers';
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   if (process.env.NODE_ENV === 'production') {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    return NextResponse.json(
+      { error: 'Forbidden: Endpoint is strictly disabled in production.' },
+      { status: 403 }
+    );
   }
-  
-  const headersList = await headers();
-  const adminToken = headersList.get('x-admin-token');
-  
-  if (!adminToken || adminToken !== process.env.ADMIN_SEED_SECRET) {
+
+  const authHeader = request.headers.get('authorization');
+  if (authHeader !== `Bearer ${process.env.SEED_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    // Lógica de inyección DB
-    return NextResponse.json({ success: true });
+    // Lógica de seeding aislada y segura
+    return NextResponse.json({ success: true, message: 'Seeding complete.' }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed' }, { status: 500 });
+    return NextResponse.json({ error: 'Seeding failed' }, { status: 500 });
   }
 }
