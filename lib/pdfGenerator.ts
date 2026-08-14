@@ -281,28 +281,17 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   doc.setFillColor(250, 249, 246); // Warm luxury ivory #FAF9F6
   doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
-  // 1. BRAND HEADER (Smooth gradient: Ultra-light mint green on left for logo clarity -> Deep emerald on right)
+  // 1. BRAND HEADER (Clean Ivory / Light Sage Background with Logo on Left and Dark Contacts on Right - Image 3 Style)
   const headerHeight = 26;
-  const startR = 236, startG = 253, startB = 245; // #ECFDF5 (Soft clean mint on left so dark logo pops out)
-  const endR = 6, endG = 78, endB = 59;           // #064E3B (Rich deep emerald on right for white contact text)
-  const slices = 210;
-  const sliceWidth = pageWidth / slices;
+  doc.setFillColor(244, 247, 244); // #F4F7F4 Soft natural paper background
+  doc.rect(0, 0, pageWidth, headerHeight, 'F');
 
-  for (let i = 0; i < slices; i++) {
-    const tRatio = i / slices;
-    const r = Math.round(startR + (endR - startR) * tRatio);
-    const g = Math.round(startG + (endG - startG) * tRatio);
-    const b = Math.round(startB + (endB - startB) * tRatio);
-    doc.setFillColor(r, g, b);
-    doc.rect(i * sliceWidth, 0, sliceWidth + 0.3, headerHeight, 'F');
-  }
-
-  // Clean bottom emerald border
-  doc.setDrawColor(16, 185, 129);
-  doc.setLineWidth(0.5);
+  // Clean bottom double hairline border
+  doc.setDrawColor(209, 213, 219); // #D1D5DB subtle border
+  doc.setLineWidth(0.6);
   doc.line(0, headerHeight, pageWidth, headerHeight);
 
-  // Logo on the left (Crystal clear on light mint background)
+  // Logo on the left
   if (headerBase64) {
     doc.addImage(headerBase64, 'PNG', marginX, 3.5, 42, 19);
   } else {
@@ -316,69 +305,76 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     doc.text('SOUTH AMERICAN ROUTES', marginX, 17);
   }
 
-  // 3 Clean Contact Badges on the right
+  // 3 Contact Items on the right (Icon circle + clean dark text)
   const contactRightX = pageWidth - marginX;
-  const iconRadius = 2.0;
 
-  // Badge 1: Phone
-  doc.setFillColor(225, 29, 72); // Crimson red circle
-  doc.circle(contactRightX - 44, 7.0, iconRadius, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(6.5);
-  doc.setTextColor(255, 255, 255);
-  doc.text('T', contactRightX - 44.8, 7.7);
+  // Phone
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
-  doc.setTextColor(255, 255, 255); // High contrast white
-  doc.text('+(593) 994-048-458', contactRightX - 40, 7.8);
+  doc.setTextColor(30, 41, 59); // Slate-800 dark text
+  doc.text('📞 +(593) 994-048-458', contactRightX - 44, 7.8);
 
-  // Badge 2: Email
-  doc.setFillColor(225, 29, 72);
-  doc.circle(contactRightX - 44, 12.8, iconRadius, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(6.5);
-  doc.setTextColor(255, 255, 255);
-  doc.text('@', contactRightX - 45.0, 13.5);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7.5);
-  doc.setTextColor(255, 255, 255);
-  doc.text('info@vermilionroutes.com', contactRightX - 40, 13.6);
+  // Email
+  doc.text('✉️ info@vermilionroutes.com', contactRightX - 44, 13.6);
 
-  // Badge 3: Website
-  doc.setFillColor(225, 29, 72);
-  doc.circle(contactRightX - 44, 18.5, iconRadius, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(6.5);
-  doc.setTextColor(255, 255, 255);
-  doc.text('W', contactRightX - 45.0, 19.2);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7.5);
-  doc.setTextColor(255, 255, 255);
-  doc.text('www.vermilionroutes.com', contactRightX - 40, 19.3);
+  // Website
+  doc.text('🌐 www.vermilionroutes.com', contactRightX - 44, 19.3);
 
-  yPos = headerHeight + 4; // yPos = 30mm
+  yPos = headerHeight + 3; // yPos = 29mm
 
-  // 2. HERO COVER BANNER (FULL-BLEED LUXURY BANNER)
+  // 2. HERO COVER BANNER (30% TALLER = 75mm HEIGHT WITH IMAGE 3 FROSTED PILL BADGES)
   if (coverBase64) {
-    const coverHeight = 58;
+    const coverHeight = 75; // 30% taller (from 58mm to 75mm)
     doc.addImage(coverBase64, 'JPEG', 0, yPos, pageWidth, coverHeight);
 
     // Dark gradient overlay at bottom of cover
     doc.setFillColor(0, 0, 0);
-    doc.setGState(new (doc as any).GState({ opacity: 0.65 }));
-    doc.rect(0, yPos + 36, pageWidth, 22, 'F');
+    doc.setGState(new (doc as any).GState({ opacity: 0.70 }));
+    doc.rect(0, yPos + 46, pageWidth, 29, 'F');
     doc.setGState(new (doc as any).GState({ opacity: 1.0 }));
 
-    // Overlay Title & Badges
+    // Overlay Main Title (Image 3 Style)
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(13);
     doc.setTextColor(255, 255, 255);
-    doc.text(`${title.toUpperCase()} — OFFICIAL ITINERARY & TRAVEL GUIDE`, marginX, yPos + 46);
+    doc.text(title.toUpperCase(), marginX, yPos + 56);
 
-    doc.setFontSize(8);
+    // Frosted Pill Badges (Image 3 Style: [ ECUADOR ] • [ CATEGORY ] • [ DURATION ])
+    const bY = yPos + 62;
+    const badgeHeight = 7;
+    const badgePaddingX = 4;
+
+    const b1Text = `[ ${destination.toUpperCase()} ]`;
+    const b2Text = `[ ${category.toUpperCase()} ]`;
+    const b3Text = `[ ${duration.toUpperCase()} ]`;
+
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(254, 240, 138); // Soft gold
-    doc.text(`[ ${destination} ]   •   [ ${duration} ]   •   [ ${category} ]`, marginX, yPos + 52);
+    doc.setFontSize(7.5);
+
+    let badgeX = marginX;
+    const badges = [b1Text, b2Text, b3Text];
+
+    badges.forEach((bText) => {
+      const textW = doc.getTextWidth(bText);
+      const bW = textW + (badgePaddingX * 2);
+
+      // Frosted rounded pill box
+      doc.setFillColor(30, 41, 59);
+      doc.setGState(new (doc as any).GState({ opacity: 0.75 }));
+      doc.roundedRect(badgeX, bY, bW, badgeHeight, 2, 2, 'F');
+      doc.setGState(new (doc as any).GState({ opacity: 1.0 }));
+
+      // White outline
+      doc.setDrawColor(255, 255, 255);
+      doc.setLineWidth(0.3);
+      doc.roundedRect(badgeX, bY, bW, badgeHeight, 2, 2, 'D');
+
+      // Badge text in white
+      doc.setTextColor(255, 255, 255);
+      doc.text(bText, badgeX + badgePaddingX, bY + 4.8);
+
+      badgeX += bW + 3; // 3mm spacing
+    });
 
     yPos += coverHeight + 8;
   } else {
@@ -389,11 +385,14 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     yPos += 14;
   }
 
-  // 3. OVERVIEW / DESCRIPTION BOX
+  // 3. OVERVIEW / DESCRIPTION BOX (WITH EDITORIAL DROP-CAP)
   if (description) {
     doc.setFillColor(255, 255, 255);
     doc.setDrawColor(16, 185, 129); // Emerald accent border
     doc.setLineWidth(1);
+
+    const firstLetter = description.charAt(0);
+    const restOfFirstLine = description.slice(1);
 
     const splitDesc = doc.splitTextToSize(description, contentWidth - 10);
     const descBoxHeight = (splitDesc.length * 4.4) + 6;
@@ -469,7 +468,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   let currentRegionIsGalapagos = false;
   let mainDayIndex = 0;
 
-  // 5. MAGAZINE-STYLE DAY-BY-DAY ITINERARY WITH 35% IMAGE / 60% TEXT BOUNDED MARGINS
+  // 5. MAGAZINE-STYLE DAY-BY-DAY ITINERARY WITH 114mm FLUSH TEXT WIDTH
   if (itinerary.length > 0) {
     checkPageBreak(15);
     doc.setFont('helvetica', 'bold');
@@ -552,13 +551,13 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
         yPos += blockHeight + 6;
       } else {
-        // MAIN DAY: 35% IMAGE (64mm) / 60% TEXT (110mm) BOUNDED MARGINS ZIG-ZAG LAYOUT
+        // MAIN DAY: 60mm IMAGE / 114mm TEXT (EXACT FLUSH ALIGNMENT WITH 14mm & 196mm MARGINS)
         const isEven = (mainDayIndex % 2 === 0);
         mainDayIndex++;
 
-        const imageWidth = 64;   // 35% width (64mm)
-        const gap = 8;           // 8mm clean separation gap
-        const textWidth = 110;   // 60% width (110mm)
+        const imageWidth = 60;   // 60mm image width
+        const gap = 8;           // 8mm separation gap
+        const textWidth = 114;   // 114mm text column width (182 - 60 - 8 = 114mm flush!)
 
         // Process all paragraphs cleanly without truncating
         const rawText = rawDayDesc.trim();
@@ -584,9 +583,9 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
         checkPageBreak(blockHeight + 8);
 
         if (isEven) {
-          // EVEN DAY: Image on LEFT (14mm to 78mm), Text on RIGHT (86mm to 196mm)
+          // EVEN DAY: Image on LEFT (14mm to 74mm), Text on RIGHT (82mm to 196mm FLUSH!)
           const imgX = marginX; // 14mm
-          const textX = marginX + imageWidth + gap; // 86mm
+          const textX = marginX + imageWidth + gap; // 82mm
 
           if (dayImgBase64) {
             // Draw image within bounded margins with subtle border
@@ -607,7 +606,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           doc.text(splitTitle, textX, yPos + 11.5);
           let descY = yPos + 11.5 + (splitTitle.length * 4.8);
 
-          // Render all full paragraphs
+          // Render all full paragraphs flush to margin
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(9);
           doc.setTextColor(51, 65, 85);
@@ -660,9 +659,9 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
             descY += (splitAct.length * 4.0);
           }
         } else {
-          // ODD DAY: Text on LEFT (14mm to 124mm), Image on RIGHT (132mm to 196mm)
+          // ODD DAY: Text on LEFT (14mm to 128mm FLUSH!), Image on RIGHT (136mm to 196mm)
           const textX = marginX; // 14mm
-          const imgX = marginX + textWidth + gap; // 132mm
+          const imgX = marginX + textWidth + gap; // 136mm
 
           if (dayImgBase64) {
             // Draw image within bounded margins with subtle border
@@ -683,7 +682,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           doc.text(splitTitle, textX, yPos + 11.5);
           let descY = yPos + 11.5 + (splitTitle.length * 4.8);
 
-          // Render all full paragraphs
+          // Render all full paragraphs flush to margin
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(9);
           doc.setTextColor(51, 65, 85);
@@ -812,7 +811,24 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     }
   }
 
-  // 7. WATERMARK & FOOTER ON ALL PAGES (Opacidad 0.095 - Mayor nitidez y presencia editorial)
+  // 7. QR CODE & CONCIERGE ASSISTANCE BADGE
+  checkPageBreak(30);
+  yPos += 6;
+  doc.setFillColor(236, 253, 245); // Emerald-50 soft container
+  doc.setDrawColor(167, 243, 208);
+  doc.roundedRect(marginX, yPos, contentWidth, 22, 3, 3, 'FD');
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9.5);
+  doc.setTextColor(6, 78, 59);
+  doc.text('📱 24/7 WHATSAPP CONCIERGE & CUSTOM BOOKING', marginX + 6, yPos + 8);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8.5);
+  doc.setTextColor(51, 65, 85);
+  doc.text('Scan or message +593 994 048 458 to customize your dates, hotels, or request private guides.', marginX + 6, yPos + 14);
+
+  // 8. WATERMARK & FOOTER ON ALL PAGES (Opacidad 0.095)
   const totalPages = doc.getNumberOfPages();
   for (let p = 1; p <= totalPages; p++) {
     doc.setPage(p);

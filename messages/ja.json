@@ -6,16 +6,16 @@
   "nav": {
     "home": "ホーム",
     "destinations": "目的地",
-    "galapagos": "ガラパゴス諸島",
-    "ecuador": "エクアドル本土",
-    "fullday": "日帰りツアー",
-    "tours": "おすすめツアー",
-    "about": "会社概要",
-    "contact": "お問い合わせ",
-    "quote": "見積もり依頼",
+    "galapagos": "ガラパゴス",
+    "ecuador": "エクアドル",
+    "fullday": "日帰り",
+    "tours": "ツアー",
+    "about": "概要",
+    "contact": "連絡",
+    "quote": "予約",
     "banner": {
-      "tagline": "オーダーメイド遠征＆少人数プライベートツアー",
-      "badge": "自然＆コンフォート旅行"
+      "tagline": "オーダーメイド遠征＆少人数ツアー",
+      "badge": "自然＆コンフォート"
     }
   },
   "hero": {

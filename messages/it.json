@@ -6,13 +6,13 @@
   "nav": {
     "home": "Home",
     "destinations": "Destinazioni",
-    "galapagos": "Isole Galapagos",
-    "ecuador": "Ecuador Continentale",
-    "fullday": "Escursioni Giornaliere",
-    "tours": "Tour In Evidenza",
+    "galapagos": "Galapagos",
+    "ecuador": "Ecuador",
+    "fullday": "Giornalieri",
+    "tours": "Tour",
     "about": "Chi Siamo",
     "contact": "Contatti",
-    "quote": "Richiedi Preventivo",
+    "quote": "Prenota",
     "banner": {
       "tagline": "Spedizioni Su Misura & Piccoli Gruppi Privati",
       "badge": "Viaggi Natura & Comfort"

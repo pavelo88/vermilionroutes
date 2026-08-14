@@ -4,18 +4,18 @@
     "description": "Erleben Sie Ecuador & Galapagos mit individuellen Reiserouten, Natur- & Komfort-Kreuzfahrten auf den Galapagos-Inseln, Amazonas-Lodges und Anden-Treks."
   },
   "nav": {
-    "home": "Startseite",
+    "home": "Start",
     "destinations": "Reiseziele",
-    "galapagos": "Galapagos-Inseln",
-    "ecuador": "Festland Ecuador",
-    "fullday": "Tagesausflüge",
-    "tours": "Ausgewählte Touren",
+    "galapagos": "Galapagos",
+    "ecuador": "Ecuador",
+    "fullday": "Tagestouren",
+    "tours": "Touren",
     "about": "Über Uns",
     "contact": "Kontakt",
-    "quote": "Angebot Anfordern",
+    "quote": "Buchen",
     "banner": {
-      "tagline": "Maßgeschneiderte Expeditionen & Private Kleingruppen",
-      "badge": "Natur- & Komfortreisen"
+      "tagline": "Maßgeschneiderte Expeditionen & Kleingruppen",
+      "badge": "Natur & Komfort"
     }
   },
   "hero": {

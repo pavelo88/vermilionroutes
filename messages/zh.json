@@ -6,15 +6,15 @@
   "nav": {
     "home": "首页",
     "destinations": "目的地",
-    "galapagos": "加拉帕戈斯群岛",
-    "ecuador": "厄瓜多尔大陆",
-    "fullday": "一日游精选",
-    "tours": "精选路线",
-    "about": "关于我们",
-    "contact": "联系我们",
-    "quote": "获取报价",
+    "galapagos": "加拉帕戈斯",
+    "ecuador": "厄瓜多尔",
+    "fullday": "一日游",
+    "tours": "路线",
+    "about": "关于",
+    "contact": "联系",
+    "quote": "预订",
     "banner": {
-      "tagline": "私人小团与专属定制探险",
+      "tagline": "专属定制探险与私人小团",
       "badge": "自然与舒适之旅"
     }
   },

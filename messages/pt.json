@@ -6,16 +6,16 @@
   "nav": {
     "home": "Início",
     "destinations": "Destinos",
-    "galapagos": "Ilhas Galápagos",
-    "ecuador": "Equador Continental",
-    "fullday": "Passeios de 1 Dia",
-    "tours": "Passeios em Destaque",
-    "about": "Sobre Nós",
+    "galapagos": "Galápagos",
+    "ecuador": "Equador",
+    "fullday": "1 Dia",
+    "tours": "Tours",
+    "about": "Sobre",
     "contact": "Contato",
-    "quote": "Solicitar Orçamento",
+    "quote": "Reservar",
     "banner": {
-      "tagline": "Expedições Sob Medida & Pequenos Grupos Privados",
-      "badge": "Viagens de Natureza & Conforto"
+      "tagline": "Expedições Sob Medida & Grupos Privados",
+      "badge": "Natureza & Conforto"
     }
   },
   "hero": {

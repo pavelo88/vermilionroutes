@@ -6,13 +6,13 @@
   "nav": {
     "home": "Accueil",
     "destinations": "Destinations",
-    "galapagos": "Îles Galápagos",
-    "ecuador": "Équateur Continental",
-    "fullday": "Excursions d'une Journée",
-    "tours": "Circuits En Vedette",
+    "galapagos": "Galápagos",
+    "ecuador": "Équateur",
+    "fullday": "Journée",
+    "tours": "Circuits",
     "about": "À Propos",
     "contact": "Contact",
-    "quote": "Obtenir un Devis",
+    "quote": "Réserver",
     "banner": {
       "tagline": "Expéditions Sur Mesure & Petits Groupes Privés",
       "badge": "Voyages Nature & Confort"

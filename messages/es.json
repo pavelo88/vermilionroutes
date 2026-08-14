@@ -6,16 +6,16 @@
   "nav": {
     "home": "Inicio",
     "destinations": "Destinos",
-    "galapagos": "Islas Galápagos",
-    "ecuador": "Ecuador Continental",
-    "fullday": "Excursiones Full Day",
-    "tours": "Tours Destacados",
+    "galapagos": "Galápagos",
+    "ecuador": "Ecuador",
+    "fullday": "Full Day",
+    "tours": "Tours",
     "about": "Nosotros",
     "contact": "Contacto",
-    "quote": "Solicitar Presupuesto",
+    "quote": "Reservar",
     "banner": {
-      "tagline": "Expediciones a Medida y Grupos Pequeños Privados",
-      "badge": "Viajes de Naturaleza y Confort"
+      "tagline": "Expediciones a Medida y Grupos Privados",
+      "badge": "Naturaleza y Confort"
     }
   },
   "hero": {

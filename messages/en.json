@@ -6,16 +6,16 @@
   "nav": {
     "home": "Home",
     "destinations": "Destinations",
-    "galapagos": "Galapagos Islands",
-    "ecuador": "Mainland Ecuador",
-    "fullday": "Full-Day Excursions",
-    "tours": "Featured Tours",
-    "about": "About Us",
+    "galapagos": "Galapagos",
+    "ecuador": "Ecuador",
+    "fullday": "Day Tours",
+    "tours": "Tours",
+    "about": "About",
     "contact": "Contact",
-    "quote": "Get a Quote",
+    "quote": "Book",
     "banner": {
       "tagline": "Tailor-Made Expeditions & Private Small Groups",
-      "badge": "Nature & Comfort Journeys"
+      "badge": "Nature & Comfort"
     }
   },
   "hero": {
