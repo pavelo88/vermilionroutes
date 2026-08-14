@@ -281,10 +281,10 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   doc.setFillColor(250, 249, 246); // Warm luxury ivory #FAF9F6
   doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
-  // 1. BRAND HEADER (Deep Emerald to Forest Green gradient with organic wave lines)
+  // 1. BRAND HEADER (Smooth gradient: Ultra-light mint green on left for logo clarity -> Deep emerald on right)
   const headerHeight = 26;
-  const startR = 6, startG = 78, startB = 59;   // #064E3B (Rich emerald green on left)
-  const endR = 2, endG = 44, endB = 34;         // #022C22 (Deep forest green on right)
+  const startR = 236, startG = 253, startB = 245; // #ECFDF5 (Soft clean mint on left so dark logo pops out)
+  const endR = 6, endG = 78, endB = 59;           // #064E3B (Rich deep emerald on right for white contact text)
   const slices = 210;
   const sliceWidth = pageWidth / slices;
 
@@ -297,37 +297,22 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     doc.rect(i * sliceWidth, 0, sliceWidth + 0.3, headerHeight, 'F');
   }
 
-  // Organic tech/nature wave curves across bottom of header
-  doc.setGState(new (doc as any).GState({ opacity: 0.3 }));
-  doc.setDrawColor(74, 222, 128); // Glowing lime green #4ADE80
-  doc.setLineWidth(0.6);
-  doc.line(0, headerHeight - 3, 70, headerHeight - 7);
-  doc.line(70, headerHeight - 7, 140, headerHeight - 2);
-  doc.line(140, headerHeight - 2, pageWidth, headerHeight - 6);
-
-  doc.setDrawColor(255, 255, 255); // Subtle white flow line
-  doc.setLineWidth(0.3);
-  doc.line(0, headerHeight - 5, 80, headerHeight - 2);
-  doc.line(80, headerHeight - 2, 150, headerHeight - 8);
-  doc.line(150, headerHeight - 8, pageWidth, headerHeight - 3);
-  doc.setGState(new (doc as any).GState({ opacity: 1.0 }));
-
-  // Bottom gold/emerald border
+  // Clean bottom emerald border
   doc.setDrawColor(16, 185, 129);
   doc.setLineWidth(0.5);
   doc.line(0, headerHeight, pageWidth, headerHeight);
 
-  // Logo on the left (on top of emerald background)
+  // Logo on the left (Crystal clear on light mint background)
   if (headerBase64) {
     doc.addImage(headerBase64, 'PNG', marginX, 3.5, 42, 19);
   } else {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(14);
-    doc.setTextColor(255, 255, 255);
+    doc.setTextColor(6, 78, 59);
     doc.text('VERMILION ROUTES', marginX, 12);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7.5);
-    doc.setTextColor(167, 243, 208);
+    doc.setTextColor(5, 150, 105);
     doc.text('SOUTH AMERICAN ROUTES', marginX, 17);
   }
 
