@@ -1,6 +1,7 @@
 import { jsPDF } from 'jspdf';
 import { Tour } from '@/types';
 import { getLocalizedText } from '@/utils/i18nHelper';
+import { mockTours } from '@/data/mock';
 
 const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
   en: {
@@ -233,19 +234,22 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
   const t = PDF_TRANSLATIONS[locale] || PDF_TRANSLATIONS['es'];
 
-  const title = getLocalizedText(tour.title, locale);
-  const destination = getLocalizedText(tour.destination, locale);
-  const duration = getLocalizedText(tour.duration, locale);
-  const category = getLocalizedText(tour.category, locale);
-  const description = getLocalizedText(tour.description, locale);
+  // Always resolve complete verbatim tour data from mockTours
+  const targetTour = mockTours.find(m => m.id === tour.id) || tour;
 
-  const price3Star = tour.price3Star || tour.price;
-  const price4Star = tour.price4Star || Math.round(tour.price * 1.15);
+  const title = getLocalizedText(targetTour.title, locale);
+  const destination = getLocalizedText(targetTour.destination, locale);
+  const duration = getLocalizedText(targetTour.duration, locale);
+  const category = getLocalizedText(targetTour.category, locale);
+  const description = getLocalizedText(targetTour.description, locale);
 
-  const itinerary = tour.itinerary || [];
-  const inclusions = tour.inclusions || [];
-  const exclusions = tour.exclusions || [];
-  const gallery = tour.gallery || [];
+  const price3Star = targetTour.price3Star || targetTour.price;
+  const price4Star = targetTour.price4Star || Math.round(targetTour.price * 1.15);
+
+  const itinerary = targetTour.itinerary || tour.itinerary || [];
+  const inclusions = targetTour.inclusions || tour.inclusions || [];
+  const exclusions = targetTour.exclusions || tour.exclusions || [];
+  const gallery = targetTour.gallery || tour.gallery || [];
 
   // Create jsPDF instance (A4 format: 210mm x 297mm)
   const doc = new jsPDF({
@@ -506,9 +510,9 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
       if (isFunctional) {
         // FUNCTIONAL DAY: COMPACT STRIP FORMAT
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8.5);
+        doc.setFontSize(9.5); // Increased from 8.5
         const splitDayDesc = doc.splitTextToSize(rawDayDesc, contentWidth - 12);
-        const blockHeight = 12 + (splitDayDesc.length * 4) + (dayMeals ? 4 : 0);
+        const blockHeight = 14 + (splitDayDesc.length * 4.4) + (dayMeals ? 5 : 0);
 
         checkPageBreak(blockHeight + 4);
 
@@ -517,24 +521,24 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
         doc.roundedRect(marginX, yPos, contentWidth, blockHeight, 2, 2, 'FD');
 
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(8);
+        doc.setFontSize(9); // Increased from 8
         doc.setTextColor(71, 85, 105);
         doc.text(`${t.day.toUpperCase()} ${dayItem.day} • [ LOGÍSTICA / DÍA LIBRE ]`, marginX + 5, yPos + 6);
 
-        doc.setFontSize(9.5);
+        doc.setFontSize(10.5); // Increased from 9.5
         doc.setTextColor(15, 23, 42);
-        doc.text(dayTitle, marginX + 5, yPos + 11);
+        doc.text(dayTitle, marginX + 5, yPos + 12);
 
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8.5);
+        doc.setFontSize(9.5); // Increased from 8.5
         doc.setTextColor(51, 65, 85);
-        let descY = yPos + 16;
+        let descY = yPos + 17;
         doc.text(splitDayDesc, marginX + 5, descY);
-        descY += (splitDayDesc.length * 4);
+        descY += (splitDayDesc.length * 4.4);
 
         if (dayMeals) {
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(7.5);
+          doc.setFontSize(8.5); // Increased from 7.5
           doc.setTextColor(71, 85, 105);
           doc.text(`MEALS: ${dayMeals}`, marginX + 5, descY + 2);
         }
@@ -559,15 +563,15 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
         // Estimate metadata lines
         let metadataHeight = 0;
-        if (dayAcc) metadataHeight += 4.5;
-        if (dayTrans) metadataHeight += 4.5;
-        if (dayMeals) metadataHeight += 4.5;
-        if (dayAct) metadataHeight += 4.5;
-        if (dayInc) metadataHeight += 4.5;
-        if (dayAlt) metadataHeight += 4.5;
+        if (dayAcc) metadataHeight += 5;
+        if (dayTrans) metadataHeight += 5;
+        if (dayMeals) metadataHeight += 5;
+        if (dayAct) metadataHeight += 5;
+        if (dayInc) metadataHeight += 5;
+        if (dayAlt) metadataHeight += 5;
 
-        const textBlockHeight = 16 + (totalDescLines * 3.7) + (paragraphs.length * 2.5) + metadataHeight;
-        const blockHeight = Math.max(textBlockHeight, 48);
+        const textBlockHeight = 18 + (totalDescLines * 4.1) + (paragraphs.length * 2.8) + metadataHeight;
+        const blockHeight = Math.max(textBlockHeight, 52);
 
         checkPageBreak(blockHeight + 8);
 
@@ -579,67 +583,67 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
           const textX = 112;
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(8);
+          doc.setFontSize(9); // Increased from 8
           doc.setTextColor(8, 145, 178); // Cyan accent
           doc.text(`${t.day.toUpperCase()} ${dayItem.day}`, textX, yPos + 6);
 
-          doc.setFontSize(9.5);
+          doc.setFontSize(10.5); // Increased from 9.5
           doc.setTextColor(15, 23, 42);
           const splitTitle = doc.splitTextToSize(dayTitle, textWidth);
-          doc.text(splitTitle, textX, yPos + 11);
-          let descY = yPos + 11 + (splitTitle.length * 4.5);
+          doc.text(splitTitle, textX, yPos + 11.5);
+          let descY = yPos + 11.5 + (splitTitle.length * 4.8);
 
           // Render all full paragraphs
           doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8);
+          doc.setFontSize(9); // Increased from 8
           doc.setTextColor(51, 65, 85);
           for (const paraLines of wrappedParagraphs) {
             doc.text(paraLines, textX, descY);
-            descY += (paraLines.length * 3.7) + 2.5;
+            descY += (paraLines.length * 4.1) + 2.8;
           }
 
           // Render metadata badges
           if (dayAcc) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7.5);
+            doc.setFontSize(8.5); // Increased from 7.5
             doc.setTextColor(15, 23, 42);
             doc.text('Overnight: ', textX, descY);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
-            doc.text(dayAcc, textX + 16, descY);
-            descY += 4.5;
+            doc.text(dayAcc, textX + 18, descY);
+            descY += 5;
           }
           if (dayTrans) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7.5);
+            doc.setFontSize(8.5); // Increased from 7.5
             doc.setTextColor(15, 23, 42);
             doc.text('Transport: ', textX, descY);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
-            const splitTrans = doc.splitTextToSize(dayTrans, textWidth - 16);
-            doc.text(splitTrans, textX + 16, descY);
-            descY += (splitTrans.length * 3.7);
+            const splitTrans = doc.splitTextToSize(dayTrans, textWidth - 18);
+            doc.text(splitTrans, textX + 18, descY);
+            descY += (splitTrans.length * 4.0);
           }
           if (dayMeals) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7.5);
+            doc.setFontSize(8.5); // Increased from 7.5
             doc.setTextColor(15, 23, 42);
             doc.text('Meals: ', textX, descY);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
-            doc.text(dayMeals, textX + 12, descY);
-            descY += 4.5;
+            doc.text(dayMeals, textX + 14, descY);
+            descY += 5;
           }
           if (dayAct) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7.5);
+            doc.setFontSize(8.5); // Increased from 7.5
             doc.setTextColor(15, 23, 42);
             doc.text('Activity: ', textX, descY);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
-            const splitAct = doc.splitTextToSize(dayAct, textWidth - 14);
-            doc.text(splitAct, textX + 14, descY);
-            descY += (splitAct.length * 3.7);
+            const splitAct = doc.splitTextToSize(dayAct, textWidth - 16);
+            doc.text(splitAct, textX + 16, descY);
+            descY += (splitAct.length * 4.0);
           }
         } else {
           // ODD DAY: Text on LEFT (14mm to 100mm), Image on RIGHT (Bleed 105mm to 210mm)
@@ -649,67 +653,67 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
           const textX = marginX;
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(8);
+          doc.setFontSize(9); // Increased from 8
           doc.setTextColor(8, 145, 178); // Cyan accent
           doc.text(`${t.day.toUpperCase()} ${dayItem.day}`, textX, yPos + 6);
 
-          doc.setFontSize(9.5);
+          doc.setFontSize(10.5); // Increased from 9.5
           doc.setTextColor(15, 23, 42);
           const splitTitle = doc.splitTextToSize(dayTitle, textWidth);
-          doc.text(splitTitle, textX, yPos + 11);
-          let descY = yPos + 11 + (splitTitle.length * 4.5);
+          doc.text(splitTitle, textX, yPos + 11.5);
+          let descY = yPos + 11.5 + (splitTitle.length * 4.8);
 
           // Render all full paragraphs
           doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8);
+          doc.setFontSize(9); // Increased from 8
           doc.setTextColor(51, 65, 85);
           for (const paraLines of wrappedParagraphs) {
             doc.text(paraLines, textX, descY);
-            descY += (paraLines.length * 3.7) + 2.5;
+            descY += (paraLines.length * 4.1) + 2.8;
           }
 
           // Render metadata badges
           if (dayAcc) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7.5);
+            doc.setFontSize(8.5); // Increased from 7.5
             doc.setTextColor(15, 23, 42);
             doc.text('Overnight: ', textX, descY);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
-            doc.text(dayAcc, textX + 16, descY);
-            descY += 4.5;
+            doc.text(dayAcc, textX + 18, descY);
+            descY += 5;
           }
           if (dayTrans) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7.5);
+            doc.setFontSize(8.5); // Increased from 7.5
             doc.setTextColor(15, 23, 42);
             doc.text('Transport: ', textX, descY);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
-            const splitTrans = doc.splitTextToSize(dayTrans, textWidth - 16);
-            doc.text(splitTrans, textX + 16, descY);
-            descY += (splitTrans.length * 3.7);
+            const splitTrans = doc.splitTextToSize(dayTrans, textWidth - 18);
+            doc.text(splitTrans, textX + 18, descY);
+            descY += (splitTrans.length * 4.0);
           }
           if (dayMeals) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7.5);
+            doc.setFontSize(8.5); // Increased from 7.5
             doc.setTextColor(15, 23, 42);
             doc.text('Meals: ', textX, descY);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
-            doc.text(dayMeals, textX + 12, descY);
-            descY += 4.5;
+            doc.text(dayMeals, textX + 14, descY);
+            descY += 5;
           }
           if (dayAct) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7.5);
+            doc.setFontSize(8.5); // Increased from 7.5
             doc.setTextColor(15, 23, 42);
             doc.text('Activity: ', textX, descY);
             doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
-            const splitAct = doc.splitTextToSize(dayAct, textWidth - 14);
-            doc.text(splitAct, textX + 14, descY);
-            descY += (splitAct.length * 3.7);
+            const splitAct = doc.splitTextToSize(dayAct, textWidth - 16);
+            doc.text(splitAct, textX + 16, descY);
+            descY += (splitAct.length * 4.0);
           }
         }
 
@@ -735,19 +739,19 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     inclusions.forEach((inc) => {
       const incText = getLocalizedText(inc, locale);
       const splitInc = doc.splitTextToSize(incText, contentWidth - 10);
-      const itemHeight = (splitInc.length * 4.2) + 2;
+      const itemHeight = (splitInc.length * 4.5) + 2;
       checkPageBreak(itemHeight);
 
       // Vector Green Checkmark
       doc.setFillColor(16, 185, 129); // emerald-500
-      doc.circle(marginX + 2.5, yPos + 2, 1.8, 'F');
+      doc.circle(marginX + 2.5, yPos + 2, 2.0, 'F');
       doc.setDrawColor(255, 255, 255);
-      doc.setLineWidth(0.4);
-      doc.line(marginX + 1.6, yPos + 2, marginX + 2.3, yPos + 2.7);
-      doc.line(marginX + 2.3, yPos + 2.7, marginX + 3.4, yPos + 1.2);
+      doc.setLineWidth(0.5);
+      doc.line(marginX + 1.5, yPos + 2, marginX + 2.3, yPos + 2.8);
+      doc.line(marginX + 2.3, yPos + 2.8, marginX + 3.5, yPos + 1.1);
 
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8.5);
+      doc.setFontSize(9.5); // Increased from 8.5
       doc.setTextColor(30, 41, 59);
       doc.text(splitInc, marginX + 7, yPos + 3);
       yPos += itemHeight;
@@ -768,19 +772,19 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
       exclusions.forEach((exc) => {
         const excText = getLocalizedText(exc, locale);
         const splitExc = doc.splitTextToSize(excText, contentWidth - 10);
-        const itemHeight = (splitExc.length * 4.2) + 2;
+        const itemHeight = (splitExc.length * 4.5) + 2;
         checkPageBreak(itemHeight);
 
         // Vector Red Cross
         doc.setFillColor(225, 29, 72); // rose-600
-        doc.circle(marginX + 2.5, yPos + 2, 1.8, 'F');
+        doc.circle(marginX + 2.5, yPos + 2, 2.0, 'F');
         doc.setDrawColor(255, 255, 255);
-        doc.setLineWidth(0.4);
-        doc.line(marginX + 1.7, yPos + 1.2, marginX + 3.3, yPos + 2.8);
-        doc.line(marginX + 3.3, yPos + 1.2, marginX + 1.7, yPos + 2.8);
+        doc.setLineWidth(0.5);
+        doc.line(marginX + 1.6, yPos + 1.1, marginX + 3.4, yPos + 2.9);
+        doc.line(marginX + 3.4, yPos + 1.1, marginX + 1.6, yPos + 2.9);
 
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8.5);
+        doc.setFontSize(9.5); // Increased from 8.5
         doc.setTextColor(100, 116, 139);
         doc.text(splitExc, marginX + 7, yPos + 3);
         yPos += itemHeight;
