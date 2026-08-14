@@ -174,11 +174,15 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
 };
 
 /**
- * Checks if a day is a functional/logistical day (free day, flight, transfer, departure)
+ * Checks if a day is a functional/logistical day (strictly free day or pure flight departure)
  */
 function isFunctionalDay(title: string, desc: string): boolean {
-  const combined = `${title} ${desc}`.toLowerCase();
-  return /libre|free|vuelo|flight|traslado|transfer|salida|departure|airport|aeropuerto/i.test(combined);
+  const t = title.toLowerCase();
+  // If the title contains specific excursions, it's a main tour day
+  if (/crater|cráter|gemelos|primicias|tortuga|tortoise|tintoreras|lobería|loberia|grietas|waterfall|cascada|pailón|pailon|volcan|volcán|cotopaxi|quilotoa|chimborazo|yanacocha|amazon|rainforest|equator|mitad del mundo|city tour|panecillo|otavalo|papallacta|mindo|antisana|cajas|ingapirca/i.test(t)) {
+    return false;
+  }
+  return /libre|free day|vuelo de retorno|departure.*flight|salida internacional|international departure/i.test(t);
 }
 
 /**
@@ -190,9 +194,9 @@ function isGalapagosRegion(title: string, desc: string): boolean {
 }
 
 /**
- * Loads an image from a URL and converts it to Base64 JPEG data
+ * Loads an image from a URL and converts it to Base64 (preserves PNG transparency)
  */
-async function loadImageAsBase64(url: string): Promise<string | null> {
+async function loadImageAsBase64(url: string, forcePng: boolean = false): Promise<string | null> {
   if (typeof window === 'undefined' || !url) return null;
   return new Promise((resolve) => {
     const img = new Image();
@@ -207,7 +211,8 @@ async function loadImageAsBase64(url: string): Promise<string | null> {
         const ctx = canvas.getContext('2d');
         if (ctx) {
           ctx.drawImage(img, 0, 0);
-          const dataURL = canvas.toDataURL('image/jpeg', 0.85);
+          const isPng = forcePng || url.toLowerCase().includes('.png');
+          const dataURL = isPng ? canvas.toDataURL('image/png') : canvas.toDataURL('image/jpeg', 0.88);
           resolve(dataURL);
         } else {
           resolve(null);

@@ -65,17 +65,26 @@ export interface Destination {
   slug: string;
 }
 
+export interface SlideData {
+  place: LocalizedString | string;
+  title: LocalizedString | string;
+  title2: LocalizedString | string;
+  description: LocalizedString | string;
+  image: string;
+}
+
 export interface Review {
   id: string;
   author: string;
-  location: string;
-  avatarUrl: string;
+  location?: string;
+  avatarUrl?: string;
   rating: number;
   date: string;
-  tourTitle: string;
-  title: string;
+  tourTitle?: string;
+  title?: string;
   comment: string;
-  verifiedTripAdvisor: boolean;
+  verifiedTripAdvisor?: boolean;
+  tourId?: string;
 }
 
 export interface BookingRequest {

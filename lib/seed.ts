@@ -26,60 +26,74 @@ export const defaultSettings = {
     backgroundImage: "",
     slides: [
       {
-        place: 'Galapagos - Archipelago',
-        title: 'RESERVA MARINA',
-        title2: 'GALÁPAGOS',
-        description: 'Sumérgete en aguas cristalinas rodeado de tiburones martillo, leones marinos y tortugas centenarias en uno de los santuarios marinos más protegidos del planeta.',
-        image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=2400&q=85'
+        place: 'Galapagos - Santa Cruz',
+        title: 'GIANT',
+        title2: 'TORTOISES',
+        description: 'Observe ancient giant tortoises roaming freely in their natural habitat at the highlands of Santa Cruz Island and explore majestic volcanic twin craters.',
+        image: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'
       },
       {
         place: 'Pichincha - Quito',
-        title: 'VIRGEN DE',
-        title2: 'EL PANECILLO',
-        description: 'Alzada a 3.000 metros sobre Quito, la imponente Virgen de El Panecillo ofrece una vista panorámica de 360 grados de los Andes y la capital histórica.',
-        image: 'https://images.unsplash.com/photo-1589802829985-817e51171b92?auto=format&fit=crop&w=2400&q=85'
-      },
-      {
-        place: 'Pichincha - Quito',
-        title: 'CENTRO',
-        title2: 'HISTÓRICO',
-        description: 'El primer sitio Patrimonio Cultural de la Humanidad por la UNESCO. Camina por calles empedradas, los altares de pan de oro de La Compañía y majestuosas plazas coloniales.',
-        image: 'https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=2400&q=85'
+        title: 'HISTORIC',
+        title2: 'COLONIAL QUITO',
+        description: 'The first UNESCO World Cultural Heritage site in the world. Walk along preserved cobblestone streets and marvel at the golden altars of La Compañía Church.',
+        image: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg'
       },
       {
         place: 'Tungurahua - Baños',
         title: 'PAILÓN DEL',
-        title2: 'DIABLO',
-        description: 'Siente la fuerza atronadora de la cascada más famosa de Ecuador. Experimenta puentes colgantes, cañones de vegetación exuberante y la impresionante Ruta de las Cascadas.',
-        image: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=2400&q=85'
+        title2: 'DIABLO WATERFALL',
+        description: 'Feel the thunderous roar of Ecuador’s most famous waterfall. Experience suspension bridges, lush tropical cloud forest, and the scenic Route of the Waterfalls.',
+        image: '/images/tours/16-9/pailon-del-diablo-16-9.jpg'
       },
       {
         place: 'Cotopaxi - Andes',
-        title: 'VOLCÁN',
-        title2: 'COTOPAXI',
-        description: 'El icónico cono volcánico nevado que se alza orgulloso sobre los altos Andes. Camina entre caballos salvajes y místicos paisajes de páramo en la espina de América.',
-        image: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=2400&q=85'
+        title: 'MAJESTIC',
+        title2: 'COTOPAXI VOLCANO',
+        description: 'The iconic snow-capped volcano rising proudly over 5,897 meters across the Avenue of Volcanoes, surrounded by wild horses and high-altitude Andean páramo.',
+        image: '/images/tours/16-9/cotopaxi-16-9.jpg'
       },
       {
-        place: 'Pichincha - Quito',
-        title: 'MITAD DEL',
-        title2: 'MUNDO',
-        description: 'Párate simultáneamente en los hemisferios Norte y Sur. Experimenta demostraciones de gravedad y herencia cultural en la Latitud 0° 0\' 0".',
-        image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=2400&q=85'
+        place: 'Cotopaxi - Quilotoa',
+        title: 'QUILOTOA',
+        title2: 'CRATER LAKE',
+        description: 'Marvel at the striking turquoise waters inside an ancient volcanic caldera located at 3,500 meters altitude with panoramic views of the western Andes range.',
+        image: '/images/tours/16-9/quilotoa-16-9.jpg'
       },
       {
-        place: 'Napo - Amazonía',
-        title: 'SELVA',
-        title2: 'AMAZÓNICA',
-        description: 'Navega por ríos amazónicos prístinos, comparte con comunidades Kichwa y observa peces gigantes, caimanes y biodiversidad pura en Tena y Puyo.',
-        image: 'https://images.unsplash.com/photo-1587595431973-160d0d94add1?auto=format&fit=crop&w=2400&q=85'
+        place: 'Napo - Amazon Rainforest',
+        title: 'AMAZON',
+        title2: 'RAINFOREST',
+        description: 'Navigate pristine Amazonian rivers by motorized canoe, encounter native wildlife at rescue sanctuaries, and connect with authentic Kichwa indigenous families.',
+        image: '/images/tours/16-9/amazon-jungle-16-9.jpg'
       },
       {
-        place: 'Galápagos - Isla Isabela',
-        title: 'ISLA',
-        title2: 'ISABELA',
-        description: 'Explora el islote volcánico Tintoreras, observa flamingos rosados en lagunas turquesas y nada junto a pingüinos de Galápagos y leones marinos.',
-        image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=85'
+        place: 'Galapagos - Isabela Island',
+        title: 'TINTORERAS',
+        title2: 'ISLET & FLAMINGOS',
+        description: 'Snorkel in turquoise lava channels with white-tip reef sharks, marine iguanas, and sea turtles, and visit coastal lagoons filled with wild flamingos.',
+        image: '/images/tours/16-9/isabela-island-16-9.jpg'
+      },
+      {
+        place: 'Azuay - Cuenca & Cajas',
+        title: 'CUENCA & CAJAS',
+        title2: 'NATIONAL PARK',
+        description: 'Discover the UNESCO-listed colonial elegance of Cuenca, handcrafted toquilla hats, and hike among the 200 glacial lakes of Cajas National Park.',
+        image: '/images/tours/16-9/cajas-national-park-16-9.jpg'
+      },
+      {
+        place: 'Chimborazo - Andes',
+        title: 'CHIMBORAZO',
+        title2: 'VOLCANO (6,310M)',
+        description: 'The closest point on Earth to the Sun at 6,310 meters. Experience the majestic Andean reserve home to wild vicuñas and ancestral Inca mountain landscapes.',
+        image: '/images/tours/16-9/chimborazo-volcano-16-9.jpg'
+      },
+      {
+        place: 'Galapagos - Puerto Ayora',
+        title: 'LAS GRIETAS',
+        title2: 'CANYON & LA LOBERÍA',
+        description: 'Swim and snorkel in the crystal-clear volcanic crevice of Las Grietas and observe playful Galapagos sea lions resting on the white sand beaches of La Lobería.',
+        image: '/images/tours/16-9/las-grietas-canyon-16-9.jpg'
       }
     ]
   },

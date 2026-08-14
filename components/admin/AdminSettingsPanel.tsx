@@ -237,68 +237,77 @@ export function AdminSettingsPanel() {
                 </Button>
               </div>
 
-              <div className="space-y-4 pt-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-2">
                 {(localSettings.hero?.slides || []).map((slide: any, sIdx: number) => (
-                  <div key={sIdx} className="relative bg-zinc-50 dark:bg-zinc-900/50 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800/80 group">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const updatedSlides = [...localSettings.hero.slides];
-                        updatedSlides.splice(sIdx, 1);
-                        handleTextChange('hero', 'slides', updatedSlides as any);
-                      }}
-                      className="absolute -top-2 -right-2 p-1.5 bg-rose-500 text-white rounded-full shadow-md z-10 hover:bg-rose-600 transition-colors"
-                      title="Remove slide"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                      <div className="md:col-span-1 space-y-2">
-                        {slide.image ? (
-                          <div className="relative aspect-[2/3] w-full rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-700">
-                            <img src={slide.image} alt="Slide img" className="w-full h-full object-cover" />
-                          </div>
-                        ) : (
-                          <div className="relative aspect-[2/3] w-full rounded-lg border border-dashed border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-800/50 flex flex-col items-center justify-center text-zinc-500 gap-2">
-                            <Upload className="w-6 h-6" />
-                            <span className="text-xs font-semibold">Upload Image</span>
-                          </div>
-                        )}
-                        <div className="relative">
-                          <input
-                            type="file"
-                            accept="image/*"
-                            id={`slide-img-${sIdx}`}
-                            onChange={async (e) => {
-                               const file = e.target.files?.[0];
-                               if (!file) return;
-                               try {
-                                 setUploadingField(`slide-${sIdx}`);
-                                 const downloadURL = await uploadImage(file, 'hero');
-                                 const updatedSlides = [...localSettings.hero.slides];
-                                 updatedSlides[sIdx].image = downloadURL;
-                                 handleTextChange('hero', 'slides', updatedSlides as any);
-                               } catch (err: any) {
-                                 alert('Upload failed: ' + err.message);
-                               } finally {
-                                 setUploadingField(null);
-                               }
-                            }}
-                            className="hidden"
-                          />
-                          <label
-                            htmlFor={`slide-img-${sIdx}`}
-                            className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 bg-zinc-800 hover:bg-emerald-600 text-white rounded-lg text-[11px] font-medium cursor-pointer transition-colors"
-                          >
-                            <span>{uploadingField === `slide-${sIdx}` ? 'Uploading...' : 'Change Image'}</span>
-                          </label>
+                  <div key={sIdx} className="relative bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col group">
+                    {/* Header Image Preview with Delete Button */}
+                    <div className="relative aspect-[16/9] w-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden border-b border-zinc-200 dark:border-zinc-800">
+                      {slide.image ? (
+                        <img src={slide.image} alt={slide.place || "Slide preview"} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center text-zinc-400 gap-1.5 p-4">
+                          <Upload className="w-6 h-6 text-zinc-400" />
+                          <span className="text-xs font-medium">No Image Uploaded</span>
                         </div>
-                      </div>
+                      )}
                       
-                      <div className="md:col-span-3 space-y-3">
+                      {/* Slide Number Badge */}
+                      <span className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold rounded-md">
+                        #{sIdx + 1}
+                      </span>
+
+                      {/* Delete Slide Button */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updatedSlides = [...localSettings.hero.slides];
+                          updatedSlides.splice(sIdx, 1);
+                          handleTextChange('hero', 'slides', updatedSlides as any);
+                        }}
+                        className="absolute top-2.5 right-2.5 p-1.5 bg-rose-500/90 hover:bg-rose-600 text-white rounded-full shadow-md z-10 transition-colors"
+                        title="Remove slide"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+
+                      {/* Change Image Button Overlay */}
+                      <div className="absolute bottom-2 right-2">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          id={`slide-img-${sIdx}`}
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
+                            try {
+                              setUploadingField(`slide-${sIdx}`);
+                              const downloadURL = await uploadImage(file, 'hero');
+                              const updatedSlides = [...localSettings.hero.slides];
+                              updatedSlides[sIdx].image = downloadURL;
+                              handleTextChange('hero', 'slides', updatedSlides as any);
+                            } catch (err: any) {
+                              alert('Upload failed: ' + err.message);
+                            } finally {
+                              setUploadingField(null);
+                            }
+                          }}
+                          className="hidden"
+                        />
+                        <label
+                          htmlFor={`slide-img-${sIdx}`}
+                          className="flex items-center gap-1 px-2.5 py-1 bg-black/70 hover:bg-emerald-600 backdrop-blur-md text-white rounded-md text-[10px] font-medium cursor-pointer transition-colors"
+                        >
+                          <Upload className="w-3 h-3" />
+                          <span>{uploadingField === `slide-${sIdx}` ? 'Uploading...' : 'Change Image'}</span>
+                        </label>
+                      </div>
+                    </div>
+                    
+                    {/* Content Fields */}
+                    <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
+                      <div className="space-y-2.5">
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-zinc-500 uppercase">Eyebrow Location (Place)</label>
+                          <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Eyebrow Location (Place)</label>
                           <input
                             type="text"
                             value={slide.place}
@@ -307,12 +316,14 @@ export function AdminSettingsPanel() {
                               updated[sIdx].place = e.target.value;
                               handleTextChange('hero', 'slides', updated as any);
                             }}
-                            className="w-full px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
+                            placeholder="e.g. Galapagos - Santa Cruz"
+                            className="w-full px-2.5 py-1.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white focus:border-emerald-500 focus:outline-none"
                           />
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
+                        
+                        <div className="grid grid-cols-2 gap-2">
                           <div className="space-y-1">
-                            <label className="text-[10px] font-bold text-zinc-500 uppercase">Title Part 1</label>
+                            <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Title 1</label>
                             <input
                               type="text"
                               value={slide.title}
@@ -321,11 +332,12 @@ export function AdminSettingsPanel() {
                                 updated[sIdx].title = e.target.value;
                                 handleTextChange('hero', 'slides', updated as any);
                               }}
-                              className="w-full px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
+                              placeholder="e.g. GIANT"
+                              className="w-full px-2.5 py-1.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white focus:border-emerald-500 focus:outline-none"
                             />
                           </div>
                           <div className="space-y-1">
-                            <label className="text-[10px] font-bold text-zinc-500 uppercase">Title Part 2</label>
+                            <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Title 2</label>
                             <input
                               type="text"
                               value={slide.title2}
@@ -334,12 +346,14 @@ export function AdminSettingsPanel() {
                                 updated[sIdx].title2 = e.target.value;
                                 handleTextChange('hero', 'slides', updated as any);
                               }}
-                              className="w-full px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
+                              placeholder="e.g. TORTOISES"
+                              className="w-full px-2.5 py-1.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white focus:border-emerald-500 focus:outline-none"
                             />
                           </div>
                         </div>
+
                         <div className="space-y-1">
-                          <label className="text-[10px] font-bold text-zinc-500 uppercase">Description</label>
+                          <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Description</label>
                           <textarea
                             value={slide.description}
                             onChange={(e) => {
@@ -348,7 +362,8 @@ export function AdminSettingsPanel() {
                               handleTextChange('hero', 'slides', updated as any);
                             }}
                             rows={3}
-                            className="w-full px-3 py-1.5 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
+                            placeholder="Slide description..."
+                            className="w-full px-2.5 py-1.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white focus:border-emerald-500 focus:outline-none resize-none"
                           />
                         </div>
                       </div>
