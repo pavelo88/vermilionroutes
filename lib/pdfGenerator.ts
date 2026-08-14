@@ -260,8 +260,9 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   const contentWidth = pageWidth - (marginX * 2); // 182mm
   let yPos = 14;
 
-  // Pre-load logo, cover & gallery images
-  const logoBase64 = await loadImageAsBase64('/logo_inicio.png');
+  // Pre-load header banner, watermark logo, cover & gallery images
+  const headerBase64 = await loadImageAsBase64('/logo_inicio.png');
+  const logoWatermarkBase64 = await loadImageAsBase64('/logo_inicio.png');
   const coverImgPath = tour.desktopImage || tour.imageUrl;
   const coverBase64 = await loadImageAsBase64(coverImgPath);
 
@@ -272,106 +273,136 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     dayImagesBase64.push(b64);
   }
 
-  // 1. BRAND HEADER (Clean White Luxury Header for logo_inicio.png)
-  doc.setFillColor(255, 255, 255);
-  doc.rect(0, 0, pageWidth, 26, 'F');
-  doc.setDrawColor(241, 245, 249);
+  // 1. BRAND HEADER (Soft luxury background, logo on left, 3 contact badges with red circular icons on right)
+  const headerHeight = 25;
+  doc.setFillColor(248, 250, 252);
+  doc.rect(0, 0, pageWidth, headerHeight, 'F');
+  doc.setDrawColor(226, 232, 240);
   doc.setLineWidth(0.4);
-  doc.line(0, 26, pageWidth, 26);
+  doc.line(0, headerHeight, pageWidth, headerHeight);
 
-  // LOGO STRICTLY ON THE LEFT
-  if (logoBase64) {
-    doc.addImage(logoBase64, 'PNG', marginX, 3.5, 48, 19);
+  // Logo on the left
+  if (headerBase64) {
+    doc.addImage(headerBase64, 'PNG', marginX, 3.5, 42, 18);
   } else {
-    doc.setTextColor(15, 23, 42);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(16);
+    doc.setFontSize(14);
+    doc.setTextColor(15, 23, 42);
     doc.text('VERMILION ROUTES', marginX, 12);
-
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8.5);
+    doc.setFontSize(7.5);
     doc.setTextColor(5, 150, 105);
-    doc.text('SOUTH AMERICAN ROUTES • BESPOKE TRAVEL', marginX, 19);
+    doc.text('SOUTH AMERICAN ROUTES', marginX, 17);
   }
 
-  // Document title aligned right (refined dark slate on white header)
+  // 3 Contact Badges with red circular icons on the right
+  const contactRightX = pageWidth - marginX;
+  const iconRadius = 2.0;
+
+  // Badge 1: Phone
+  doc.setFillColor(225, 29, 72); // Crimson red
+  doc.circle(contactRightX - 44, 7.0, iconRadius, 'F');
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8.5);
-  doc.setTextColor(51, 65, 85);
-  doc.text(t.itineraryTitle.toUpperCase(), pageWidth - marginX, 13, { align: 'right' });
-
-  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(6.5);
+  doc.setTextColor(255, 255, 255);
+  doc.text('T', contactRightX - 44.8, 7.7);
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
-  doc.setTextColor(100, 116, 139);
-  doc.text('CURATED EXPEDITIONS', pageWidth - marginX, 18.5, { align: 'right' });
+  doc.setTextColor(30, 41, 59);
+  doc.text('+(593) 994-048-458', contactRightX - 40, 7.8);
 
-  yPos = 32;
+  // Badge 2: Email
+  doc.setFillColor(225, 29, 72);
+  doc.circle(contactRightX - 44, 12.5, iconRadius, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(6.5);
+  doc.setTextColor(255, 255, 255);
+  doc.text('@', contactRightX - 45.0, 13.2);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7.5);
+  doc.setTextColor(30, 41, 59);
+  doc.text('info@vermilionroutes.com', contactRightX - 40, 13.3);
+
+  // Badge 3: Website
+  doc.setFillColor(225, 29, 72);
+  doc.circle(contactRightX - 44, 18.0, iconRadius, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(6.5);
+  doc.setTextColor(255, 255, 255);
+  doc.text('W', contactRightX - 45.0, 18.7);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7.5);
+  doc.setTextColor(30, 41, 59);
+  doc.text('www.vermilionroutes.com', contactRightX - 40, 18.8);
+
+  yPos = headerHeight + 3; // yPos = 28mm
 
   // 2. HERO COVER BANNER (FULL-BLEED LUXURY BANNER)
   if (coverBase64) {
-    const coverHeight = 60;
+    const coverHeight = 58;
     doc.addImage(coverBase64, 'JPEG', 0, yPos, pageWidth, coverHeight);
-    
+
     // Dark gradient overlay at bottom of cover
     doc.setFillColor(0, 0, 0);
-    doc.setGState(new (doc as any).GState({ opacity: 0.5 }));
-    doc.rect(0, yPos + 38, pageWidth, 22, 'F');
+    doc.setGState(new (doc as any).GState({ opacity: 0.6 }));
+    doc.rect(0, yPos + 36, pageWidth, 22, 'F');
     doc.setGState(new (doc as any).GState({ opacity: 1.0 }));
 
     // Overlay Title & Badges
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(16);
+    doc.setFontSize(13.5);
     doc.setTextColor(255, 255, 255);
-    doc.text(title.toUpperCase(), marginX, yPos + 48);
+    doc.text(`${title.toUpperCase()} — OFFICIAL ITINERARY & TRAVEL GUIDE`, marginX, yPos + 46);
 
     doc.setFontSize(8);
     doc.setFont('helvetica', 'bold');
-    doc.text(`[ ${destination} ]   •   [ ${duration} ]   •   [ ${category} ]`, marginX, yPos + 54);
+    doc.setTextColor(254, 240, 138); // Soft gold
+    doc.text(`[ ${destination} ]   •   [ ${duration} ]   •   [ ${category} ]`, marginX, yPos + 52);
 
-    yPos += coverHeight + 10;
+    yPos += coverHeight + 8;
   } else {
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(18);
+    doc.setFontSize(16);
     doc.setTextColor(2, 44, 34);
     doc.text(title.toUpperCase(), marginX, yPos + 6);
-    yPos += 16;
+    yPos += 14;
   }
 
-  // 3. OVERVIEW / DESCRIPTION BOX (FULL UNTRUNCATED TEXT)
+  // 3. OVERVIEW / DESCRIPTION BOX
   if (description) {
     doc.setFillColor(248, 250, 252);
     doc.setDrawColor(5, 150, 105);
     doc.setLineWidth(1);
 
     const splitDesc = doc.splitTextToSize(description, contentWidth - 10);
-    const descBoxHeight = (splitDesc.length * 4.5) + 8;
+    const descBoxHeight = (splitDesc.length * 4.2) + 6;
 
     doc.rect(marginX, yPos, contentWidth, descBoxHeight, 'F');
     doc.line(marginX, yPos, marginX, yPos + descBoxHeight); // Left accent border
 
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9.5);
+    doc.setFontSize(9);
     doc.setTextColor(51, 65, 85);
-    doc.text(splitDesc, marginX + 5, yPos + 6);
+    doc.text(splitDesc, marginX + 5, yPos + 5);
 
-    yPos += descBoxHeight + 8;
+    yPos += descBoxHeight + 7;
   }
 
   // 4. PRICING CARDS
   const cardWidth = (contentWidth - 6) / 2; // 88mm each
-  const cardHeight = 20;
+  const cardHeight = 18;
 
   // 3-Star Card
   doc.setFillColor(240, 253, 244);
   doc.setDrawColor(167, 243, 208);
   doc.roundedRect(marginX, yPos, cardWidth, cardHeight, 2, 2, 'FD');
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8.5);
+  doc.setFontSize(8);
   doc.setTextColor(22, 101, 52);
-  doc.text(t.hotel3star.toUpperCase(), marginX + 6, yPos + 7);
-  doc.setFontSize(13);
+  doc.text(t.hotel3star.toUpperCase(), marginX + 6, yPos + 6);
+  doc.setFontSize(12);
   doc.setTextColor(4, 120, 87);
-  doc.text(`$${price3Star} USD`, marginX + 6, yPos + 15);
+  doc.text(`$${price3Star} USD`, marginX + 6, yPos + 13.5);
 
   // 4-Star Card
   const card2X = marginX + cardWidth + 6;
@@ -379,23 +410,22 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   doc.setDrawColor(233, 213, 255);
   doc.roundedRect(card2X, yPos, cardWidth, cardHeight, 2, 2, 'FD');
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8.5);
+  doc.setFontSize(8);
   doc.setTextColor(126, 34, 206);
-  doc.text(t.hotel4star.toUpperCase(), card2X + 6, yPos + 7);
-  doc.setFontSize(13);
+  doc.text(t.hotel4star.toUpperCase(), card2X + 6, yPos + 6);
+  doc.setFontSize(12);
   doc.setTextColor(126, 34, 206);
-  doc.text(`$${price4Star} USD`, card2X + 6, yPos + 15);
+  doc.text(`$${price4Star} USD`, card2X + 6, yPos + 13.5);
 
-  yPos += cardHeight + 12;
+  yPos += cardHeight + 10;
 
   // Helper for adding new pages cleanly
   const checkPageBreak = (neededHeight: number) => {
     if (yPos + neededHeight > pageHeight - 22) {
       doc.addPage();
       yPos = 16;
-      // Mini top accent line on new page
       doc.setFillColor(2, 44, 34);
-      doc.rect(0, 0, pageWidth, 5, 'F');
+      doc.rect(0, 0, pageWidth, 4, 'F');
       return true;
     }
     return false;
@@ -403,9 +433,9 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
   // Track regional chapter transitions
   let currentRegionIsGalapagos = false;
-  let mainDayIndex = 0; // Index counter for zig-zag layout alternation
+  let mainDayIndex = 0;
 
-  // 5. MAGAZINE-STYLE DAY-BY-DAY ITINERARY WITH CONDITIONAL ZIG-ZAG & FULL-BLEED IMAGES
+  // 5. MAGAZINE-STYLE DAY-BY-DAY ITINERARY WITH ZIG-ZAG & FULL-BLEED IMAGES
   if (itinerary.length > 0) {
     checkPageBreak(15);
     doc.setFont('helvetica', 'bold');
@@ -420,42 +450,45 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     for (let i = 0; i < itinerary.length; i++) {
       const dayItem = itinerary[i];
       const dayTitle = getLocalizedText(dayItem.title, locale);
-      const dayDesc = getLocalizedText(dayItem.description, locale);
+      const rawDayDesc = getLocalizedText(dayItem.description, locale);
       const dayMeals = dayItem.meals ? getLocalizedText(dayItem.meals, locale) : '';
       const dayAcc = dayItem.accommodation ? getLocalizedText(dayItem.accommodation, locale) : '';
+      const dayTrans = dayItem.transportation ? getLocalizedText(dayItem.transportation, locale) : '';
+      const dayAct = dayItem.activity ? getLocalizedText(dayItem.activity, locale) : '';
+      const dayInc = dayItem.includedVisits ? getLocalizedText(dayItem.includedVisits, locale) : '';
+      const dayAlt = dayItem.altitude ? getLocalizedText(dayItem.altitude, locale) : '';
       const dayImgBase64 = dayImagesBase64[i];
 
-      const isFunctional = isFunctionalDay(dayTitle, dayDesc);
-      const isGalapagos = isGalapagosRegion(dayTitle, dayDesc);
+      const isFunctional = isFunctionalDay(dayTitle, rawDayDesc);
+      const isGalapagos = isGalapagosRegion(dayTitle, rawDayDesc);
 
       // REGIONAL CHAPTER DIVIDER DISCOVERY
       if (isGalapagos && !currentRegionIsGalapagos) {
         currentRegionIsGalapagos = true;
-        checkPageBreak(24);
+        checkPageBreak(22);
         yPos += 4;
 
-        // Full-Bleed Chapter Banner Block (0 to 210mm width)
         doc.setFillColor(2, 44, 34);
-        doc.rect(0, yPos, pageWidth, 22, 'F');
-        
+        doc.rect(0, yPos, pageWidth, 20, 'F');
+
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(11);
-        doc.setTextColor(234, 179, 8); // Gold accent #eab308
-        doc.text(t.galapagosChapterTitle.toUpperCase(), marginX, yPos + 13);
-        
-        yPos += 28;
+        doc.setTextColor(234, 179, 8);
+        doc.text(t.galapagosChapterTitle.toUpperCase(), marginX, yPos + 12);
+
+        yPos += 26;
       }
 
       if (isFunctional) {
-        // FUNCTIONAL DAY: COMPACT STRIP FORMAT (No large 50% bleed image)
+        // FUNCTIONAL DAY: COMPACT STRIP FORMAT
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(8.5);
-        const splitDayDesc = doc.splitTextToSize(dayDesc, contentWidth - 12);
+        const splitDayDesc = doc.splitTextToSize(rawDayDesc, contentWidth - 12);
         const blockHeight = 12 + (splitDayDesc.length * 4) + (dayMeals ? 4 : 0);
 
         checkPageBreak(blockHeight + 4);
 
-        doc.setFillColor(248, 250, 252); // Soft gray strip
+        doc.setFillColor(248, 250, 252);
         doc.setDrawColor(203, 213, 225);
         doc.roundedRect(marginX, yPos, contentWidth, blockHeight, 2, 2, 'FD');
 
@@ -488,22 +521,32 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
         const isEven = (mainDayIndex % 2 === 0);
         mainDayIndex++;
 
-        const halfWidth = 105; // 50% A4 width = 105mm
-        const imageBlockHeight = 48; // 48mm height for bleed image
-        const textWidth = 84; // Width for text column
+        const halfWidth = 105; // 105mm width
+        const textWidth = 86; // Text column width
 
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8.5);
-        const splitDayDesc = doc.splitTextToSize(dayDesc, textWidth);
-        const textBlockHeight = 14 + (splitDayDesc.length * 4) + (dayMeals ? 5 : 0) + (dayAcc ? 5 : 0);
-        const blockHeight = Math.max(textBlockHeight, imageBlockHeight);
+        // Process multi-paragraph text
+        const paragraphs = rawDayDesc.split('\\n\\n').filter(Boolean);
+        const wrappedParagraphs = paragraphs.map(p => doc.splitTextToSize(p.trim(), textWidth));
+        const totalDescLines = wrappedParagraphs.reduce((acc, lines) => acc + lines.length, 0);
+
+        // Estimate metadata lines
+        let metadataHeight = 0;
+        if (dayAcc) metadataHeight += 4.5;
+        if (dayTrans) metadataHeight += 4.5;
+        if (dayMeals) metadataHeight += 4.5;
+        if (dayAct) metadataHeight += 4.5;
+        if (dayInc) metadataHeight += 4.5;
+        if (dayAlt) metadataHeight += 4.5;
+
+        const textBlockHeight = 14 + (totalDescLines * 3.8) + (paragraphs.length * 2.5) + metadataHeight;
+        const blockHeight = Math.max(textBlockHeight, 48);
 
         checkPageBreak(blockHeight + 8);
 
         if (isEven) {
-          // EVEN DAY: Image on LEFT (Bleed 0 to 105mm), Text on RIGHT (112mm to 196mm)
+          // EVEN DAY: Image on LEFT (Bleed 0 to 105mm), Text on RIGHT (112mm to 198mm)
           if (dayImgBase64) {
-            doc.addImage(dayImgBase64, 'JPEG', 0, yPos, halfWidth, imageBlockHeight);
+            doc.addImage(dayImgBase64, 'JPEG', 0, yPos, halfWidth, blockHeight);
           }
 
           const textX = 112;
@@ -512,35 +555,68 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           doc.setTextColor(5, 150, 105);
           doc.text(`${t.day.toUpperCase()} ${dayItem.day}`, textX, yPos + 6);
 
-          doc.setFontSize(10);
+          doc.setFontSize(9.5);
           doc.setTextColor(15, 23, 42);
-          doc.text(dayTitle, textX, yPos + 11);
+          const splitTitle = doc.splitTextToSize(dayTitle, textWidth);
+          doc.text(splitTitle, textX, yPos + 11);
+          let descY = yPos + 11 + (splitTitle.length * 4.5);
 
+          // Render paragraphs
           doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8.5);
+          doc.setFontSize(8);
           doc.setTextColor(51, 65, 85);
-          let descY = yPos + 16;
-          doc.text(splitDayDesc, textX, descY);
-          descY += (splitDayDesc.length * 4) + 1;
-
-          if (dayMeals) {
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7.5);
-            doc.setTextColor(71, 85, 105);
-            doc.text(`MEALS: ${dayMeals}`, textX, descY);
-            descY += 4;
+          for (const paraLines of wrappedParagraphs) {
+            doc.text(paraLines, textX, descY);
+            descY += (paraLines.length * 3.8) + 2;
           }
 
+          // Render metadata badges
           if (dayAcc) {
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(7.5);
+            doc.setTextColor(15, 23, 42);
+            doc.text('Overnight: ', textX, descY);
+            doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
-            doc.text(`HOTEL: ${dayAcc}`, textX, descY);
+            doc.text(dayAcc, textX + 16, descY);
+            descY += 4.5;
+          }
+          if (dayTrans) {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7.5);
+            doc.setTextColor(15, 23, 42);
+            doc.text('Transport: ', textX, descY);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(71, 85, 105);
+            const splitTrans = doc.splitTextToSize(dayTrans, textWidth - 16);
+            doc.text(splitTrans, textX + 16, descY);
+            descY += (splitTrans.length * 3.8);
+          }
+          if (dayMeals) {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7.5);
+            doc.setTextColor(15, 23, 42);
+            doc.text('Meals: ', textX, descY);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(71, 85, 105);
+            doc.text(dayMeals, textX + 12, descY);
+            descY += 4.5;
+          }
+          if (dayAct) {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7.5);
+            doc.setTextColor(15, 23, 42);
+            doc.text('Activity: ', textX, descY);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(71, 85, 105);
+            const splitAct = doc.splitTextToSize(dayAct, textWidth - 14);
+            doc.text(splitAct, textX + 14, descY);
+            descY += (splitAct.length * 3.8);
           }
         } else {
-          // ODD DAY: Text on LEFT (14mm to 98mm), Image on RIGHT (Bleed 105mm to 210mm)
+          // ODD DAY: Text on LEFT (14mm to 100mm), Image on RIGHT (Bleed 105mm to 210mm)
           if (dayImgBase64) {
-            doc.addImage(dayImgBase64, 'JPEG', 105, yPos, halfWidth, imageBlockHeight);
+            doc.addImage(dayImgBase64, 'JPEG', 105, yPos, halfWidth, blockHeight);
           }
 
           const textX = marginX;
@@ -549,30 +625,63 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           doc.setTextColor(5, 150, 105);
           doc.text(`${t.day.toUpperCase()} ${dayItem.day}`, textX, yPos + 6);
 
-          doc.setFontSize(10);
+          doc.setFontSize(9.5);
           doc.setTextColor(15, 23, 42);
-          doc.text(dayTitle, textX, yPos + 11);
+          const splitTitle = doc.splitTextToSize(dayTitle, textWidth);
+          doc.text(splitTitle, textX, yPos + 11);
+          let descY = yPos + 11 + (splitTitle.length * 4.5);
 
+          // Render paragraphs
           doc.setFont('helvetica', 'normal');
-          doc.setFontSize(8.5);
+          doc.setFontSize(8);
           doc.setTextColor(51, 65, 85);
-          let descY = yPos + 16;
-          doc.text(splitDayDesc, textX, descY);
-          descY += (splitDayDesc.length * 4) + 1;
-
-          if (dayMeals) {
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7.5);
-            doc.setTextColor(71, 85, 105);
-            doc.text(`MEALS: ${dayMeals}`, textX, descY);
-            descY += 4;
+          for (const paraLines of wrappedParagraphs) {
+            doc.text(paraLines, textX, descY);
+            descY += (paraLines.length * 3.8) + 2;
           }
 
+          // Render metadata badges
           if (dayAcc) {
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(7.5);
+            doc.setTextColor(15, 23, 42);
+            doc.text('Overnight: ', textX, descY);
+            doc.setFont('helvetica', 'normal');
             doc.setTextColor(71, 85, 105);
-            doc.text(`HOTEL: ${dayAcc}`, textX, descY);
+            doc.text(dayAcc, textX + 16, descY);
+            descY += 4.5;
+          }
+          if (dayTrans) {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7.5);
+            doc.setTextColor(15, 23, 42);
+            doc.text('Transport: ', textX, descY);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(71, 85, 105);
+            const splitTrans = doc.splitTextToSize(dayTrans, textWidth - 16);
+            doc.text(splitTrans, textX + 16, descY);
+            descY += (splitTrans.length * 3.8);
+          }
+          if (dayMeals) {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7.5);
+            doc.setTextColor(15, 23, 42);
+            doc.text('Meals: ', textX, descY);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(71, 85, 105);
+            doc.text(dayMeals, textX + 12, descY);
+            descY += 4.5;
+          }
+          if (dayAct) {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7.5);
+            doc.setTextColor(15, 23, 42);
+            doc.text('Activity: ', textX, descY);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(71, 85, 105);
+            const splitAct = doc.splitTextToSize(dayAct, textWidth - 14);
+            doc.text(splitAct, textX + 14, descY);
+            descY += (splitAct.length * 3.8);
           }
         }
 
@@ -643,11 +752,11 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     doc.setPage(p);
 
     // Subtle Brand Watermark Centered on Every Page
-    if (logoBase64) {
+    if (logoWatermarkBase64) {
       doc.setGState(new (doc as any).GState({ opacity: 0.06 }));
       const wmWidth = 110;
       const wmHeight = 44;
-      doc.addImage(logoBase64, 'PNG', (pageWidth - wmWidth) / 2, (pageHeight - wmHeight) / 2, wmWidth, wmHeight);
+      doc.addImage(logoWatermarkBase64, 'PNG', (pageWidth - wmWidth) / 2, (pageHeight - wmHeight) / 2, wmWidth, wmHeight);
       doc.setGState(new (doc as any).GState({ opacity: 1.0 }));
     }
 

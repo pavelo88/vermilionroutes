@@ -12,6 +12,10 @@ export interface ItineraryDay {
   mealsEs?: string;
   accommodation?: LocalizedString;
   accommodationEs?: string;
+  transportation?: LocalizedString;
+  activity?: LocalizedString;
+  includedVisits?: LocalizedString;
+  altitude?: LocalizedString;
 }
 
 export interface Tour {
