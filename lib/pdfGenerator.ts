@@ -277,10 +277,14 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     dayImagesBase64.push(b64);
   }
 
-  // 1. BRAND HEADER (Cyan gradient from light cyan on left to deeper cyan on right)
-  const headerHeight = 25;
-  const startR = 207, startG = 250, startB = 254; // #CFFAFE (Light crisp ice cyan on left)
-  const endR = 8, endG = 145, endB = 178;         // #0891B2 (Rich deep cyan on right)
+  // 0. LUXURY IVORY PAPER BACKGROUND (Page 1)
+  doc.setFillColor(250, 249, 246); // Warm luxury ivory #FAF9F6
+  doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
+  // 1. BRAND HEADER (Deep Emerald to Forest Green gradient with organic wave lines)
+  const headerHeight = 26;
+  const startR = 6, startG = 78, startB = 59;   // #064E3B (Rich emerald green on left)
+  const endR = 2, endG = 44, endB = 34;         // #022C22 (Deep forest green on right)
   const slices = 210;
   const sliceWidth = pageWidth / slices;
 
@@ -293,26 +297,41 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     doc.rect(i * sliceWidth, 0, sliceWidth + 0.3, headerHeight, 'F');
   }
 
-  // Micro-divider line under header
-  doc.setDrawColor(6, 182, 212);
-  doc.setLineWidth(0.4);
+  // Organic tech/nature wave curves across bottom of header
+  doc.setGState(new (doc as any).GState({ opacity: 0.3 }));
+  doc.setDrawColor(74, 222, 128); // Glowing lime green #4ADE80
+  doc.setLineWidth(0.6);
+  doc.line(0, headerHeight - 3, 70, headerHeight - 7);
+  doc.line(70, headerHeight - 7, 140, headerHeight - 2);
+  doc.line(140, headerHeight - 2, pageWidth, headerHeight - 6);
+
+  doc.setDrawColor(255, 255, 255); // Subtle white flow line
+  doc.setLineWidth(0.3);
+  doc.line(0, headerHeight - 5, 80, headerHeight - 2);
+  doc.line(80, headerHeight - 2, 150, headerHeight - 8);
+  doc.line(150, headerHeight - 8, pageWidth, headerHeight - 3);
+  doc.setGState(new (doc as any).GState({ opacity: 1.0 }));
+
+  // Bottom gold/emerald border
+  doc.setDrawColor(16, 185, 129);
+  doc.setLineWidth(0.5);
   doc.line(0, headerHeight, pageWidth, headerHeight);
 
-  // Logo on the left (on top of light cyan)
+  // Logo on the left (on top of emerald background)
   if (headerBase64) {
-    doc.addImage(headerBase64, 'PNG', marginX, 3.5, 42, 18);
+    doc.addImage(headerBase64, 'PNG', marginX, 3.5, 42, 19);
   } else {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(14);
-    doc.setTextColor(15, 23, 42);
+    doc.setTextColor(255, 255, 255);
     doc.text('VERMILION ROUTES', marginX, 12);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7.5);
-    doc.setTextColor(8, 145, 178);
+    doc.setTextColor(167, 243, 208);
     doc.text('SOUTH AMERICAN ROUTES', marginX, 17);
   }
 
-  // 3 Contact Badges on the right (on top of deeper cyan with high contrast white text)
+  // 3 Clean Contact Badges on the right
   const contactRightX = pageWidth - marginX;
   const iconRadius = 2.0;
 
@@ -325,34 +344,34 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   doc.text('T', contactRightX - 44.8, 7.7);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
-  doc.setTextColor(255, 255, 255); // Crisp white text
+  doc.setTextColor(255, 255, 255); // High contrast white
   doc.text('+(593) 994-048-458', contactRightX - 40, 7.8);
 
   // Badge 2: Email
   doc.setFillColor(225, 29, 72);
-  doc.circle(contactRightX - 44, 12.5, iconRadius, 'F');
+  doc.circle(contactRightX - 44, 12.8, iconRadius, 'F');
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(6.5);
   doc.setTextColor(255, 255, 255);
-  doc.text('@', contactRightX - 45.0, 13.2);
+  doc.text('@', contactRightX - 45.0, 13.5);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
   doc.setTextColor(255, 255, 255);
-  doc.text('info@vermilionroutes.com', contactRightX - 40, 13.3);
+  doc.text('info@vermilionroutes.com', contactRightX - 40, 13.6);
 
   // Badge 3: Website
   doc.setFillColor(225, 29, 72);
-  doc.circle(contactRightX - 44, 18.0, iconRadius, 'F');
+  doc.circle(contactRightX - 44, 18.5, iconRadius, 'F');
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(6.5);
   doc.setTextColor(255, 255, 255);
-  doc.text('W', contactRightX - 45.0, 18.7);
+  doc.text('W', contactRightX - 45.0, 19.2);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
   doc.setTextColor(255, 255, 255);
-  doc.text('www.vermilionroutes.com', contactRightX - 40, 18.8);
+  doc.text('www.vermilionroutes.com', contactRightX - 40, 19.3);
 
-  yPos = headerHeight + 3; // yPos = 28mm
+  yPos = headerHeight + 4; // yPos = 30mm
 
   // 2. HERO COVER BANNER (FULL-BLEED LUXURY BANNER)
   if (coverBase64) {
@@ -387,18 +406,18 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
   // 3. OVERVIEW / DESCRIPTION BOX
   if (description) {
-    doc.setFillColor(248, 250, 252);
-    doc.setDrawColor(6, 182, 212); // Soft cyan border
+    doc.setFillColor(255, 255, 255);
+    doc.setDrawColor(16, 185, 129); // Emerald accent border
     doc.setLineWidth(1);
 
     const splitDesc = doc.splitTextToSize(description, contentWidth - 10);
-    const descBoxHeight = (splitDesc.length * 4.2) + 6;
+    const descBoxHeight = (splitDesc.length * 4.4) + 6;
 
     doc.rect(marginX, yPos, contentWidth, descBoxHeight, 'F');
     doc.line(marginX, yPos, marginX, yPos + descBoxHeight); // Left accent border
 
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
+    doc.setFontSize(9.5);
     doc.setTextColor(51, 65, 85);
     doc.text(splitDesc, marginX + 5, yPos + 5);
 
@@ -436,13 +455,17 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
   yPos += cardHeight + 10;
 
-  // Helper for adding new pages cleanly
+  // Helper for adding new pages cleanly with luxury ivory background
   const checkPageBreak = (neededHeight: number) => {
     if (yPos + neededHeight > pageHeight - 22) {
       doc.addPage();
+      // Apply warm ivory background to new page
+      doc.setFillColor(250, 249, 246);
+      doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
       yPos = 16;
-      // Top cyan accent bar on new page
-      doc.setFillColor(6, 182, 212);
+      // Top emerald accent bar on new page
+      doc.setFillColor(6, 78, 59);
       doc.rect(0, 0, pageWidth, 3.5, 'F');
       return true;
     }
@@ -461,14 +484,14 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   let currentRegionIsGalapagos = false;
   let mainDayIndex = 0;
 
-  // 5. MAGAZINE-STYLE DAY-BY-DAY ITINERARY WITH ZIG-ZAG & FULL-BLEED IMAGES
+  // 5. MAGAZINE-STYLE DAY-BY-DAY ITINERARY WITH 35% IMAGE / 60% TEXT BOUNDED MARGINS
   if (itinerary.length > 0) {
     checkPageBreak(15);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(12);
-    doc.setTextColor(8, 145, 178); // Elegant cyan-teal #0891B2
+    doc.setTextColor(6, 78, 59); // Emerald header #064E3B
     doc.text(t.dayByDay.toUpperCase(), marginX, yPos);
-    doc.setDrawColor(207, 250, 254);
+    doc.setDrawColor(167, 243, 208);
     doc.setLineWidth(0.8);
     doc.line(marginX, yPos + 2, marginX + contentWidth, yPos + 2);
     yPos += 10;
@@ -488,20 +511,19 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
       const isFunctional = isFunctionalDay(dayTitle, rawDayDesc);
       const isGalapagos = isGalapagosRegion(dayTitle, rawDayDesc);
 
-      // REGIONAL CHAPTER DIVIDER ONLY ON MULTI-REGION COMBO TOURS (Render with soft cyan background)
+      // REGIONAL CHAPTER DIVIDER ONLY ON MULTI-REGION COMBO TOURS (Soft emerald/sage banner)
       if (isMultiRegionCombo && isGalapagos && !currentRegionIsGalapagos) {
         currentRegionIsGalapagos = true;
         checkPageBreak(22);
         yPos += 4;
 
-        // Soft light cyan chapter banner
-        doc.setFillColor(236, 254, 255); // #ECFEFF (light cyan)
-        doc.setDrawColor(165, 243, 252); // #A5F3FC (cyan border)
+        doc.setFillColor(236, 253, 245); // #ECFDF5 soft emerald
+        doc.setDrawColor(167, 243, 208);
         doc.roundedRect(marginX, yPos, contentWidth, 18, 2, 2, 'FD');
 
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10.5);
-        doc.setTextColor(14, 116, 144); // Deep cyan #0E7490
+        doc.setTextColor(6, 78, 59);
         doc.text(t.galapagosChapterTitle.toUpperCase(), marginX + 6, yPos + 11);
 
         yPos += 24;
@@ -510,27 +532,27 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
       if (isFunctional) {
         // FUNCTIONAL DAY: COMPACT STRIP FORMAT
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(9.5); // Increased from 8.5
+        doc.setFontSize(9.5);
         const splitDayDesc = doc.splitTextToSize(rawDayDesc, contentWidth - 12);
         const blockHeight = 14 + (splitDayDesc.length * 4.4) + (dayMeals ? 5 : 0);
 
         checkPageBreak(blockHeight + 4);
 
-        doc.setFillColor(248, 250, 252);
+        doc.setFillColor(255, 255, 255);
         doc.setDrawColor(203, 213, 225);
         doc.roundedRect(marginX, yPos, contentWidth, blockHeight, 2, 2, 'FD');
 
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9); // Increased from 8
+        doc.setFontSize(9);
         doc.setTextColor(71, 85, 105);
         doc.text(`${t.day.toUpperCase()} ${dayItem.day} • [ LOGÍSTICA / DÍA LIBRE ]`, marginX + 5, yPos + 6);
 
-        doc.setFontSize(10.5); // Increased from 9.5
+        doc.setFontSize(10.5);
         doc.setTextColor(15, 23, 42);
         doc.text(dayTitle, marginX + 5, yPos + 12);
 
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(9.5); // Increased from 8.5
+        doc.setFontSize(9.5);
         doc.setTextColor(51, 65, 85);
         let descY = yPos + 17;
         doc.text(splitDayDesc, marginX + 5, descY);
@@ -538,19 +560,20 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
         if (dayMeals) {
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(8.5); // Increased from 7.5
+          doc.setFontSize(8.5);
           doc.setTextColor(71, 85, 105);
           doc.text(`MEALS: ${dayMeals}`, marginX + 5, descY + 2);
         }
 
         yPos += blockHeight + 6;
       } else {
-        // MAIN DAY: DYNAMIC ZIG-ZAG LAYOUT WITH 50% BLEED IMAGE (105mm width)
+        // MAIN DAY: 35% IMAGE (64mm) / 60% TEXT (110mm) BOUNDED MARGINS ZIG-ZAG LAYOUT
         const isEven = (mainDayIndex % 2 === 0);
         mainDayIndex++;
 
-        const halfWidth = 105; // 105mm width
-        const textWidth = 86; // Text column width
+        const imageWidth = 64;   // 35% width (64mm)
+        const gap = 8;           // 8mm clean separation gap
+        const textWidth = 110;   // 60% width (110mm)
 
         // Process all paragraphs cleanly without truncating
         const rawText = rawDayDesc.trim();
@@ -576,18 +599,24 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
         checkPageBreak(blockHeight + 8);
 
         if (isEven) {
-          // EVEN DAY: Image on LEFT (Bleed 0 to 105mm), Text on RIGHT (112mm to 198mm)
+          // EVEN DAY: Image on LEFT (14mm to 78mm), Text on RIGHT (86mm to 196mm)
+          const imgX = marginX; // 14mm
+          const textX = marginX + imageWidth + gap; // 86mm
+
           if (dayImgBase64) {
-            doc.addImage(dayImgBase64, 'JPEG', 0, yPos, halfWidth, blockHeight);
+            // Draw image within bounded margins with subtle border
+            doc.addImage(dayImgBase64, 'JPEG', imgX, yPos, imageWidth, blockHeight);
+            doc.setDrawColor(226, 232, 240);
+            doc.setLineWidth(0.3);
+            doc.roundedRect(imgX, yPos, imageWidth, blockHeight, 2, 2, 'D');
           }
 
-          const textX = 112;
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(9); // Increased from 8
-          doc.setTextColor(8, 145, 178); // Cyan accent
+          doc.setFontSize(9);
+          doc.setTextColor(6, 78, 59); // Emerald accent
           doc.text(`${t.day.toUpperCase()} ${dayItem.day}`, textX, yPos + 6);
 
-          doc.setFontSize(10.5); // Increased from 9.5
+          doc.setFontSize(10.5);
           doc.setTextColor(15, 23, 42);
           const splitTitle = doc.splitTextToSize(dayTitle, textWidth);
           doc.text(splitTitle, textX, yPos + 11.5);
@@ -595,7 +624,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
           // Render all full paragraphs
           doc.setFont('helvetica', 'normal');
-          doc.setFontSize(9); // Increased from 8
+          doc.setFontSize(9);
           doc.setTextColor(51, 65, 85);
           for (const paraLines of wrappedParagraphs) {
             doc.text(paraLines, textX, descY);
@@ -605,7 +634,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           // Render metadata badges
           if (dayAcc) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5); // Increased from 7.5
+            doc.setFontSize(8.5);
             doc.setTextColor(15, 23, 42);
             doc.text('Overnight: ', textX, descY);
             doc.setFont('helvetica', 'normal');
@@ -615,7 +644,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           }
           if (dayTrans) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5); // Increased from 7.5
+            doc.setFontSize(8.5);
             doc.setTextColor(15, 23, 42);
             doc.text('Transport: ', textX, descY);
             doc.setFont('helvetica', 'normal');
@@ -626,7 +655,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           }
           if (dayMeals) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5); // Increased from 7.5
+            doc.setFontSize(8.5);
             doc.setTextColor(15, 23, 42);
             doc.text('Meals: ', textX, descY);
             doc.setFont('helvetica', 'normal');
@@ -636,7 +665,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           }
           if (dayAct) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5); // Increased from 7.5
+            doc.setFontSize(8.5);
             doc.setTextColor(15, 23, 42);
             doc.text('Activity: ', textX, descY);
             doc.setFont('helvetica', 'normal');
@@ -646,18 +675,24 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
             descY += (splitAct.length * 4.0);
           }
         } else {
-          // ODD DAY: Text on LEFT (14mm to 100mm), Image on RIGHT (Bleed 105mm to 210mm)
+          // ODD DAY: Text on LEFT (14mm to 124mm), Image on RIGHT (132mm to 196mm)
+          const textX = marginX; // 14mm
+          const imgX = marginX + textWidth + gap; // 132mm
+
           if (dayImgBase64) {
-            doc.addImage(dayImgBase64, 'JPEG', 105, yPos, halfWidth, blockHeight);
+            // Draw image within bounded margins with subtle border
+            doc.addImage(dayImgBase64, 'JPEG', imgX, yPos, imageWidth, blockHeight);
+            doc.setDrawColor(226, 232, 240);
+            doc.setLineWidth(0.3);
+            doc.roundedRect(imgX, yPos, imageWidth, blockHeight, 2, 2, 'D');
           }
 
-          const textX = marginX;
           doc.setFont('helvetica', 'bold');
-          doc.setFontSize(9); // Increased from 8
-          doc.setTextColor(8, 145, 178); // Cyan accent
+          doc.setFontSize(9);
+          doc.setTextColor(6, 78, 59); // Emerald accent
           doc.text(`${t.day.toUpperCase()} ${dayItem.day}`, textX, yPos + 6);
 
-          doc.setFontSize(10.5); // Increased from 9.5
+          doc.setFontSize(10.5);
           doc.setTextColor(15, 23, 42);
           const splitTitle = doc.splitTextToSize(dayTitle, textWidth);
           doc.text(splitTitle, textX, yPos + 11.5);
@@ -665,7 +700,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
           // Render all full paragraphs
           doc.setFont('helvetica', 'normal');
-          doc.setFontSize(9); // Increased from 8
+          doc.setFontSize(9);
           doc.setTextColor(51, 65, 85);
           for (const paraLines of wrappedParagraphs) {
             doc.text(paraLines, textX, descY);
@@ -675,7 +710,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           // Render metadata badges
           if (dayAcc) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5); // Increased from 7.5
+            doc.setFontSize(8.5);
             doc.setTextColor(15, 23, 42);
             doc.text('Overnight: ', textX, descY);
             doc.setFont('helvetica', 'normal');
@@ -685,7 +720,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           }
           if (dayTrans) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5); // Increased from 7.5
+            doc.setFontSize(8.5);
             doc.setTextColor(15, 23, 42);
             doc.text('Transport: ', textX, descY);
             doc.setFont('helvetica', 'normal');
@@ -696,7 +731,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           }
           if (dayMeals) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5); // Increased from 7.5
+            doc.setFontSize(8.5);
             doc.setTextColor(15, 23, 42);
             doc.text('Meals: ', textX, descY);
             doc.setFont('helvetica', 'normal');
@@ -706,7 +741,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
           }
           if (dayAct) {
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8.5); // Increased from 7.5
+            doc.setFontSize(8.5);
             doc.setTextColor(15, 23, 42);
             doc.text('Activity: ', textX, descY);
             doc.setFont('helvetica', 'normal');
@@ -729,9 +764,9 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
-    doc.setTextColor(8, 145, 178); // Cyan header
+    doc.setTextColor(6, 78, 59); // Emerald header
     doc.text(t.inclusions.toUpperCase(), marginX, yPos);
-    doc.setDrawColor(207, 250, 254);
+    doc.setDrawColor(167, 243, 208);
     doc.setLineWidth(0.8);
     doc.line(marginX, yPos + 2, marginX + contentWidth, yPos + 2);
     yPos += 8;
@@ -751,7 +786,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
       doc.line(marginX + 2.3, yPos + 2.8, marginX + 3.5, yPos + 1.1);
 
       doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9.5); // Increased from 8.5
+      doc.setFontSize(9.5);
       doc.setTextColor(30, 41, 59);
       doc.text(splitInc, marginX + 7, yPos + 3);
       yPos += itemHeight;
@@ -762,9 +797,9 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
       checkPageBreak(25);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(11);
-      doc.setTextColor(8, 145, 178);
+      doc.setTextColor(6, 78, 59);
       doc.text(t.exclusions.toUpperCase(), marginX, yPos);
-      doc.setDrawColor(207, 250, 254);
+      doc.setDrawColor(167, 243, 208);
       doc.setLineWidth(0.8);
       doc.line(marginX, yPos + 2, marginX + contentWidth, yPos + 2);
       yPos += 8;
@@ -784,7 +819,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
         doc.line(marginX + 3.4, yPos + 1.1, marginX + 1.6, yPos + 2.9);
 
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(9.5); // Increased from 8.5
+        doc.setFontSize(9.5);
         doc.setTextColor(100, 116, 139);
         doc.text(splitExc, marginX + 7, yPos + 3);
         yPos += itemHeight;
@@ -792,16 +827,16 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     }
   }
 
-  // 7. WATERMARK & FOOTER ON ALL PAGES
+  // 7. WATERMARK & FOOTER ON ALL PAGES (Opacidad 0.095 - Mayor nitidez y presencia editorial)
   const totalPages = doc.getNumberOfPages();
   for (let p = 1; p <= totalPages; p++) {
     doc.setPage(p);
 
     // Subtle Brand Watermark Centered on Every Page
     if (logoWatermarkBase64) {
-      doc.setGState(new (doc as any).GState({ opacity: 0.05 }));
-      const wmWidth = 110;
-      const wmHeight = 44;
+      doc.setGState(new (doc as any).GState({ opacity: 0.095 }));
+      const wmWidth = 115;
+      const wmHeight = 46;
       doc.addImage(logoWatermarkBase64, 'PNG', (pageWidth - wmWidth) / 2, (pageHeight - wmHeight) / 2, wmWidth, wmHeight);
       doc.setGState(new (doc as any).GState({ opacity: 1.0 }));
     }
