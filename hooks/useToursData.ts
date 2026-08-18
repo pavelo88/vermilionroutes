@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Tour } from '@/types';
 import { mockTours } from '@/data/mock';
-import { TourRepository } from '@/lib/services/firebaseRepository';
+import { TourRepository } from '@/lib/services/DatabaseService';
 import { seedDatabaseToFirestore } from '@/lib/tours';
 
 export function useToursData() {

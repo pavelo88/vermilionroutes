@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Destination } from '@/types';
 import { mockDestinations } from '@/data/mock';
-import { DestinationRepository } from '@/lib/services/firebaseRepository';
+import { DestinationRepository } from '@/lib/services/DatabaseService';
 
 export function useDestinationsData() {
   const [destinations, setDestinations] = useState<Destination[]>(mockDestinations);

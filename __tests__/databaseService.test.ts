@@ -1,5 +1,15 @@
 import { describe, it, expect } from 'vitest';
-import { DatabaseService, TourRepository, BookingRepository, DestinationRepository, SettingsRepository } from '@/lib/services/DatabaseService';
+import {
+  DatabaseService,
+  toursRepository,
+  TourRepository,
+  leadsRepository,
+  BookingRepository,
+  destinationsRepository,
+  DestinationRepository,
+  settingsRepository,
+  SettingsRepository,
+} from '@/lib/services/DatabaseService';
 import { mockTours, mockDestinations } from '@/data/mock';
 
 describe('DatabaseService & DAL Hardening', () => {
@@ -35,10 +45,23 @@ describe('DatabaseService & DAL Hardening', () => {
     expect(nonExistent).toBeNull();
   });
 
-  it('should provide singletons for all core repositories', () => {
-    expect(TourRepository).toBeDefined();
-    expect(BookingRepository).toBeDefined();
-    expect(DestinationRepository).toBeDefined();
-    expect(SettingsRepository).toBeDefined();
+  it('should provide singletons for all core repositories with aliases', () => {
+    expect(toursRepository).toBeDefined();
+    expect(TourRepository).toBe(toursRepository);
+    expect(leadsRepository).toBeDefined();
+    expect(BookingRepository).toBe(leadsRepository);
+    expect(destinationsRepository).toBeDefined();
+    expect(DestinationRepository).toBe(destinationsRepository);
+    expect(settingsRepository).toBeDefined();
+    expect(SettingsRepository).toBe(settingsRepository);
+  });
+
+  it('should support instance repository methods (getAll, getById, upsert)', async () => {
+    const tours = await toursRepository.getAll();
+    expect(tours.length).toBeGreaterThan(0);
+
+    const tour = await toursRepository.getById('galapagos-4days');
+    expect(tour).toBeDefined();
+    expect(tour?.destination).toBe('Galapagos');
   });
 });

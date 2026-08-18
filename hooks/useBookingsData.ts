@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { BookingRequest } from '@/types';
-import { BookingRepository } from '@/lib/services/firebaseRepository';
+import { BookingRepository } from '@/lib/services/DatabaseService';
 
 export function useBookingsData() {
   const [bookings, setBookings] = useState<BookingRequest[]>([]);

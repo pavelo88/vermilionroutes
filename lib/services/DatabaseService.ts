@@ -1,151 +1,277 @@
+import { db } from '@/lib/firebase';
 import {
-  TourRepository,
-  BookingRepository,
-  DestinationRepository,
-  SettingsRepository,
-  FirebaseRepository
-} from './firebaseRepository';
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  addDoc,
+  deleteDoc,
+  updateDoc,
+  onSnapshot,
+  query,
+  QueryConstraint,
+  Unsubscribe
+} from 'firebase/firestore';
 import { Tour, BookingRequest, DestinationInfo, SiteSettings } from '@/types';
 import { mockTours, mockDestinations } from '@/data/mock';
-import { QueryConstraint, Unsubscribe } from 'firebase/firestore';
 
 /**
  * ============================================================================
- * UNIFIED DATA ACCESS SERVICE (DatabaseService)
+ * DATA ACCESS LAYER (DAL) — UNIFIED DATABASE SERVICE
  * ============================================================================
- * Central business layer providing robust entity querying, locale awareness,
- * and automated fallbacks across all Firestore collections.
+ * Consolidates all Firestore database operations into a single generic,
+ * reusable repository pattern. Prevents leaking data-fetching logic into
+ * UI components while providing resilience and automatic mock fallbacks.
  */
-export class DatabaseService {
+export class DatabaseService<T extends { id?: string } = any> {
+  protected collectionName: string;
+
+  constructor(collectionName: string) {
+    this.collectionName = collectionName;
+  }
+
   /**
-   * Fetches active entities of a given collection, applying locale/status filtering
-   * and falling back gracefully to mock datasets if Firestore is unavailable or empty.
+   * Fetch a single document by its ID
    */
+  async getById(id: string): Promise<T | null> {
+    if (!db) {
+      return this.getFallbackById(id);
+    }
+    try {
+      const docRef = doc(db, this.collectionName, id);
+      const docSnap = await getDoc(docRef);
+      if (!docSnap.exists()) {
+        return this.getFallbackById(id);
+      }
+      return { id: docSnap.id, ...docSnap.data() } as T;
+    } catch (error: any) {
+      console.warn(`[DatabaseService:${this.collectionName}] Error fetching ID ${id}, using fallback:`, error);
+      return this.getFallbackById(id);
+    }
+  }
+
+  /**
+   * Fetch all documents in collection matching optional constraints
+   */
+  async getAll(constraints: QueryConstraint[] = []): Promise<T[]> {
+    if (!db) {
+      return this.getFallbackAll();
+    }
+    try {
+      const q = query(collection(db, this.collectionName), ...constraints);
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        return this.getFallbackAll();
+      }
+      return querySnapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as T);
+    } catch (error: any) {
+      console.warn(`[DatabaseService:${this.collectionName}] Error in getAll, using fallback:`, error);
+      return this.getFallbackAll();
+    }
+  }
+
+  /**
+   * Create a new document with auto-generated ID
+   */
+  async create(data: Omit<T, 'id'>): Promise<string> {
+    if (!db) throw new Error('Firebase DB is not initialized.');
+    try {
+      const colRef = collection(db, this.collectionName);
+      const docRef = await addDoc(colRef, data);
+      return docRef.id;
+    } catch (error: any) {
+      console.error(`[DatabaseService:${this.collectionName}] Error creating document:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Save or overwrite a document by specific ID (merge mode)
+   */
+  async save(id: string, data: Partial<T>): Promise<void> {
+    if (!db) return;
+    try {
+      const docRef = doc(db, this.collectionName, id);
+      await setDoc(docRef, data, { merge: true });
+    } catch (error: any) {
+      console.error(`[DatabaseService:${this.collectionName}] Error saving ID ${id}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Upsert document by ID (alias for save for strict semantic clarity)
+   */
+  async upsert(id: string, data: Partial<T>): Promise<void> {
+    return this.save(id, data);
+  }
+
+  /**
+   * Update partial fields of an existing document
+   */
+  async update(id: string, partial: Partial<T>): Promise<void> {
+    if (!db) return;
+    try {
+      const docRef = doc(db, this.collectionName, id);
+      await updateDoc(docRef, partial as any);
+    } catch (error: any) {
+      console.error(`[DatabaseService:${this.collectionName}] Error updating ID ${id}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a document by ID
+   */
+  async delete(id: string): Promise<void> {
+    if (!db) return;
+    try {
+      const docRef = doc(db, this.collectionName, id);
+      await deleteDoc(docRef);
+    } catch (error: any) {
+      console.error(`[DatabaseService:${this.collectionName}] Error deleting ID ${id}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Realtime reactive subscription to collection
+   */
+  subscribe(
+    onData: (data: T[]) => void,
+    onError?: (error: Error) => void,
+    constraints: QueryConstraint[] = []
+  ): Unsubscribe {
+    if (!db) {
+      onData(this.getFallbackAll());
+      if (onError) onError(new Error('Firebase DB is not initialized. Falling back to default data.'));
+      return () => {};
+    }
+
+    try {
+      const q = query(collection(db, this.collectionName), ...constraints);
+      return onSnapshot(
+        q,
+        (snapshot) => {
+          if (snapshot.empty) {
+            onData(this.getFallbackAll());
+          } else {
+            const items = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as T);
+            onData(items);
+          }
+        },
+        (err) => {
+          console.warn(`[DatabaseService:${this.collectionName}] Subscription error, falling back:`, err);
+          onData(this.getFallbackAll());
+          if (onError) onError(err);
+        }
+      );
+    } catch (err: any) {
+      console.warn(`[DatabaseService:${this.collectionName}] Failed to subscribe to Firestore:`, err);
+      onData(this.getFallbackAll());
+      if (onError) onError(err);
+      return () => {};
+    }
+  }
+
+  private getFallbackAll(): T[] {
+    if (this.collectionName === 'tours') return mockTours as unknown as T[];
+    if (this.collectionName === 'destinations') return mockDestinations as unknown as T[];
+    return [];
+  }
+
+  private getFallbackById(id: string): T | null {
+    if (this.collectionName === 'tours') {
+      const item = mockTours.find((t) => t.id === id);
+      return (item as unknown as T) || null;
+    }
+    if (this.collectionName === 'destinations') {
+      const item = mockDestinations.find((d) => d.id === id || d.slug === id);
+      return (item as unknown as T) || null;
+    }
+    return null;
+  }
+
+  // ── Static Helper Facade Methods ──
+
   static async fetchActiveEntities<T = any>(
     collectionName: 'tours' | 'destinations' | 'bookings' | 'settings' | string,
     locale?: string
   ): Promise<T[]> {
-    try {
-      const repo = this.getRepository<T>(collectionName);
-      const items = await repo.getAll();
-
-      if (items && items.length > 0) {
-        return items;
-      }
-
-      // Fallback strategies for known core collections
-      if (collectionName === 'tours') {
-        return mockTours as unknown as T[];
-      }
-      if (collectionName === 'destinations') {
-        return mockDestinations as unknown as T[];
-      }
-
-      return [];
-    } catch (error) {
-      console.warn(`[DatabaseService] fetchActiveEntities failed for '${collectionName}', falling back to default data:`, error);
-      
-      if (collectionName === 'tours') {
-        return mockTours as unknown as T[];
-      }
-      if (collectionName === 'destinations') {
-        return mockDestinations as unknown as T[];
-      }
-
-      return [];
-    }
+    const repo = DatabaseService.getRepository<T>(collectionName);
+    return repo.getAll();
   }
 
-  /**
-   * Fetches an entity by ID from the specified collection
-   */
   static async getById<T = any>(collectionName: string, id: string): Promise<T | null> {
-    const repo = this.getRepository<T>(collectionName);
-    const item = await repo.getById(id);
-    if (item) return item;
-
-    // Fallback for tours and destinations
-    if (collectionName === 'tours') {
-      const fallbackTour = mockTours.find((t) => t.id === id);
-      return (fallbackTour as unknown as T) || null;
-    }
-    if (collectionName === 'destinations') {
-      const fallbackDest = mockDestinations.find((d) => d.id === id || d.slug === id);
-      return (fallbackDest as unknown as T) || null;
-    }
-
-    return null;
+    const repo = DatabaseService.getRepository<T>(collectionName);
+    return repo.getById(id);
   }
 
-  /**
-   * Creates a new entity document in the specified collection
-   */
   static async create<T = any>(collectionName: string, data: Omit<T, 'id'>): Promise<string> {
-    const repo = this.getRepository<T>(collectionName);
-    return await repo.create(data);
+    const repo = DatabaseService.getRepository<T>(collectionName);
+    return repo.create(data);
   }
 
-  /**
-   * Saves or merges an entity document by ID
-   */
   static async save<T = any>(collectionName: string, id: string, data: Partial<T>): Promise<void> {
-    const repo = this.getRepository<T>(collectionName);
-    return await repo.save(id, data);
+    const repo = DatabaseService.getRepository<T>(collectionName);
+    return repo.save(id, data);
   }
 
-  /**
-   * Updates fields of an existing entity document
-   */
+  static async upsert<T = any>(collectionName: string, id: string, data: Partial<T>): Promise<void> {
+    const repo = DatabaseService.getRepository<T>(collectionName);
+    return repo.upsert(id, data);
+  }
+
   static async update<T = any>(collectionName: string, id: string, partial: Partial<T>): Promise<void> {
-    const repo = this.getRepository<T>(collectionName);
-    return await repo.update(id, partial);
+    const repo = DatabaseService.getRepository<T>(collectionName);
+    return repo.update(id, partial);
   }
 
-  /**
-   * Deletes an entity document by ID
-   */
   static async delete(collectionName: string, id: string): Promise<void> {
-    const repo = this.getRepository(collectionName);
-    return await repo.delete(id);
+    const repo = DatabaseService.getRepository(collectionName);
+    return repo.delete(id);
   }
 
-  /**
-   * Subscribes to real-time updates of a collection
-   */
   static subscribe<T = any>(
     collectionName: string,
     onData: (data: T[]) => void,
     onError?: (err: Error) => void,
     constraints: QueryConstraint[] = []
   ): Unsubscribe {
-    const repo = this.getRepository<T>(collectionName);
+    const repo = DatabaseService.getRepository<T>(collectionName);
     return repo.subscribe(onData, onError, constraints);
   }
 
-  /**
-   * Returns typed repository instance for a collection
-   */
-  static getRepository<T = any>(collectionName: string): FirebaseRepository<T> {
+  static getRepository<T = any>(collectionName: string): DatabaseService<T> {
     switch (collectionName) {
       case 'tours':
-        return TourRepository as unknown as FirebaseRepository<T>;
+        return toursRepository as unknown as DatabaseService<T>;
       case 'bookings':
-        return BookingRepository as unknown as FirebaseRepository<T>;
+      case 'leads':
+        return leadsRepository as unknown as DatabaseService<T>;
       case 'destinations':
-        return DestinationRepository as unknown as FirebaseRepository<T>;
+        return destinationsRepository as unknown as DatabaseService<T>;
       case 'settings':
-        return SettingsRepository as unknown as FirebaseRepository<T>;
+        return settingsRepository as unknown as DatabaseService<T>;
       default:
-        return new FirebaseRepository<T>(collectionName);
+        return new DatabaseService<T>(collectionName);
     }
   }
 }
 
-// Re-export core repositories for direct access
-export {
-  TourRepository,
-  BookingRepository,
-  DestinationRepository,
-  SettingsRepository,
-  FirebaseRepository
-};
+// ── Typed Singleton Repositories ──
+export const toursRepository = new DatabaseService<Tour>('tours');
+export const TourRepository = toursRepository;
+
+export const leadsRepository = new DatabaseService<BookingRequest>('bookings');
+export const BookingRepository = leadsRepository;
+
+export const destinationsRepository = new DatabaseService<DestinationInfo>('destinations');
+export const DestinationRepository = destinationsRepository;
+
+export const settingsRepository = new DatabaseService<SiteSettings>('settings');
+export const SettingsRepository = settingsRepository;
+
+// Backwards compatibility alias for any legacy imports
+export { DatabaseService as FirebaseRepository };

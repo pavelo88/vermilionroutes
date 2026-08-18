@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 /**
  * Security & Input Validation Helpers
  * Provides strict server-side sanitization and validation.
@@ -40,10 +42,10 @@ export function isValidEmail(email: string): boolean {
 }
 
 /**
- * ✅ W-02 FIX: Sanitización robusta de texto libre.
+ * ✅ Sanitización robusta de texto libre.
  *
  * Estrategia de allowlist en lugar de blocklist parcial:
- * - Elimina TODOS los tags HTML (strip completo, no solo <script>)
+ * - Elimina TODOS los tags HTML (strip completo)
  * - Elimina TODOS los atributos de evento inline (on* handlers)
  * - Elimina pseudo-protocolos peligrosos (javascript:, vbscript:, data:)
  * - Normaliza entidades HTML que podrían reensamblar payloads después del strip
@@ -55,7 +57,6 @@ export function sanitizeText(input: string, maxLength: number = 2000): string {
   let sanitized = String(input);
 
   // 1. Decodificar entidades HTML comunes antes de procesar
-  //    para atrapar payloads obfuscados como &#106;avascript:
   sanitized = sanitized
     .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
     .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
@@ -71,8 +72,7 @@ export function sanitizeText(input: string, maxLength: number = 2000): string {
   // 3. Eliminar bloques <style>...</style>
   sanitized = sanitized.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '');
 
-  // 4. Eliminar atributos de evento inline (cualquier on* = "...") — allowlist vacía
-  //    Cubre los ~150 eventos del DOM: onclick, onmouseover, onfocus, onload, onerror, etc.
+  // 4. Eliminar atributos de evento inline (cualquier on* = "...")
   sanitized = sanitized.replace(/\s+on\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, '');
 
   // 5. Eliminar pseudo-protocolos peligrosos en atributos href/src/action
@@ -94,3 +94,69 @@ export function sanitizeText(input: string, maxLength: number = 2000): string {
 
   return sanitized;
 }
+
+/**
+ * Esquema de validación para Leads y Solicitudes de Cotización
+ */
+export const leadSchema = z.object({
+  customerName: z.string().optional(),
+  name: z.string().optional(),
+  customerEmail: z.string().optional(),
+  email: z.string().optional(),
+  customerPhone: z.string().optional(),
+  phone: z.string().optional(),
+  tourId: z.string().optional(),
+  tourTitle: z.union([z.string(), z.record(z.string(), z.any())]).optional(),
+  destination: z.union([z.string(), z.record(z.string(), z.any())]).optional(),
+  travelDates: z.string().optional(),
+  date: z.string().optional(),
+  guestsCount: z.string().optional(),
+  travelers: z.string().optional(),
+  message: z.string().optional(),
+}).superRefine((data, ctx) => {
+  const rawName = (data.customerName || data.name || '').trim();
+  const rawEmail = (data.customerEmail || data.email || '').trim();
+  const rawPhone = (data.customerPhone || data.phone || '').trim();
+
+  if (!rawName || rawName.length < 2) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Full customer name is required (minimum 2 characters).',
+      path: ['customerName'],
+    });
+  }
+
+  if (!rawEmail || !isValidEmail(rawEmail)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'A valid email address is required.',
+      path: ['customerEmail'],
+    });
+  }
+
+  if (rawPhone && !isValidPhone(rawPhone)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Invalid phone number format.',
+      path: ['customerPhone'],
+    });
+  }
+});
+
+export type LeadInput = z.infer<typeof leadSchema>;
+
+/**
+ * Esquema de validación para Checkout Sessions de Stripe y depósitos
+ */
+export const checkoutSchema = z.object({
+  tourId: z.string().nullable().optional(),
+  tourTitle: z.union([z.string(), z.record(z.string(), z.any())]).optional(),
+  clientEmail: z.string().min(3).refine((email) => isValidEmail(email), {
+    message: 'A valid email address is required.',
+  }),
+  customLinkId: z.string().optional(),
+  amount: z.number().optional(),
+  paymentType: z.enum(['deposit', 'full', 'custom']).optional(),
+});
+
+export type CheckoutInput = z.infer<typeof checkoutSchema>;

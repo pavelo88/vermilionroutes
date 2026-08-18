@@ -1,42 +1,69 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { HeroSlider } from '@/components/home/HeroSlider';
 import { StatsSection } from '@/components/home/StatsSection';
-import { DestinationsGrid } from '@/components/home/DestinationsGrid';
-import { FeaturedTours } from '@/components/home/FeaturedTours';
-import { CombinedExperienceSection } from '@/components/home/CombinedExperienceSection';
-// import { TikTokFeed } from '@/components/home/TikTokFeed';
-import { AlsoAskedFaq } from '@/components/home/AlsoAskedFaq';
-import { ContactSection } from '@/components/home/ContactSection';
+
+// Carga diferida (next/dynamic) de componentes debajo del fold para optimizar Core Web Vitals (TBT, CLS y LCP)
+const DestinationsGrid = dynamic(
+  () => import('@/components/home/DestinationsGrid').then((m) => m.DestinationsGrid),
+  {
+    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[300px]" />,
+  }
+);
+
+const CombinedExperienceSection = dynamic(
+  () => import('@/components/home/CombinedExperienceSection').then((m) => m.CombinedExperienceSection),
+  {
+    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[400px]" />,
+  }
+);
+
+const FeaturedTours = dynamic(
+  () => import('@/components/home/FeaturedTours').then((m) => m.FeaturedTours),
+  {
+    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[500px]" />,
+  }
+);
+
+const AlsoAskedFaq = dynamic(
+  () => import('@/components/home/AlsoAskedFaq').then((m) => m.AlsoAskedFaq),
+  {
+    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[300px]" />,
+  }
+);
+
+const ContactSection = dynamic(
+  () => import('@/components/home/ContactSection').then((m) => m.ContactSection),
+  {
+    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[400px]" />,
+  }
+);
 
 export default function Home() {
   return (
     <div className="space-y-8 pb-12">
+      {/* 1. Critical Above-the-Fold Viewport */}
       <div>
         <HeroSlider />
-        {/* 1.5. Trust & Stats Section */}
         <div className="hidden md:block">
           <StatsSection />
         </div>
       </div>
 
-      {/* 2. Top Destinations Grid */}
+      {/* 2. Top Destinations Grid (Diferido) */}
       <DestinationsGrid />
 
-      {/* 3. Combined Trust & Expertise Section */}
+      {/* 3. Combined Trust & Expertise Section (Diferido) */}
       <CombinedExperienceSection />
 
-      {/* 4. Featured Tours */}
+      {/* 4. Featured Tours Carousel (Diferido) */}
       <FeaturedTours />
 
-      {/* 5. TikTok Social Showcase */}
-      {/* <TikTokFeed /> */}
-
-      {/* 6. Frequently Asked Questions (Also Asked) */}
+      {/* 5. Frequently Asked Questions (Diferido) */}
       <AlsoAskedFaq />
 
-      {/* 7. Contact & Tailor-Made Quotation Form */}
+      {/* 6. Contact & Tailor-Made Quotation Form (Diferido) */}
       <ContactSection />
     </div>
   );
 }
-
