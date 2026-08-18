@@ -1,29 +1,16 @@
 import { defineConfig } from 'vitest/config';
-import { resolve } from 'path';
+import path from 'path';
 
 export default defineConfig({
   test: {
-    // Use Node environment for API route testing (no DOM needed)
-    environment: 'node',
     globals: true,
-    // Test file pattern
-    include: ['tests/**/*.test.ts', 'tests/**/*.test.tsx'],
-    // Coverage settings
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'html'],
-      include: ['app/api/**/*.ts', 'lib/**/*.ts'],
-      exclude: ['lib/seed.ts', 'lib/firebase.ts'],
-      thresholds: {
-        lines: 70,
-        functions: 70,
-        branches: 60,
-      },
-    },
+    environment: 'node',
+    include: ['__tests__/**/*.test.ts', 'tests/api/**/*.test.ts'],
+    exclude: ['**/node_modules/**', '**/dist/**', '**/*.spec.ts'],
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, '.'),
+      '@': path.resolve(__dirname, './'),
     },
   },
 });

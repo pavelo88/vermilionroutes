@@ -162,7 +162,9 @@ export function Footer() {
                   className="w-9 h-9 rounded-xl bg-emerald-900/50 hover:bg-emerald-600 hover:text-white border border-emerald-800/60 flex items-center justify-center text-emerald-300 transition-all hover:scale-105"
                   aria-label="TripAdvisor"
                 >
-                  <Sparkles className="w-4 h-4 text-amber-400" />
+                  <svg className="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 2.4c1.8 0 3.4.6 4.7 1.6-1.2.8-2.9 1.4-4.7 1.4s-3.5-.6-4.7-1.4C8.6 5 10.2 4.4 12 4.4zM6.8 9.2c1.8 0 3.2 1.4 3.2 3.2s-1.4 3.2-3.2 3.2S3.6 14.2 3.6 12.4s1.4-3.2 3.2-3.2zm10.4 0c1.8 0 3.2 1.4 3.2 3.2s-1.4 3.2-3.2 3.2-3.2-1.4-3.2-3.2 1.4-3.2 3.2-3.2zm-10.4 1.6c-.9 0-1.6.7-1.6 1.6s.7 1.6 1.6 1.6 1.6-.7 1.6-1.6-.7-1.6-1.6-1.6zm10.4 0c-.9 0-1.6.7-1.6 1.6s.7 1.6 1.6 1.6 1.6-.7 1.6-1.6-.7-1.6-1.6-1.6zM12 11.5c.8 0 1.5.4 1.7 1.1-.5.3-1.1.4-1.7.4s-1.2-.1-1.7-.4c.2-.7.9-1.1 1.7-1.1z" />
+                  </svg>
                 </a>
               )}
             </div>
@@ -243,7 +245,7 @@ export function Footer() {
                   className="w-full bg-emerald-950/80 border border-emerald-800/80 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-emerald-400/60 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
                 />
               </div>
-              <Button variant="primary" size="sm" className="w-full text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold tracking-wider" suppressHydrationWarning>
+              <Button variant="primary" size="sm" className="w-full text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold tracking-wider cursor-pointer" suppressHydrationWarning>
                 <Send className="w-3.5 h-3.5 mr-1" /> {t.subscribeBtn}
               </Button>
             </form>
@@ -263,17 +265,17 @@ export function Footer() {
         </div>
 
         {/* Guarantees & Badges */}
-        <div className="py-8 flex flex-wrap justify-between items-center gap-6 border-b border-emerald-900/60 text-xs text-emerald-200/80">
-          <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2 rounded-2xl">
-            <ShieldCheck className="w-5 h-5 text-emerald-400" />
+        <div className="py-8 flex flex-wrap justify-between items-center gap-4 border-b border-emerald-900/60 text-xs text-emerald-200/80">
+          <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
             <span>{t.licensed}</span>
           </div>
-          <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2 rounded-2xl">
-            <Award className="w-5 h-5 text-emerald-400" />
+          <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
+            <Award className="w-4 h-4 text-emerald-400" />
             <span>{t.support}</span>
           </div>
-          <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2 rounded-2xl">
-            <Sparkles className="w-5 h-5 text-emerald-400" />
+          <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
+            <Sparkles className="w-4 h-4 text-emerald-400" />
             <span>{t.secure}</span>
           </div>
         </div>

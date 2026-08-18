@@ -8,8 +8,10 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // ── Mocks ────────────────────────────────────────────────────────────────────
 
-const mockAddDoc = vi.fn();
-const mockCollection = vi.fn(() => ({}));
+const { mockAddDoc, mockCollection } = vi.hoisted(() => ({
+  mockAddDoc: vi.fn(),
+  mockCollection: vi.fn(() => ({})),
+}));
 
 vi.mock('@/lib/firebase', () => ({
   db: {},
@@ -19,6 +21,8 @@ vi.mock('firebase/firestore', () => ({
   collection: mockCollection,
   addDoc: mockAddDoc,
 }));
+
+import { POST } from '@/app/api/leads/route';
 
 // Global fetch mock for n8n webhook tests
 const mockFetch = vi.fn();
@@ -51,7 +55,6 @@ const VALID_LEAD = {
 describe('POST /api/leads', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.resetModules();
 
     // Default: Firestore resolves with a fake document ID
     mockAddDoc.mockResolvedValue({ id: 'firestore-doc-abc123' });
@@ -63,7 +66,6 @@ describe('POST /api/leads', () => {
   // ── Validation — Happy Path ───────────────────────────────────────────────
 
   it('TC-01: returns 200 and bookingId on valid lead submission', async () => {
-    const { POST } = await import('@/app/api/leads/route');
     const req = makeLeadRequest(VALID_LEAD);
 
     const response = await POST(req as any);

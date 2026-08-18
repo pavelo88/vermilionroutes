@@ -157,34 +157,50 @@ export function TourCarousel({ tours }: TourCarouselProps) {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Desktop: 3-card layout */}
-        <div className="hidden md:flex items-stretch justify-center gap-6 px-20 py-4">
-          {/* Prev card — dimmed */}
-          <div
-            className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-all duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
-            onClick={handlePrev}
-            style={{ transformOrigin: 'right center' }}
-          >
-            <TourCard tour={filteredTours[prevIdx]} className="h-[440px] pointer-events-none" />
+        {/* Desktop Layout depending on count */}
+        {total === 1 ? (
+          <div className="hidden md:flex justify-center px-4 py-4">
+            <div className="w-full max-w-[380px] drop-shadow-2xl">
+              <TourCard tour={filteredTours[0]} className="h-[490px] ring-2 ring-emerald-500/30 ring-offset-4 ring-offset-transparent" />
+            </div>
           </div>
+        ) : total === 2 ? (
+          <div className="hidden md:flex items-center justify-center gap-6 px-4 py-4">
+            {filteredTours.map((t) => (
+              <div key={t.id} className="w-[340px] shrink-0 drop-shadow-xl">
+                <TourCard tour={t} className="h-[480px]" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="hidden md:flex items-stretch justify-center gap-6 px-20 py-4">
+            {/* Prev card — dimmed */}
+            <div
+              className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-all duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
+              onClick={handlePrev}
+              style={{ transformOrigin: 'right center' }}
+            >
+              <TourCard tour={filteredTours[prevIdx]} className="h-[450px] pointer-events-none" />
+            </div>
 
-          {/* Active card — full focus */}
-          <div className="w-[320px] lg:w-[360px] xl:w-[380px] shrink-0 z-10 transition-all duration-500 ease-out drop-shadow-2xl">
-            <TourCard tour={filteredTours[currentIndex]} className="h-[480px] ring-2 ring-emerald-500/30 ring-offset-4 ring-offset-transparent" />
-          </div>
+            {/* Active card — full focus */}
+            <div className="w-[320px] lg:w-[360px] xl:w-[380px] shrink-0 z-10 transition-all duration-500 ease-out drop-shadow-2xl">
+              <TourCard tour={filteredTours[currentIndex]} className="h-[490px] ring-2 ring-emerald-500/30 ring-offset-4 ring-offset-transparent" />
+            </div>
 
-          {/* Next card — dimmed */}
-          <div
-            className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-all duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
-            onClick={handleNext}
-            style={{ transformOrigin: 'left center' }}
-          >
-            <TourCard tour={filteredTours[nextIdx]} className="h-[440px] pointer-events-none" />
+            {/* Next card — dimmed */}
+            <div
+              className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-all duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
+              onClick={handleNext}
+              style={{ transformOrigin: 'left center' }}
+            >
+              <TourCard tour={filteredTours[nextIdx]} className="h-[450px] pointer-events-none" />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Mobile: single card with CSS slide */}
-        <div className="md:hidden relative w-full max-w-[340px] mx-auto h-[480px]">
+        <div className="md:hidden relative w-full max-w-[340px] mx-auto h-[490px]">
           {filteredTours.map((tour, idx) => {
             const isCurrent = idx === currentIndex;
             const isPrev = idx === prevIdx;
@@ -204,23 +220,27 @@ export function TourCarousel({ tours }: TourCarouselProps) {
           })}
         </div>
 
-        {/* ── Navigation Arrows ── */}
-        <button
-          onClick={handlePrev}
-          suppressHydrationWarning
-          aria-label="Previous expedition"
-          className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-all duration-200 z-30 opacity-0 group-hover/carousel:opacity-100"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        <button
-          onClick={handleNext}
-          suppressHydrationWarning
-          aria-label="Next expedition"
-          className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-all duration-200 z-30 opacity-0 group-hover/carousel:opacity-100"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
+        {/* ── Navigation Arrows (Only shown when > 1 tour) ── */}
+        {total > 1 && (
+          <>
+            <button
+              onClick={handlePrev}
+              suppressHydrationWarning
+              aria-label="Previous expedition"
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-all duration-200 z-30 opacity-0 group-hover/carousel:opacity-100 cursor-pointer"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={handleNext}
+              suppressHydrationWarning
+              aria-label="Next expedition"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-all duration-200 z-30 opacity-0 group-hover/carousel:opacity-100 cursor-pointer"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </>
+        )}
       </div>
 
       {/* ── Dot Indicators + Counter ── */}

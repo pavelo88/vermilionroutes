@@ -2,11 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { BookingRequest } from '@/types';
-import {
-  subscribeBookingsFromFirestore,
-  updateBookingStatusInFirestore,
-  deleteBookingFromFirestore
-} from '@/lib/bookings';
+import { BookingRepository } from '@/lib/services/firebaseRepository';
 
 export function useBookingsData() {
   const [bookings, setBookings] = useState<BookingRequest[]>([]);
@@ -17,7 +13,7 @@ export function useBookingsData() {
     let isSubscribed = true;
     setLoading(true);
 
-    const unsubscribe = subscribeBookingsFromFirestore(
+    const unsubscribe = BookingRepository.subscribe(
       (data) => {
         if (!isSubscribed) return;
         setBookings(data);
@@ -39,7 +35,7 @@ export function useBookingsData() {
 
   const updateStatus = useCallback(async (id: string, status: BookingRequest['status']) => {
     try {
-      await updateBookingStatusInFirestore(id, status);
+      await BookingRepository.update(id, { status });
     } catch (err: any) {
       console.error('Failed to update booking status:', err);
       throw err;
@@ -48,7 +44,7 @@ export function useBookingsData() {
 
   const deleteBooking = useCallback(async (id: string) => {
     try {
-      await deleteBookingFromFirestore(id);
+      await BookingRepository.delete(id);
     } catch (err: any) {
       console.error('Failed to delete booking:', err);
       throw err;

@@ -3,12 +3,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Tour } from '@/types';
 import { mockTours } from '@/data/mock';
-import {
-  subscribeToursFromFirestore,
-  saveTourToFirestore,
-  deleteTourFromFirestore,
-  seedDatabaseToFirestore
-} from '@/lib/tours';
+import { TourRepository } from '@/lib/services/firebaseRepository';
+import { seedDatabaseToFirestore } from '@/lib/tours';
 
 export function useToursData() {
   const [tours, setTours] = useState<Tour[]>(mockTours);
@@ -20,13 +16,18 @@ export function useToursData() {
     let isSubscribed = true;
     setLoading(true);
 
-    const unsubscribe = subscribeToursFromFirestore(
+    const unsubscribe = TourRepository.subscribe(
       (data) => {
         if (!isSubscribed) return;
-        setTours(data);
+        if (data && data.length > 0) {
+          setTours(data);
+          setIsUsingFallback(false);
+        } else {
+          setTours(mockTours);
+          setIsUsingFallback(true);
+        }
         setLoading(false);
         setError(null);
-        setIsUsingFallback(data === mockTours);
       },
       (err) => {
         if (!isSubscribed) return;
@@ -46,7 +47,8 @@ export function useToursData() {
 
   const saveTour = useCallback(async (tour: Tour) => {
     try {
-      await saveTourToFirestore(tour);
+      if (!tour.id) throw new Error('Tour must have an ID to save.');
+      await TourRepository.save(tour.id, tour);
     } catch (err: any) {
       console.error('Error saving tour:', err);
       throw err;
@@ -55,7 +57,7 @@ export function useToursData() {
 
   const deleteTour = useCallback(async (id: string) => {
     try {
-      await deleteTourFromFirestore(id);
+      await TourRepository.delete(id);
     } catch (err: any) {
       console.error('Error deleting tour:', err);
       throw err;

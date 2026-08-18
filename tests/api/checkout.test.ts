@@ -14,17 +14,18 @@ import { describe, it, expect, vi, beforeEach, beforeAll, afterAll } from 'vites
 const mockSessionCreate = vi.fn();
 
 vi.mock('stripe', () => {
-  function MockStripe() {
-    return {
-      checkout: {
+  return {
+    default: class MockStripe {
+      checkout = {
         sessions: {
           create: mockSessionCreate,
         },
-      },
-    };
-  }
-  return { default: MockStripe };
+      };
+    },
+  };
 });
+
+import { POST } from '@/app/api/checkout/session/route';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -65,7 +66,6 @@ describe('POST /api/checkout/session', () => {
   // ── Happy Path ────────────────────────────────────────────────────────────
 
   it('TC-01: returns sessionId and url on successful creation', async () => {
-    const { POST } = await import('@/app/api/checkout/session/route');
     const req = makeRequest({
       tourId: 'andes-jungle-galapagos',
       tourTitle: 'Andes, Amazon Jungle & Galapagos Expedition',

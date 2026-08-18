@@ -76,46 +76,118 @@ const intlMiddleware = createMiddleware({
  * ============================================================================
  */
 
+interface RateLimitRecord {
+  timestamps: number[];
+}
+
+const rateLimitMap = new Map<string, RateLimitRecord>();
+const CLEANUP_INTERVAL = 5 * 60 * 1000;
+let lastCleanup = Date.now();
+
+function getRateLimitConfig(pathname: string): { limit: number; windowMs: number } {
+  if (pathname.startsWith('/api/concierge')) {
+    return { limit: 15, windowMs: 60 * 1000 }; // 15 req/min (LLM token defense)
+  }
+  if (pathname.startsWith('/api/checkout')) {
+    return { limit: 10, windowMs: 60 * 1000 }; // 10 req/min (Card testing defense)
+  }
+  if (pathname.startsWith('/api/leads')) {
+    return { limit: 10, windowMs: 60 * 1000 }; // 10 req/min (Spam defense)
+  }
+  return { limit: 60, windowMs: 60 * 1000 };
+}
+
+function checkRateLimit(ip: string, pathname: string): { allowed: boolean; limit: number; remaining: number; reset: number } {
+  const now = Date.now();
+
+  if (now - lastCleanup > CLEANUP_INTERVAL) {
+    lastCleanup = now;
+    for (const [key, record] of rateLimitMap.entries()) {
+      record.timestamps = record.timestamps.filter((ts) => now - ts < 120 * 1000);
+      if (record.timestamps.length === 0) {
+        rateLimitMap.delete(key);
+      }
+    }
+  }
+
+  const { limit, windowMs } = getRateLimitConfig(pathname);
+  const key = `${ip}:${pathname.split('/').slice(0, 3).join('/')}`;
+  const record = rateLimitMap.get(key) || { timestamps: [] };
+
+  record.timestamps = record.timestamps.filter((ts) => now - ts < windowMs);
+
+  if (record.timestamps.length >= limit) {
+    const oldestTimestamp = record.timestamps[0];
+    const reset = Math.ceil((oldestTimestamp + windowMs - now) / 1000);
+    return { allowed: false, limit, remaining: 0, reset: Math.max(1, reset) };
+  }
+
+  record.timestamps.push(now);
+  rateLimitMap.set(key, record);
+  return { allowed: true, limit, remaining: limit - record.timestamps.length, reset: Math.ceil(windowMs / 1000) };
+}
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // --------------------------------------------------------------------------
-  // PASO 1: Interceptación y Blindaje de Rutas Administrativas en el Edge
+  // PASO 1: Interceptación y Rate Limiting en API Routes (/api/*)
   // --------------------------------------------------------------------------
-  // Detecta patrones como `/:locale/admin` o `/:locale/admin/*`
+  if (pathname.startsWith('/api/')) {
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || req.headers.get('x-real-ip') || '127.0.0.1';
+    const rateCheck = checkRateLimit(ip, pathname);
+
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Too Many Requests',
+          message: 'Rate limit exceeded. Please wait before retrying.'
+        },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': rateCheck.reset.toString(),
+            'X-RateLimit-Limit': rateCheck.limit.toString(),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateCheck.reset.toString(),
+          }
+        }
+      );
+    }
+
+    const response = NextResponse.next();
+    response.headers.set('X-RateLimit-Limit', rateCheck.limit.toString());
+    response.headers.set('X-RateLimit-Remaining', rateCheck.remaining.toString());
+    return response;
+  }
+
+  // --------------------------------------------------------------------------
+  // PASO 2: Interceptación y Blindaje de Rutas Administrativas en el Edge
+  // --------------------------------------------------------------------------
   const localePattern = locales.join('|');
   const adminRegex = new RegExp(`^/(${localePattern})/admin(?:/(.*))?$`);
   const adminMatch = pathname.match(adminRegex);
-
-  // También verifica accesos directos sin prefijo de idioma a `/admin`
   const isDirectAdmin = pathname === '/admin' || pathname.startsWith('/admin/');
 
   if (adminMatch || isDirectAdmin) {
     const locale = adminMatch ? adminMatch[1] : 'en';
     const subPath = adminMatch ? (adminMatch[2] || '') : pathname.replace(/^\/admin\/?/, '');
     
-    // Cookie de sesión estándar de Firebase Auth / Edge Session
     const sessionCookie = req.cookies.get('__session')?.value;
-
-    // Rutas públicas dentro del módulo de administración (ej. pantalla de login dedicada)
     const isPublicAdminRoute = subPath === 'login';
 
-    // Si no existe la cookie de sesión y el usuario intenta acceder a una sección protegida
     if (!sessionCookie && !isPublicAdminRoute) {
-      // Redirigir al usuario al login administrativo preservando el idioma
       const loginUrl = new URL(`/${locale}/admin/login`, req.url);
-      
-      // Si el usuario intentaba acceder a una subruta específica, preservar la URL de retorno
       if (subPath && subPath !== 'dashboard') {
         loginUrl.searchParams.set('callbackUrl', encodeURI(pathname));
       }
-
       return NextResponse.redirect(loginUrl);
     }
   }
 
   // --------------------------------------------------------------------------
-  // PASO 2: Procesamiento de Rutas Públicas e Internacionalización (i18n)
+  // PASO 3: Procesamiento de Rutas Públicas e Internacionalización (i18n)
   // --------------------------------------------------------------------------
   return intlMiddleware(req);
 }

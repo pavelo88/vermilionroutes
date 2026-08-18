@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/Button';
 import { useSettings } from '@/hooks/useSettings';
 import { useLocale, useTranslations } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
-import { generateTourPDF } from '@/lib/pdfGenerator';
 import { ExpeditionFacts } from '@/components/tours/ExpeditionFacts';
 import { ExpeditionRouteMap } from '@/components/tours/ExpeditionRouteMap';
 
@@ -104,6 +103,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
     if (!tour || isGeneratingPDF) return;
     setIsGeneratingPDF(true);
     try {
+      const { generateTourPDF } = await import('@/lib/pdfGenerator');
       await generateTourPDF(tour, locale);
     } catch (err) {
       console.error('Error generating PDF:', err);

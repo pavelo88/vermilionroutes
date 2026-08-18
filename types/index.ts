@@ -105,3 +105,6 @@ export interface BookingRequest {
   status: 'pending' | 'contacted' | 'confirmed' | 'cancelled';
   createdAt: string;
 }
+
+export type DestinationInfo = Destination;
+export type SiteSettings = Record<string, any>;
