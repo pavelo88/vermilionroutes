@@ -33,6 +33,7 @@ export class FirebaseRepository<T extends { id?: string }> {
    * Fetch a single document by its ID
    */
   async getById(id: string): Promise<T | null> {
+    if (!db) return null;
     try {
       const docRef = doc(db, this.collectionName, id);
       const docSnap = await getDoc(docRef);
@@ -48,6 +49,7 @@ export class FirebaseRepository<T extends { id?: string }> {
    * Fetch all documents in collection matching optional constraints
    */
   async getAll(constraints: QueryConstraint[] = []): Promise<T[]> {
+    if (!db) return [];
     try {
       const q = query(collection(db, this.collectionName), ...constraints);
       const querySnapshot = await getDocs(q);
@@ -62,6 +64,7 @@ export class FirebaseRepository<T extends { id?: string }> {
    * Create a new document with auto-generated ID
    */
   async create(data: Omit<T, 'id'>): Promise<string> {
+    if (!db) throw new Error('Firebase DB is not initialized.');
     try {
       const colRef = collection(db, this.collectionName);
       const docRef = await addDoc(colRef, data);
@@ -76,6 +79,7 @@ export class FirebaseRepository<T extends { id?: string }> {
    * Save or overwrite a document by specific ID
    */
   async save(id: string, data: Partial<T>): Promise<void> {
+    if (!db) return;
     try {
       const docRef = doc(db, this.collectionName, id);
       await setDoc(docRef, data, { merge: true });
@@ -89,6 +93,7 @@ export class FirebaseRepository<T extends { id?: string }> {
    * Update partial fields of an existing document
    */
   async update(id: string, partial: Partial<T>): Promise<void> {
+    if (!db) return;
     try {
       const docRef = doc(db, this.collectionName, id);
       await updateDoc(docRef, partial as any);
@@ -102,6 +107,7 @@ export class FirebaseRepository<T extends { id?: string }> {
    * Delete a document by ID
    */
   async delete(id: string): Promise<void> {
+    if (!db) return;
     try {
       const docRef = doc(db, this.collectionName, id);
       await deleteDoc(docRef);
@@ -119,18 +125,29 @@ export class FirebaseRepository<T extends { id?: string }> {
     onError?: (error: Error) => void,
     constraints: QueryConstraint[] = []
   ): Unsubscribe {
-    const q = query(collection(db, this.collectionName), ...constraints);
-    return onSnapshot(
-      q,
-      (snapshot) => {
-        const items = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as T);
-        onData(items);
-      },
-      (err) => {
-        console.warn(`[FirebaseRepository:${this.collectionName}] Subscription error:`, err);
-        if (onError) onError(err);
-      }
-    );
+    if (!db) {
+      if (onError) onError(new Error('Firebase DB is not initialized. Falling back to default data.'));
+      return () => {};
+    }
+
+    try {
+      const q = query(collection(db, this.collectionName), ...constraints);
+      return onSnapshot(
+        q,
+        (snapshot) => {
+          const items = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as T);
+          onData(items);
+        },
+        (err) => {
+          console.warn(`[FirebaseRepository:${this.collectionName}] Subscription error:`, err);
+          if (onError) onError(err);
+        }
+      );
+    } catch (err: any) {
+      console.warn(`[FirebaseRepository:${this.collectionName}] Failed to subscribe to Firestore:`, err);
+      if (onError) onError(err);
+      return () => {};
+    }
   }
 }
 

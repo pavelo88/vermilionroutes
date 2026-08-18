@@ -47,7 +47,7 @@ export function subscribeToursFromFirestore(
   onUpdate: (tours: Tour[]) => void,
   onError?: (err: Error) => void
 ): () => void {
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || !db) {
     onUpdate(mockTours);
     return () => { };
   }

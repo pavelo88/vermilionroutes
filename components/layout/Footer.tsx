@@ -93,7 +93,7 @@ export function Footer() {
   const t = TRANSLATIONS[locale] || TRANSLATIONS['en'];
 
   return (
-    <footer className="bg-gradient-to-b from-emerald-950 via-[#032118] to-[#021812] text-emerald-100/90 pt-16 pb-8 border-t border-emerald-900/80">
+    <footer className="bg-gradient-to-b from-emerald-950 via-[#032118] to-[#021812] text-zinc-100 pt-16 pb-8 border-t border-emerald-900/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-emerald-900/60">
@@ -112,7 +112,7 @@ export function Footer() {
               </div>
             </a>
 
-            <p className="text-emerald-200/80 text-sm leading-relaxed max-w-sm">
+            <p className="text-zinc-200 text-sm leading-relaxed max-w-sm">
               {(() => {
                 const custom: any = settings?.footer?.description;
                 if (custom && typeof custom === 'object') {
@@ -137,7 +137,7 @@ export function Footer() {
                   href={settings.contact.facebook}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-xl bg-emerald-900/50 hover:bg-emerald-600 hover:text-white border border-emerald-800/60 flex items-center justify-center text-emerald-300 transition-all hover:scale-105"
+                  className="w-9 h-9 rounded-xl bg-emerald-900/50 hover:bg-emerald-600 hover:text-white border border-emerald-800/60 flex items-center justify-center text-zinc-200 transition-all hover:scale-105"
                   aria-label="Facebook"
                 >
                   <Facebook className="w-4 h-4" />
@@ -148,7 +148,7 @@ export function Footer() {
                   href={settings.contact.instagram}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-xl bg-emerald-900/50 hover:bg-emerald-600 hover:text-white border border-emerald-800/60 flex items-center justify-center text-emerald-300 transition-all hover:scale-105"
+                  className="w-9 h-9 rounded-xl bg-emerald-900/50 hover:bg-emerald-600 hover:text-white border border-emerald-800/60 flex items-center justify-center text-zinc-200 transition-all hover:scale-105"
                   aria-label="Instagram"
                 >
                   <Instagram className="w-4 h-4" />
@@ -159,7 +159,7 @@ export function Footer() {
                   href={settings.contact.tripadvisor}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-9 h-9 rounded-xl bg-emerald-900/50 hover:bg-emerald-600 hover:text-white border border-emerald-800/60 flex items-center justify-center text-emerald-300 transition-all hover:scale-105"
+                  className="w-9 h-9 rounded-xl bg-emerald-900/50 hover:bg-emerald-600 hover:text-white border border-emerald-800/60 flex items-center justify-center text-amber-400 transition-all hover:scale-105"
                   aria-label="TripAdvisor"
                 >
                   <svg className="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="currentColor">
@@ -175,29 +175,29 @@ export function Footer() {
             <h4 className="font-serif font-semibold text-lg text-white tracking-wide">
               {t.topDestinations}
             </h4>
-            <ul className="space-y-2.5 text-sm text-emerald-200/80">
+            <ul className="space-y-2.5 text-sm text-zinc-300">
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-emerald-400 transition-colors">
+                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
                   {t.galapagos}
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-emerald-400 transition-colors">
+                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
                   {t.ecuador}
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-emerald-400 transition-colors">
+                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
                   {t.fullDay}
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-emerald-400 transition-colors">
+                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
                   {t.amazon}
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-emerald-400 transition-colors">
+                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
                   {t.volcanoes}
                 </a>
               </li>
@@ -209,19 +209,19 @@ export function Footer() {
             <h4 className="font-serif font-semibold text-lg text-white tracking-wide">
               {t.company}
             </h4>
-            <ul className="space-y-2.5 text-sm text-emerald-200/80">
+            <ul className="space-y-2.5 text-sm text-zinc-300">
               <li>
-                <a href={`/${locale}#experience`} className="hover:text-emerald-400 transition-colors">
+                <a href={`/${locale}#experience`} className="hover:text-white transition-colors">
                   {t.about}
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-emerald-400 transition-colors">
+                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
                   {t.packages}
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#contact`} className="hover:text-emerald-400 transition-colors">
+                <a href={`/${locale}#contact`} className="hover:text-white transition-colors">
                   {t.contact}
                 </a>
               </li>
@@ -233,7 +233,7 @@ export function Footer() {
             <h4 className="font-serif font-semibold text-lg text-white tracking-wide">
               {t.updates}
             </h4>
-            <p className="text-xs text-emerald-200/70 leading-relaxed">
+            <p className="text-xs text-zinc-300 leading-relaxed">
               {t.subscribeText}
             </p>
             <form onSubmit={(e) => e.preventDefault()} className="space-y-2">
@@ -242,7 +242,7 @@ export function Footer() {
                   type="email"
                   placeholder={t.emailPlaceholder}
                   suppressHydrationWarning
-                  className="w-full bg-emerald-950/80 border border-emerald-800/80 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-emerald-400/60 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
+                  className="w-full bg-emerald-950/80 border border-emerald-800/80 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
                 />
               </div>
               <Button variant="primary" size="sm" className="w-full text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold tracking-wider cursor-pointer" suppressHydrationWarning>
@@ -250,7 +250,7 @@ export function Footer() {
               </Button>
             </form>
 
-            <div className="pt-2 space-y-2 text-xs text-emerald-200/80">
+            <div className="pt-2 space-y-2 text-xs text-zinc-200">
               <p className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-emerald-400" /> {getLocalizedText(settings?.contact?.phone, locale) || '+593 99 404 8458'}
               </p>
@@ -265,29 +265,29 @@ export function Footer() {
         </div>
 
         {/* Guarantees & Badges */}
-        <div className="py-8 flex flex-wrap justify-between items-center gap-4 border-b border-emerald-900/60 text-xs text-emerald-200/80">
+        <div className="py-8 flex flex-wrap justify-between items-center gap-4 border-b border-emerald-900/60 text-xs text-zinc-200">
           <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>{t.licensed}</span>
+            <span className="text-white font-medium">{t.licensed}</span>
           </div>
           <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
             <Award className="w-4 h-4 text-emerald-400" />
-            <span>{t.support}</span>
+            <span className="text-white font-medium">{t.support}</span>
           </div>
           <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
             <Sparkles className="w-4 h-4 text-emerald-400" />
-            <span>{t.secure}</span>
+            <span className="text-white font-medium">{t.secure}</span>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-emerald-400/70">
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-zinc-300">
           <p>{getLocalizedText(settings?.footer?.copyright, locale) || `© ${new Date().getFullYear()} Vermilion Routes. All Rights Reserved.`}</p>
           <div className="flex gap-6">
-            <a href="#privacy" className="hover:text-emerald-200 transition-colors">
+            <a href="#privacy" className="hover:text-white transition-colors">
               {t.privacy}
             </a>
-            <a href="#terms" className="hover:text-emerald-200 transition-colors">
+            <a href="#terms" className="hover:text-white transition-colors">
               {t.terms}
             </a>
           </div>

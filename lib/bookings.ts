@@ -69,7 +69,7 @@ export function subscribeBookingsFromFirestore(
   onUpdate: (bookings: BookingRequest[]) => void,
   onError?: (err: Error) => void
 ): () => void {
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || !db) {
     onUpdate([]);
     return () => {};
   }

@@ -47,6 +47,7 @@ async function getCatalogContext(): Promise<string> {
   }
 
   try {
+    if (!db) throw new Error('Firebase DB is not initialized');
     const querySnap = await getDocs(collection(db, 'tours'));
     if (!querySnap.empty) {
       const tours = querySnap.docs.map((d) => d.data());
