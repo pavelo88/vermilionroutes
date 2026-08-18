@@ -1631,42 +1631,55 @@ export const mockTours: Tour[] = [
 
 export const mockDestinations: Destination[] = [
   {
-    id: 'galapagos',
-    name: { en: 'Galápagos Islands', es: 'Islas Galápagos', fr: 'Îles Galápagos', de: 'Galapagos-Inseln', it: 'Isole Galapagos', pt: 'Ilhas Galápagos', ja: 'ガラパゴス諸島', zh: '加拉帕戈斯群岛' },
-    subtitle: { en: 'Living Laboratory of Evolution', es: 'Laboratorio Vivo de la Evolución', fr: 'Laboratoire vivant de l\'évolution', de: 'Lebendiges Labor der Evolution', it: 'Laboratorio Vivente dell\'Evoluzione', pt: 'Laboratório Vivo da Evolução', ja: '進化の生きた実験室', zh: '进化论的活体实验室' },
-    description: {
-      en: 'Encounter unique wildlife found nowhere else on Earth. Snorkel with playful sea lions, marine iguanas, giant tortoises and penguins.',
-      es: 'Encuentra fauna única que no existe en ningún otro lugar. Nada con leones marinos, iguanas marinas, tortugas gigantes y pingüinos.',
-      zh: '邂逅地球上独一无二的野生动物，与海狮、海鬣蜥、巨龟和企鹅一同浮潜。'
-    },
-    imageUrl: '/images/tours/16-9/galapagos-isla-hermosa-16-9.jpg',
-    toursCount: 5,
-    slug: 'galapagos'
-  },
-  {
     id: 'ecuador',
     name: { en: 'Mainland Ecuador', es: 'Ecuador Continental', fr: 'Équateur Continental', de: 'Festland Ecuador', it: 'Ecuador Continentale', pt: 'Equador Continental', ja: 'エクアドル本土', zh: '厄瓜多尔大陆' },
-    subtitle: { en: 'Andes, Amazon & Colonial Treasures', es: 'Andes, Amazonía y Joyas Coloniales', fr: 'Andes, Amazonie et joyaux coloniaux', de: 'Anden, Amazonas & Koloniale Schätze', it: 'Ande, Amazzonia e Gioielli Coloniali', pt: 'Andes, Amazônia e Tesouros Coloniais', ja: 'アンデス、アマゾン、コロニアル建築', zh: '安第斯高原、雨林与殖民古迹' },
+    subtitle: { en: 'Andes, Volcanoes & Amazon Rainforest', es: 'Andes, Volcanes y Selva Amazónica', fr: 'Andes, volcans et jungle amazonienne', de: 'Anden, Vulkane & Amazonas-Regenwald', it: 'Ande, Vulcani e Foresta Amazzonica', pt: 'Andes, Vulcões e Floresta Amazônica', ja: 'アンデス、火山、アマゾン熱帯雨林', zh: '安第斯高原、壮丽火山与亚马逊雨林' },
     description: {
       en: 'Explore the Avenue of the Volcanoes, historic Quito, Baños waterfalls, Amazon jungle lodges and ancient Inca heritage.',
-      es: 'Explora la Avenida de los Volcanes, Quito histórico, cascadas de Baños, lodges en la Amazonía y legado inca.',
+      es: 'Atraviesa la Avenida de los Volcanes, explora lodges en la selva profunda y maravíllate con la arquitectura colonial.',
       zh: '探索火山大道、基多古城、巴尼奥斯瀑布、亚马逊丛林木屋与印加遗址。'
     },
     imageUrl: '/images/tours/16-9/cajas-national-park-16-9.jpg',
-    toursCount: 4,
+    toursCount: 5,
     slug: 'ecuador'
   },
   {
-    id: 'full-day',
-    name: { en: 'Day Excursions', es: 'Excursiones de 1 Día', fr: 'Excursions d\'une journée', de: 'Tagesausflüge', it: 'Escursioni Giornaliere', pt: 'Passeios de 1 Dia', ja: '日帰りツアー', zh: '单日游路线' },
-    subtitle: { en: 'Immersive Day Trips from Quito', es: 'Escapadas de un Día desde Quito', fr: 'Escapades d\'une journée depuis Quito', de: 'Tagesausflüge ab Quito', it: 'Tour di un Giorno da Quito', pt: 'Passeios de um Dia a partir de Quito', ja: 'キト発日帰りツアー', zh: '基多出发一日精选' },
+    id: 'galapagos',
+    name: { en: 'Galápagos Islands', es: 'Islas Galápagos', fr: 'Îles Galápagos', de: 'Galapagos-Inseln', it: 'Isole Galapagos', pt: 'Ilhas Galápagos', ja: 'ガラパゴス諸島', zh: '加拉帕戈斯群岛' },
+    subtitle: { en: 'The Enchanted Archipelago & Cruises', es: 'El Archipiélago Encantado', fr: 'L\'archipel enchanté et croisières', de: 'Das verzauberte Archipel & Kreuzfahrten', it: 'L\'Arcipelago Incantato e Crociere', pt: 'O Arquipélago Encantado e Cruzeiros', ja: '魅惑の諸島とネイチャークルーズ', zh: '魔幻群岛与尊享生态巡游' },
     description: {
-      en: 'Flexible full-day tours: Mitad del Mundo, Otavalo Market, Papallacta Springs, Mindo Cloud Forest, Cotopaxi & Quilotoa.',
-      es: 'Tours de 1 día flexibles: Mitad del Mundo, Otavalo, Termas de Papallacta, Mindo, Cotopaxi y Quilotoa.',
+      en: 'Cruises and island-hopping tours to witness wildlife and pristine waters found nowhere else on Earth.',
+      es: 'Cruceros privados curados y excursiones de isla en isla para presenciar vida silvestre que no se encuentra en ningún otro lugar.',
+      zh: '邂逅地球上独一无二的野生动物，与海狮、海鬣蜥、巨龟和企鹅一同浮潜。'
+    },
+    imageUrl: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
+    toursCount: 3,
+    slug: 'galapagos'
+  },
+  {
+    id: 'combined',
+    name: { en: 'Combined Journeys', es: 'Viajes Combinados', fr: 'Voyages Combinés', de: 'Kombinierte Reisen', it: 'Viaggi Combinati', pt: 'Viagens Combinadas', ja: 'コンビネーションツアー', zh: '全景组合探索' },
+    subtitle: { en: 'Mainland Ecuador + Galápagos Islands', es: 'Ecuador Continental + Islas Galápagos', fr: 'Équateur Continental + Îles Galápagos', de: 'Festland Ecuador + Galapagos-Inseln', it: 'Ecuador Continentale + Isole Galapagos', pt: 'Equador Continental + Ilhas Galápagos', ja: 'エクアドル本土 ＋ ガラパゴス諸島', zh: '厄瓜多尔大陆 ＋ 加拉帕戈斯群岛' },
+    description: {
+      en: 'The ultimate South American master journeys linking volcanic Andean trails, Amazon wonders and the pristine Galápagos islands.',
+      es: 'Grandes travesías integrales que unen lo mejor de los Andes, la Amazonía y los cruceros en las Islas Galápagos en un solo viaje.',
+      zh: '精选全景路线，将安第斯山脉、亚马逊雨林与加拉帕戈斯群岛的奇迹完美融为一体。'
+    },
+    imageUrl: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+    toursCount: 2,
+    slug: 'combined'
+  },
+  {
+    id: 'full-day',
+    name: { en: 'Day Excursions', es: 'Excursiones Full Day', fr: 'Excursions Full Day', de: 'Full-Day Tagesausflüge', it: 'Escursioni Full Day', pt: 'Passeios Full Day', ja: '日帰りツアー (Full Day)', zh: '单日全景游 (Full Day)' },
+    subtitle: { en: '1-Day Tours in Galapagos & Mainland', es: 'Tours de 1 Día en Galápagos y Continente', fr: 'Tours d\'une journée aux Galápagos et Continent', de: '1-Tages-Touren in Galapagos und Festland', it: 'Tour di 1 Giorno a Galapagos e Continente', pt: 'Tours de 1 Dia em Galápagos e Continente', ja: 'ガラパゴス＆本土 1日ツアー', zh: '加拉帕戈斯与大陆 1日精选游' },
+    description: {
+      en: 'Immersive 1-day adventures: volcanic craters, snorkel reefs, cloud forests, thermal springs and indigenous markets.',
+      es: 'Aventuras inmersivas de 1 día a cráteres volcánicos, arrecifes de snorkel, bosque nuboso, termas y mercados indígenas.',
       zh: '全日游精选：赤道线、奥塔瓦洛集市、帕帕亚克塔温泉、明多云雾森林、科托帕希与基洛托阿。'
     },
     imageUrl: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
-    toursCount: 7,
+    toursCount: 6,
     slug: 'full-day'
   }
 ];

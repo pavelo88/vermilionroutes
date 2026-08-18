@@ -18,8 +18,9 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
   const CATEGORIES = [
     { id: 'all', label: t('filter.all') },
-    { id: 'Galapagos', label: `🌊 ${t('filter.galapagos')}` },
     { id: 'Ecuador', label: `🏔️ ${t('filter.ecuador')}` },
+    { id: 'Galapagos', label: `🐢 ${t('filter.galapagos')}` },
+    { id: 'Combined', label: `✨ ${t('filter.combined')}` },
     { id: 'FullDay', label: `☀️ ${t('filter.fullday')}` },
   ];
   const [activeFilter, setActiveFilter] = useState<string>('all');
@@ -34,10 +35,22 @@ export function TourCarousel({ tours }: TourCarouselProps) {
     activeFilter === 'all'
       ? tours
       : tours.filter((tour) => {
-          const dest = tour.destination.toLowerCase();
-          if (activeFilter === 'Galapagos') return dest.includes('galapagos');
-          if (activeFilter === 'Ecuador') return dest.includes('ecuador');
-          if (activeFilter === 'FullDay') return dest.includes('full') || dest.includes('1') || dest.includes('daily') || tour.id.includes('daily');
+          const dest = (tour.destination || '').toLowerCase();
+          const title = (typeof tour.title === 'string' ? tour.title : tour.title?.es || tour.title?.en || '').toLowerCase();
+          const id = (tour.id || '').toLowerCase();
+
+          if (activeFilter === 'Ecuador') {
+            return (dest.includes('ecuador') && !dest.includes('galapagos') && !dest.includes('&')) && !id.includes('combined');
+          }
+          if (activeFilter === 'Galapagos') {
+            return (dest.includes('galapagos') && !dest.includes('ecuador') && !dest.includes('&')) && !id.includes('combined');
+          }
+          if (activeFilter === 'Combined') {
+            return (dest.includes('galapagos') && dest.includes('ecuador')) || dest.includes('&') || dest.includes('combin') || id.includes('combined') || title.includes('ecuador e islas galápagos') || title.includes('ecuador & galapagos');
+          }
+          if (activeFilter === 'FullDay') {
+            return dest.includes('full') || dest.includes('1') || dest.includes('daily') || dest.includes('día') || id.includes('daily') || id.includes('fullday') || id.includes('full-day');
+          }
           return false;
         });
 
@@ -152,12 +165,12 @@ export function TourCarousel({ tours }: TourCarouselProps) {
             onClick={handlePrev}
             style={{ transformOrigin: 'right center' }}
           >
-            <TourCard tour={filteredTours[prevIdx]} className="h-[520px] pointer-events-none" />
+            <TourCard tour={filteredTours[prevIdx]} className="h-[440px] pointer-events-none" />
           </div>
 
           {/* Active card — full focus */}
           <div className="w-[320px] lg:w-[360px] xl:w-[380px] shrink-0 z-10 transition-all duration-500 ease-out drop-shadow-2xl">
-            <TourCard tour={filteredTours[currentIndex]} className="h-[560px] ring-2 ring-emerald-500/30 ring-offset-4 ring-offset-transparent" />
+            <TourCard tour={filteredTours[currentIndex]} className="h-[480px] ring-2 ring-emerald-500/30 ring-offset-4 ring-offset-transparent" />
           </div>
 
           {/* Next card — dimmed */}
@@ -166,12 +179,12 @@ export function TourCarousel({ tours }: TourCarouselProps) {
             onClick={handleNext}
             style={{ transformOrigin: 'left center' }}
           >
-            <TourCard tour={filteredTours[nextIdx]} className="h-[520px] pointer-events-none" />
+            <TourCard tour={filteredTours[nextIdx]} className="h-[440px] pointer-events-none" />
           </div>
         </div>
 
         {/* Mobile: single card with CSS slide */}
-        <div className="md:hidden relative w-full max-w-[340px] mx-auto h-[540px]">
+        <div className="md:hidden relative w-full max-w-[340px] mx-auto h-[480px]">
           {filteredTours.map((tour, idx) => {
             const isCurrent = idx === currentIndex;
             const isPrev = idx === prevIdx;

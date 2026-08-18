@@ -51,10 +51,11 @@
       "button": "Richiedi Itinerario Personalizzato"
     },
     "filter": {
-      "all": "Tutte le Spedizioni",
-      "galapagos": "Isole Galapagos",
+      "all": "Tutte le spedizioni",
       "ecuador": "Ecuador Continentale",
-      "fullday": "Escursioni Full Day"
+      "galapagos": "Isole Galapagos",
+      "combined": "Viaggi Combinati",
+      "fullday": "Escursioni Giornaliere"
     },
     "card": {
       "from": "Da",

@@ -52,8 +52,9 @@
     },
     "filter": {
       "all": "全部探险路线",
-      "galapagos": "加拉帕戈斯群岛",
       "ecuador": "厄瓜多尔大陆",
+      "galapagos": "加拉帕戈斯群岛",
+      "combined": "组合探索之旅",
       "fullday": "一日游精选"
     },
     "card": {

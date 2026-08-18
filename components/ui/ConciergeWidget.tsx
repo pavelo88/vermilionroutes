@@ -17,6 +17,8 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 
+import { useLocale } from 'next-intl';
+
 interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
@@ -26,14 +28,38 @@ interface ChatMessage {
 }
 
 export function ConciergeWidget() {
+  const locale = useLocale();
+  const GREETINGS_BY_LOCALE: Record<string, string> = {
+    es: '¡Hola! Soy **Valentina**, tu Concierge y asesora de viajes en Vermilion Routes.\n\nEstoy aquí para ayudarte a diseñar y personalizar tu viaje por **Ecuador Continental y las Islas Galápagos**.\n\n¿En qué destino o fechas te gustaría comenzar a planificar?',
+    en: 'Hello! I am **Valentina**, Lead Concierge at Vermilion Routes.\n\nI am here to assist you in designing and customizing your journey across **Mainland Ecuador and the Galápagos Islands**.\n\nWhat destinations or travel dates do you have in mind to get started?',
+    fr: 'Bonjour ! Je suis **Valentina**, votre Concierge et conseillère de voyage chez Vermilion Routes.\n\nJe suis là pour vous aider à concevoir votre voyage sur mesure en **Équateur Continental et aux Îles Galápagos**.\n\nQuelle destination ou quelles dates avez-vous en tête pour commencer ?',
+    de: 'Guten Tag! Ich bin **Valentina**, Ihre persönliche Reiseberaterin bei Vermilion Routes.\n\nIch helfe Ihnen gerne bei der Planung Ihrer maßgeschneiderten Traumreise durch **Festland-Ecuador und die Galapagos-Inseln**.\n\nWelche Reiseziele oder Reisedaten haben Sie im Sinn?',
+    it: 'Buongiorno! Sono **Valentina**, la tua Concierge e consulente di viaggio per Vermilion Routes.\n\nSono a tua disposizione per creare il tuo viaggio su misura tra l\'**Ecuador Continentale e le Isole Galapagos**.\n\nQuale destinazione o date hai in mente per iniziare?',
+    pt: 'Olá! Sou **Valentina**, sua Concierge e consultora de viagens na Vermilion Routes.\n\nEstou aqui para ajudar você a planejar sua viagem personalizada pelo **Equador Continental e Ilhas Galápagos**.\n\nQuais destinos ou datas você tem em mente para começar?',
+    ja: 'こんにちは！Vermilion Routesの専任コンシェルジュ、**ヴァレンティーナ**です。\n\n**エクアドル本土およびガラパゴス諸島**へのオーダーメイドの贅沢な旅のプランニングをお手伝いいたします。\n\nご希望の目的地やご旅行の時期など、お気軽にお聞かせください。',
+    zh: '您好！我是 Vermilion Routes 的专属旅行礼宾顾问 **Valentina**。\n\n我将竭诚为您定制**厄瓜多尔大陆与加拉帕戈斯群岛**的专属探索之旅。\n\n请问您心仪的目的地或预计出发日期是什么时候？',
+  };
+
+  const TOUR_INQUIRY_BY_LOCALE: Record<string, (title: string) => string> = {
+    es: (title) => `¡Hola! Veo que te interesa la expedición **${title}**. Con gusto puedo asesorarte con itinerarios, mejores temporadas y cotizaciones personalizadas. ¿En qué fechas planeas viajar?`,
+    en: (title) => `Hello! I see you are interested in the **${title}** expedition. I can assist you with availability, custom itineraries, and rates. When are you planning to travel?`,
+    fr: (title) => `Bonjour ! Je vois que l'expédition **${title}** vous intéresse. Je serais ravie de vous renseigner sur les disponibilités et itinéraires sur mesure. Quelles sont vos dates ?`,
+    de: (title) => `Hallo! Ich sehe, dass Sie sich für die Expedition **${title}** interessieren. Gerne helfe ich Ihnen mit Reisedaten und maßgeschneiderten Angeboten weiter. Wann möchten Sie reisen?`,
+    it: (title) => `Ciao! Vedo che sei interessato alla spedizione **${title}**. Sarò felice di fornirti disponibilità e dettagli su misura. In quali date vorresti viaggiare?`,
+    pt: (title) => `Olá! Vejo que tem interesse na expedição **${title}**. Terei todo o prazer em ajudar com disponibilidade e roteiros personalizados. Quais são as suas datas de viagem?`,
+    ja: (title) => `こんにちは！**${title}**のツアーにご興味をお持ちいただきありがとうございます。日程やカスタマイズについてご案内いたします。ご旅行の予定時期をお知らせください。`,
+    zh: (title) => `您好！看到您对**${title}**行程感兴趣。我很乐意为您提供具体的行程细节、排期及定制报价。请问您计划什么时候出行？`,
+  };
+
+  const defaultGreeting = GREETINGS_BY_LOCALE[locale] || GREETINGS_BY_LOCALE.en;
+
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenChat, setIsOpenChat] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
       role: 'assistant',
-      content:
-        'Hello! I am **Valentina**, Lead Concierge at Vermilion Routes.\n\nWhether you are planning a **Galapagos Expedition**, exploring the **Amazon Rainforest**, or hiking through the **Avenue of Volcanoes in Baños & Cotopaxi**, I am here to assist you instantly with itineraries and prices.\n\nHow can I help customize your journey today?',
+      content: defaultGreeting,
       timestamp: new Date(),
     },
   ]);
@@ -55,46 +81,62 @@ export function ConciergeWidget() {
     }
   }, [messages, isOpenChat]);
 
-  // Listen for external "book tour" events
+  // Update default greeting if locale changes
   useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length <= 1) {
+        return [
+          {
+            id: '1',
+            role: 'assistant',
+            content: defaultGreeting,
+            timestamp: new Date(),
+          },
+        ];
+      }
+      return prev;
+    });
+  }, [defaultGreeting]);
+
+  // Listen for open concierge events
+  useEffect(() => {
+    const handleOpenGeneral = () => {
+      setIsOpenMenu(false);
+      setIsOpenChat(true);
+    };
+
     const handleOpenTour = (e: Event) => {
-      const customEvent = e as CustomEvent<{ tourTitle: string }>;
+      const customEvent = e as CustomEvent<{ tourTitle?: string }>;
+      setIsOpenMenu(false);
+      setIsOpenChat(true);
       if (customEvent.detail?.tourTitle) {
-        setIsOpenMenu(false);
-        setIsOpenChat(true);
         const title = customEvent.detail.tourTitle;
-        const initialMsg = `I am interested in booking the "${title}" expedition. Could you help me with the availability and details?`;
+        const inquiryFn = TOUR_INQUIRY_BY_LOCALE[locale] || TOUR_INQUIRY_BY_LOCALE.en;
+        const inquiryPrompt = inquiryFn(title);
         
-        // Auto-send the message on behalf of the user
-        setTimeout(() => {
-          // This calls the API directly because handleSendMessage might not have latest state in this closure
-          setMessages((prev) => [...prev, { role: 'user', content: initialMsg }]);
-          setIsLoading(true);
-          fetch('/api/concierge/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              messages: [...messages, { role: 'user', content: initialMsg }].map((m) => ({ role: m.role, content: m.content })),
-              provider: selectedProvider,
-            }),
-          })
-            .then(res => res.json())
-            .then(data => {
-              if (data.success) {
-                setMessages((prev) => [...prev, { role: 'assistant', content: data.message, providerUsed: data.providerUsed }]);
-              }
-            })
-            .catch(() => {
-              setMessages((prev) => [...prev, { role: 'assistant', content: 'I apologize. Would you like me to connect you with a live specialist via WhatsApp?', providerUsed: 'Fallback' }]);
-            })
-            .finally(() => setIsLoading(false));
-        }, 500);
+        setMessages((prev) => {
+          const alreadyHasTourMsg = prev.some((m) => m.content.includes(title));
+          if (alreadyHasTourMsg) return prev;
+          return [
+            ...prev,
+            {
+              id: Date.now().toString(),
+              role: 'assistant',
+              content: inquiryPrompt,
+              timestamp: new Date(),
+            },
+          ];
+        });
       }
     };
 
+    window.addEventListener('open-concierge-chat', handleOpenGeneral);
     window.addEventListener('open-tour-chat', handleOpenTour);
-    return () => window.removeEventListener('open-tour-chat', handleOpenTour);
-  }, [messages, selectedProvider]);
+    return () => {
+      window.removeEventListener('open-concierge-chat', handleOpenGeneral);
+      window.removeEventListener('open-tour-chat', handleOpenTour);
+    };
+  }, [locale]);
 
   const handleSendMessage = async (textToSend?: string) => {
     const query = textToSend || inputMessage.trim();
@@ -112,6 +154,7 @@ export function ConciergeWidget() {
         body: JSON.stringify({
           messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
           provider: selectedProvider,
+          locale: locale || 'en',
         }),
       });
 

@@ -15,7 +15,7 @@ export function useDestinationsData() {
     try {
       const db = getFirestore(getApp());
       const destQuery = query(collection(db, 'destinations'));
-      const validIds = new Set(['galapagos', 'ecuador', 'full-day']);
+      const validIds = new Set(['ecuador', 'galapagos', 'combined', 'full-day']);
       unsubscribe = onSnapshot(destQuery, (snapshot) => {
         if (!snapshot.empty) {
           const fetched = snapshot.docs
@@ -24,7 +24,7 @@ export function useDestinationsData() {
 
           if (fetched.length > 0) {
             fetched.sort((a, b) => {
-              const order = ['galapagos', 'ecuador', 'full-day'];
+              const order = ['ecuador', 'galapagos', 'combined', 'full-day'];
               return order.indexOf(a.id.toLowerCase()) - order.indexOf(b.id.toLowerCase());
             });
             setDestinations(fetched);

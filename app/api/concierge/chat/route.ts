@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const messages: ChatMessage[] = body.messages || [];
     const provider: string | undefined = body.provider;
+    const locale: string = body.locale || 'en';
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json(
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate AI Concierge reply using selected/configured AI provider
-    const conciergeResponse = await generateConciergeReply(messages, provider);
+    const conciergeResponse = await generateConciergeReply(messages, provider, locale);
 
     let leadSubmitted = false;
     let leadId: string | undefined = undefined;

@@ -51,10 +51,11 @@
       "button": "Demander un Itinéraire Personnalisé"
     },
     "filter": {
-      "all": "Toutes les Expéditions",
-      "galapagos": "Îles Galápagos",
+      "all": "Toutes les expéditions",
       "ecuador": "Équateur Continental",
-      "fullday": "Excursions 1 Jour"
+      "galapagos": "Îles Galápagos",
+      "combined": "Voyages Combinés",
+      "fullday": "Excursions d'une journée"
     },
     "card": {
       "from": "À partir de",

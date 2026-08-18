@@ -52,8 +52,9 @@
     },
     "filter": {
       "all": "Todas las Expediciones",
-      "galapagos": "Islas Galápagos",
       "ecuador": "Ecuador Continental",
+      "galapagos": "Islas Galápagos",
+      "combined": "Viajes Combinados",
       "fullday": "Excursiones Full Day"
     },
     "card": {

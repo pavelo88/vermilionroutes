@@ -616,7 +616,7 @@ export function HeroSlider() {
       {/* Splash Screen Overlay for smooth transition OUTSIDE z-0 context */}
       {showSplash && <SplashScreen />}
 
-      <div ref={containerRef} className="relative w-full h-[100svh] lg:h-[94svh] min-h-[950px] md:min-h-[660px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
+      <div ref={containerRef} className="relative w-full h-[100svh] lg:h-[94svh] min-h-[580px] sm:min-h-[620px] md:min-h-[650px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
 
         {/* Indicator */}
         <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
@@ -680,8 +680,7 @@ export function HeroSlider() {
           <button
             className="px-5 sm:px-6 py-2.5 sm:py-3 bg-white/10 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 border border-white/30 active:scale-95 cursor-pointer backdrop-blur-sm"
             onClick={() => {
-              const event = new CustomEvent('open-tour-chat', { detail: { tourTitle: getLocalizedText(initialData.title, locale) } });
-              window.dispatchEvent(event);
+              window.dispatchEvent(new CustomEvent('open-concierge-chat'));
             }}
           >
             <MessageCircle className="w-4 h-4" />

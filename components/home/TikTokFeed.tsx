@@ -16,7 +16,7 @@ export function TikTokFeed({ videoIds = ['7325603781254466848', '716912323863214
   }, []);
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto border-t border-zinc-200/60 dark:border-zinc-800/60">
+    <section className="py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto border-t border-zinc-200/60 dark:border-zinc-800/60">
       <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
         <div className="space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-xs font-semibold text-emerald-800">

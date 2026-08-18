@@ -52,8 +52,9 @@
     },
     "filter": {
       "all": "すべての遠征",
-      "galapagos": "ガラパゴス諸島",
       "ecuador": "エクアドル本土",
+      "galapagos": "ガラパゴス諸島",
+      "combined": "コンビネーションツアー",
       "fullday": "日帰りツアー"
     },
     "card": {

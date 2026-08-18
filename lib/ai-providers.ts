@@ -73,14 +73,30 @@ async function getCatalogContext(): Promise<string> {
     .join('\n');
 }
 
+const LOCALE_NAMES: Record<string, string> = {
+  es: 'Spanish (Español)',
+  en: 'English',
+  fr: 'French (Français)',
+  de: 'German (Deutsch)',
+  it: 'Italian (Italiano)',
+  pt: 'Portuguese (Português)',
+  ja: 'Japanese (日本語)',
+  zh: 'Simplified Chinese (中文)',
+};
+
 /**
  * Builds system prompt with sales loop engineering
  */
-export async function buildSystemPrompt(): Promise<string> {
+export async function buildSystemPrompt(locale: string = 'en'): Promise<string> {
   const catalog = await getCatalogContext();
+  const targetLanguage = LOCALE_NAMES[locale] || 'English';
 
   return `You are "Valentina", the Senior AI Luxury Travel Concierge & Sales Advisor at Vermilion Routes (https://vermilionroutes.com).
 Your mission is to welcome website visitors, qualify their luxury travel desires in Galapagos, Mainland Ecuador, and Peru, build bespoke itineraries, and convert their interest into custom quote requests.
+
+### CURRENT VISITOR LANGUAGE / LOCALE:
+The visitor is currently viewing the website in: **${targetLanguage}** (locale code: "${locale}").
+**CRITICAL RULE**: You MUST ALWAYS formulate your responses in **${targetLanguage}**, matching this language fluently, culturally, and professionally (unless the visitor explicitly writes in a different language).
 
 ### VERMILION ROUTES CORE CATALOG:
 ${catalog}
@@ -92,7 +108,7 @@ ${catalog}
 4. Direct Call / WhatsApp Specialist Contact: +593 99 404 8458 | Email: info@vermilionroutes.com.
 
 ### BEHAVIORAL & CONVERSION RULES (LOOP ENGINEERING):
-1. **Language Matching**: Always reply in the same language the customer uses (English or Spanish).
+1. **Language Matching**: Always reply in **${targetLanguage}** (or the visitor's chosen language).
 2. **Sales Qualification**: If the user is uncertain, ask 2 concise questions max: (a) Preferred travel dates or month? (b) Total number of travelers & preferred pace/budget?
 3. **Bespoke Recommendations**: Recommend 1 or 2 specific packages from the catalog above with exact prices, durations, and highlights.
 4. **Lead Capture Prompt**: When the user expresses interest in booking, getting a custom price, or requesting an itinerary, ask them warmly for:
@@ -114,9 +130,10 @@ ${catalog}
  */
 export async function generateConciergeReply(
   messages: ChatMessage[],
-  preferredProvider?: string
+  preferredProvider?: string,
+  locale: string = 'en'
 ): Promise<ConciergeResponse> {
-  const systemPrompt = await buildSystemPrompt();
+  const systemPrompt = await buildSystemPrompt(locale);
 
   const activeProvider = (
     preferredProvider ||
@@ -255,8 +272,8 @@ export async function generateConciergeReply(
     }
   }
 
-  // 5. Intelligent Fallback Concierge Engine
-  return generateFallbackConciergeReply(messages, systemPrompt);
+  // 5. Intelligent Fallback Concierge Engine with 8 language support
+  return generateFallbackConciergeReply(messages, systemPrompt, locale);
 }
 
 /**
@@ -296,25 +313,65 @@ function parseResponseText(fullText: string, providerName: string): ConciergeRes
 }
 
 /**
- * Smart rules-based fallback engine for uninterrupted guest service
+ * Smart rules-based fallback engine for uninterrupted guest service in 8 languages
  */
 function generateFallbackConciergeReply(
   messages: ChatMessage[],
-  catalogPrompt: string
+  _catalogPrompt: string,
+  locale: string = 'en'
 ): ConciergeResponse {
   const lastUserMsg = messages[messages.length - 1]?.content.toLowerCase() || '';
 
+  // Language dispatch
   let reply = '';
-  if (lastUserMsg.includes('galapagos') || lastUserMsg.includes('island')) {
-    reply = `Greetings! I would be delighted to assist you with our **Galapagos Islands Luxury Expeditions**.\n\nOur top-rated experiences include:\n- **Andes, Amazon Jungle & Enchanted Galapagos Expedition** (12 Days - $2,731 USD)\n- **Enchanted Islands Luxury Island Hopping** (7 Days - $1,799 USD)\n\nMay I ask your estimated travel dates and how many guests will be traveling? I can customize the itinerary for you immediately.`;
-  } else if (lastUserMsg.includes('price') || lastUserMsg.includes('cost') || lastUserMsg.includes('quote')) {
-    reply = `Our tailor-made expeditions range from $1,799 USD to $2,731 USD per guest, including boutique luxury stays, private expert naturalist guides, and seamless internal transfers.\n\nIf you provide your **Name**, **Email**, and **WhatsApp number**, I will instantly submit a custom quote request for our team to review.`;
-  } else {
-    reply = `Hello! I am **Valentina**, Lead Luxury Concierge at Vermilion Routes.\n\nWhether you dream of snorkeling with sea lions in the **Galapagos Islands**, exploring the **Ecuadorian Amazon**, or hiking the **Volcanoes Avenue**, I am here to design your perfect journey.\n\nHow may I assist you today?`;
+  switch (locale) {
+    case 'es':
+      if (lastUserMsg.includes('galapagos') || lastUserMsg.includes('isla')) {
+        reply = `¡Hola! Con mucho gusto te asesoro sobre nuestras **Expediciones Exclusivas a las Islas Galápagos**.\n\nNuestras experiencias insignia incluyen:\n- **Ecuador Continental y Galápagos Completo** (11 y 12 Días)\n- **Galápagos Esencial e Isla Isabela** (4, 5 y 6 Días)\n\n¿En qué fechas tentativas planeas viajar y cuántas personas te acompañan? Con esos datos te preparo una propuesta a medida.`;
+      } else if (lastUserMsg.includes('precio') || lastUserMsg.includes('costo') || lastUserMsg.includes('cotiz')) {
+        reply = `Nuestras expediciones a medida van desde escapadas de 1 día hasta travesías integrales de 12 días, con guías naturalistas privados, hoteles boutique seleccionados y logística integral.\n\nSi me compartes tu **Nombre**, **Correo** y **WhatsApp**, te preparo una cotización formal y personalizada de inmediato.`;
+      } else {
+        reply = `¡Hola! Soy **Valentina**, tu Concierge y asesora de viajes en Vermilion Routes.\n\nYa sea que sueñes con nadar con leones marinos en **Galápagos**, explorar la **Amazonía profunda** o recorrer la **Avenida de los Volcanes**, estoy lista para ayudarte a diseñar la experiencia perfecta.\n\n¿Qué destino te gustaría conocer primero?`;
+      }
+      break;
+
+    case 'fr':
+      reply = `Bonjour ! Je suis **Valentina**, votre Concierge chez Vermilion Routes.\n\nNos expéditions exclusives aux **Îles Galápagos et en Équateur Continental** sont entièrement personnalisables.\n\nQuelles sont vos dates de voyage souhaitées et le nombre de participants ? Je me ferai un plaisir de vous préparer un itinéraire sur mesure.`;
+      break;
+
+    case 'de':
+      reply = `Guten Tag! Ich bin **Valentina**, Ihre Concierge bei Vermilion Routes.\n\nGerne plane ich Ihre maßgeschneiderte Luxusreise durch **Festland-Ecuador und die Galapagos-Inseln**.\n\nWelche Reisedaten oder Regionen interessieren Sie besonders?`;
+      break;
+
+    case 'it':
+      reply = `Buongiorno! Sono **Valentina**, la tua Concierge per Vermilion Routes.\n\nSarei lieta di aiutarti a creare un itinerario su misura per le **Isole Galapagos e l'Ecuador Continentale**.\n\nIn quali date vorresti viaggiare e quante persone faranno parte del viaggio?`;
+      break;
+
+    case 'pt':
+      reply = `Olá! Sou **Valentina**, sua Concierge na Vermilion Routes.\n\nSerá um prazer desenhar seu roteiro personalizado pelas **Ilhas Galápagos e Equador Continental**.\n\nQuais são as suas datas de viagem estimadas e o número de pessoas?`;
+      break;
+
+    case 'ja':
+      reply = `こんにちは！Vermilion Routes専任コンシェルジュの**ヴァレンティーナ**です。\n\n**ガラパゴス諸島およびエクアドル本土**のオーダーメイド旅行プランをご案内いたします。\n\nご希望の時期や人数をお知らせいただければ、最適なプランとお見積りをご提案いたします。`;
+      break;
+
+    case 'zh':
+      reply = `您好！我是 Vermilion Routes 的专属旅行礼宾顾问 **Valentina**。\n\n我将为您量身定制**加拉帕戈斯群岛与厄瓜多尔大陆**的高端专属行程。\n\n请问您的预计出行时间与随行人数是多少？我将立即为您出具专属方案。`;
+      break;
+
+    default: // en
+      if (lastUserMsg.includes('galapagos') || lastUserMsg.includes('island')) {
+        reply = `Greetings! I would be delighted to assist you with our **Galapagos Islands Luxury Expeditions**.\n\nOur top-rated experiences include:\n- **Mainland Ecuador & Enchanted Galapagos Expedition** (12 Days)\n- **Galapagos Island Hopping & Tintoreras** (5 & 6 Days)\n\nMay I ask your estimated travel dates and how many guests will be traveling? I can customize the itinerary for you immediately.`;
+      } else if (lastUserMsg.includes('price') || lastUserMsg.includes('cost') || lastUserMsg.includes('quote')) {
+        reply = `Our tailor-made expeditions include boutique stays, private expert naturalist guides, and seamless internal transfers.\n\nIf you provide your **Name**, **Email**, and **WhatsApp number**, I will instantly submit a custom quote request for our team to review.`;
+      } else {
+        reply = `Hello! I am **Valentina**, Lead Concierge at Vermilion Routes.\n\nWhether you dream of snorkeling with sea lions in the **Galapagos Islands**, exploring the **Amazon Rainforest**, or hiking the **Avenue of Volcanoes**, I am here to design your perfect journey.\n\nHow may I assist you today?`;
+      }
+      break;
   }
 
   return {
     message: reply,
-    providerUsed: 'Vermilion Intelligent Rule Engine (Fallback)',
+    providerUsed: 'Vermilion Concierge Engine',
   };
 }

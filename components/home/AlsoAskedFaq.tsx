@@ -17,7 +17,7 @@ export function AlsoAskedFaq() {
   if (faqs.length === 0) return null;
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-10">
+    <section className="py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-10">
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/50 text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5 text-emerald-600" />

@@ -69,7 +69,7 @@ export function CombinedExperienceSection() {
   }, [currentIndex]);
 
   return (
-    <section id="experience" className="relative py-20 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto border-t border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden">
+    <section id="experience" className="relative py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto border-t border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden">
       {/* Subtle animated background mesh to remove flatness */}
       <div className="absolute inset-0 z-0 opacity-30 dark:opacity-20 pointer-events-none">
         <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-emerald-200/50 dark:bg-emerald-900/40 blur-[100px] animate-pulse" style={{ animationDuration: '8s' }} />

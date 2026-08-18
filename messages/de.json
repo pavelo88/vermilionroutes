@@ -52,8 +52,9 @@
     },
     "filter": {
       "all": "Alle Expeditionen",
-      "galapagos": "Galapagos-Inseln",
       "ecuador": "Festland Ecuador",
+      "galapagos": "Galapagos-Inseln",
+      "combined": "Kombinierte Reisen",
       "fullday": "Tagesausflüge"
     },
     "card": {

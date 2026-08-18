@@ -52,8 +52,9 @@
     },
     "filter": {
       "all": "All Expeditions",
-      "galapagos": "Galapagos Islands",
       "ecuador": "Mainland Ecuador",
+      "galapagos": "Galapagos Islands",
+      "combined": "Combined Journeys",
       "fullday": "Full-Day Excursions"
     },
     "card": {
