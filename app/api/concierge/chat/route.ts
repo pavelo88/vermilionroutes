@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateConciergeReply, ChatMessage } from '@/lib/ai-providers';
-import { db } from '@/lib/firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { BookingRepository } from '@/lib/services/DatabaseService';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_fake', {
@@ -47,8 +46,7 @@ export async function POST(req: NextRequest) {
             createdAt: new Date().toISOString(),
           };
 
-          const docRef = await addDoc(collection(db, 'bookings'), bookingPayload);
-          leadId = docRef.id;
+          leadId = await BookingRepository.create(bookingPayload);
           leadSubmitted = true;
 
           // Also attempt to notify n8n if configured

@@ -125,6 +125,26 @@ ${catalog}
 `;
 }
 
+const AI_TIMEOUT_MS = 8000;
+
+function createTimeoutSignal(ms: number = AI_TIMEOUT_MS): { signal: AbortSignal; cleanup: () => void } {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), ms);
+  return {
+    signal: controller.signal,
+    cleanup: () => clearTimeout(timeoutId),
+  };
+}
+
+function withTimeout<T>(promise: Promise<T>, ms: number = AI_TIMEOUT_MS, label: string = 'Operation'): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms)
+    ),
+  ]);
+}
+
 /**
  * Multi-Provider AI Routing Engine
  * Supports: NVIDIA API, DeepSeek, GLM (Zhipu AI), Gemini, or Fallback.
@@ -149,11 +169,13 @@ export async function generateConciergeReply(
 
   // 1. Try NVIDIA API (Meta Llama 3.1 70B Instruct / Mistral)
   if ((activeProvider === 'nvidia' || (!deepseekKey && !glmKey)) && nvidiaKey) {
+    const { signal, cleanup } = createTimeoutSignal(AI_TIMEOUT_MS);
     try {
       const response = await fetch(
         'https://integrate.api.nvidia.com/v1/chat/completions',
         {
           method: 'POST',
+          signal,
           headers: {
             Authorization: `Bearer ${nvidiaKey}`,
             'Content-Type': 'application/json',
@@ -169,6 +191,7 @@ export async function generateConciergeReply(
           }),
         }
       );
+      cleanup();
 
       if (response.ok) {
         const data = await response.json();
@@ -179,17 +202,20 @@ export async function generateConciergeReply(
         console.warn('NVIDIA API status error:', response.status);
       }
     } catch (err) {
-      console.warn('NVIDIA API execution failed:', err);
+      cleanup();
+      console.warn('NVIDIA API execution failed or timed out:', err);
     }
   }
 
   // 2. Try DeepSeek API
   if ((activeProvider === 'deepseek' || deepseekKey) && deepseekKey) {
+    const { signal, cleanup } = createTimeoutSignal(AI_TIMEOUT_MS);
     try {
       const response = await fetch(
         'https://api.deepseek.com/v1/chat/completions',
         {
           method: 'POST',
+          signal,
           headers: {
             Authorization: `Bearer ${deepseekKey}`,
             'Content-Type': 'application/json',
@@ -205,6 +231,7 @@ export async function generateConciergeReply(
           }),
         }
       );
+      cleanup();
 
       if (response.ok) {
         const data = await response.json();
@@ -214,17 +241,20 @@ export async function generateConciergeReply(
         }
       }
     } catch (err) {
-      console.warn('DeepSeek API execution failed:', err);
+      cleanup();
+      console.warn('DeepSeek API execution failed or timed out:', err);
     }
   }
 
   // 3. Try GLM (Zhipu AI API)
   if ((activeProvider === 'glm' || glmKey) && glmKey) {
+    const { signal, cleanup } = createTimeoutSignal(AI_TIMEOUT_MS);
     try {
       const response = await fetch(
         'https://open.bigmodel.cn/api/paas/v4/chat/completions',
         {
           method: 'POST',
+          signal,
           headers: {
             Authorization: `Bearer ${glmKey}`,
             'Content-Type': 'application/json',
@@ -240,6 +270,7 @@ export async function generateConciergeReply(
           }),
         }
       );
+      cleanup();
 
       if (response.ok) {
         const data = await response.json();
@@ -249,7 +280,8 @@ export async function generateConciergeReply(
         }
       }
     } catch (err) {
-      console.warn('GLM API execution failed:', err);
+      cleanup();
+      console.warn('GLM API execution failed or timed out:', err);
     }
   }
 
@@ -260,16 +292,20 @@ export async function generateConciergeReply(
       const formattedHistory = messages.map((m) => `${m.role.toUpperCase()}: ${m.content}`).join('\n');
       const fullPrompt = `${systemPrompt}\n\nCONVERSATION HISTORY:\n${formattedHistory}\n\nASSISTANT:`;
 
-      const res = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: fullPrompt,
-      });
+      const res = await withTimeout(
+        ai.models.generateContent({
+          model: 'gemini-2.5-flash',
+          contents: fullPrompt,
+        }),
+        AI_TIMEOUT_MS,
+        'Gemini API'
+      );
 
       if (res.text) {
         return parseResponseText(res.text, 'Google Gemini 2.5 Flash');
       }
     } catch (err) {
-      console.warn('Gemini API execution failed:', err);
+      console.warn('Gemini API execution failed or timed out:', err);
     }
   }
 

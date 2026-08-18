@@ -1,7 +1,6 @@
 import { db } from './firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { mockTours, mockDestinations, mockReviews } from '@/data/mock';
-import parsedTours from '../data/parsed_tours.json';
 
 export const defaultSettings = {
   contact: {

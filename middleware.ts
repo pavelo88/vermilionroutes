@@ -131,9 +131,28 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // --------------------------------------------------------------------------
-  // PASO 1: Interceptación y Rate Limiting en API Routes (/api/*)
+  // PASO 1: Interceptación y Rate Limiting / Autorización en API Routes (/api/*)
   // --------------------------------------------------------------------------
   if (pathname.startsWith('/api/')) {
+    // 1.1 Blindaje de autorización para /api/seed
+    if (pathname === '/api/seed' || pathname.startsWith('/api/seed/')) {
+      const sessionCookie = req.cookies.get('__session')?.value;
+      const authHeader = req.headers.get('authorization');
+      const isValidBearer = process.env.SEED_SECRET && authHeader === `Bearer ${process.env.SEED_SECRET}`;
+
+      if (!sessionCookie && !isValidBearer) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'Autorización Requerida',
+            message: 'Se requiere autenticación o credenciales válidas para acceder a este recurso.'
+          },
+          { status: 401 }
+        );
+      }
+    }
+
+    // 1.2 Rate Limiting por IP en API routes
     const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || req.headers.get('x-real-ip') || '127.0.0.1';
     const rateCheck = checkRateLimit(ip, pathname);
 
@@ -200,7 +219,10 @@ export const config = {
     '/(en|es|fr|de|zh|it|pt|ja)/:path*',
     // Rutas administrativas
     '/admin/:path*',
-    // Rutas de API para eventual rate limiting
+    '/admin',
+    // Rutas de API protegidas y con rate limiting
+    '/api/seed/:path*',
+    '/api/seed',
     '/api/concierge/:path*',
     '/api/checkout/:path*',
     '/api/leads/:path*',
