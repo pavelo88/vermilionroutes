@@ -11,7 +11,7 @@ import { useSettings } from '@/hooks/useSettings';
 import { useLocale, useTranslations } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
 import { ExpeditionFacts } from '@/components/tours/ExpeditionFacts';
-import { ExpeditionRouteMap } from '@/components/tours/ExpeditionRouteMap';
+
 
 interface TourModalProps {
   tour: Tour | null;
@@ -103,8 +103,13 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
     if (!tour || isGeneratingPDF) return;
     setIsGeneratingPDF(true);
     try {
-      const { generateTourPDF } = await import('@/lib/pdfGenerator');
-      await generateTourPDF(tour, locale);
+      if (tour.durationDays === 1 || tour.id.startsWith('daily-') || tour.id.includes('city-middle') || tour.id.includes('otavalo') || tour.id.includes('papallacta') || tour.id.includes('mindo') || tour.id.includes('antisana') || tour.id.includes('cotopaxi') || tour.id.includes('quilotoa')) {
+        const { generateDailyTourPDF } = await import('@/lib/dailyTourPdfGenerator');
+        await generateDailyTourPDF(tour, locale);
+      } else {
+        const { generateTourPDF } = await import('@/lib/pdfGenerator');
+        await generateTourPDF(tour, locale);
+      }
     } catch (err) {
       console.error('Error generating PDF:', err);
     } finally {
@@ -258,32 +263,34 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     transition={{ delay: 0.3 }}
                     className="flex flex-col gap-3 bg-emerald-50 dark:bg-zinc-900 rounded-2xl p-4 border border-emerald-100 dark:border-zinc-800"
                   >
-                    {/* Hotel Category Selector (3★ vs 4★) */}
-                    <div className="flex items-center justify-between gap-2 border-b border-emerald-200/50 dark:border-zinc-800 pb-3">
-                      <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">{t('hotelCategory')}</span>
-                      <div className="inline-flex rounded-lg p-1 bg-zinc-200/70 dark:bg-zinc-800">
-                        <button
-                          onClick={() => setSelectedTier('3star')}
-                          className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
-                            selectedTier === '3star'
-                              ? 'bg-emerald-600 text-white shadow-sm'
-                              : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900'
-                          }`}
-                        >
-                          {t('hotels3Star')}
-                        </button>
-                        <button
-                          onClick={() => setSelectedTier('4star')}
-                          className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
-                            selectedTier === '4star'
-                              ? 'bg-amber-600 text-white shadow-sm'
-                              : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900'
-                          }`}
-                        >
-                          {t('hotels4Star')}
-                        </button>
+                    {/* Hotel Category Selector (3★ vs 4★) - Solo para tours de varios días */}
+                    {(tour.durationDays || 1) > 1 && (
+                      <div className="flex items-center justify-between gap-2 border-b border-emerald-200/50 dark:border-zinc-800 pb-3">
+                        <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">{t('hotelCategory')}</span>
+                        <div className="inline-flex rounded-lg p-1 bg-zinc-200/70 dark:bg-zinc-800">
+                          <button
+                            onClick={() => setSelectedTier('3star')}
+                            className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
+                              selectedTier === '3star'
+                                ? 'bg-emerald-600 text-white shadow-sm'
+                                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900'
+                            }`}
+                          >
+                            {t('hotels3Star')}
+                          </button>
+                          <button
+                            onClick={() => setSelectedTier('4star')}
+                            className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
+                              selectedTier === '4star'
+                                ? 'bg-amber-600 text-white shadow-sm'
+                                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900'
+                            }`}
+                          >
+                            {t('hotels4Star')}
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <div>
@@ -296,7 +303,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                       <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                         <Button 
                           variant="outline" 
-                          className="gap-2 px-4 py-2 text-xs font-bold border-emerald-500 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 transition-all w-full sm:w-auto justify-center shadow-sm disabled:opacity-50"
+                          className="gap-2 px-4 py-2 text-xs font-bold border-emerald-600 bg-white/90 dark:bg-zinc-800 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 dark:hover:text-white transition-all w-full sm:w-auto justify-center shadow-sm disabled:opacity-50"
                           onClick={handleDownloadPDF}
                           disabled={isGeneratingPDF}
                         >
@@ -372,17 +379,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                     />
                   </motion.div>
 
-                  {/* Illustrated Expedition Route Map */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                  >
-                    <ExpeditionRouteMap 
-                      tourId={tour.id} 
-                      destination={tourDestinationText} 
-                    />
-                  </motion.div>
+
 
                   {/* Highlights Grid */}
                   {tour.highlights && tour.highlights.length > 0 && (

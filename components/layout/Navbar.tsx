@@ -261,10 +261,16 @@ export function Navbar() {
                   <button
                     suppressHydrationWarning
                     onClick={() => { setLangOpen(!langOpen); if (langOpen) setShowGTranslate(false); }}
-                    className="flex items-center gap-2 px-3 py-2 text-xs font-semibold bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 rounded-xl cursor-pointer transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 text-xs font-semibold bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 rounded-xl cursor-pointer transition-colors shadow-xs"
+                    title="Cambiar idioma / Change language"
                   >
-                    <Globe className="w-3.5 h-3.5 text-emerald-600" />
-                    <span className="uppercase">{locale} / USD</span>
+                    <img
+                      src={LOCALES.find((l) => l.code === locale)?.flagUrl || 'https://flagcdn.com/es.svg'}
+                      alt={locale}
+                      className="w-4 h-3 object-cover rounded-xs shadow-xs"
+                    />
+                    <span className="font-bold uppercase tracking-wider">{locale}</span>
+                    <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform duration-200 ${langOpen ? 'rotate-180 text-emerald-600' : ''}`} />
                   </button>
                   <div className={`absolute top-full right-0 pt-2 w-52 z-50 notranslate ${langOpen ? 'block' : 'hidden'}`}>
                     <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-zinc-200/90 dark:border-zinc-800 max-h-[70vh] overflow-y-auto">
@@ -335,8 +341,13 @@ export function Navbar() {
                     suppressHydrationWarning
                     className="flex items-center gap-1.5 p-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 rounded-xl cursor-pointer transition-colors"
                   >
-                    <Globe className="w-4 h-4 text-emerald-600" />
-                    <span className="uppercase">{locale}</span>
+                    <img
+                      src={LOCALES.find((l) => l.code === locale)?.flagUrl || 'https://flagcdn.com/es.svg'}
+                      alt={locale}
+                      className="w-4 h-3 object-cover rounded-xs shadow-xs"
+                    />
+                    <span className="font-bold uppercase">{locale}</span>
+                    <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform duration-200 ${langOpen ? 'rotate-180 text-emerald-600' : ''}`} />
                   </button>
                   <div className={`absolute top-full right-0 pt-2 w-52 z-50 notranslate ${langOpen ? 'block' : 'hidden'}`}>
                     <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-2 shadow-2xl border border-zinc-200/90 dark:border-zinc-800 max-h-[70vh] overflow-y-auto">

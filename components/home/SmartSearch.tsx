@@ -7,12 +7,15 @@ import { getToursFromFirestore } from '@/lib/tours';
 import { Tour } from '@/types';
 import { Search, MapPin, Calendar, Compass, Sparkles, X, ArrowRight, Star, Clock } from 'lucide-react';
 import { TourModal } from '@/components/tours/TourModal';
+import { useLocale } from 'next-intl';
+import { getLocalizedText } from '@/utils/i18nHelper';
 
 interface SmartSearchProps {
   onSearchSelect?: (destination: string, duration: string) => void;
 }
 
 export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
+  const locale = useLocale();
   const [tours, setTours] = useState<Tour[]>([]);
   const [query, setQuery] = useState('');
   const [selectedDestination, setSelectedDestination] = useState('all');
@@ -27,16 +30,20 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
   // Filter tours dynamically
   const filteredTours = useMemo(() => {
     return tours.filter((tour) => {
+      const destText = getLocalizedText(tour.destination, locale).toLowerCase();
+      const titleText = getLocalizedText(tour.title, locale).toLowerCase();
+      const descText = getLocalizedText(tour.shortDescription || tour.description, locale).toLowerCase();
+
       // Destination filter
       if (
         selectedDestination !== 'all' &&
-        !tour.destination.toLowerCase().includes(selectedDestination.toLowerCase())
+        !destText.includes(selectedDestination.toLowerCase())
       ) {
         return false;
       }
 
       // Duration filter
-      const days = tour.durationDays || parseInt(tour.duration) || 5;
+      const days = tour.durationDays || (typeof tour.duration === 'string' ? parseInt(tour.duration) : 5) || 5;
       if (selectedDuration === 'short' && days > 6) return false;
       if (selectedDuration === 'medium' && (days < 7 || days > 10)) return false;
       if (selectedDuration === 'long' && days < 11) return false;
@@ -44,10 +51,12 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
       // Query search
       if (query.trim() !== '') {
         const q = query.toLowerCase();
-        const matchesTitle = tour.title.toLowerCase().includes(q);
-        const matchesDest = tour.destination.toLowerCase().includes(q);
-        const matchesDesc = (tour.shortDescription || tour.description || '').toLowerCase().includes(q);
-        const matchesHighlights = tour.highlights ? tour.highlights.some((h) => h.toLowerCase().includes(q)) : false;
+        const matchesTitle = titleText.includes(q);
+        const matchesDest = destText.includes(q);
+        const matchesDesc = descText.includes(q);
+        const matchesHighlights = tour.highlights
+          ? tour.highlights.some((h) => getLocalizedText(h, locale).toLowerCase().includes(q))
+          : false;
         return matchesTitle || matchesDest || matchesDesc || matchesHighlights;
       }
 
@@ -85,7 +94,7 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
                   setIsDropdownOpen(true);
                 }}
                 onFocus={() => setIsDropdownOpen(true)}
-                placeholder="e.g. Galapagos cruise, Machu Picchu..."
+                placeholder="e.g. Galapagos cruise, Cotopaxi, Quilotoa..."
                 className="w-full bg-transparent text-sm font-semibold text-zinc-800 focus:outline-none placeholder:text-zinc-400 placeholder:font-normal"
                 suppressHydrationWarning
               />

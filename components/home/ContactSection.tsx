@@ -311,7 +311,7 @@ export function ContactSection() {
                 </label>
                 <textarea
                   rows={4}
-                  placeholder="e.g. Planning to travel in October for 10 days, interested in a 5-day Galapagos premium cruise and visiting Machu Picchu aboard the Vistadome train..."
+                  placeholder="e.g. Planning to travel in October for 10 days, interested in a Galapagos premium expedition, Cotopaxi volcano and Amazon rainforest..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"

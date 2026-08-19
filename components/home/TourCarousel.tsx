@@ -35,21 +35,23 @@ export function TourCarousel({ tours }: TourCarouselProps) {
     activeFilter === 'all'
       ? tours
       : tours.filter((tour) => {
-          const dest = (tour.destination || '').toLowerCase();
-          const title = (typeof tour.title === 'string' ? tour.title : tour.title?.es || tour.title?.en || '').toLowerCase();
+          const dest = (typeof tour.destination === 'string' ? tour.destination : (tour.destination as any)?.en || (tour.destination as any)?.es || '').toLowerCase();
+          const title = (typeof tour.title === 'string' ? tour.title : (tour.title as any)?.es || (tour.title as any)?.en || '').toLowerCase();
           const id = (tour.id || '').toLowerCase();
+          const durationDays = tour.durationDays ?? (typeof tour.duration === 'string' && (tour.duration.includes('1 DAY') || tour.duration.includes('1 DÍA')) ? 1 : 0);
+          const isDaily = durationDays === 1 || id.includes('quito-city') || id.includes('otavalo') || id.includes('papallacta') || id.includes('mindo') || id.includes('antisana') || id.includes('cotopaxi') || id.includes('quilotoa') || dest.includes('full') || dest.includes('daily');
 
+          if (activeFilter === 'FullDay') {
+            return isDaily;
+          }
           if (activeFilter === 'Ecuador') {
-            return (dest.includes('ecuador') && !dest.includes('galapagos') && !dest.includes('&')) && !id.includes('combined');
+            return !isDaily && (dest.includes('ecuador') || id.includes('volcanoes') || id.includes('andes') || id.includes('snow') || id.includes('fantastic')) && !dest.includes('galapagos') && !id.includes('galapagos');
           }
           if (activeFilter === 'Galapagos') {
-            return (dest.includes('galapagos') && !dest.includes('ecuador') && !dest.includes('&')) && !id.includes('combined');
+            return !isDaily && (dest.includes('galapagos') || id.includes('galapagos')) && !dest.includes('ecuador') && !id.includes('ecuador-galapagos');
           }
           if (activeFilter === 'Combined') {
-            return (dest.includes('galapagos') && dest.includes('ecuador')) || dest.includes('&') || dest.includes('combin') || id.includes('combined') || title.includes('ecuador e islas galápagos') || title.includes('ecuador & galapagos');
-          }
-          if (activeFilter === 'FullDay') {
-            return dest.includes('full') || dest.includes('1') || dest.includes('daily') || dest.includes('día') || id.includes('daily') || id.includes('fullday') || id.includes('full-day');
+            return !isDaily && (id.includes('ecuador-galapagos') || (dest.includes('galapagos') && dest.includes('ecuador')) || dest.includes('&') || dest.includes('combin'));
           }
           return false;
         });

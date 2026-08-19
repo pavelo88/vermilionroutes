@@ -171,46 +171,196 @@ function LightCanvas() {
 }
 
 export default function FluidBackgroundCursor() {
+  const [mounted, setMounted] = React.useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
-  const followerRef = useRef<HTMLDivElement>(null);
-  // Evitar bloqueo de hydration con ref en lugar de useState
+  const trailCanvasRef = useRef<HTMLCanvasElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
 
-  useGSAP(() => {
-    if (!cursorRef.current || !followerRef.current) return;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    const xTo = gsap.quickTo(cursorRef.current, "x", { duration: 0.04, ease: "power4.out" });
-    const yTo = gsap.quickTo(cursorRef.current, "y", { duration: 0.04, ease: "power4.out" });
-    const xFollow = gsap.quickTo(followerRef.current, "x", { duration: 0.45, ease: "expo.out" });
-    const yFollow = gsap.quickTo(followerRef.current, "y", { duration: 0.45, ease: "expo.out" });
+  useEffect(() => {
+    if (!mounted) return;
+
+    const trailCanvas = trailCanvasRef.current;
+    if (!trailCanvas) return;
+    const ctx = trailCanvas.getContext('2d');
+    if (!ctx) return;
+
+    let animId: number;
+    let width = (trailCanvas.width = window.innerWidth);
+    let height = (trailCanvas.height = window.innerHeight);
+
+    const onResize = () => {
+      width = trailCanvas.width = window.innerWidth;
+      height = trailCanvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', onResize);
+
+    // Trail point with timestamp
+    interface TrailPoint {
+      x: number;
+      y: number;
+      time: number;
+    }
+    interface Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      alpha: number;
+      color: string;
+      sparkle: number;
+    }
+
+    const trail: TrailPoint[] = [];
+    const particles: Particle[] = [];
+    const TRAIL_LIFETIME = 450; // Calibrated longer fairy flight trail (450ms)
+
+    // Dark Mode: Elegant Silvery-Gray & Charcoal wings palette from the Vermilion bird icon (#71717A, #A1A1AA, #D4D4D8, #E4E4E7, #FFFFFF)
+    // Light Mode: Vibrant Vermilion Red, Warm Amber & Coral (#DC2626, #EA580C, #F59E0B)
+    const colors = isDark
+      ? ['#E4E4E7', '#D4D4D8', '#A1A1AA', '#71717A', '#FFFFFF']
+      : ['#DC2626', '#EA580C', '#F59E0B', '#EF4444', '#FECDD3'];
+
+    const onMouseMove = (e: MouseEvent) => {
+      const now = performance.now();
+      trail.push({ x: e.clientX, y: e.clientY, time: now });
+
+      // Emit luminous fairy dust sparkles
+      for (let i = 0; i < 2; i++) {
+        particles.push({
+          x: e.clientX + (Math.random() - 0.5) * 8,
+          y: e.clientY + (Math.random() - 0.5) * 8,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: (Math.random() - 0.5) * 0.8 - 0.25,
+          size: Math.random() * 2.2 + 0.8,
+          alpha: 0.95,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          sparkle: Math.random() * Math.PI
+        });
+      }
+    };
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+
+    // Render loop
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+      const now = performance.now();
+
+      // Clean expired points
+      while (trail.length > 0 && now - trail[0].time > TRAIL_LIFETIME) {
+        trail.shift();
+      }
+
+      // 1. Draw perfectly rounded silky curve
+      if (trail.length >= 3) {
+        for (let i = 0; i < trail.length - 1; i++) {
+          const p0 = trail[i];
+          const p1 = trail[i + 1];
+          const pNext = trail[i + 2] || p1;
+
+          const xc = (p1.x + pNext.x) / 2;
+          const yc = (p1.y + pNext.y) / 2;
+
+          // Normalized age: 1 at most recent (bird), 0 at oldest (tail end)
+          const ageRatio = Math.max(0, 1 - (now - p1.time) / TRAIL_LIFETIME);
+
+          ctx.beginPath();
+          ctx.moveTo((p0.x + p1.x) / 2, (p0.y + p1.y) / 2);
+          ctx.quadraticCurveTo(p1.x, p1.y, xc, yc);
+
+          const alpha = ageRatio * (isDark ? 0.85 : 0.65);
+          ctx.strokeStyle = isDark
+            ? `rgba(212, 212, 216, ${alpha})` // Pure icon wing silvery-gray in dark mode
+            : `rgba(220, 38, 38, ${alpha})`;
+          ctx.lineWidth = Math.max(0.3, ageRatio * 2.4);
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+        }
+      }
+
+      // 2. Draw fairy dust sparkles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= 0.022; // Slower fade for a longer floating fairy sparkle effect
+        p.sparkle += 0.12;
+
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        const pulse = 0.8 + Math.sin(p.sparkle) * 0.25;
+        ctx.globalAlpha = Math.max(0, p.alpha);
+        ctx.fillStyle = p.color;
+        if (isDark) {
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur = 6;
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * pulse * p.alpha, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      animId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('mousemove', onMouseMove);
+      cancelAnimationFrame(animId);
+    };
+  }, [mounted, isDark]);
+
+  useGSAP(() => {
+    if (!mounted || !cursorRef.current) return;
+
+    const xTo = gsap.quickTo(cursorRef.current, "x", { duration: 0.03, ease: "power4.out" });
+    const yTo = gsap.quickTo(cursorRef.current, "y", { duration: 0.03, ease: "power4.out" });
 
     const moveCursor = (e: MouseEvent) => {
-      xTo(e.clientX); yTo(e.clientY);
-      xFollow(e.clientX); yFollow(e.clientY);
+      xTo(e.clientX);
+      yTo(e.clientY);
     };
     window.addEventListener("mousemove", moveCursor, { passive: true });
     return () => window.removeEventListener("mousemove", moveCursor);
-  }, { scope: containerRef });
+  }, { scope: containerRef, dependencies: [mounted] });
+
+  if (!mounted) return null;
 
   return (
     <div ref={containerRef} className="pointer-events-none">
-      {/* Dot */}
+      {/* Fairy Dust & Tapered Flight Trail Canvas */}
+      <canvas
+        ref={trailCanvasRef}
+        className="fixed inset-0 z-[99] pointer-events-none"
+      />
+
+      {/* Tiny icon cursor without circle ring */}
       <div
         ref={cursorRef}
-        className={`fixed top-0 left-0 w-[7px] h-[7px] rounded-full z-[100] pointer-events-none -translate-x-1/2 -translate-y-1/2 ${
-          isDark ? 'bg-white' : 'bg-zinc-900'
-        }`}
-      />
-      {/* Ring follower */}
-      <div
-        ref={followerRef}
-        className={`fixed top-0 left-0 w-9 h-9 border rounded-full z-[99] pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-[border-color] duration-300 ${
-          isDark ? 'border-white/60' : 'border-zinc-700/50'
-        }`}
-      />
+        className="fixed top-0 left-0 w-4 h-4 z-[100] pointer-events-none -translate-x-1/2 -translate-y-1/2 drop-shadow-md select-none"
+      >
+        <img
+          src="/icon.png"
+          alt="Cursor"
+          className="w-full h-full object-contain pointer-events-none"
+          draggable={false}
+        />
+      </div>
 
       {/* WebGL Background — pointer-events-none tanto en el wrapper como en el canvas */}
       <div ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none">

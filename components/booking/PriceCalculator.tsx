@@ -4,6 +4,8 @@ import React from 'react';
 import { PricingDetails } from '@/lib/pricing';
 import { Tour } from '@/types';
 import { Users, Info, ArrowRight, Wallet, CalendarDays, Ticket } from 'lucide-react';
+import { useLocale } from 'next-intl';
+import { getLocalizedText } from '@/utils/i18nHelper';
 
 interface PriceCalculatorProps {
   tour: Tour | null;
@@ -15,6 +17,8 @@ interface PriceCalculatorProps {
 }
 
 export function PriceCalculator({ tour, pricing, date, onContinue, canContinue, step }: PriceCalculatorProps) {
+  const locale = useLocale();
+
   if (!tour) {
     return (
       <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm h-full flex flex-col justify-center items-center text-center space-y-4">
@@ -36,11 +40,11 @@ export function PriceCalculator({ tour, pricing, date, onContinue, canContinue, 
       <div className="space-y-4 mb-8">
         <div className="flex gap-4 items-start">
           <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 bg-zinc-100">
-            <img src={tour.imageUrl} alt={tour.title} className="w-full h-full object-cover" />
+            <img src={tour.imageUrl} alt={getLocalizedText(tour.title, locale)} className="w-full h-full object-cover" />
           </div>
           <div>
-            <h4 className="font-semibold text-zinc-900 dark:text-white line-clamp-2">{tour.title}</h4>
-            <p className="text-xs text-zinc-500 mt-1">{tour.duration} • {tour.destination}</p>
+            <h4 className="font-semibold text-zinc-900 dark:text-white line-clamp-2">{getLocalizedText(tour.title, locale)}</h4>
+            <p className="text-xs text-zinc-500 mt-1">{getLocalizedText(tour.duration, locale)} • {getLocalizedText(tour.destination, locale)}</p>
           </div>
         </div>
 

@@ -28,9 +28,9 @@ describe('DatabaseService & DAL Hardening', () => {
   });
 
   it('should fetch tour by ID with fallback support', async () => {
-    const tour = await DatabaseService.getById('tours', 'ecuador-daily-tours');
+    const tour = await DatabaseService.getById('tours', 'quito-city-middle-of-the-world');
     expect(tour).toBeDefined();
-    expect(tour?.id).toBe('ecuador-daily-tours');
+    expect(tour?.id).toBe('quito-city-middle-of-the-world');
     expect(tour?.price).toBe(89);
   });
 

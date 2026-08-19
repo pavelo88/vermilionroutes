@@ -7,8 +7,11 @@ import { mockTours } from '@/data/mock';
 import { calculateTourPrice, PricingDetails } from '@/lib/pricing';
 import { PriceCalculator } from './PriceCalculator';
 import { Map, CalendarDays, Users, CheckCircle2 } from 'lucide-react';
+import { useLocale } from 'next-intl';
+import { getLocalizedText } from '@/utils/i18nHelper';
 
 export function BookingWizard() {
+  const locale = useLocale();
   const searchParams = useSearchParams();
   const initialTourId = searchParams.get('tourId');
   
@@ -118,11 +121,11 @@ export function BookingWizard() {
                       className="border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 cursor-pointer hover:border-emerald-500 hover:shadow-md transition-all flex gap-4 items-center group"
                     >
                       <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0">
-                        <img src={t.imageUrl} alt={t.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                        <img src={t.imageUrl} alt={getLocalizedText(t.title, locale)} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-sm text-zinc-900 dark:text-white line-clamp-1">{t.title}</h4>
-                        <p className="text-xs text-zinc-500 mt-1">{t.duration}</p>
+                        <h4 className="font-bold text-sm text-zinc-900 dark:text-white line-clamp-1">{getLocalizedText(t.title, locale)}</h4>
+                        <p className="text-xs text-zinc-500 mt-1">{getLocalizedText(t.duration, locale)}</p>
                       </div>
                     </div>
                   ))}
@@ -131,11 +134,11 @@ export function BookingWizard() {
                 <div className="flex items-center justify-between p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20">
                   <div className="flex gap-4 items-center">
                     <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0">
-                      <img src={selectedTour.imageUrl} alt={selectedTour.title} className="w-full h-full object-cover" />
+                      <img src={selectedTour.imageUrl} alt={getLocalizedText(selectedTour.title, locale)} className="w-full h-full object-cover" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-sm text-zinc-900 dark:text-white">{selectedTour.title}</h4>
-                      <p className="text-xs text-zinc-500 mt-1">Precio base: ${selectedTour.price.toLocaleString()}</p>
+                      <h4 className="font-bold text-sm text-zinc-900 dark:text-white">{getLocalizedText(selectedTour.title, locale)}</h4>
+                      <p className="text-xs text-zinc-500 mt-1">Precio base: ${selectedTour.price.toLocaleString()} USD</p>
                     </div>
                   </div>
                   <button 

@@ -2,39 +2,55 @@ import { describe, it, expect } from 'vitest';
 import { mockTours } from '@/data/mock';
 
 describe('Pricing & Tour Itinerary Consistency', () => {
-  it('should have correct official daily tour base price of $89', () => {
-    const dailyTours = mockTours.find((t) => t.id === 'ecuador-daily-tours');
-    expect(dailyTours).toBeDefined();
-    expect(dailyTours?.price).toBe(89);
-    expect(dailyTours?.price3Star).toBe(89);
-    expect(dailyTours?.price4Star).toBe(117);
+  it('should have all 7 official daily tours with exact required prices', () => {
+    const quito = mockTours.find((t) => t.id === 'quito-city-middle-of-the-world');
+    const otavalo = mockTours.find((t) => t.id === 'otavalo-indigenous-market');
+    const papallacta = mockTours.find((t) => t.id === 'papallacta-hot-springs');
+    const mindo = mockTours.find((t) => t.id === 'mindo-cloud-forest');
+    const antisana = mockTours.find((t) => t.id === 'antisana-national-park');
+    const cotopaxi = mockTours.find((t) => t.id === 'cotopaxi-national-park');
+    const quilotoa = mockTours.find((t) => t.id === 'quilotoa-crater-lake');
+
+    expect(quito).toBeDefined();
+    expect(quito?.price).toBe(89);
+
+    expect(otavalo).toBeDefined();
+    expect(otavalo?.price).toBe(92);
+
+    expect(papallacta).toBeDefined();
+    expect(papallacta?.price).toBe(108);
+
+    expect(mindo).toBeDefined();
+    expect(mindo?.price).toBe(117);
+
+    expect(antisana).toBeDefined();
+    expect(antisana?.price).toBe(96);
+
+    expect(cotopaxi).toBeDefined();
+    expect(cotopaxi?.price).toBe(96);
+
+    expect(quilotoa).toBeDefined();
+    expect(quilotoa?.price).toBe(97);
   });
 
-  it('should have all 7 specific Day Tour pricing points in highlights', () => {
-    const dailyTours = mockTours.find((t) => t.id === 'ecuador-daily-tours');
-    expect(dailyTours).toBeDefined();
+  it('should have valid 1-day duration and itineraries for all daily tours', () => {
+    const dailyTourIds = [
+      'quito-city-middle-of-the-world',
+      'otavalo-indigenous-market',
+      'papallacta-hot-springs',
+      'mindo-cloud-forest',
+      'antisana-national-park',
+      'cotopaxi-national-park',
+      'quilotoa-crater-lake'
+    ];
 
-    const highlights = (dailyTours?.highlights || []).map((h: any) =>
-      typeof h === 'string' ? h : h?.es || h?.en || ''
-    );
-    expect(highlights.length).toBeGreaterThanOrEqual(7);
-    expect(highlights[0]).toContain('$89'); // City Tour
-    expect(highlights[1]).toContain('$92'); // Otavalo
-    expect(highlights[2]).toContain('$108'); // Papallacta
-    expect(highlights[3]).toContain('$117'); // Mindo
-    expect(highlights[4]).toContain('$96'); // Antisana
-    expect(highlights[5]).toContain('$96'); // Cotopaxi
-    expect(highlights[6]).toContain('$97'); // Quilotoa
-  });
-
-  it('should contain valid itinerary entries with day numbers for daily tours', () => {
-    const dailyTours = mockTours.find((t) => t.id === 'ecuador-daily-tours');
-    expect(dailyTours?.itinerary?.length).toBe(7);
-
-    dailyTours?.itinerary?.forEach((item, index) => {
-      expect(item.day).toBe(index + 1);
-      expect(item.title).toBeDefined();
-      expect(item.description).toBeDefined();
+    dailyTourIds.forEach((id) => {
+      const tour = mockTours.find((t) => t.id === id);
+      expect(tour).toBeDefined();
+      expect(tour?.durationDays).toBe(1);
+      expect(tour?.itinerary?.length).toBe(1);
+      expect(tour?.itinerary?.[0].title).toBeDefined();
+      expect(tour?.itinerary?.[0].description).toBeDefined();
     });
   });
 });

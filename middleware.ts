@@ -184,26 +184,9 @@ export function middleware(req: NextRequest) {
   // --------------------------------------------------------------------------
   // PASO 2: Interceptación y Blindaje de Rutas Administrativas en el Edge
   // --------------------------------------------------------------------------
-  const localePattern = locales.join('|');
-  const adminRegex = new RegExp(`^/(${localePattern})/admin(?:/(.*))?$`);
-  const adminMatch = pathname.match(adminRegex);
-  const isDirectAdmin = pathname === '/admin' || pathname.startsWith('/admin/');
+  // La página principal /[locale]/admin maneja internamente el login del cliente
+  // (AdminLoginForm y AdminDashboard). No redirigir en middleware para evitar bucles.
 
-  if (adminMatch || isDirectAdmin) {
-    const locale = adminMatch ? adminMatch[1] : 'en';
-    const subPath = adminMatch ? (adminMatch[2] || '') : pathname.replace(/^\/admin\/?/, '');
-    
-    const sessionCookie = req.cookies.get('__session')?.value;
-    const isPublicAdminRoute = subPath === 'login';
-
-    if (!sessionCookie && !isPublicAdminRoute) {
-      const loginUrl = new URL(`/${locale}/admin/login`, req.url);
-      if (subPath && subPath !== 'dashboard') {
-        loginUrl.searchParams.set('callbackUrl', encodeURI(pathname));
-      }
-      return NextResponse.redirect(loginUrl);
-    }
-  }
 
   // --------------------------------------------------------------------------
   // PASO 3: Procesamiento de Rutas Públicas e Internacionalización (i18n)

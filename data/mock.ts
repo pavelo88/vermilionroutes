@@ -1,6 +1,7 @@
 import { Tour, Destination, Review } from '@/types';
+import { dailyTours } from './dailyToursData';
 
-export const mockTours: Tour[] = [
+const multiDayTours: Tour[] = [
   // Tour 1: Galapagos 4 Days
   {
     id: 'galapagos-4days',
@@ -408,222 +409,6 @@ export const mockTours: Tour[] = [
           en: 'After breakfast, enjoy some free time depending on your flight schedule.\n\nAt the appropriate time, transfer to San Cristóbal Airport for your departure flight.\n\nYour unforgettable Galápagos adventure comes to an end as you board your flight back to the mainland.',
           es: 'Desayuno y tiempo libre hasta el traslado al Aeropuerto de San Cristóbal para abordar su vuelo de retorno al continente.'
         }
-      }
-    ]
-  },
-
-  // Tour 4: DAILY TOURS
-  {
-    id: 'ecuador-daily-tours',
-    title: { 
-      en: 'ECUADOR MAINLAND: DAILY TOURS', 
-      es: 'ECUADOR CONTINENTAL: TOURS DIARIOS', 
-      fr: 'ÉQUATEUR: EXCURSIONS D\'UNE JOURNÉE', 
-      de: 'ECUADOR: TAGESAUSFLÜGE', 
-      it: 'ECUADOR: ESCURSIONI GIORNALIERE', 
-      pt: 'EQUADOR: PASSEIOS DIÁRIOS', 
-      ja: 'エクアドル日帰りオプショナルツアー', 
-      zh: '厄瓜多尔一日游精选' 
-    },
-    destination: 'Ecuador',
-    duration: { 
-      en: '1 DAY EXCURSIONS', 
-      es: 'EXCURSIONES DE 1 DÍA', 
-      fr: 'EXCURSIONS 1 JOUR', 
-      de: 'TAGESAUSFLÜGE', 
-      it: 'TOURS DI 1 GIORNO', 
-      pt: 'TOURS DE 1 DIA', 
-      ja: '日帰りツアー', 
-      zh: '一日游路线' 
-    },
-    durationDays: 1,
-    price: 89,
-    price3Star: 89,
-    price4Star: 117,
-    imageUrl: '/images/tours/9-16/galapagos-isla-hermosa-9-16.jpg',
-    mobileImage: '/images/tours/9-16/galapagos-isla-hermosa-9-16.jpg',
-    desktopImage: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
-    gallery: [
-      '/images/tours/9-16/quito-la-compania-9-16.jpg',
-      '/images/tours/9-16/otavalo-market-9-16.jpg',
-      '/images/tours/9-16/papallacta-hot-springs-9-16.jpg',
-      '/images/tours/9-16/mindo-cloud-forest-9-16.jpg',
-      '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
-      '/images/tours/9-16/avenue-of-volcanoes-9-16.jpg'
-    ],
-    rating: 5,
-    reviewsCount: 42,
-    category: { 
-      en: 'Day Excursions', 
-      es: 'Excursiones Diarias', 
-      fr: 'Excursions d\'un jour', 
-      de: 'Tagesausflüge', 
-      it: 'Escursioni di un giorno', 
-      pt: 'Excursões Diárias', 
-      ja: '日帰りツアー', 
-      zh: '一日游精选' 
-    },
-    description: {
-      en: 'Select from 7 curated 1-day immersive excursions across mainland Ecuador: 1.1 Quito City Tour & Mitad del Mundo ($89), 1.2 Otavalo Indigenous Market ($92), 1.3 Papallacta Hot Springs ($108), 1.4 Mindo Cloud Forest ($117), 1.5 Antisana National Park ($96), 1.6 Cotopaxi National Park ($96), and 1.7 Quilotoa Crater Lake ($97).',
-      es: 'Elige entre 7 excursiones de 1 día curadas en Ecuador continental: 1.1 Quito y Mitad del Mundo ($89), 1.2 Mercado Indígena de Otavalo ($92), 1.3 Termas de Papallacta ($108), 1.4 Bosque Nublado de Mindo ($117), 1.5 Parque Nacional Antisana ($96), 1.6 Volcán Cotopaxi ($96) y 1.7 Laguna de Quilotoa ($97).',
-      fr: 'Choisissez parmi 7 excursions immersives d\'une journée en Équateur continental : 1.1 Visite de Quito et Mitad del Mundo (89 $), 1.2 Marché d\'Otavalo (92 $), 1.3 Thermes de Papallacta (108 $), 1.4 Forêt de Mindo (117 $), 1.5 Parc National Antisana (96 $), 1.6 Volcan Cotopaxi (96 $) et 1.7 Lagune de Quilotoa (97 $).',
-      de: 'Wählen Sie aus 7 geführten 1-Tages-Touren in Ecuador: 1.1 Quito & Mitad del Mundo ($89), 1.2 Otavalo Markt ($92), 1.3 Papallacta Thermalquellen ($108), 1.4 Mindo Nebelwald ($117), 1.5 Antisana Nationalpark ($96), 1.6 Cotopaxi Vulkan ($96) und 1.7 Quilotoa Kratersee ($97).',
-      it: 'Scegli tra 7 escursioni di 1 giorno in Ecuador continentale: 1.1 Quito e Mitad del Mundo ($89), 1.2 Mercato di Otavalo ($92), 1.3 Terme di Papallacta ($108), 1.4 Foresta di Mindo ($117), 1.5 Parco Antisana ($96), 1.6 Vulcano Cotopaxi ($96) e 1.7 Laguna di Quilotoa ($97).',
-      pt: 'Escolha entre 7 excursões de 1 dia no Equador continental: 1.1 Quito e Metade do Mundo ($89), 1.2 Mercado de Otavalo ($92), 1.3 Termas de Papallacta ($108), 1.4 Floresta de Mindo ($117), 1.5 Parque Antisana ($96), 1.6 Vulcão Cotopaxi ($96) e 1.7 Lagoa de Quilotoa ($97).',
-      ja: 'エクアドル本土の厳選された7つの日帰りツアー：1.1 キト市内＆赤道記念碑（$89）、1.2 オタバロ先住民市場（$92）、1.3 パパジャクタ高山温泉（$108）、1.4 ミンド雲霧林（$117）、1.5 アンティサナ国立公園（$96）、1.6 コトパクシ火山（$96）、1.7 キロトア火口湖（$97）。',
-      zh: '精选7条厄瓜多尔大陆1日沉浸式游览路线：基多与赤道纪念碑（$89）、奥塔瓦洛印第安集市（$92）、帕帕亚克塔高山温泉（$108）、明多云雾森林（$117）、安蒂萨纳国家公园（$96）、科托帕希火山（$96）与基洛托阿火山湖（$97）。'
-    },
-    highlights: [
-      { en: '1.1 Quito City Tour & Mitad del Mundo ($89)', es: '1.1 City Tour Quito y Mitad del Mundo ($89)', fr: '1.1 Visite de Quito et Mitad del Mundo ($89)', de: '1.1 Quito & Mitad del Mundo ($89)', it: '1.1 City Tour Quito e Mitad del Mundo ($89)', pt: '1.1 City Tour Quito e Metade do Mundo ($89)', ja: '1.1 キト市内＆赤道記念碑 ($89)', zh: '1.1 基多城市游与赤道纪念碑 ($89)' },
-      { en: '1.2 Otavalo Indigenous Market & Cuicocha ($92)', es: '1.2 Mercado de Otavalo y Cuicocha ($92)', fr: '1.2 Marché d\'Otavalo et Cuicocha ($92)', de: '1.2 Otavalo Markt & Cuicocha ($92)', it: '1.2 Mercato di Otavalo e Cuicocha ($92)', pt: '1.2 Mercado de Otavalo e Cuicocha ($92)', ja: '1.2 オタバロ集市＆クイコチャ ($92)', zh: '1.2 奥塔瓦洛集市与库伊科查湖 ($92)' },
-      { en: '1.3 Papallacta Hot Springs Thermal Paradise ($108)', es: '1.3 Termas de Papallacta ($108)', fr: '1.3 Thermes de Papallacta ($108)', de: '1.3 Papallacta Thermalquellen ($108)', it: '1.3 Terme di Papallacta ($108)', pt: '1.3 Termas de Papallacta ($108)', ja: '1.3 パパジャクタ温泉 ($108)', zh: '1.3 帕帕亚克塔温泉 ($108)' },
-      { en: '1.4 Mindo Cloud Forest & Waterfall Hike ($117)', es: '1.4 Bosque Nublado de Mindo ($117)', fr: '1.4 Forêt de Mindo et Cascades ($117)', de: '1.4 Mindo Nebelwald & Wasserfälle ($117)', it: '1.4 Foresta di Mindo e Cascate ($117)', pt: '1.4 Floresta de Mindo e Cachoeiras ($117)', ja: '1.4 ミンド雲霧林＆滝巡り ($117)', zh: '1.4 明多云雾森林与瀑布 ($117)' },
-      { en: '1.5 Antisana National Park & Condor Watching ($96)', es: '1.5 Parque Nacional Antisana ($96)', fr: '1.5 Parc National Antisana ($96)', de: '1.5 Antisana Nationalpark ($96)', it: '1.5 Parco Nazionale Antisana ($96)', pt: '1.5 Parque Nacional Antisana ($96)', ja: '1.5 アンティサナ国立公園＆コンドル ($96)', zh: '1.5 安蒂萨纳国家公园与秃鹰观赏 ($96)' },
-      { en: '1.6 Cotopaxi Volcano National Park ($96)', es: '1.6 Parque Nacional Cotopaxi ($96)', fr: '1.6 Parc National du Volcan Cotopaxi ($96)', de: '1.6 Cotopaxi Nationalpark ($96)', it: '1.6 Parco Nazionale Cotopaxi ($96)', pt: '1.6 Parque Nacional Cotopaxi ($96)', ja: '1.6 コトパクシ火山国立公園 ($96)', zh: '1.6 科托帕希火山国家公园 ($96)' },
-      { en: '1.7 Quilotoa Emerald Crater Lake ($97)', es: '1.7 Laguna de Quilotoa ($97)', fr: '1.7 Lagune de Quilotoa ($97)', de: '1.7 Quilotoa Kratersee ($97)', it: '1.7 Laguna di Quilotoa ($97)', pt: '1.7 Lagoa de Quilotoa ($97)', ja: '1.7 キロトア火口湖 ($97)', zh: '1.7 基洛托阿火山湖 ($97)' }
-    ],
-    inclusions: [
-      { en: 'Private transportation', es: 'Transporte privado' },
-      { en: 'Bilingual guide (English/Spanish)', es: 'Guía bilingüe (Inglés/Español)' }
-    ],
-    exclusions: [
-      { en: 'Entrance fees', es: 'Entradas a monumentos/reservas' },
-      { en: 'Meals', es: 'Comidas' },
-      { en: 'Optional activities and personal expenses', es: 'Actividades opcionales y gastos personales' }
-    ],
-    itinerary: [
-      {
-        day: 1,
-        title: { 
-          en: '1.1 – QUITO CITY TOUR & MITAD DEL MUNDO (USD 89 / 5–6 hours)', 
-          es: '1.1 – CITY TOUR QUITO Y MITAD DEL MUNDO (USD 89 / 5–6 horas)',
-          fr: '1.1 – VISITE DE QUITO ET MITAD DEL MUNDO (USD 89 / 5–6 heures)',
-          de: '1.1 – QUITO CITY TOUR & MITAD DEL MUNDO (USD 89 / 5–6 Stunden)',
-          it: '1.1 – CITY TOUR QUITO E MITAD DEL MUNDO (USD 89 / 5–6 ore)',
-          pt: '1.1 – CITY TOUR QUITO E METADE DO MUNDO (USD 89 / 5–6 horas)',
-          ja: '1.1 – キト市内＆赤道記念碑ツアー (USD 89 / 5〜6時間)',
-          zh: '1.1 – 基多城市游与赤道纪念碑 (USD 89 / 5–6小时)'
-        },
-        description: {
-          en: 'Quito was declared a UNESCO World Cultural Heritage Site in 1978 and is considered one of the most beautiful cities in Latin America.\n\nWe will explore both the modern and historic areas of Quito, particularly known for its impressive churches and beautiful plazas.\n\nOur visit includes Quito Cathedral, the Archbishop’s Palace, and the Presidential Palace (Carondelet Palace), all located around the main square, Plaza Grande.\n\nWe will also visit La Compañía de Jesús, one of the city\'s most spectacular churches, famous for its interior richly decorated with gold leaf, as well as San Francisco Square and Church.\n\nWe then continue to El Panecillo, one of the best viewpoints in Quito, offering spectacular panoramic views of the city.\n\nAfterward, we travel to the Middle of the World (Mitad del Mundo), where we visit the Intiñan Museum, famous for its demonstrations and experiments related to the Equator. Here, you can experience the unique sensation of standing in the Northern and Southern Hemispheres at the same time.',
-          es: 'Exploración de las áreas histórica y moderna de Quito: Catedral, Palacio de Carondelet en Plaza Grande, Iglesia de la Compañía de Jesús cubierta de pan de oro, Plaza San Francisco y mirador de El Panecillo.\n\nLuego traslado a la Mitad del Mundo y Museo Intiñan con experimentos en la línea ecuatorial.'
-        },
-        activity: { en: '5–6 hours guided excursion', es: 'Excursión guiada de 5 a 6 horas' },
-        transportation: { en: 'Private transportation', es: 'Transporte privado' }
-      },
-      {
-        day: 2,
-        title: { 
-          en: '1.2 – OTAVALO INDIGENOUS MARKET (USD 92 / Full-Day)', 
-          es: '1.2 – MERCADO INDÍGENA DE OTAVALO (USD 92 / Full-Day)',
-          fr: '1.2 – MARCHÉ D\'OTAVALO (USD 92 / Journée)',
-          de: '1.2 – OTAVALO INDIGENER MARKT (USD 92 / Ganztägig)',
-          it: '1.2 – MERCATO INDIGENO DI OTAVALO (USD 92 / Giornata intera)',
-          pt: '1.2 – MERCADO INDÍGENA DE OTAVALO (USD 92 / Dia inteiro)',
-          ja: '1.2 – オタバロ先住民市場 (USD 92 / 終日)',
-          zh: '1.2 – 奥塔瓦洛印第安集市 (USD 92 / 全天)'
-        },
-        description: {
-          en: 'Travel north from Quito on a scenic journey of approximately two hours through beautiful landscapes and viewpoints until reaching Otavalo, home to one of the most famous indigenous markets in South America.\n\nWe will visit the renowned Plaza de los Ponchos, famous for its colorful handicrafts, textiles, traditional clothing, and locally made products.\n\nIn the afternoon, we continue to the town of Cotacachi, well known for its high-quality leather goods and clothing.\n\nWe then visit Cuicocha Crater Lake, one of Ecuador\'s most spectacular volcanic landscapes.\n\nFinally, we return to Quito.\n\nMarket day: Saturday is the main market day, although a smaller market operates every day.',
-          es: 'Viaje al norte hacia Otavalo y la Plaza de los Ponchos con textiles y artesanías indígenas.\n\nVisita al pueblo de Cotacachi famoso por sus artículos de cuero y a la impresionante Laguna de Cuicocha.\n\nRetorno a Quito.'
-        },
-        activity: { en: 'Full-Day guided tour', es: 'Tour guiado de día completo' },
-        transportation: { en: 'Private transportation', es: 'Transporte privado' }
-      },
-      {
-        day: 3,
-        title: { 
-          en: '1.3 – PAPALLACTA HOT SPRINGS (USD 108 / Full-Day)', 
-          es: '1.3 – TERMAS DE PAPALLACTA (USD 108 / Full-Day)',
-          fr: '1.3 – THERMES DE PAPALLACTA (USD 108 / Journée)',
-          de: '1.3 – PAPALLACTA THERMALQUELLEN (USD 108 / Ganztägig)',
-          it: '1.3 – TERME DI PAPALLACTA (USD 108 / Giornata intera)',
-          pt: '1.3 – TERMAS DE PAPALLACTA (USD 108 / Dia inteiro)',
-          ja: '1.3 – パパジャクタ高山温泉 (USD 108 / 終日)',
-          zh: '1.3 – 帕帕亚克塔高山温泉 (USD 108 / 全天)'
-        },
-        description: {
-          en: 'Approximately two hours east of Quito, we follow the historic route used by Spanish explorers in the 16th century in their search for gold and cinnamon, an expedition that eventually led to the discovery of the Amazon River.\n\nAlong the way, we pass by the historic Guápulo Church and cross the Andes at approximately 4,100 meters (13,451 ft) above sea level before descending toward the transition zone between the Ecuadorian Andes and the Amazon rainforest.\n\nAt Papallacta Hot Springs, you can enjoy:\nA) Thermal Pools: Relax in thermal pools with different temperatures while enjoying spectacular views of Antisana Volcano (5,704 m / 18,714 ft).\nB) Spa & Wellness: Enjoy optional services such as massages, hydromassage, and mud baths.\nC) Hiking & Horseback Riding: Trails available for hiking through the high-altitude cloud forest.',
-          es: 'Ruta histórica hacia Papallacta cruzando la cordillera a 4,100 m. Disfrute de las piscinas termales medicinales con vista al volcán Antisana, spa y senderos ecológicos.'
-        },
-        activity: { en: 'Full-Day thermal & nature tour', es: 'Tour termal y de naturaleza full-day' },
-        transportation: { en: 'Private transportation', es: 'Transporte privado' }
-      },
-      {
-        day: 4,
-        title: { 
-          en: '1.4 – MINDO CLOUD FOREST (USD 117 / Full-Day)', 
-          es: '1.4 – BOSQUE NUBLADO DE MINDO (USD 117 / Full-Day)',
-          fr: '1.4 – FORÊT DE MINDO (USD 117 / Journée)',
-          de: '1.4 – MINDO NEBELWALD (USD 117 / Ganztägig)',
-          it: '1.4 – FORESTA DI MINDO (USD 117 / Giornata intera)',
-          pt: '1.4 – FLORESTA DE MINDO (USD 117 / Dia inteiro)',
-          ja: '1.4 – ミンド雲霧林 (USD 117 / 終日)',
-          zh: '1.4 – 明多云雾森林 (USD 117 / 全天)'
-        },
-        description: {
-          en: 'Located approximately two hours west of Quito, Mindo is a spectacular cloud forest known for its extraordinary biodiversity and lush vegetation.\n\nDuring the journey, we will experience an impressive change in vegetation in less than 40 minutes, descending from approximately 2,800 meters to 1,600 meters (9,186 ft to 5,249 ft) above sea level.\n\nUpon arrival in Mindo, you will have the opportunity to enjoy several activities, including a visit to a butterfly and orchid farm.\n\nYou can then optionally enjoy a canopy/zipline adventure and/or a tarabita cable-car ride.\n\nFinally, we will hike toward the beautiful Mindo-Nambillo Waterfalls, crossing the cloud forest. This area is considered one of the most important birdwatching destinations in Ecuador.\n\nIn the afternoon, we return to Quito.',
-          es: 'Descenso al bosque nublado de Mindo (1,600 m). Visita a mariposario y orquideario, tarabita sobre el cañón y caminata hacia las cascadas de Mindo-Nambillo.'
-        },
-        activity: { en: 'Full-Day cloud forest excursion', es: 'Excursión de día completo' },
-        transportation: { en: 'Private transportation', es: 'Transporte privado' }
-      },
-      {
-        day: 5,
-        title: { 
-          en: '1.5 – ANTISANA NATIONAL PARK (USD 96 / Full-Day)', 
-          es: '1.5 – PARQUE NACIONAL ANTISANA (USD 96 / Full-Day)',
-          fr: '1.5 – PARC NATIONAL ANTISANA (USD 96 / Journée)',
-          de: '1.5 – ANTISANA NATIONALPARK (USD 96 / Ganztägig)',
-          it: '1.5 – PARCO NAZIONALE ANTISANA (USD 96 / Giornata intera)',
-          pt: '1.5 – PARQUE NACIONAL ANTISANA (USD 96 / Dia inteiro)',
-          ja: '1.5 – アンティサナ国立公園 (USD 96 / 终日)',
-          zh: '1.5 – 安蒂萨纳国家公园 (USD 96 / 全天)'
-        },
-        description: {
-          en: 'Located southeast of Quito, Antisana National Park is one of Ecuador\'s most spectacular natural areas.\n\nWe travel through the satellite city of Valle de los Chillos before continuing to Pintag, a traditional agricultural and cattle-raising community.\n\nWe then enter the protected area, where we can observe impressive volcanic landscapes and ancient lava flows extending for approximately 20 kilometers, creating several lagoons.\n\nThe area is also one of the best places in Ecuador for observing the majestic Andean condor, one of the world\'s largest flying birds, with a wingspan of up to approximately three meters. Wildlife sightings depend on weather and natural conditions.\n\nWe continue toward the foothills of Antisana Volcano, where we take a hike around La Mica Lagoon to observe the local flora and fauna while enjoying breathtaking scenery and views of the glacier-covered volcano.\n\nReturn to Quito in the afternoon.',
-          es: 'Excursión al Parque Nacional Antisana para avistamiento del Cóndor Andino, flujos de lava volcánica y caminata panorámica junto a la Laguna La Mica frente al glaciar del Antisana.'
-        },
-        activity: { en: 'Full-Day wildlife & páramo hike', es: 'Tour de vida silvestre y caminata en el páramo' },
-        transportation: { en: 'Private transportation', es: 'Transporte privado' }
-      },
-      {
-        day: 6,
-        title: { 
-          en: '1.6 – COTOPAXI NATIONAL PARK (USD 96 / Full-Day)', 
-          es: '1.6 – PARQUE NACIONAL COTOPAXI (USD 96 / Full-Day)',
-          fr: '1.6 – PARC NATIONAL DU VOLCAN COTOPAXI (USD 96 / Journée)',
-          de: '1.6 – COTOPAXI NATIONALPARK (USD 96 / Ganztägig)',
-          it: '1.6 – PARCO NAZIONALE COTOPAXI (USD 96 / Giornata intera)',
-          pt: '1.6 – PARQUE NACIONAL COTOPAXI (USD 96 / Dia inteiro)',
-          ja: '1.6 – コトパクシ火山国立公園 (USD 96 / 終日)',
-          zh: '1.6 – 科托帕希火山国家公园 (USD 96 / 全天)'
-        },
-        description: {
-          en: 'Discover Cotopaxi Volcano, one of the world\'s highest active volcanoes, reaching 5,897 meters (19,347 ft) above sea level.\n\nLocated approximately two hours south of Quito along the Pan-American Highway, Cotopaxi National Park offers spectacular landscapes and a variety of outdoor activities.\n\nVisitors can enjoy hiking and mountain biking, with trails suitable for different fitness levels and ages.\n\nOne of the most popular routes leads from the parking area at approximately 4,500 meters (14,764 ft) to the mountain refuge at approximately 4,800 meters (15,748 ft), with the possibility of continuing toward the glacier, depending on weather and trail conditions.\n\nYou can also visit the Interpretation Center, where you can learn about the flora and fauna of the Andean páramo, Ecuador\'s volcanoes, and the country\'s protected-area system.\n\nReturn to Quito in the afternoon.',
-          es: 'Viaje por la Avenida de los Volcanes al Parque Nacional Cotopaxi (5,897 m). Caminata hacia el refugio José Rivas (4,800 m) y Laguna de Limpiopungo con flora y fauna del páramo.'
-        },
-        activity: { en: 'Full-Day volcano & high-altitude hike', es: 'Caminata de altura y tour volcánico' },
-        transportation: { en: 'Private transportation', es: 'Transporte privado' }
-      },
-      {
-        day: 7,
-        title: { 
-          en: '1.7 – QUILOTOA CRATER LAKE (USD 97 / Full-Day)', 
-          es: '1.7 – LAGUNA DE QUILOTOA (USD 97 / Full-Day)',
-          fr: '1.7 – LAGUNE DE QUILOTOA (USD 97 / Journée)',
-          de: '1.7 – QUILOTOA KRATERSEE (USD 97 / Ganztägig)',
-          it: '1.7 – LAGUNA DI QUILOTOA (USD 97 / Giornata intera)',
-          pt: '1.7 – LAGOA DE QUILOTOA (USD 97 / Dia inteiro)',
-          ja: '1.7 – キロトア火口湖 (USD 97 / 終日)',
-          zh: '1.7 – 基洛托阿火山湖 (USD 97 / 全天)'
-        },
-        description: {
-          en: 'We depart early in the morning from Quito and travel approximately three hours to Quilotoa Crater Lake, one of Ecuador\'s most spectacular natural attractions, located within the Ilinizas Ecological Reserve.\n\nUpon arrival, you will have the opportunity to hike toward the bottom of the crater and, if desired, return by horseback.\n\nAlong the way, we will stop at Tigua, a traditional village famous for its colorful Andean paintings.\n\nWe will also visit a local guinea pig farm, introducing you to an important part of Ecuadorian traditional cuisine and rural culture.\n\nThroughout the journey, we will cross some of the most breathtaking landscapes in the Ecuadorian Andes.\n\nIn the afternoon, we return to Quito.',
-          es: 'Excursión a la impresionante caldera volcánica de Quilotoa de aguas esmeralda. Caminata hacia el interior del cráter, parada en el pueblo de pintores de Tigua y visita cultural andina.'
-        },
-        activity: { en: 'Full-Day crater hike & cultural tour', es: 'Caminata en cráter y tour cultural' },
-        transportation: { en: 'Private transportation', es: 'Transporte privado' }
       }
     ]
   },
@@ -1697,6 +1482,8 @@ export const mockTours: Tour[] = [
   }
 ];
 
+export const mockTours: Tour[] = [...multiDayTours, ...dailyTours];
+
 export const mockDestinations: Destination[] = [
   {
     id: 'ecuador',
@@ -1747,7 +1534,7 @@ export const mockDestinations: Destination[] = [
       zh: '全日游精选：赤道线、奥塔瓦洛集市、帕帕亚克塔温泉、明多云雾森林、科托帕希与基洛托阿。'
     },
     imageUrl: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
-    toursCount: 6,
+    toursCount: 7,
     slug: 'full-day'
   }
 ];
