@@ -789,8 +789,8 @@ export const mockTours: Tour[] = [
         day: 8,
         title: { en: 'DAY 8 – TRANSFER TO THE AIRPORT', es: 'DÍA 8 – TRASLADO AL AEROPUERTO' },
         description: {
-          en: 'Private transfer to the airport for your onward flight connections to the Galápagos Islands or Cusco, Peru.\n\nEnd of the tour.',
-          es: 'Traslado privado al Aeropuerto Internacional de Quito para su vuelo internacional o conexión a Galápagos o Perú. Fin de los servicios.'
+          en: 'Private transfer to the airport for your onward flight connections to the Galápagos Islands or Mainland Ecuador.\n\nEnd of the tour.',
+          es: 'Traslado privado al Aeropuerto Internacional de Quito para su vuelo internacional o conexión a Galápagos o Ecuador Continental. Fin de los servicios.'
         },
         transportation: { en: 'Private transportation (4x4 vehicles or tourist buses)', es: 'Transporte privado' }
       }

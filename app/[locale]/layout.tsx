@@ -30,10 +30,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     keywords: [
       'Galapagos luxury cruises',
       'Ecuador travel agency',
-      'Machu Picchu private tours',
       'South America luxury expeditions',
       'Tailor-made itineraries Galapagos',
-      'Bespoke travel Ecuador Peru',
+      'Bespoke travel Ecuador Galapagos',
       'Vermilion Routes',
     ],
     authors: [{ name: 'Vermilion Routes' }],
@@ -127,7 +126,7 @@ export default async function RootLayout({
       latitude: '-0.180653',
       longitude: '-78.467838',
     },
-    areaServed: ['Galapagos Islands', 'Ecuador', 'Peru', 'Cusco', 'Machu Picchu'],
+    areaServed: ['Galapagos Islands', 'Ecuador', 'Mainland Ecuador', 'Amazon Rainforest'],
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '5.0',
