@@ -4,7 +4,9 @@ import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import { Review } from '@/types';
 import { mockReviews } from '@/data/mock';
-import { Star, ShieldCheck, Award, Sparkles, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, ShieldCheck, Award, Sparkles, Quote, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+
+const TRIPADVISOR_URL = "https://www.tripadvisor.com/Attraction_Review-g294308-d26260308-Reviews-Vermilion_Routes-Quito_Pichincha_Province.html";
 
 interface TripAdvisorReviewsProps {
   reviews?: Review[];
@@ -19,11 +21,7 @@ export function TripAdvisorReviews({
 }: TripAdvisorReviewsProps) {
   const [activeIdx, setActiveIdx] = useState(0);
 
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
-
   const total = reviews.length;
-
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const handleNext = () => {
@@ -45,10 +43,16 @@ export function TripAdvisorReviews({
       {/* Header with TripAdvisor Badge */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-zinc-200/80 dark:border-zinc-800/80 pb-8">
         <div className="space-y-3 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-xs font-semibold text-emerald-800">
-            <Award className="w-4 h-4 text-emerald-600" />
+          <a
+            href={TRIPADVISOR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/80 text-xs font-semibold text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 transition-colors group cursor-pointer"
+          >
+            <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
             <span>TripAdvisor Travelers' Choice 2026 Winner</span>
-          </div>
+            <ExternalLink className="w-3 h-3 text-emerald-600 opacity-60 group-hover:opacity-100 transition-opacity" />
+          </a>
 
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight">
             {title}
@@ -59,9 +63,15 @@ export function TripAdvisorReviews({
           </p>
         </div>
 
-        {/* TripAdvisor Overall Score Banner */}
-        <div className="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-zinc-200 dark:border-zinc-800/90 shadow-md flex items-center gap-4 shrink-0">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-serif font-bold text-xl shadow-md shadow-emerald-600/30">
+        {/* TripAdvisor Overall Score Banner (Clickable) */}
+        <a
+          href={TRIPADVISOR_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-zinc-200 dark:border-zinc-800/90 shadow-md hover:shadow-xl hover:border-emerald-500/80 dark:hover:border-emerald-500/80 flex items-center gap-4 shrink-0 transition-all group cursor-pointer"
+          title="Ver perfil oficial en TripAdvisor"
+        >
+          <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-serif font-bold text-xl shadow-md shadow-emerald-600/30 group-hover:scale-105 transition-transform">
             5.0
           </div>
           <div>
@@ -70,12 +80,13 @@ export function TripAdvisorReviews({
                 <Star key={i} className="w-4 h-4 fill-emerald-500 text-emerald-500" />
               ))}
             </div>
-            <p className="text-xs font-bold text-zinc-900 dark:text-white mt-1">
+            <p className="text-xs font-bold text-zinc-900 dark:text-white mt-1 flex items-center gap-1">
               TripAdvisor Verified Rating
+              <ExternalLink className="w-3 h-3 text-zinc-400 group-hover:text-emerald-600 transition-colors" />
             </p>
             <p className="text-[11px] text-zinc-500">Based on 120+ 5-Star Reviews</p>
           </div>
-        </div>
+        </a>
       </div>
 
       {/* AI Sentiment Highlight Box */}
@@ -102,9 +113,15 @@ export function TripAdvisorReviews({
       <div className="relative">
         {/* Controls */}
         <div className="flex items-center justify-between mb-4">
-          <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
-            Swipe to see more
-          </span>
+          <a
+            href={TRIPADVISOR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline uppercase tracking-wider cursor-pointer"
+          >
+            Ver todas las opiniones en TripAdvisor
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrev}
@@ -130,8 +147,6 @@ export function TripAdvisorReviews({
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {reviews.map((rev, idx) => {
-            const isCurrent = idx === activeIdx;
-
             return (
               <div
                 key={rev.id}
@@ -149,10 +164,16 @@ export function TripAdvisorReviews({
                     </div>
 
                     {rev.verifiedTripAdvisor && (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200/80">
+                      <a
+                        href={TRIPADVISOR_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-full border border-emerald-200/80 dark:border-emerald-800 hover:bg-emerald-100 transition-colors cursor-pointer"
+                      >
                         <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                        Verified
-                      </span>
+                        Verificado en TripAdvisor
+                        <ExternalLink className="w-2.5 h-2.5 opacity-60" />
+                      </a>
                     )}
                   </div>
 
@@ -168,37 +189,46 @@ export function TripAdvisorReviews({
                 </div>
 
                 {/* Author Footer */}
-                <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800/50 flex items-center gap-3.5 mt-auto relative z-10">
-                  <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0 border border-emerald-500/30 shadow-sm">
-                    <Image
-                      src={rev.avatarUrl}
-                      alt={rev.author}
-                      fill
-                      sizes="44px"
-                      className="object-cover"
-                      referrerPolicy="no-referrer"
-                    />
+                <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800/50 flex items-center justify-between gap-3.5 mt-auto relative z-10">
+                  <div className="flex items-center gap-3.5">
+                    <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0 border border-emerald-500/30 shadow-sm">
+                      <Image
+                        src={rev.avatarUrl}
+                        alt={rev.author}
+                        fill
+                        sizes="44px"
+                        className="object-cover"
+                        referrerPolicy="no-referrer"
+                      />
+                    </div>
+
+                    <div className="space-y-0.5">
+                      <p className="font-semibold text-sm text-zinc-900 dark:text-white leading-tight">
+                        {rev.author}
+                      </p>
+                      <p className="text-[11px] text-zinc-500">{rev.location}</p>
+                      <p className="text-[10px] text-emerald-700 dark:text-emerald-400 font-medium">
+                        {rev.tourTitle} • {rev.date}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="space-y-0.5">
-                    <p className="font-semibold text-sm text-zinc-900 dark:text-white leading-tight">
-                      {rev.author}
-                    </p>
-                    <p className="text-[11px] text-zinc-500">{rev.location}</p>
-                    <p className="text-[10px] text-emerald-700 font-medium">
-                      {rev.tourTitle} • {rev.date}
-                    </p>
-                  </div>
+                  <a
+                    href={TRIPADVISOR_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 hover:underline flex items-center gap-1 shrink-0"
+                  >
+                    TripAdvisor ↗
+                  </a>
                 </div>
               </div>
             );
           })}
         </div>
-
-        {/* Note: The dots are removed because the container is now a native scroll container to act like a real carousel.
-            If programmatic scrolling is needed, a useRef on the container can be added, similar to TourCarousel. */}
       </div>
     </section>
   );
 }
+
 
