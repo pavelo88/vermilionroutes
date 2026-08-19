@@ -265,7 +265,7 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   let yPos = 14;
 
   // Pre-load header banner, watermark logo, cover & gallery images
-  const headerBase64 = await loadImageAsBase64('/logo_inicio.png');
+  const headerBase64 = await loadImageAsBase64('/encabezado.png');
   const logoWatermarkBase64 = await loadImageAsBase64('/logo_inicio.png');
   const coverImgPath = tour.desktopImage || tour.imageUrl;
   const coverBase64 = await loadImageAsBase64(coverImgPath);
@@ -281,46 +281,13 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   doc.setFillColor(250, 249, 246); // Warm luxury ivory #FAF9F6
   doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
-  // 1. BRAND HEADER (Clean Ivory / Light Sage Background with Logo on Left and Dark Contacts on Right - Image 3 Style)
-  const headerHeight = 26;
-  doc.setFillColor(244, 247, 244); // #F4F7F4 Soft natural paper background
-  doc.rect(0, 0, pageWidth, headerHeight, 'F');
-
-  // Clean bottom double hairline border
-  doc.setDrawColor(209, 213, 219); // #D1D5DB subtle border
-  doc.setLineWidth(0.6);
-  doc.line(0, headerHeight, pageWidth, headerHeight);
-
-  // Logo on the left
+  // 1. ENCABEZADO COMPLETO: imagen panorámica a ancho de página
+  const encabezadoHeight = 42; // ~42mm proporcional al aspecto ~5:1 de la imagen
   if (headerBase64) {
-    doc.addImage(headerBase64, 'PNG', marginX, 3.5, 42, 19);
-  } else {
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(14);
-    doc.setTextColor(6, 78, 59);
-    doc.text('VERMILION ROUTES', marginX, 12);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7.5);
-    doc.setTextColor(5, 150, 105);
-    doc.text('SOUTH AMERICAN ROUTES', marginX, 17);
+    doc.addImage(headerBase64, 'PNG', 0, 0, pageWidth, encabezadoHeight);
   }
 
-  // 3 Contact Items on the right (Icon circle + clean dark text)
-  const contactRightX = pageWidth - marginX;
-
-  // Phone
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7.5);
-  doc.setTextColor(30, 41, 59); // Slate-800 dark text
-  doc.text('📞 +(593) 994-048-458', contactRightX - 44, 7.8);
-
-  // Email
-  doc.text('✉️ info@vermilionroutes.com', contactRightX - 44, 13.6);
-
-  // Website
-  doc.text('🌐 www.vermilionroutes.com', contactRightX - 44, 19.3);
-
-  yPos = headerHeight + 3; // yPos = 29mm
+  yPos = encabezadoHeight + 3; // yPos = 45mm
 
   // 2. HERO COVER BANNER (30% TALLER = 75mm HEIGHT WITH IMAGE 3 FROSTED PILL BADGES)
   if (coverBase64) {
