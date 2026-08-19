@@ -39,9 +39,19 @@ const ContactSection = dynamic(
   }
 );
 
+const FluidBackgroundCursor = dynamic(
+  () => import('@/components/home/FluidBackgroundCursor'),
+  {
+    loading: () => null,
+  }
+);
+
 export default function Home() {
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-8 pb-12 relative">
+      {/* Dynamic Fluid WebGL Shader Background & Custom Mouse Cursor */}
+      <FluidBackgroundCursor />
+
       {/* 1. Critical Above-the-Fold Viewport */}
       <div>
         <HeroSlider />

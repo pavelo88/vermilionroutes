@@ -284,7 +284,7 @@ export function HeroSlider() {
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
 
-        offsetTop = height - cardHeight - 150;
+        offsetTop = height - cardHeight - 160;
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
@@ -297,7 +297,11 @@ export function HeroSlider() {
           set(getCardContent(i), { x, y: offsetTop, opacity: 1 });
         });
 
-        set("#pagination", { top: offsetTop + cardHeight + 20, left: offsetLeft });
+        const controlsY = offsetTop + cardHeight + 16;
+        set("#pagination", { top: controlsY, left: offsetLeft });
+        if (width >= 768) {
+          set("#hero-action-buttons", { top: controlsY + 2, left: width >= 1024 ? 60 : 30 });
+        }
         set(".cover", { x: width + 400 });
       }
 
@@ -311,14 +315,18 @@ export function HeroSlider() {
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
 
-        offsetTop = height - cardHeight - 150;
+        offsetTop = height - cardHeight - 160;
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
         const detailsActive = detailsEven ? "#details-even" : "#details-odd";
         const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
 
-        set("#pagination", { top: offsetTop + cardHeight + 20, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
+        const controlsY = offsetTop + cardHeight + 16;
+        set("#pagination", { top: controlsY, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
+        if (width >= 768) {
+          set("#hero-action-buttons", { top: controlsY + 2, left: width >= 1024 ? 60 : 30 });
+        }
         set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", zIndex: 20 });
         set(getCardContent(active), { opacity: 0 });
 
@@ -410,7 +418,7 @@ export function HeroSlider() {
         return new Promise<void>((resolve) => {
           if (isCancelled) { resolve(); return; }
           transitioning = true;
-          
+
           const prevActive = order[0];
 
           if (dir === 'prev') {
@@ -610,11 +618,11 @@ export function HeroSlider() {
         {[0, 1].map((isOdd) => {
           const id = isOdd ? 'details-odd' : 'details-even';
           return (
-            <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[195px] sm:top-[190px] md:top-[145px] lg:top-[160px] pt-4 sm:pt-6 md:pt-0 z-[22] flex flex-col items-center md:items-start text-center md:text-left">
+            <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[135px] sm:top-[125px] md:top-[90px] lg:top-[95px] pt-4 sm:pt-6 md:pt-0 z-[22] flex flex-col items-center md:items-start text-center md:text-left">
               <div className="h-auto mb-2">
-                <div className="text text-white font-medium tracking-widest uppercase text-base md:text-sm pt-4 relative flex flex-col items-center md:items-start drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-                  <div className="absolute top-0 w-8 h-[2px] bg-white rounded-full" />
-                  <span className="notranslate mt-2 md:mt-0">{getLocalizedText(initialData.place, locale)}</span>
+                <div className="text text-white font-medium tracking-widest uppercase text-base md:text-sm pt-2 relative flex flex-col items-center md:items-start drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                  <div className="w-8 h-[2px] bg-white rounded-full mb-2" />
+                  <span className="notranslate">{getLocalizedText(initialData.place, locale)}</span>
                 </div>
               </div>
 
@@ -643,8 +651,8 @@ export function HeroSlider() {
           );
         })}
 
-        {/* Action Buttons */}
-        <div className="flex absolute left-0 md:left-[30px] lg:left-[60px] w-full md:w-auto bottom-[300px] sm:bottom-[280px] md:bottom-10 z-30 items-center justify-center md:justify-start gap-3 sm:gap-4 flex-wrap px-4 md:px-0">
+        {/* Action Buttons (Aligned with Pagination HUD) */}
+        <div id="hero-action-buttons" className="flex absolute left-4 md:left-[30px] lg:left-[60px] w-auto bottom-6 md:bottom-auto z-30 items-center justify-start gap-3 sm:gap-4 flex-wrap">
           <button
             className="px-6 sm:px-7 py-2.5 sm:py-3 bg-emerald-600 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/50 active:scale-95 cursor-pointer"
             onClick={() => {
