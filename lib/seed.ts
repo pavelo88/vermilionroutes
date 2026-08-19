@@ -26,71 +26,71 @@ export const defaultSettings = {
     slides: [
       {
         place: 'Galapagos - Santa Cruz',
-        title: 'GIANT',
-        title2: 'TORTOISES',
+        title: 'GIANT TORTOISES',
+        title2: 'OF GALAPAGOS',
         description: 'Observe ancient giant tortoises roaming freely in their natural habitat at the highlands of Santa Cruz Island and explore majestic volcanic twin craters.',
         image: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'
       },
       {
         place: 'Pichincha - Quito',
-        title: 'HISTORIC',
-        title2: 'COLONIAL QUITO',
+        title: 'HISTORIC CENTER',
+        title2: 'OF QUITO',
         description: 'The first UNESCO World Cultural Heritage site in the world. Walk along preserved cobblestone streets and marvel at the golden altars of La Compañía Church.',
         image: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg'
       },
       {
         place: 'Tungurahua - Baños',
-        title: 'PAILÓN DEL',
-        title2: 'DIABLO WATERFALL',
+        title: 'PAILÓN',
+        title2: 'DEL DIABLO',
         description: 'Feel the thunderous roar of Ecuador’s most famous waterfall. Experience suspension bridges, lush tropical cloud forest, and the scenic Route of the Waterfalls.',
         image: '/images/tours/16-9/pailon-del-diablo-16-9.jpg'
       },
       {
         place: 'Cotopaxi - Andes',
-        title: 'MAJESTIC',
-        title2: 'COTOPAXI VOLCANO',
+        title: 'MAJESTIC VOLCANO',
+        title2: 'COTOPAXI',
         description: 'The iconic snow-capped volcano rising proudly over 5,897 meters across the Avenue of Volcanoes, surrounded by wild horses and high-altitude Andean páramo.',
         image: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg'
       },
       {
         place: 'Cotopaxi - Quilotoa',
-        title: 'QUILOTOA',
-        title2: 'CRATER LAKE',
+        title: 'CRATER LAGOON',
+        title2: 'OF QUILOTOA',
         description: 'Marvel at the striking turquoise waters inside an ancient volcanic caldera located at 3,500 meters altitude with panoramic views of the western Andes range.',
         image: '/images/tours/16-9/quilotoa-16-9.jpg'
       },
       {
         place: 'Napo - Amazon Rainforest',
-        title: 'AMAZON',
-        title2: 'RAINFOREST',
+        title: 'DEEP RAINFOREST',
+        title2: 'OF AMAZON',
         description: 'Navigate pristine Amazonian rivers by motorized canoe, encounter native wildlife at rescue sanctuaries, and connect with authentic Kichwa indigenous families.',
         image: '/images/tours/16-9/tena-amazon-jungle-16-9.jpg'
       },
       {
         place: 'Galapagos - Isabela Island',
-        title: 'TINTORERAS',
-        title2: 'ISLET & FLAMINGOS',
+        title: 'TINTORERAS ISLET',
+        title2: '& FLAMINGOS',
         description: 'Snorkel in turquoise lava channels with white-tip reef sharks, marine iguanas, and sea turtles, and visit coastal lagoons filled with wild flamingos.',
         image: '/images/tours/16-9/isabela-island-16-9.jpg'
       },
       {
         place: 'Azuay - Cuenca & Cajas',
-        title: 'CUENCA & CAJAS',
-        title2: 'NATIONAL PARK',
+        title: 'COLONIAL CUENCA',
+        title2: '& CAJAS',
         description: 'Discover the UNESCO-listed colonial elegance of Cuenca, handcrafted toquilla hats, and hike among the 200 glacial lakes of Cajas National Park.',
         image: '/images/tours/16-9/cajas-national-park-16-9.jpg'
       },
       {
         place: 'Chimborazo - Andes',
-        title: 'CHIMBORAZO',
-        title2: 'VOLCANO (6,310M)',
+        title: 'HIGHEST SUMMIT',
+        title2: 'OF CHIMBORAZO',
         description: 'The closest point on Earth to the Sun at 6,310 meters. Experience the majestic Andean reserve home to wild vicuñas and ancestral Inca mountain landscapes.',
         image: '/images/tours/16-9/chimborazo-volcano-16-9.jpg'
       },
       {
         place: 'Galapagos - Puerto Ayora',
         title: 'LAS GRIETAS',
-        title2: 'CANYON & LA LOBERÍA',
+        title2: '& LOBERÍA',
         description: 'Swim and snorkel in the crystal-clear volcanic crevice of Las Grietas and observe playful Galapagos sea lions resting on the white sand beaches of La Lobería.',
         image: '/images/tours/16-9/las-grietas-canyon-16-9.jpg'
       }

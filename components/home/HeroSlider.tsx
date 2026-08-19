@@ -3,19 +3,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { useSettings } from '@/hooks/useSettings';
-import { Bookmark, ChevronLeft, ChevronRight, MessageCircle, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MessageCircle, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
-import { StatsSection } from './StatsSection';
 import { useTranslations, useLocale } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
 import { SplashScreen } from './SplashScreen';
 import { SlideData } from '@/types';
 
+// STRICT 2-LINE TITLES ACROSS ALL 8 LANGUAGES (Line 1 = Main Descriptor, Line 2 = Concise Landmark)
 const DEFAULT_DATA: SlideData[] = [
   {
     place: { en: 'Galapagos - Santa Cruz', es: 'Galápagos - Santa Cruz', fr: 'Galapagos - Santa Cruz', de: 'Galapagos - Santa Cruz', it: 'Galapagos - Santa Cruz', pt: 'Galápagos - Santa Cruz', ja: 'ガラパゴス - サンタクルス', zh: '加拉帕戈斯 - 圣克鲁斯' },
-    title: { en: 'GIANT', es: 'TORTUGAS', fr: 'TORTUES', de: 'RIESEN', it: 'TARTARUGHE', pt: 'TARTARUGAS', ja: '巨大', zh: '巨型' },
-    title2: { en: 'TORTOISES', es: 'GIGANTES', fr: 'GÉANTES', de: 'SCHILDKRÖTEN', it: 'GIGANTI', pt: 'GIGANTES', ja: 'ゾウガメ', zh: '陆龟' },
+    title: { en: 'GIANT TORTOISES', es: 'TORTUGAS GIGANTES', fr: 'TORTUES GÉANTES', de: 'RIESENSCHILD KRÖTEN', it: 'TARTARUGHE GIGANTI', pt: 'TARTARUGAS GIGANTES', ja: '古代の巨大', zh: '古老巨型' },
+    title2: { en: 'OF GALAPAGOS', es: 'DE GALÁPAGOS', fr: 'DES GALAPAGOS', de: 'DER GALAPAGOS', it: 'DELLE GALAPAGOS', pt: 'DE GALÁPAGOS', ja: 'ガラパゴスゾウガメ', zh: '加拉帕戈斯陆龟' },
     description: {
       en: 'Observe ancient giant tortoises roaming freely in their natural habitat at the highlands of Santa Cruz Island and explore majestic volcanic twin craters surrounded by Scalesia forests.',
       es: 'Observa tortugas gigantes centenarias en su hábitat natural en las tierras altas de Santa Cruz y explora impresionantes cráteres volcánicos gemelos rodeados de bosques de Scalesia.',
@@ -30,14 +30,14 @@ const DEFAULT_DATA: SlideData[] = [
   },
   {
     place: { en: 'Pichincha - Quito', es: 'Pichincha - Quito', fr: 'Pichincha - Quito', de: 'Pichincha - Quito', it: 'Pichincha - Quito', pt: 'Pichincha - Quito', ja: 'ピチンチャ - キト', zh: '皮钦查 - 基多' },
-    title: { en: 'HISTORIC', es: 'CENTRO', fr: 'CENTRE', de: 'HISTORISCHES', it: 'CENTRO', pt: 'CENTRO', ja: '歴史的', zh: '历史' },
-    title2: { en: 'COLONIAL QUITO', es: 'HISTÓRICO', fr: 'COLONIAL', de: 'ZENTRUM', it: 'STORICO', pt: 'HISTÓRICO', ja: '地区', zh: '老城' },
+    title: { en: 'HISTORIC CENTER', es: 'CENTRO HISTÓRICO', fr: 'CENTRE HISTORIQUE', de: 'HISTORISCHES ZENTRUM', it: 'CENTRO STORICO', pt: 'CENTRO HISTÓRICO', ja: '世界遺産の歴史的', zh: '世界文化遗产' },
+    title2: { en: 'OF QUITO', es: 'DE QUITO', fr: 'DE QUITO', de: 'VON QUITO', it: 'DI QUITO', pt: 'DE QUITO', ja: 'キト旧市街', zh: '基多古城' },
     description: {
       en: 'The first UNESCO World Cultural Heritage site in the world. Walk along preserved cobblestone streets and marvel at the golden altars of La Compañía Church.',
       es: 'El primer sitio Patrimonio Cultural de la Humanidad por la UNESCO. Recorre calles coloniales empedradas y admira los templos dorados de La Compañía.',
       fr: 'Le premier site du patrimoine mondial de l\'UNESCO. Promenez-vous dans des rues pavées et admirez les retables dorés de l\'église de la Compañía.',
       de: 'Das erste UNESCO-Weltkulturerbe der Welt. Spazieren Sie durch koloniale Kopfsteinpflastergassen und bewundern Sie die vergoldeten Altäre der Kirche La Compañía.',
-      it: 'Il primo sito patrimonio mondiale UNESCO al mondo. Cammina lungo strade acciottolate e ammira gli altari dorati della Chiesa de La Compañía.',
+      it: 'Il primo sito patrimonio mondiale UNESCO al mondo. Cammina lungo strade acciottolate e admira gli altari dorati della Chiesa de La Compañía.',
       pt: 'O primeiro local do Patrimônio Mundial da UNESCO. Caminhe por ruas coloniais e admire os altares dourados da Igreja de La Compañía.',
       ja: '世界初の世界文化遺産。保存状態の良い石畳の街並みを歩き、黄金色に輝くラ・コンパニーア教会の祭壇に驚嘆してください。',
       zh: '全球首个联合国教科文组织世界文化遗产。漫步在鹅卵石古街，赞叹拉孔帕尼亚教堂富丽堂皇的金箔祭坛。'
@@ -46,15 +46,15 @@ const DEFAULT_DATA: SlideData[] = [
   },
   {
     place: { en: 'Tungurahua - Baños', es: 'Tungurahua - Baños', fr: 'Tungurahua - Baños', de: 'Tungurahua - Baños', it: 'Tungurahua - Baños', pt: 'Tungurahua - Baños', ja: 'トゥングラワ - バニョス', zh: '通古拉瓦 - 巴尼奥斯' },
-    title: { en: 'PAILÓN DEL', es: 'PAILÓN DEL', fr: 'PAILÓN DEL', de: 'PAILÓN DEL', it: 'PAILÓN DEL', pt: 'PAILÓN DEL', ja: '悪魔の', zh: '恶魔' },
-    title2: { en: 'DIABLO WATERFALL', es: 'DIABLO', fr: 'DIABLO', de: 'DIABLO WASSERFALL', it: 'DIABLO', pt: 'DIABLO', ja: '咽喉の滝', zh: '之咽瀑布' },
+    title: { en: 'PAILÓN', es: 'CASCADA PAILÓN', fr: 'CASCADE PAILÓN', de: 'WASSERFALL PAILÓN', it: 'CASCATA PAILÓN', pt: 'CACHOEIRA PAILÓN', ja: '大迫力の悪魔の', zh: '雷霆万钧之' },
+    title2: { en: 'DEL DIABLO', es: 'DEL DIABLO', fr: 'DU DIABLE', de: 'DEL DIABLO', it: 'DEL DIABLO', pt: 'DEL DIABLO', ja: '咽喉の滝', zh: '恶魔之咽瀑布' },
     description: {
       en: 'Feel the thunderous roar of Ecuador’s most famous waterfall. Experience suspension bridges, lush tropical cloud forest, and the scenic Route of the Waterfalls.',
       es: 'Siente la fuerza atronadora de la cascada más emblemática de los Andes ecuatorianos en un entorno de exuberante vegetación y puentes colgantes.',
       fr: 'Ressentez la puissance de la cascade la plus célèbre d\'Équateur, au cœur d\'une végétation luxuriante et de ponts suspendus.',
       de: 'Spüren Sie die gewaltige Kraft des berühmtesten Wasserfalls Ecuadors inmitten üppiger Tropenvegetation und Hängebrücken.',
-      it: 'Senti la potenza fragorosa della cascata più famosa dell\'Ecuador tra una vegetazione lussureggiante e ponti sospesi.',
-      pt: 'Sinta a força estrondosa da cachoeira mais famosa do Equador entre pontes suspensas e florestas tropicais.',
+      it: 'Senti la potenza fragorosa della cascata más famosa dell\'Ecuador tra una vegetazione lussureggiante e ponti sospesi.',
+      pt: 'Sinta a force estrondosa da cachoeira mais famosa do Equador entre pontes suspensas e florestas tropicais.',
       ja: 'エクアドルで最も有名な滝の雷鳴のような轟音を感じ、豊かな熱帯雲霧林と吊り橋の絶景を体験してください。',
       zh: '感受厄瓜多尔最著名瀑布的雷霆万钧之力，漫步悬索桥与热带云雾森林。'
     },
@@ -62,8 +62,8 @@ const DEFAULT_DATA: SlideData[] = [
   },
   {
     place: { en: 'Cotopaxi - Andes', es: 'Cotopaxi - Andes', fr: 'Cotopaxi - Andes', de: 'Cotopaxi - Anden', it: 'Cotopaxi - Ande', pt: 'Cotopaxi - Andes', ja: 'コトパクシ - アンデス', zh: '科托帕希 - 安第斯' },
-    title: { en: 'MAJESTIC', es: 'VOLCÁN', fr: 'VOLCAN', de: 'MAJESTÄTISCHER', it: 'VULCANO', pt: 'VULCÃO', ja: '雄大な', zh: '雄伟' },
-    title2: { en: 'COTOPAXI VOLCANO', es: 'COTOPAXI', fr: 'COTOPAXI', de: 'COTOPAXI', it: 'COTOPAXI', pt: 'COTOPAXI', ja: 'コトパクシ火山', zh: '科托帕希火山' },
+    title: { en: 'MAJESTIC VOLCANO', es: 'MAJESTUOSO VOLCÁN', fr: 'VOLCAN MAJESTUEUX', de: 'MAJESTÄTISCHER VULKAN', it: 'MAESTOSO VULCANO', pt: 'MAJESTOSO VULCÃO', ja: 'アンデス山脈の', zh: '火山大道的雄伟' },
+    title2: { en: 'COTOPAXI', es: 'COTOPAXI', fr: 'COTOPAXI', de: 'COTOPAXI', it: 'COTOPAXI', pt: 'COTOPAXI', ja: 'コトパクシ火山', zh: '科托帕希火山' },
     description: {
       en: 'The iconic snow-capped volcano rising proudly over 5,897 meters across the Avenue of Volcanoes, surrounded by wild horses and high-altitude Andean páramo.',
       es: 'El cono nevado perfecto que se alza a 5.897 metros en la legendaria Avenida de los Volcanes, rodeado de caballos salvajes y páramo andino.',
@@ -78,8 +78,8 @@ const DEFAULT_DATA: SlideData[] = [
   },
   {
     place: { en: 'Cotopaxi - Quilotoa', es: 'Cotopaxi - Quilotoa', fr: 'Cotopaxi - Quilotoa', de: 'Cotopaxi - Quilotoa', it: 'Cotopaxi - Quilotoa', pt: 'Cotopaxi - Quilotoa', ja: 'キロトア - アンデス', zh: '基洛托阿 - 火山湖' },
-    title: { en: 'QUILOTOA', es: 'LAGUNA DE', fr: 'LAGUNE DE', de: 'QUILOTOA', it: 'LAGUNA DI', pt: 'LAGUNA DE', ja: 'キロトア', zh: '基洛托阿' },
-    title2: { en: 'CRATER LAKE', es: 'QUILOTOA', fr: 'QUILOTOA', de: 'KRATERSEE', it: 'QUILOTOA', pt: 'QUILOTOA', ja: 'クレーター湖', zh: '翡翠火山湖' },
+    title: { en: 'CRATER LAGOON', es: 'LAGUNA CRÁTER', fr: 'LAGUNE DE CRATÈRE', de: 'KRATERLAGUNE', it: 'LAGUNA CRATERE', pt: 'LAGUNA CRATERA', ja: 'エメラルド色の', zh: '绿松石翡翠色的' },
+    title2: { en: 'OF QUILOTOA', es: 'DEL QUILOTOA', fr: 'DU QUILOTOA', de: 'VON QUILOTOA', it: 'DEL QUILOTOA', pt: 'DO QUILOTOA', ja: 'キロトア火口湖', zh: '基洛托阿火山湖' },
     description: {
       en: 'Marvel at the striking turquoise waters inside an ancient volcanic caldera located at 3,500 meters altitude with panoramic views of the western Andes range.',
       es: 'Maravíllate con las aguas color esmeralda dentro de la caldera volcánica a 3.500 metros de altura con vistas panorámicas de la cordillera andina.',
@@ -94,8 +94,8 @@ const DEFAULT_DATA: SlideData[] = [
   },
   {
     place: { en: 'Napo - Amazon Rainforest', es: 'Napo - Selva Amazónica', fr: 'Napo - Forêt Amazonienne', de: 'Napo - Amazonas Regenwald', it: 'Napo - Foresta Amazzonica', pt: 'Napo - Selva Amazônica', ja: 'ナポ - アマゾン熱帯雨林', zh: '纳波 - 亚马逊雨林' },
-    title: { en: 'AMAZON', es: 'SELVA', fr: 'FORÊT', de: 'AMAZONAS', it: 'FORESTA', pt: 'SELVA', ja: 'アマゾン', zh: '亚马逊' },
-    title2: { en: 'RAINFOREST', es: 'AMAZÓNICA', fr: 'AMAZONIENNE', de: 'REGENWALD', it: 'AMAZZONICA', pt: 'AMAZÔNICA', ja: 'ジャングル探検', zh: '雨林探险' },
+    title: { en: 'DEEP RAINFOREST', es: 'SELVA PROFUNDA', fr: 'FORÊT PROFONDE', de: 'TIEFER REGENWALD', it: 'FORESTA PROFONDA', pt: 'SELVA PROFUNDA', ja: '手付かずの原生', zh: '原始神秘的' },
+    title2: { en: 'OF AMAZON', es: 'DEL AMAZONAS', fr: 'DE L\'AMAZONIE', de: 'DES AMAZONAS', it: 'DELL\'AMAZZONIA', pt: 'DO AMAZONAS', ja: 'アマゾン熱帯雨林', zh: '亚马逊雨林' },
     description: {
       en: 'Navigate pristine Amazonian rivers by motorized canoe, encounter native wildlife at rescue sanctuaries, and connect with authentic Kichwa indigenous families.',
       es: 'Navega en canoas motorizadas por ríos amazónicos vírgenes, descubre fauna rescatada y comparte tradiciones con comunidades ancestrales Kichwa.',
@@ -110,8 +110,8 @@ const DEFAULT_DATA: SlideData[] = [
   },
   {
     place: { en: 'Galapagos - Isabela Island', es: 'Galápagos - Isla Isabela', fr: 'Galapagos - Île Isabela', de: 'Galapagos - Insel Isabela', it: 'Galapagos - Isola Isabela', pt: 'Galápagos - Ilha Isabela', ja: 'ガラパゴス - イサベラ島', zh: '加拉帕戈斯 - 伊莎贝拉岛' },
-    title: { en: 'TINTORERAS', es: 'ISLOTE', fr: 'ÎLOT', de: 'TINTORERAS', it: 'ISOLOTTO', pt: 'ILHÉU', ja: 'ティントレラス', zh: '蒂恩托雷拉斯' },
-    title2: { en: 'ISLET & FLAMINGOS', es: 'TINTORERAS', fr: 'TINTORERAS', de: 'INSEL & FLAMINGOS', it: 'TINTORERAS', pt: 'TINTORERAS', ja: '岩礁とフラミンゴ', zh: '石礁与火烈鸟' },
+    title: { en: 'TINTORERAS ISLET', es: 'ISLOTE TINTORERAS', fr: 'ÎLOT TINTORERAS', de: 'INSEL TINTORERAS', it: 'ISOLOTTO TINTORERAS', pt: 'ILHÉU TINTORERAS', ja: 'ティントレラス岩礁と', zh: '蒂恩托雷拉斯海礁与' },
+    title2: { en: '& FLAMINGOS', es: 'Y FLAMENCOS', fr: 'ET FLAMANTS', de: '& FLAMINGOS', it: 'E FENICOTTERI', pt: 'E FLAMINGOS', ja: 'フラミンゴ', zh: '火烈鸟群' },
     description: {
       en: 'Snorkel in turquoise lava channels with white-tip reef sharks, marine iguanas, and sea turtles, and visit coastal lagoons filled with wild flamingos.',
       es: 'Nada en canales de lava turquesa con tiburones de arrecife, iguanas marinas y tortugas, y observa flamencos en lagunas costeras protegidas.',
@@ -126,8 +126,8 @@ const DEFAULT_DATA: SlideData[] = [
   },
   {
     place: { en: 'Azuay - Cuenca & Cajas', es: 'Azuay - Cuenca y Cajas', fr: 'Azuay - Cuenca & Cajas', de: 'Azuay - Cuenca & Cajas', it: 'Azuay - Cuenca e Cajas', pt: 'Azuay - Cuenca e Cajas', ja: 'クエンカ＆カハス国立公園', zh: '昆卡与卡哈斯国家公园' },
-    title: { en: 'CUENCA & CAJAS', es: 'CUENCA Y', fr: 'CUENCA ET', de: 'CUENCA & CAJAS', it: 'CUENCA E', pt: 'CUENCA E', ja: 'クエンカと', zh: '昆卡与' },
-    title2: { en: 'NATIONAL PARK', es: 'PARQUE CAJAS', fr: 'PARC CAJAS', de: 'NATIONALPARK', it: 'PARCO CAJAS', pt: 'PARQUE CAJAS', ja: 'カハス国立公園', zh: '卡哈斯国家公园' },
+    title: { en: 'COLONIAL CUENCA', es: 'CUENCA COLONIAL', fr: 'CUENCA COLONIALE', de: 'KOLONIALES CUENCA', it: 'CUENCA COLONIALE', pt: 'CUENCA COLONIAL', ja: '世界遺産クエンカと', zh: '殖民名城昆卡与' },
+    title2: { en: '& CAJAS', es: 'Y CAJAS', fr: 'ET CAJAS', de: '& CAJAS', it: 'E CAJAS', pt: 'E CAJAS', ja: 'カハス国立公園', zh: '卡哈斯公园' },
     description: {
       en: 'Discover the UNESCO-listed colonial elegance of Cuenca, handcrafted toquilla hats, and hike among the 200 glacial lakes of Cajas National Park.',
       es: 'Descubre la elegancia colonial de Cuenca (Patrimonio UNESCO), los talleres de sombreros de toquilla y los más de 200 lagos glaciares del Parque Nacional Cajas.',
@@ -142,8 +142,8 @@ const DEFAULT_DATA: SlideData[] = [
   },
   {
     place: { en: 'Chimborazo - Andes', es: 'Chimborazo - Andes', fr: 'Chimborazo - Andes', de: 'Chimborazo - Anden', it: 'Chimborazo - Ande', pt: 'Chimborazo - Andes', ja: 'チンボラソ - アンデス', zh: '钦博拉索 - 安第斯' },
-    title: { en: 'CHIMBORAZO', es: 'VOLCÁN', fr: 'VOLCAN', de: 'CHIMBORAZO', it: 'VULCANO', pt: 'VULCÃO', ja: 'チンボラソ', zh: '钦博拉索' },
-    title2: { en: 'VOLCANO (6,310M)', es: 'CHIMBORAZO', fr: 'CHIMBORAZO', de: 'VULKAN (6.310M)', it: 'CHIMBORAZO', pt: 'CHIMBORAZO', ja: '火山（6,310m）', zh: '巨型火山 (6310米)' },
+    title: { en: 'HIGHEST SUMMIT', es: 'CUMBRE DEL VOLCÁN', fr: 'SOMMET DU VOLCAN', de: 'HÖCHSTER GIPFEL', it: 'VETTA DEL VULCANO', pt: 'CUME DO VULCÃO', ja: '太陽に最も近い最高峰', zh: '离太阳最近的最高峰' },
+    title2: { en: 'OF CHIMBORAZO', es: 'CHIMBORAZO', fr: 'CHIMBORAZO', de: 'DES CHIMBORAZO', it: 'CHIMBORAZO', pt: 'CHIMBORAZO', ja: 'チンボラソ火山', zh: '钦博拉索火山' },
     description: {
       en: 'The closest point on Earth to the Sun at 6,310 meters. Experience the majestic Andean reserve home to wild vicuñas and ancestral Inca mountain landscapes.',
       es: 'El punto más cercano de la Tierra al Sol a 6.310 metros. Explora la reserva de fauna andina habitada por elegantes vicuñas y paisajes ancestrales.',
@@ -158,8 +158,8 @@ const DEFAULT_DATA: SlideData[] = [
   },
   {
     place: { en: 'Galapagos - Puerto Ayora', es: 'Galápagos - Puerto Ayora', fr: 'Galapagos - Puerto Ayora', de: 'Galapagos - Puerto Ayora', it: 'Galapagos - Puerto Ayora', pt: 'Galápagos - Puerto Ayora', ja: 'ガラパゴス - プエルト・アヨラ', zh: '加拉帕戈斯 - 阿约拉港' },
-    title: { en: 'LAS GRIETAS', es: 'LAS GRIETAS', fr: 'LAS GRIETAS', de: 'LAS GRIETAS', it: 'LAS GRIETAS', pt: 'LAS GRIETAS', ja: 'ラス・グリエタス', zh: '拉斯格里塔斯' },
-    title2: { en: 'CANYON & LA LOBERÍA', es: 'Y LA LOBERÍA', fr: 'ET LA LOBERÍA', de: 'SCHLUCHT & LOBERÍA', it: 'E LA LOBERÍA', pt: 'E LA LOBERÍA', ja: '峡谷とアシカ海岸', zh: '火山峡谷与海狮滩' },
+    title: { en: 'LAS GRIETAS', es: 'LAS GRIETAS', fr: 'LAS GRIETAS', de: 'LAS GRIETAS', it: 'LAS GRIETAS', pt: 'LAS GRIETAS', ja: 'ラス・グリエタス峡谷と', zh: '拉斯格里塔斯峡谷与' },
+    title2: { en: '& LOBERÍA', es: 'Y LOBERÍA', fr: 'ET LOBERÍA', de: '& LOBERÍA', it: 'E LOBERÍA', pt: 'E LOBERÍA', ja: 'アシカ海岸', zh: '海狮海滩' },
     description: {
       en: 'Swim and snorkel in the crystal-clear volcanic crevice of Las Grietas and observe playful Galapagos sea lions resting on the white sand beaches of La Lobería.',
       es: 'Nada en la impresionante grieta volcánica de agua cristalina Las Grietas y observa colonias de juguetones lobos marinos en las playas de La Lobería.',
@@ -188,6 +188,7 @@ export function HeroSlider() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
   const [showSplash, setShowSplash] = useState(() => {
     if (typeof window !== 'undefined') {
       return !sessionStorage.getItem('vermilion_splash_shown');
@@ -238,12 +239,10 @@ export function HeroSlider() {
   };
 
   useEffect(() => {
-    // ✅ W-03 FIX: Si loading ya terminó, setIsReady inmediatamente sin timer
     if (!loading) {
       setIsReady(true);
       return;
     }
-    // Fallback: forzar isReady tras 1500ms si loading no resuelve
     const timer = setTimeout(() => setIsReady(true), 1500);
     return () => clearTimeout(timer);
   }, [loading]);
@@ -261,7 +260,6 @@ export function HeroSlider() {
     const gap = 20;
     const numberSize = 50;
     const ease = "sine.inOut";
-    let clicks = 0;
     let transitioning = false;
     let pendingRelayout = false;
     let resizeTimer: any = null;
@@ -286,8 +284,7 @@ export function HeroSlider() {
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
 
-        // AQUÍ SE AJUSTA LA ALTURA DE LAS TARJETAS (números más pequeños = tarjetas más abajo)
-        offsetTop = height - cardHeight - 100;
+        offsetTop = height - cardHeight - 150;
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
@@ -314,8 +311,7 @@ export function HeroSlider() {
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
 
-        // AQUÍ SE AJUSTA LA ALTURA DE LAS TARJETAS (números más pequeños = tarjetas más abajo)
-        offsetTop = height - cardHeight - 100;
+        offsetTop = height - cardHeight - 150;
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
@@ -324,7 +320,6 @@ export function HeroSlider() {
 
         set("#pagination", { top: offsetTop + cardHeight + 20, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
         set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", zIndex: 20 });
-        // Removed scale animation from here, it starts when the screen is black
         set(getCardContent(active), { opacity: 0 });
 
         set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
@@ -354,7 +349,7 @@ export function HeroSlider() {
         gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, x: 0, ease, delay: startDelay, duration: 0.8 });
 
         window.addEventListener("resize", onResize);
-        startLoop(); // AUTOSTART CAROUSEL
+        startLoop();
       }
 
       function animate(target: string, duration: number, properties: any) {
@@ -379,18 +374,6 @@ export function HeroSlider() {
           .to(container.querySelectorAll(".indicator"), { x: window.innerWidth, duration: 0.5, ease: "none" });
       }
 
-      // Setup manual navigation hook
-      (window as any).triggerNextSlide = () => {
-        if (!transitioning) {
-          if (loopTimeline) loopTimeline.kill();
-          clicks = 1;
-          step().then(() => {
-            if (!isCancelled) startLoop();
-          });
-        }
-      };
-
-      // Setup manual navigation hook
       (window as any).triggerNextSlide = () => {
         if (!transitioning) {
           if (loopTimeline) loopTimeline.kill();
@@ -458,7 +441,6 @@ export function HeroSlider() {
 
           const [active, ...rest] = order;
 
-          // Keep old background underneath at z-index 10 while new card expands above it at z-index 20
           set(getCard(prevActive), { zIndex: 10 });
           set(getCard(active), { zIndex: 20 });
           set(`${getCard(active)} .card-overlay`, { opacity: 0 });
@@ -478,7 +460,6 @@ export function HeroSlider() {
               duration: 1.1,
               onComplete: () => {
                 transitioning = false;
-                // Place previous active card as a thumbnail at the end of the line
                 if (dir === 'next') {
                   const lastIdx = rest.length - 1;
                   set(getCard(prevActive), {
@@ -520,7 +501,7 @@ export function HeroSlider() {
           gsap.to(container.querySelectorAll(".progress-sub-foreground"), { width: 500 * (1 / order.length) * (active + 1), ease, duration: 0.8 });
 
           rest.forEach((i, index) => {
-            if (i === prevActive && dir === 'next') return; // Handled smoothly onComplete
+            if (i === prevActive && dir === 'next') return;
             set(getCard(i), { zIndex: 30 });
             set(`${getCard(i)} .card-overlay`, { opacity: 1 });
             gsap.to(container.querySelectorAll(getCard(i)), {
@@ -548,34 +529,39 @@ export function HeroSlider() {
 
       init();
       if (showSplash) {
-        // 1. Fade out text & subtext upwards smoothly
-        gsap.to("#splash-text-content, #splash-subtext", {
+        // Splash Screen duration: 3.8s calibrated for high-impact viewing
+        gsap.to("#splash-top-badge, #splash-headline, #splash-subtext", {
           opacity: 0,
           y: -15,
           duration: 0.8,
           ease: "power2.inOut",
-          delay: 0.4
+          delay: 3.2
         });
 
-        // 2. Gradually dissolve the logo glass background card with slight expansion & blur transition
+        gsap.to("#splash-text-content", {
+          opacity: 0,
+          y: -20,
+          duration: 0.8,
+          ease: "power2.inOut",
+          delay: 3.3
+        });
+
         gsap.to("#splash-glass-card", {
           opacity: 0,
-          scale: 1.06,
-          filter: "blur(8px)",
-          duration: 1.4,
+          scale: 1.08,
+          filter: "blur(10px)",
+          duration: 1.2,
           ease: "power2.out",
-          delay: 0.5
+          delay: 3.4
         });
 
-        // 3. Start card zoom animation
-        gsap.to(container.querySelectorAll(getCard(order[0])), { scale: 1.05, duration: 6.5, ease: "none", delay: 0.8 });
+        gsap.to(container.querySelectorAll(getCard(order[0])), { scale: 1.05, duration: 6.5, ease: "none", delay: 3.5 });
 
-        // 4. Fade out the splash background screen smoothly to reveal slider underneath
         gsap.to("#splash-screen", {
           opacity: 0,
           ease: "power2.inOut",
-          duration: 1.5,
-          delay: 0.9,
+          duration: 1.2,
+          delay: 3.6,
           onComplete: () => {
             setShowSplash(false);
             if (typeof window !== 'undefined') {
@@ -591,7 +577,7 @@ export function HeroSlider() {
         if (!isCancelled) startLoop();
       }
 
-    }); // end of gsap.context()
+    });
 
     return () => {
       isCancelled = true;
@@ -613,38 +599,40 @@ export function HeroSlider() {
 
   return (
     <>
-      {/* Splash Screen Overlay for smooth transition OUTSIDE z-0 context */}
       {showSplash && <SplashScreen />}
 
       <div ref={containerRef} className="relative w-full h-[100svh] lg:h-[94svh] min-h-[580px] sm:min-h-[620px] md:min-h-[650px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0">
 
-        {/* Indicator */}
+        {/* Top Indicator */}
         <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
 
-        {/* Details Panels */}
+        {/* Details Panels - UNRESTRICTED TOP LINE + CLEAN 2-LINE TYPOGRAPHY */}
         {[0, 1].map((isOdd) => {
           const id = isOdd ? 'details-odd' : 'details-even';
           return (
-            <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[175px] sm:top-[170px] md:top-[95px] lg:top-[105px] pt-4 sm:pt-6 md:pt-0 z-[22] flex flex-col items-center md:items-start text-center md:text-left">
-              <div className="h-auto overflow-hidden mb-2">
+            <div key={id} id={id} className="absolute left-0 w-full px-4 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[195px] sm:top-[190px] md:top-[145px] lg:top-[160px] pt-4 sm:pt-6 md:pt-0 z-[22] flex flex-col items-center md:items-start text-center md:text-left">
+              <div className="h-auto mb-2">
                 <div className="text text-white font-medium tracking-widest uppercase text-base md:text-sm pt-4 relative flex flex-col items-center md:items-start drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                   <div className="absolute top-0 w-8 h-[2px] bg-white rounded-full" />
                   <span className="notranslate mt-2 md:mt-0">{getLocalizedText(initialData.place, locale)}</span>
                 </div>
               </div>
 
-              <div className="h-auto md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
-                <div className="title-1 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)]">
+              {/* Line 1 (title): calibrated proportional size, unclipped */}
+              <div className="h-auto md:min-h-[46px] lg:min-h-[54px] mt-1 flex flex-col items-center md:items-start">
+                <div className="title-1 font-oswald font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[54px] uppercase leading-[0.95] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap">
                   <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
                 </div>
               </div>
-              <div className="h-auto md:h-[80px] lg:h-[90px] overflow-hidden mt-1 flex flex-col items-center md:items-start w-full">
-                <div className="title-2 font-oswald font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-[80px] uppercase leading-[0.9] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)]">
+
+              {/* Line 2 (title2): calibrated proportional size */}
+              <div className="h-auto md:min-h-[46px] lg:min-h-[54px] mt-1 flex flex-col items-center md:items-start">
+                <div className="title-2 font-oswald font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[54px] uppercase leading-[0.95] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap">
                   <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
                 </div>
               </div>
 
-              <div className="h-auto mt-3 md:mt-5 flex flex-col items-center md:items-start w-full max-w-xl">
+              <div className="h-auto mt-3 md:mt-4 flex flex-col items-center md:items-start w-full max-w-lg">
                 <div className="desc flex flex-col items-center md:items-start w-full">
                   <p className="hero-desc-text text-sm sm:text-base text-white/95 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] font-medium">
                     {getLocalizedText(initialData.description, locale)}
@@ -655,17 +643,7 @@ export function HeroSlider() {
           );
         })}
 
-        {/* 
-          ========================================================================================
-          CONTROLES DE POSICIÓN VERTICAL DE BOTONES (EXPLORAR TOURS Y PLANIFICA TU VIAJE):
-          - MÓVIL (celulares < 768px): Modifica 'bottom-[300px]' 
-            • Para SUBIRLOS más: aumenta el número, por ejemplo 'bottom-[340px]' o 'bottom-[380px]'.
-            • Para BAJARLOS: disminuye el número, por ejemplo 'bottom-[240px]' o 'bottom-[200px]'.
-          - ESCRITORIO (pantallas md de 768px en adelante): Modifica 'md:bottom-10'
-            • Para SUBIRLOS en PC: cambia a 'md:bottom-16' o 'md:bottom-20'.
-            • Para BAJARLOS en PC: cambia a 'md:bottom-6' o 'md:bottom-4'.
-          ========================================================================================
-        */}
+        {/* Action Buttons */}
         <div className="flex absolute left-0 md:left-[30px] lg:left-[60px] w-full md:w-auto bottom-[300px] sm:bottom-[280px] md:bottom-10 z-30 items-center justify-center md:justify-start gap-3 sm:gap-4 flex-wrap px-4 md:px-0">
           <button
             className="px-6 sm:px-7 py-2.5 sm:py-3 bg-emerald-600 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/50 active:scale-95 cursor-pointer"
@@ -688,7 +666,7 @@ export function HeroSlider() {
           </button>
         </div>
 
-        {/* Cards */}
+        {/* Thumbnail Cards */}
         {slidesData.map((slide: any, idx: number) => (
           <div key={`card-${idx}`}>
             <div
@@ -702,10 +680,8 @@ export function HeroSlider() {
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 180px"
               />
-              {/* Subtle Gradient Overlay ONLY for thumbnail cards */}
-              <div className="card-overlay absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none transition-opacity duration-300" />
+              <div className="card-overlay absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none transition-opacity duration-300" />
 
-              {/* Clickable Overlay for Thumbnail */}
               <div
                 className="absolute inset-0 cursor-pointer z-10"
                 onClick={() => (window as any).jumpToSlide?.(idx)}
@@ -713,10 +689,15 @@ export function HeroSlider() {
             </div>
 
             <div className={`card-content card-content-${idx} absolute left-0 top-0 text-white w-[180px] h-[260px] pointer-events-none`}>
-              <div className="absolute bottom-5 left-5 right-5 text-left">
-                <h4 className="text-lg font-oswald font-medium tracking-wider uppercase leading-snug drop-shadow-md notranslate">
-                  {getLocalizedText(slide.title, locale)}{slide.title2 ? ` ${getLocalizedText(slide.title2, locale)}` : ''}
+              <div className="absolute bottom-4 left-4 right-4 text-left">
+                <h4 className="text-xs font-oswald font-semibold tracking-wider uppercase leading-tight drop-shadow-md notranslate text-white">
+                  {getLocalizedText(slide.title, locale)}
                 </h4>
+                {slide.title2 && (
+                  <p className="text-sm font-oswald font-bold tracking-wide uppercase text-emerald-300 drop-shadow notranslate mt-0.5">
+                    {getLocalizedText(slide.title2, locale)}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -724,7 +705,6 @@ export function HeroSlider() {
 
         {/* Pagination HUD */}
         <div id="pagination" className="absolute left-0 top-0 z-40 flex items-center pointer-events-auto">
-          {/* Navigation Arrows */}
           <div className="flex gap-3 mr-5">
             <div onClick={() => (window as any).triggerPrevSlide?.()} className="w-[38px] h-[38px] rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center cursor-pointer transition-all active:scale-95">
               <ChevronLeft className="w-4 h-4 text-white" />
@@ -734,27 +714,18 @@ export function HeroSlider() {
             </div>
           </div>
 
-          {/* Progress Bar */}
           <div className="w-[300px] md:w-[400px] lg:w-[500px] h-[42px] flex items-center">
             <div className="w-full h-[3px] bg-white/20 relative rounded-full overflow-hidden">
               <div className="progress-sub-foreground absolute top-0 left-0 h-full bg-white rounded-full" />
             </div>
           </div>
 
-          {/* Slide Numbers */}
           <div className="absolute right-0 top-1/2 -translate-y-1/2 overflow-hidden h-[50px] w-12 hidden md:block">
             <div className="indicator absolute right-0 top-0 h-full bg-white/20" style={{ width: '100vw' }} />
-            {slidesData.map((_: any, index: number) => (
-              <div key={`num-${index}`} className={`slide-item-${index} absolute top-1/2 -translate-y-1/2 left-0 w-[50px] h-[50px] grid place-items-center text-white font-oswald text-xl md:text-2xl font-bold tracking-widest`}>
-                0{index + 1}
-              </div>
-            ))}
+            <div className="relative z-10 flex items-center justify-end h-full pr-2 text-xs font-mono font-bold text-white/80">
+              01 / 10
+            </div>
           </div>
-        </div>
-
-        {/* Mobile Stats Section injected into Hero */}
-        <div className="absolute bottom-0 left-0 w-full z-40 block md:hidden">
-          <StatsSection />
         </div>
 
       </div>
