@@ -8,10 +8,12 @@ interface HeroActionsProps {
 
 export function HeroActions({ exploreLabel, planLabel }: HeroActionsProps) {
   return (
-    <div
-      id="hero-action-buttons"
-      className="flex absolute left-4 md:left-[30px] lg:left-[60px] w-auto bottom-6 md:bottom-auto z-30 items-center justify-start gap-3 sm:gap-4 flex-wrap"
-    >
+    <>
+      {/* AJUSTE AQUI: Mover botones arriba/abajo en celular cambiando bottom-[85px] o bottom-[60px] */}
+      <div
+        id="hero-action-buttons"
+        className="flex absolute left-0 md:left-[30px] lg:left-[60px] w-full md:w-auto px-4 md:px-0 bottom-[85px] md:bottom-auto z-30 items-center justify-center md:justify-start gap-3 sm:gap-4 flex-wrap"
+      >
       <button
         className="px-6 sm:px-7 py-2.5 sm:py-3 bg-emerald-600 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center gap-2 shadow-lg shadow-emerald-900/50 active:scale-95 cursor-pointer"
         onClick={() => {
@@ -33,5 +35,6 @@ export function HeroActions({ exploreLabel, planLabel }: HeroActionsProps) {
         <span>{planLabel}</span>
       </button>
     </div>
+    </>
   );
 }

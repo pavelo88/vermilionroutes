@@ -114,7 +114,7 @@ export function Navbar() {
     <div className="fixed top-0 left-0 w-full z-50 flex flex-col">
       {/* Top Banner (Desaparece al hacer scroll hacia abajo) */}
       <div
-        className={`transition-all duration-500 overflow-hidden border-b bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-800 text-white border-emerald-800/80 ${isScrolled ? 'max-h-0 opacity-0 py-0 border-none' : 'max-h-24 sm:max-h-16 opacity-100 py-2.5 sm:py-2 px-4 sm:px-8 pb-3 sm:pb-2'
+        className={`transition-all duration-500 overflow-hidden border-b bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-800 text-white border-emerald-800/80 ${isScrolled ? 'max-h-0 opacity-0 py-0 border-none' : 'max-h-24 sm:max-h-16 opacity-100 py-1.5 sm:py-2 px-4 sm:px-8 pb-1.5 sm:pb-2'
           }`}
       >
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
@@ -138,7 +138,7 @@ export function Navbar() {
             <span className="text-emerald-100 hidden lg:inline">
               {tNav('banner.tagline')}
             </span>
-            <div className="flex items-center gap-1 text-emerald-100 font-medium bg-emerald-950/50 px-2.5 py-1 rounded-full border border-emerald-700/60 shadow-sm">
+            <div className="hidden md:flex items-center gap-1 text-emerald-100 font-medium bg-emerald-950/50 px-2.5 py-1 rounded-full border border-emerald-700/60 shadow-sm">
               <Sparkles className="w-3 h-3 text-emerald-300" />
               <span>{tNav('banner.badge')}</span>
             </div>
@@ -408,13 +408,13 @@ export function Navbar() {
                     {link.name}
                   </a>
                   {link.subItems && (
-                    <div className="ml-4 pl-3 border-l-2 border-emerald-100 dark:border-emerald-900/50 space-y-1 my-1">
+                    <div className="ml-2 pl-2 flex flex-col gap-0.5 mt-1">
                       {link.subItems.map((sub) => (
                         <a
                           key={sub.name}
                           href={sub.href}
                           onClick={(e) => handleAnchorClick(e, sub.href)}
-                          className="block px-3 py-1.5 rounded-lg text-sm text-zinc-600 dark:text-zinc-400 hover:text-emerald-600 dark:hover:text-emerald-400"
+                          className="block px-3 py-2 rounded-xl text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
                         >
                           {sub.name}
                         </a>

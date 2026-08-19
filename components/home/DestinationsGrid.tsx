@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { Compass, ArrowRight, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+import { Compass, ArrowRight, ChevronLeft, ChevronRight, Play, Pause, Menu } from 'lucide-react';
 import { useDestinationsData } from '@/hooks/useDestinationsData';
 import { useTranslations, useLocale } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
@@ -18,6 +18,7 @@ export function DestinationsGrid() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
@@ -249,27 +250,64 @@ export function DestinationsGrid() {
 
       {/* ── Interactive Progress Dots & Direct Selector Pills ── */}
       <div className="mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-        {/* Destination Selector Pills */}
-        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-          {destinations.map((dest, idx) => {
-            const isCurrent = currentIndex === idx;
-            return (
-              <button
-                key={dest.id}
-                onClick={() => {
-                  goToSlide(idx);
-                  handleDestinationClick(dest.id);
-                }}
-                className={`text-xs px-3.5 py-1.5 rounded-full border transition-all cursor-pointer ${
-                  isCurrent
-                    ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-semibold shadow-sm ring-1 ring-emerald-500/30'
-                    : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700'
-                }`}
-              >
-                {getLocalizedText(dest.name, locale)}
-              </button>
-            );
-          })}
+        {/* Destination Selector Pills (Desktop) & Dropdown (Mobile) */}
+        <div className="flex w-full sm:w-auto flex-col sm:flex-row items-stretch sm:items-center justify-center sm:justify-start gap-2 relative">
+          
+          {/* Custom Mobile Dropdown */}
+          <div className="sm:hidden relative w-full mb-1">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="w-full flex items-center justify-between bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 py-3 px-5 rounded-xl text-sm font-bold shadow-sm"
+            >
+              <span>{destinations[currentIndex] ? getLocalizedText(destinations[currentIndex].name, locale) : 'Busca tu destino'}</span>
+              <Menu className="w-5 h-5 text-emerald-600" />
+            </button>
+            
+            {dropdownOpen && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
+                {destinations.map((dest, idx) => (
+                  <button
+                    key={dest.id}
+                    onClick={() => {
+                      goToSlide(idx);
+                      handleDestinationClick(dest.id);
+                      setDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-5 py-3 text-sm transition-colors border-b border-zinc-100 dark:border-zinc-800 last:border-0 ${
+                      currentIndex === idx 
+                        ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 font-bold' 
+                        : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                    }`}
+                  >
+                    {getLocalizedText(dest.name, locale)}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="hidden sm:flex flex-wrap items-center justify-center sm:justify-start gap-2">
+            {destinations.map((dest, idx) => {
+              const isCurrent = currentIndex === idx;
+              return (
+                <button
+                  suppressHydrationWarning
+                  key={dest.id}
+                  onClick={() => {
+                    goToSlide(idx);
+                    handleDestinationClick(dest.id);
+                  }}
+                  className={`text-xs px-3.5 py-1.5 rounded-full border transition-all cursor-pointer ${
+                    isCurrent
+                      ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-semibold shadow-sm ring-1 ring-emerald-500/30'
+                      : 'border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700'
+                  }`}
+                >
+                  {getLocalizedText(dest.name, locale)}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Explore All Expeditions Button */}

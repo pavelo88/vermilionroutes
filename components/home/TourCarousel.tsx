@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Tour } from '@/types';
 import { TourCard } from '@/components/ui/TourCard';
-import { ChevronLeft, ChevronRight, Compass } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Compass, ChevronDown } from 'lucide-react';
 
 import { useTranslations, useLocale } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
@@ -27,6 +27,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
@@ -133,21 +134,56 @@ export function TourCarousel({ tours }: TourCarouselProps) {
   return (
     <div className="space-y-6">
       {/* ── Filter Category Tabs ── */}
-      <div className="flex flex-wrap items-center justify-center gap-2 px-4">
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => handleFilterChange(cat.id)}
-            suppressHydrationWarning
-            className={`px-5 py-2.5 rounded-full text-xs font-semibold transition-all duration-300 cursor-pointer border ${
-              activeFilter === cat.id
-                ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 scale-105 border-emerald-600'
-                : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 border-zinc-200 dark:border-zinc-700 hover:border-emerald-400 dark:hover:border-emerald-500'
-            }`}
-          >
-            {cat.label}
-          </button>
-        ))}
+      <div className="px-4">
+        {/* Desktop View */}
+        <div className="hidden md:flex flex-wrap items-center justify-center gap-2">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => handleFilterChange(cat.id)}
+              suppressHydrationWarning
+              className={`px-5 py-2.5 rounded-full text-xs font-semibold transition-all duration-300 cursor-pointer border ${
+                activeFilter === cat.id
+                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 scale-105 border-emerald-600'
+                  : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 border-zinc-200 dark:border-zinc-700 hover:border-emerald-400 dark:hover:border-emerald-500'
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile View (Dropdown List) */}
+        <div className="md:hidden relative w-full mb-2">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="w-full flex items-center justify-between bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 py-3 px-5 rounded-xl text-sm font-bold shadow-sm"
+            >
+              <span>{CATEGORIES.find(c => c.id === activeFilter)?.label || 'Filtros'}</span>
+              <ChevronDown className={`w-5 h-5 text-emerald-600 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {dropdownOpen && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => {
+                      handleFilterChange(cat.id);
+                      setDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-5 py-3 text-sm transition-colors border-b border-zinc-100 dark:border-zinc-800 last:border-0 ${
+                      activeFilter === cat.id 
+                        ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 font-bold' 
+                        : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+            )}
+        </div>
       </div>
 
       {/* ── Carousel Stage ── */}
