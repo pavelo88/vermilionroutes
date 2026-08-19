@@ -132,6 +132,7 @@ export function DestinationsGrid() {
           </div>
 
           <button
+            suppressHydrationWarning
             onClick={() => setIsPlaying(!isPlaying)}
             aria-label={isPlaying ? 'Pausar carrusel' : 'Reanudar carrusel'}
             className="w-9 h-9 rounded-full flex items-center justify-center border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-200 hover:text-emerald-600 transition-colors shadow-sm cursor-pointer"
@@ -140,6 +141,7 @@ export function DestinationsGrid() {
           </button>
 
           <button
+            suppressHydrationWarning
             onClick={handlePrev}
             aria-label="Anterior destino"
             className="w-9 h-9 rounded-full flex items-center justify-center border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 hover:bg-emerald-600 hover:border-emerald-600 hover:text-white transition-all shadow-sm cursor-pointer"
@@ -147,6 +149,7 @@ export function DestinationsGrid() {
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
+            suppressHydrationWarning
             onClick={handleNext}
             aria-label="Siguiente destino"
             className="w-9 h-9 rounded-full flex items-center justify-center border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100 hover:bg-emerald-600 hover:border-emerald-600 hover:text-white transition-all shadow-sm cursor-pointer"
@@ -255,6 +258,7 @@ export function DestinationsGrid() {
             const isCurrent = currentIndex === idx;
             return (
               <button
+                suppressHydrationWarning
                 key={dest.id}
                 onClick={() => {
                   goToSlide(idx);

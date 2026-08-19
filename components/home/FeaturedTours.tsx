@@ -18,6 +18,7 @@ export function FeaturedTours() {
       {/* View Switcher Bar */}
       <div className="flex items-center justify-end gap-2 max-w-7xl mx-auto px-2">
         <button
+          suppressHydrationWarning
           onClick={() => setViewMode('grid')}
           className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
             viewMode === 'grid'
@@ -29,6 +30,7 @@ export function FeaturedTours() {
           <span>Vista Editorial</span>
         </button>
         <button
+          suppressHydrationWarning
           onClick={() => setViewMode('carousel')}
           className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
             viewMode === 'carousel'

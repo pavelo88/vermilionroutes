@@ -93,6 +93,7 @@ export function LuxuryTourGrid({ tours }: LuxuryTourGridProps) {
           <div className="flex flex-wrap items-center justify-center gap-2 pt-4">
             {CATEGORIES.map((cat) => (
               <button
+                suppressHydrationWarning
                 key={cat.id}
                 onClick={() => setActiveFilter(cat.id)}
                 className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
