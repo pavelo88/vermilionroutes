@@ -122,12 +122,14 @@ export const dailyTours: Tour[] = [
     price: 92,
     price3Star: 92,
     price4Star: 92,
-    imageUrl: '/images/tours/9-16/avenue-of-volcanoes-9-16.jpg',
-    mobileImage: '/images/tours/9-16/avenue-of-volcanoes-9-16.jpg',
-    desktopImage: '/images/tours/16-9/avenue-of-volcanoes-16-9.jpg',
+    imageUrl: '/images/tours/16-9/otavalo-market-16-9.jpg',
+    mobileImage: '/images/tours/16-9/otavalo-market-16-9.jpg',
+    desktopImage: '/images/tours/16-9/otavalo-market-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/cuenca-colonial-9-16.jpg',
-      '/images/tours/9-16/cajas-national-park-9-16.jpg'
+      '/images/tours/16-9/otavalo-peguche.jpg',
+      '/images/tours/16-9/imbabura-16-9.jpg',
+      '/images/tours/16-9/otavalo-market-16-9.1.jpg',
+      '/images/tours/16-9/otavalo-market-16-9.2.jpg'
     ],
     rating: 5,
     reviewsCount: 38,
@@ -577,12 +579,13 @@ export const dailyTours: Tour[] = [
     price: 97,
     price3Star: 97,
     price4Star: 97,
-    imageUrl: '/images/tours/9-16/quilotoa-9-16.jpg',
-    mobileImage: '/images/tours/9-16/quilotoa-9-16.jpg',
+    imageUrl: '/images/tours/16-9/quilotoa-16-9.jpg',
+    mobileImage: '/images/tours/16-9/quilotoa-16-9.jpg',
     desktopImage: '/images/tours/16-9/quilotoa-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/avenue-of-volcanoes-9-16.jpg',
-      '/images/tours/9-16/cuenca-colonial-9-16.jpg'
+      '/images/tours/16-9/quilotoa-16-9.1.jpg',
+      '/images/tours/16-9/quilotoa-16-9.2.jpg',
+      '/images/tours/16-9/quilotoa-16-9.3.jpg'
     ],
     rating: 5,
     reviewsCount: 48,

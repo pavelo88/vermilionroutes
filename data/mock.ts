@@ -35,9 +35,9 @@ const multiDayTours: Tour[] = [
     desktopImage: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
     gallery: [
       '/images/tours/9-16/santa-cruz-tierras-altas-9-16.jpg',
-      '/images/tours/9-16/galapagos-flamingos-9-16.jpg',
-      '/images/tours/9-16/las-grietas-canyon-9-16.jpg',
-      '/images/tours/9-16/baltra-canal-itabaca-9-16.jpg'
+      '/images/tours/9-16/galapagos-iguana-9-16.jpg',
+      '/images/tours/9-16/galapagos-loberia-9-16.jpg',
+      '/images/tours/9-16/las-grietas-canyon-9-16.jpg'
     ],
     rating: 5,
     reviewsCount: 28,
@@ -165,8 +165,8 @@ const multiDayTours: Tour[] = [
     desktopImage: '/images/tours/16-9/galapagos-isla-hermosa-16-9.jpg',
     gallery: [
       '/images/tours/9-16/santa-cruz-tierras-altas-9-16.jpg',
-      '/images/tours/9-16/galapagos-flamingos-9-16.jpg',
-      '/images/tours/9-16/las-grietas-canyon-9-16.jpg',
+      '/images/tours/9-16/galapagos-iguana-9-16.jpg',
+      '/images/tours/9-16/galapagos-loberia-9-16.jpg',
       '/images/tours/9-16/santa-fe-island-9-16.jpg',
       '/images/tours/9-16/baltra-canal-itabaca-9-16.jpg'
     ],
@@ -302,11 +302,11 @@ const multiDayTours: Tour[] = [
     mobileImage: '/images/tours/9-16/galapagos-piquero-patas-azules-9-16.jpg',
     desktopImage: '/images/tours/16-9/galapagos-piquero-patas-azules-16-9.jpg',
     gallery: [
+      '/images/tours/9-16/galapagos-san-cristobal-9-16.jpg',
+      '/images/tours/9-16/galapagos-lake-el-junco.9-16.jpg',
+      '/images/tours/9-16/galapagos-loberia-9-16.jpg',
+      '/images/tours/9-16/galapagos-iguana-9-16.jpg',
       '/images/tours/9-16/santa-cruz-tierras-altas-9-16.jpg',
-      '/images/tours/9-16/tintoreras-islet-9-16.jpg',
-      '/images/tours/9-16/las-grietas-canyon-9-16.jpg',
-      '/images/tours/9-16/santa-fe-island-9-16.jpg',
-      '/images/tours/9-16/san-cristobal-island-9-16.jpg',
       '/images/tours/9-16/tijeretas-hill-9-16.jpg'
     ],
     rating: 5,
@@ -445,12 +445,12 @@ const multiDayTours: Tour[] = [
     mobileImage: '/images/tours/9-16/avenue-of-volcanoes-9-16.jpg',
     desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/quito-la-compania-9-16.jpg',
-      '/images/tours/9-16/mitad-del-mundo-9-16.jpg',
+      '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
+      '/images/tours/16-9/amazon-loro-16-9.jpg',
       '/images/tours/9-16/papallacta-hot-springs-9-16.jpg',
-      '/images/tours/9-16/tena-amazon-jungle-9-16.jpg',
+      '/images/tours/16-9/amazon-16-9.jpg',
       '/images/tours/9-16/pailon-del-diablo-9-16.jpg',
-      '/images/tours/9-16/banos-de-agua-santa-9-16.jpg'
+      '/images/tours/16-9/quilotoa-16-9.1.jpg'
     ],
     rating: 5,
     reviewsCount: 31,
@@ -610,15 +610,15 @@ const multiDayTours: Tour[] = [
     price: 1307,
     price3Star: 1307,
     price4Star: 1600,
-    imageUrl: '/images/tours/9-16/amazon-river-canoe-9-16.jpg',
-    mobileImage: '/images/tours/9-16/amazon-river-canoe-9-16.jpg',
-    desktopImage: '/images/tours/16-9/tena-amazon-jungle-16-9.jpg',
+    imageUrl: '/images/tours/16-9/amazon-16-9.jpg',
+    mobileImage: '/images/tours/16-9/amazon-16-9.jpg',
+    desktopImage: '/images/tours/16-9/amazon-loro-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/quito-la-compania-9-16.jpg',
+      '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
       '/images/tours/9-16/papallacta-hot-springs-9-16.jpg',
-      '/images/tours/9-16/tena-amazon-jungle-9-16.jpg',
-      '/images/tours/9-16/amazon-river-canoe-9-16.jpg',
-      '/images/tours/9-16/kichwa-community-9-16.jpg'
+      '/images/tours/16-9/amazon-loro-16-9.jpg',
+      '/images/tours/16-9/amazon-16-9.jpg',
+      '/images/tours/9-16/amazon-rwaterfal-9-16.jpg'
     ],
     rating: 5,
     reviewsCount: 26,
@@ -908,10 +908,10 @@ const multiDayTours: Tour[] = [
     mobileImage: '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
     desktopImage: '/images/tours/16-9/cajas-national-park-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/otavalo-market-9-16.jpg',
+      '/images/tours/16-9/otavalo-peguche.jpg',
       '/images/tours/9-16/cuicocha-lake-9-16.jpg',
       '/images/tours/9-16/pailon-del-diablo-9-16.jpg',
-      '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9-2.jpg',
       '/images/tours/9-16/ingapirca-ruins-9-16.jpg',
       '/images/tours/9-16/cuenca-colonial-9-16.jpg',
       '/images/tours/9-16/cajas-national-park-9-16.jpg',
