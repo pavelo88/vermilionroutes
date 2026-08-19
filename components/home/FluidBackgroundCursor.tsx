@@ -131,7 +131,7 @@ function LightCanvas() {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const { size, viewport } = useThree();
   const mouse = useRef(new THREE.Vector2(0.5, 0.5));
-  const redVec = new THREE.Vector3(0.83, 0.16, 0.15);   // brand-red
+  const redVec = new THREE.Vector3(0.56, 0.06, 0.06);   // Tamarillo brand-red (#8F1010)
   const cyanVec = new THREE.Vector3(0.52, 0.82, 0.85);  // brand-cyan
   const amberVec = new THREE.Vector3(0.96, 0.65, 0.14); // warm amber
 
