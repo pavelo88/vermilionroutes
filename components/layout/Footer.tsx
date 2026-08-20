@@ -220,6 +220,11 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href={`/${locale}/blog`} className="hover:text-white transition-colors">
+                  Blog &amp; Travel Guides
+                </a>
+              </li>
+              <li>
                 <a href={`/${locale}#contact`} className="hover:text-white transition-colors">
                   {t.contact}
                 </a>

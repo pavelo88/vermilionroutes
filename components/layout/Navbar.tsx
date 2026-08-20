@@ -23,13 +23,16 @@ import Image from 'next/image';
 
 import { getLocalizedText } from '@/utils/i18nHelper';
 import { AffiliateClubModal } from '@/components/auth/AffiliateClubModal';
+import { useCurrency, CURRENCIES, CurrencyCode } from '@/context/CurrencyContext';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [destinationsOpen, setDestinationsOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [currencyOpen, setCurrencyOpen] = useState(false);
   const [clubModalOpen, setClubModalOpen] = useState(false);
+  const { currency, setCurrency } = useCurrency();
   const { settings } = useSettings();
   const locale = useLocale();
   const t = useTranslations('contact');
@@ -58,13 +61,9 @@ export function Navbar() {
       return;
     }
 
-    // Native next-intl navigation
-    // Strip the current locale from pathname and append the new one
     const pathWithoutLocale = pathname.replace(new RegExp(`^/${locale}`), '') || '/';
     router.push(`/${newLocale}${pathWithoutLocale}`);
   };
-
-
 
   useEffect(() => {
     setMounted(true);
@@ -72,8 +71,6 @@ export function Navbar() {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
-
-    // Removed legacy cookie check
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -92,6 +89,7 @@ export function Navbar() {
       ],
     },
     { name: tNav('tours'), href: `/${locale}#tours` },
+    { name: 'Blog', href: `/${locale}/blog` },
     { name: tNav('about'), href: `/${locale}#experience` },
     { name: tNav('contact'), href: `/${locale}#contact` },
   ];
@@ -306,6 +304,50 @@ export function Navbar() {
                     </div>
                   </div>
                 </div>
+                {/* Currency Switcher */}
+                <div className="relative">
+                  <button
+                    suppressHydrationWarning
+                    onClick={() => setCurrencyOpen(!currencyOpen)}
+                    className="flex items-center gap-1.5 px-2.5 py-2 text-xs font-bold bg-white dark:bg-zinc-800 text-emerald-700 dark:text-emerald-400 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 rounded-xl cursor-pointer transition-colors shadow-xs"
+                    title="Change Currency"
+                  >
+                    <span>{CURRENCIES[currency]?.symbol || '$'} {currency}</span>
+                    <ChevronDown className={`w-3 h-3 text-zinc-400 transition-transform duration-200 ${currencyOpen ? 'rotate-180 text-emerald-600' : ''}`} />
+                  </button>
+
+                  {currencyOpen && (
+                    <div className="absolute top-full right-0 pt-2 w-36 z-50 animate-fade-in">
+                      <div className="bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-1.5 shadow-2xl border border-zinc-200/90 dark:border-zinc-800">
+                        {Object.values(CURRENCIES).map((c) => (
+                          <button
+                            key={c.code}
+                            onClick={() => {
+                              setCurrency(c.code);
+                              setCurrencyOpen(false);
+                            }}
+                            className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                              currency === c.code
+                                ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 font-bold'
+                                : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                            }`}
+                          >
+                            <span>{c.code}</span>
+                            <span className="font-mono text-zinc-400">{c.symbol}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {currencyOpen && (
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setCurrencyOpen(false)}
+                    />
+                  )}
+                </div>
+
                 {/* Backdrop to close menu when clicking outside */}
                 {langOpen && (
                   <div

@@ -16,9 +16,13 @@ import {
   Check,
   Calendar,
   Tag,
-  AlertCircle
+  AlertCircle,
+  FileText,
+  Printer
 } from 'lucide-react';
 import Image from 'next/image';
+import { TravelVoucherModal } from '@/components/booking/TravelVoucherModal';
+import { mockTours } from '@/data/mock';
 
 export default function CheckoutPaymentPage() {
   const searchParams = useSearchParams();
@@ -38,6 +42,9 @@ export default function CheckoutPaymentPage() {
   const [activeTab, setActiveTab] = useState<'card' | 'bank'>('card');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isPaid, setIsPaid] = useState(false);
+  const [voucherOpen, setVoucherOpen] = useState(false);
+
+  const matchedTour = mockTours.find((t) => t.id === tourId || t.title.en === tourTitle) || mockTours[0];
 
   // Discount code
   const [discountCode, setDiscountCode] = useState('');
@@ -141,17 +148,25 @@ export default function CheckoutPaymentPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+              <button
+                type="button"
+                onClick={() => setVoucherOpen(true)}
+                className="px-5 py-3 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <Printer className="w-4 h-4" />
+                <span>Print / Save Voucher PDF</span>
+              </button>
               <a
                 href={`https://wa.me/593994048458?text=Hello%20Vermilion%20Routes,%20I%20have%20completed%20the%20payment/transfer%20for%20reference%20${ref}`}
                 target="_blank"
                 rel="noreferrer"
-                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+                className="px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
               >
-                <span>Notify Specialist on WhatsApp</span>
+                <span>Notify WhatsApp</span>
               </a>
               <button
                 onClick={() => router.push('/')}
-                className="px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-bold uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2"
+                className="px-5 py-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-bold uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Return to Home</span>
                 <ArrowRight className="w-4 h-4" />
@@ -464,6 +479,24 @@ export default function CheckoutPaymentPage() {
         )}
 
       </div>
+
+      <TravelVoucherModal
+        isOpen={voucherOpen}
+        onClose={() => setVoucherOpen(false)}
+        tour={matchedTour}
+        clientInfo={{
+          name: email.split('@')[0],
+          email: email,
+          date: travelDate,
+          adults: 2,
+          children: 0,
+          refCode: ref,
+          hotelTier: 'Luxury 4-Star & Boutique',
+          amountPaid: finalAmount,
+          isConfirmed: isPaid
+        }}
+        locale="en"
+      />
     </div>
   );
 }

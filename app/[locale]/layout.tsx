@@ -4,6 +4,7 @@ import { ReactNode } from 'react';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import { CurrencyProvider } from '@/context/CurrencyContext';
 import '../globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { ConditionalFooter } from '@/components/layout/ConditionalFooter';
@@ -25,8 +26,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'meta' });
   return {
-    title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel',
-    description: t('description') || 'Experience South America with bespoke travel itineraries.',
+    title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel in Galapagos & Ecuador',
+    description: t('description') || 'Experience South America with bespoke travel itineraries, Galapagos luxury cruises, and Andean volcanic treks.',
     keywords: [
       'Galapagos luxury cruises',
       'Ecuador travel agency',
@@ -53,7 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       },
     },
     openGraph: {
-      title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel',
+      title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel in Galapagos & Ecuador',
       description: t('description') || 'Experience South America with bespoke travel itineraries.',
       url: `https://vermilionroutes.com/${locale}`,
       siteName: 'Vermilion Routes',
@@ -70,7 +71,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     twitter: {
       card: 'summary_large_image',
-      title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel',
+      title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel in Galapagos & Ecuador',
       description: t('description') || 'Experience Ecuador with bespoke travel itineraries.',
       images: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80'],
     },
@@ -88,11 +89,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 5, // ✅ I-06 FIX: Allow zoom for accessibility (WCAG 2.1 criterion 1.4.4)
+  maximumScale: 5,
 };
 
 export default async function RootLayout({
@@ -107,7 +107,10 @@ export default async function RootLayout({
   const jsonLdData = {
     '@context': 'https://schema.org',
     '@type': 'TravelAgency',
-    name: 'Vermilion Routes',
+    name: 'Vermilion Routes - Agencia de Viajes Vermilion',
+    alternateName: 'Vermilion Routes Luxury & Bespoke Travel',
+    legalName: 'Agencia de Viajes Vermilion Cia. Ltda.',
+    taxID: '1711992808001',
     description:
       'Premier luxury boutique tour operator specializing in bespoke travel itineraries, Galapagos island cruises, Amazon lodges, and Andean expeditions in Ecuador.',
     url: 'https://vermilionroutes.com',
@@ -118,27 +121,30 @@ export default async function RootLayout({
     priceRange: '$$$$',
     address: {
       '@type': 'PostalAddress',
+      streetAddress: 'Alangasí Oe 1 – 210 Simón Bolívar and Juan León Mera',
       addressLocality: 'Quito',
+      addressRegion: 'Pichincha',
+      postalCode: '170150',
       addressCountry: 'EC',
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: '-0.180653',
-      longitude: '-78.467838',
+      latitude: '-0.3015',
+      longitude: '-78.4172',
     },
-    areaServed: ['Galapagos Islands', 'Ecuador', 'Mainland Ecuador', 'Amazon Rainforest'],
+    areaServed: ['Galapagos Islands', 'Ecuador', 'Mainland Ecuador', 'Amazon Rainforest', 'Andes Mountains'],
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '5.0',
-      reviewCount: '124',
+      reviewCount: '148',
       bestRating: '5',
       worstRating: '1',
     },
     sameAs: [
       'https://www.tripadvisor.com/Attraction_Review-g294308-d26260308-Reviews-Vermilion_Routes-Quito_Pichincha_Province.html',
-      'https://www.instagram.com',
-        'https://www.tiktok.com/@vermilionsaroutes',
-      'https://www.facebook.com',
+      'https://www.instagram.com/vermilionroutes',
+      'https://www.tiktok.com/@vermilionsaroutes',
+      'https://www.facebook.com/vermilionroutes',
     ],
   };
 
@@ -152,12 +158,14 @@ export default async function RootLayout({
       </head>
       <body className="paper-bg text-zinc-900 dark:text-zinc-50 font-sans antialiased selection:bg-emerald-600 selection:text-white flex flex-col min-h-screen" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
-          <NextIntlClientProvider messages={messages} locale={locale}>
-            <Navbar />
-            <main className="flex-1 w-full relative">{children}</main>
-            <ConciergeWidget />
-            <ConditionalFooter />
-          </NextIntlClientProvider>
+          <CurrencyProvider>
+            <NextIntlClientProvider messages={messages} locale={locale}>
+              <Navbar />
+              <main className="flex-1 w-full relative">{children}</main>
+              <ConciergeWidget />
+              <ConditionalFooter />
+            </NextIntlClientProvider>
+          </CurrencyProvider>
         </ThemeProvider>
       </body>
     </html>
