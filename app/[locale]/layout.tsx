@@ -135,8 +135,9 @@ export default async function RootLayout({
       worstRating: '1',
     },
     sameAs: [
-      'https://www.tripadvisor.com',
+      'https://www.tripadvisor.com/Attraction_Review-g294308-d26260308-Reviews-Vermilion_Routes-Quito_Pichincha_Province.html',
       'https://www.instagram.com',
+        'https://www.tiktok.com/@vermilionsaroutes',
       'https://www.facebook.com',
     ],
   };
