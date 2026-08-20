@@ -22,12 +22,14 @@ import { useSettings } from '@/hooks/useSettings';
 import Image from 'next/image';
 
 import { getLocalizedText } from '@/utils/i18nHelper';
+import { AffiliateClubModal } from '@/components/auth/AffiliateClubModal';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [destinationsOpen, setDestinationsOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [clubModalOpen, setClubModalOpen] = useState(false);
   const { settings } = useSettings();
   const locale = useLocale();
   const t = useTranslations('contact');
@@ -313,6 +315,13 @@ export function Navbar() {
                 )}
               </>
             )}
+            <button
+              onClick={() => setClubModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-xs font-bold shadow-sm transition-all hover:scale-105 cursor-pointer"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+              <span>10% OFF</span>
+            </button>
             <Button
               variant="primary"
               size="sm"
@@ -437,6 +446,11 @@ export function Navbar() {
           </div>
         )}
       </header>
+
+      <AffiliateClubModal
+        isOpen={clubModalOpen}
+        onClose={() => setClubModalOpen(false)}
+      />
     </div>
   );
 }

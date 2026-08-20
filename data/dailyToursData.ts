@@ -29,13 +29,13 @@ export const dailyTours: Tour[] = [
     price: 89,
     price3Star: 89,
     price4Star: 89,
-    imageUrl: '/images/tours/9-16/quito-iglesia-de-san-francisco-9-16.jpg',
-    mobileImage: '/images/tours/9-16/quito-iglesia-de-san-francisco-9-16.jpg',
+    imageUrl: '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
+    mobileImage: '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
     desktopImage: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/mitad-del-mundo-9-16.jpg',
-      '/images/tours/9-16/quito-la-compania-9-16.jpg',
-      '/images/tours/9-16/el-panecillo-quito-9-16.jpg'
+      '/images/tours/16-9/mitad-del-mundo-16-9.jpg',
+      '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
+      '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 42,
@@ -126,10 +126,11 @@ export const dailyTours: Tour[] = [
     mobileImage: '/images/tours/16-9/otavalo-market-16-9.jpg',
     desktopImage: '/images/tours/16-9/otavalo-market-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/otavalo-peguche.jpg',
+      '/images/tours/16-9/otavalo-peguche-16-9.jpg',
       '/images/tours/16-9/imbabura-16-9.jpg',
       '/images/tours/16-9/otavalo-market-16-9.1.jpg',
-      '/images/tours/16-9/otavalo-market-16-9.2.jpg'
+      '/images/tours/16-9/otavalo-market-16-9.2.jpg',
+      '/images/tours/16-9/taita-imbabura-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 38,
@@ -215,12 +216,13 @@ export const dailyTours: Tour[] = [
     price: 108,
     price3Star: 108,
     price4Star: 108,
-    imageUrl: '/images/tours/9-16/banos-de-agua-santa-9-16.jpg',
-    mobileImage: '/images/tours/9-16/banos-de-agua-santa-9-16.jpg',
-    desktopImage: '/images/tours/16-9/banos-de-agua-santa-16-9.jpg',
+    imageUrl: '/images/tours/9-16/banos-cascada-9-16.jpg',
+    mobileImage: '/images/tours/9-16/banos-cascada-9-16.jpg',
+    desktopImage: '/images/tours/16-9/avenue-of-volcanoes-16-9.jpg',
     gallery: [
       '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
-      '/images/tours/9-16/cotopaxi-volcano-9-16.jpg'
+      '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
+      '/images/tours/16-9/avenue-of-volcanoes-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 29,
@@ -306,12 +308,13 @@ export const dailyTours: Tour[] = [
     price: 117,
     price3Star: 117,
     price4Star: 117,
-    imageUrl: '/images/tours/9-16/mindo-cloud-forest-9-16.jpg',
-    mobileImage: '/images/tours/9-16/mindo-cloud-forest-9-16.jpg',
-    desktopImage: '/images/tours/16-9/mindo-cloud-forest-16-9.jpg',
+    imageUrl: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+    mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+    desktopImage: '/images/tours/16-9/mindo-waterfall-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/mindo-waterfall-9-16.jpg',
-      '/images/tours/9-16/scalesia-forest-9-16.jpg'
+      '/images/tours/16-9/mindo-waterfall-16-9.jpg',
+      '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+      '/images/tours/9-16/amazon-loro-9-16.jpg'
     ],
     rating: 5,
     reviewsCount: 45,
@@ -403,7 +406,8 @@ export const dailyTours: Tour[] = [
     desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
     gallery: [
       '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
-      '/images/tours/9-16/cajas-national-park-9-16.jpg'
+      '/images/tours/9-16/cajas-national-park-9-16.jpg',
+      '/images/tours/16-9/avenue-of-volcanoes-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 26,
@@ -492,8 +496,9 @@ export const dailyTours: Tour[] = [
     mobileImage: '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
     desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/avenue-of-volcanoes-9-16.jpg',
-      '/images/tours/9-16/chimborazo-volcano-9-16.jpg'
+      '/images/tours/16-9/avenue-of-volcanoes-16-9.jpg',
+      '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9.1.jpg'
     ],
     rating: 5,
     reviewsCount: 52,

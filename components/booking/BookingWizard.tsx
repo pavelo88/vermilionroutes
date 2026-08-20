@@ -6,6 +6,7 @@ import { Tour } from '@/types';
 import { mockTours } from '@/data/mock';
 import { calculateTourPrice, PricingDetails } from '@/lib/pricing';
 import { PriceCalculator } from './PriceCalculator';
+import { TravelDatePicker } from './TravelDatePicker';
 import { Map, CalendarDays, Users, CheckCircle2 } from 'lucide-react';
 import { useLocale } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
@@ -154,21 +155,19 @@ export function BookingWizard() {
             <hr className="border-zinc-100 dark:border-zinc-800" />
 
             {/* Dates & Passengers */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+              <div className="md:col-span-7">
                 <h3 className="font-serif text-xl font-bold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
-                  <CalendarDays className="w-5 h-5 text-emerald-600" /> 2. ¿Cuándo viajas?
+                  <CalendarDays className="w-5 h-5 text-emerald-600" /> 2. ¿Cuándo viajas? (Selecciona en el Calendario)
                 </h3>
-                <input
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  min={new Date().toISOString().split('T')[0]}
-                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-zinc-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                <TravelDatePicker
+                  selectedDate={date}
+                  onDateSelect={(d) => setDate(d)}
+                  durationDays={selectedTour?.durationDays || 1}
                 />
               </div>
 
-              <div>
+              <div className="md:col-span-5">
                 <h3 className="font-serif text-xl font-bold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
                   <Users className="w-5 h-5 text-emerald-600" /> 3. ¿Quiénes viajan?
                 </h3>

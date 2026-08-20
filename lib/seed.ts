@@ -6,7 +6,7 @@ export const defaultSettings = {
   contact: {
     phone: "+593 99 404 8458",
     email: "info@vermilionroutes.com",
-    address: "Quito, Ecuador",
+    address: "Alangasí Oe 1 – 210 Simón Bolívar and Juan León Mera, Quito, Ecuador",
     whatsappUrl: "https://wa.me/593994048458",
     facebook: "https://facebook.com/vermilionroutes",
     instagram: "https://instagram.com/vermilionroutes",
@@ -30,70 +30,90 @@ export const defaultSettings = {
         title: 'GIANT TORTOISES',
         title2: 'OF GALAPAGOS',
         description: 'Observe ancient giant tortoises roaming freely in their natural habitat at the highlands of Santa Cruz Island and explore majestic volcanic twin craters.',
-        image: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'
+        image: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
+        desktopImage: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
+        mobileImage: '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg'
       },
       {
         place: 'Pichincha - Quito',
         title: 'HISTORIC CENTER',
         title2: 'OF QUITO',
         description: 'The first UNESCO World Cultural Heritage site in the world. Walk along preserved cobblestone streets and marvel at the golden altars of La Compañía Church.',
-        image: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg'
+        image: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
+        desktopImage: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
+        mobileImage: '/images/tours/9-16/quito-plaza-independencia-9-16.jpg'
       },
       {
         place: 'Tungurahua - Baños',
         title: 'PAILÓN',
         title2: 'DEL DIABLO',
         description: 'Feel the thunderous roar of Ecuador’s most famous waterfall. Experience suspension bridges, lush tropical cloud forest, and the scenic Route of the Waterfalls.',
-        image: '/images/tours/16-9/pailon-del-diablo-16-9.jpg'
+        image: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
+        desktopImage: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
+        mobileImage: '/images/tours/9-16/banos-cascada-9-16.jpg'
       },
       {
         place: 'Cotopaxi - Andes',
         title: 'MAJESTIC VOLCANO',
         title2: 'COTOPAXI',
         description: 'The iconic snow-capped volcano rising proudly over 5,897 meters across the Avenue of Volcanoes, surrounded by wild horses and high-altitude Andean páramo.',
-        image: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg'
+        image: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+        desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+        mobileImage: '/images/tours/9-16/cotopaxi-volcano-9-16.jpg'
       },
       {
         place: 'Cotopaxi - Quilotoa',
         title: 'CRATER LAGOON',
         title2: 'OF QUILOTOA',
         description: 'Marvel at the striking turquoise waters inside an ancient volcanic caldera located at 3,500 meters altitude with panoramic views of the western Andes range.',
-        image: '/images/tours/16-9/quilotoa-16-9.jpg'
+        image: '/images/tours/16-9/quilotoa-16-9.jpg',
+        desktopImage: '/images/tours/16-9/quilotoa-16-9.jpg',
+        mobileImage: '/images/tours/16-9/quilotoa-16-9.jpg'
       },
       {
         place: 'Napo - Amazon Rainforest',
         title: 'DEEP RAINFOREST',
         title2: 'OF AMAZON',
         description: 'Navigate pristine Amazonian rivers by motorized canoe, encounter native wildlife at rescue sanctuaries, and connect with authentic Kichwa indigenous families.',
-        image: '/images/tours/16-9/tena-amazon-jungle-16-9.jpg'
+        image: '/images/tours/16-9/amazon-river-canoe-16-9.jpg',
+        desktopImage: '/images/tours/16-9/amazon-river-canoe-16-9.jpg',
+        mobileImage: '/images/tours/9-16/amazon-river-canoe-9-16.jpg'
       },
       {
         place: 'Galapagos - Isabela Island',
         title: 'TINTORERAS ISLET',
         title2: '& FLAMINGOS',
         description: 'Snorkel in turquoise lava channels with white-tip reef sharks, marine iguanas, and sea turtles, and visit coastal lagoons filled with wild flamingos.',
-        image: '/images/tours/16-9/isabela-island-16-9.jpg'
+        image: '/images/tours/16-9/isabela-island-16-9.jpg',
+        desktopImage: '/images/tours/16-9/isabela-island-16-9.jpg',
+        mobileImage: '/images/tours/9-16/isabela-island-9-16.jpg'
       },
       {
         place: 'Azuay - Cuenca & Cajas',
         title: 'COLONIAL CUENCA',
         title2: '& CAJAS',
         description: 'Discover the UNESCO-listed colonial elegance of Cuenca, handcrafted toquilla hats, and hike among the 200 glacial lakes of Cajas National Park.',
-        image: '/images/tours/16-9/cajas-national-park-16-9.jpg'
+        image: '/images/tours/16-9/cajas-national-park-16-9.jpg',
+        desktopImage: '/images/tours/16-9/cajas-national-park-16-9.jpg',
+        mobileImage: '/images/tours/9-16/cajas-national-park-9-16.jpg'
       },
       {
         place: 'Chimborazo - Andes',
         title: 'HIGHEST SUMMIT',
         title2: 'OF CHIMBORAZO',
         description: 'The closest point on Earth to the Sun at 6,310 meters. Experience the majestic Andean reserve home to wild vicuñas and ancestral Inca mountain landscapes.',
-        image: '/images/tours/16-9/chimborazo-volcano-16-9.jpg'
+        image: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+        desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+        mobileImage: '/images/tours/9-16/chimborazo-volcano-9-16.jpg'
       },
       {
         place: 'Galapagos - Puerto Ayora',
         title: 'LAS GRIETAS',
         title2: '& LOBERÍA',
         description: 'Swim and snorkel in the crystal-clear volcanic crevice of Las Grietas and observe playful Galapagos sea lions resting on the white sand beaches of La Lobería.',
-        image: '/images/tours/16-9/las-grietas-canyon-16-9.jpg'
+        image: '/images/tours/16-9/las-grietas-canyon-16-9.jpg',
+        desktopImage: '/images/tours/16-9/las-grietas-canyon-16-9.jpg',
+        mobileImage: '/images/tours/9-16/las-grietas-canyon-9-16.jpg'
       }
     ]
   },
@@ -118,7 +138,7 @@ export const defaultSettings = {
       answer: { en: "Cruises are ideal for visiting remote, uninhabited islands that are inaccessible in a day. Land-based tours are more flexible, perfect for multi-generational families, and less prone to seasickness.", es: "Los cruceros son ideales para visitar islas remotas. Los tours terrestres son más flexibles, perfectos para familias y menos propensos al mareo.", fr: "Les croisières sont idéales pour visiter des îles éloignées. Les circuits terrestres sont plus flexibles et parfaits pour les familles.", de: "Kreuzfahrten sind ideal für abgelegene Inseln. Landtouren sind flexibler und perfekt für Familien.", it: "Le crociere sono ideali per le isole remote. I tour via terra sono più flessibili e perfetti per le familias.", pt: "Cruzeiros são ideais para ilhas remotas. Os passeios terrestres são mais flexíveis e perfeitos para famílias.", ja: "クルーズは離島を訪れるのに最適です。陸上ツアーはより柔軟で家族向けです。", zh: "游轮非常适合游览偏远岛屿。陆地游更灵活，非常适合家庭。" }
     },
     {
-      question: { en: "When is the best time to book a luxury Galapagos expedition?", es: "¿Cuándo es el mejor momento para reservar una expedición de lujo a Galápagos?", fr: "Quel est le meilleur moment pour réserver une expédition de luxe aux Galápagos?", de: "Wann ist die beste Zeit, um eine Galapagos-Luxusexpedition zu buchen?", it: "Qual è il momento migliore per prenotare una spedizione di lusso alle Galapagos?", pt: "Quando é a melhor época para reservar uma expedição de luxo para Galápagos?", ja: "ガラパゴスの豪華探検を予約するのに最適な時期はいつですか？", zh: "预订加拉帕戈斯群岛豪华探险的最佳时间是什么时候？" },
+      question: { en: "When is the best time to book a luxury Galapagos expedition?", es: "¿Cuándo es el mejor momento para reservar una expedición de lujo a Galápagos?", fr: "Quel est le meilleur moment para réserver une expédition de luxe aux Galápagos?", de: "Wann ist die beste Zeit, um eine Galapagos-Luxusexpedition zu buchen?", it: "Qual è il momento migliore per prenotare una spedizione di lusso alle Galapagos?", pt: "Quando é a melhor época para reservar uma expedição de luxo para Galápagos?", ja: "ガラパゴスの豪華探検を予約するのに最適な時期はいつですか？", zh: "预订加拉帕戈斯群岛豪华探险的最佳时间是什么时候？" },
       answer: { en: "The Galapagos is a year-round destination. However, due to the limited capacity of luxury yachts (usually 12-16 passengers), we highly recommend booking at least 8 to 12 months in advance, especially for holiday seasons.", es: "Galápagos es un destino para todo el año. Sin embargo, recomendamos reservar con 8-12 meses de anticipación debido a la capacidad limitada.", fr: "Les Galápagos se visitent toute l'année. Nous recommandons de réserver 8 à 12 mois à l'avance.", de: "Galapagos ist ein ganzjähriges Reiseziel. Wir empfehlen eine Buchung 8-12 Monate im Voraus.", it: "Le Galapagos sono una destinazione per tutto l'anno. Consigliamo di prenotare 8-12 mesi in anticipo.", pt: "Galápagos é um destino para o ano todo. Recomendamos reservar com 8-12 meses de antecedência.", ja: "ガラパゴスは一年中楽しめますが、8〜12ヶ月前の予約をお勧めします。", zh: "加拉帕戈斯群岛是一个全年皆宜的目的地。我们建议提前 8-12 个月预订。" }
     },
     {

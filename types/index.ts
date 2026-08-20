@@ -75,6 +75,8 @@ export interface SlideData {
   title2: LocalizedString | string;
   description: LocalizedString | string;
   image: string;
+  desktopImage?: string;
+  mobileImage?: string;
 }
 
 export interface Review {

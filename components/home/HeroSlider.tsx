@@ -15,7 +15,12 @@ export function HeroSlider() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { settings, loading } = useSettings();
   const [isReady, setIsReady] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return false;
+  });
 
   useEffect(() => {
     const handleResize = () => {
