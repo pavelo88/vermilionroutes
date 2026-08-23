@@ -229,7 +229,7 @@ export function DestinationsGrid() {
                     </span>
 
                     <span className="text-xs font-medium text-emerald-300/90 group-hover:text-emerald-300 transition-colors">
-                      Ver tours →
+                      {locale === 'es' ? 'Ver tours →' : locale === 'fr' ? 'Voir circuits →' : locale === 'de' ? 'Touren ansehen →' : locale === 'it' ? 'Vedi tour →' : locale === 'pt' ? 'Ver passeios →' : 'View tours →'}
                     </span>
                   </div>
                 </div>

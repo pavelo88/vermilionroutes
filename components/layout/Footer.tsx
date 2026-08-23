@@ -269,13 +269,13 @@ export function Footer() {
                 <Mail className="w-3.5 h-3.5 text-emerald-400" /> {getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}
               </p>
               <p className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-emerald-400" /> {getLocalizedText(settings?.contact?.address, locale) || 'Alangasí Oe 1 – 210 Simón Bolívar and Juan León Mera, Quito, Ecuador'}
+                <MapPin className="w-3.5 h-3.5 text-emerald-400" /> {getLocalizedText(settings?.contact?.address, locale) || 'Simón Bolívar oe1-120 y Juan León Mera, Quito, Ecuador'}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Payment Methods & Official Bank Accounts */}
+        {/* Payment Methods */}
         <div className="py-10 border-b border-emerald-900/60 space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
@@ -284,87 +284,28 @@ export function Footer() {
                 Verified &amp; Secure Payment Methods
               </span>
               <h3 className="font-serif text-xl sm:text-2xl font-bold text-white mt-1">
-                Payment by Credit Card, PayPal &amp; Bank Transfer
+                Secure Checkout &amp; Encrypted Payments
               </h3>
               <p className="text-xs text-zinc-300 max-w-2xl mt-1">
-                You can complete your booking checkout by credit card or PayPal, or make a direct bank wire / Zelle transfer to one of our verified corporate accounts below.
+                We accept secure online payments via Stripe (Credit/Debit Card) and PayPal. Direct Bank Wire and Zelle transfers are available upon request after contacting our travel designers. We will never ask you to send funds to unverified accounts.
               </p>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
               <span className="px-3 py-1.5 rounded-xl bg-emerald-900/40 border border-emerald-800/60 text-xs font-semibold text-emerald-300">
-                10% OFF Member Discount
+                SSL Secured
               </span>
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* TD BANK (USA, Europe, Worldwide) */}
-            <div className="bg-zinc-950/80 border border-emerald-900/50 rounded-2xl p-5 space-y-3 relative overflow-hidden">
-              <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3">
-                <div>
-                  <span className="text-[11px] uppercase tracking-wider text-emerald-400 font-bold block">
-                    USA, Europe &amp; Outside Ecuador
-                  </span>
-                  <h4 className="text-base font-bold text-white font-serif">TD BANK • Wire &amp; Zelle</h4>
-                </div>
-                <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-950 border border-emerald-800 text-emerald-300 font-medium">
-                  USD
-                </span>
-              </div>
-              <div className="text-xs space-y-1.5 text-zinc-300 font-mono">
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">Bank:</span> <strong className="text-white">TD BANK</strong></p>
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">Checking Account #:</span> <strong className="text-emerald-400 font-bold">4441352252</strong></p>
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">Routing Number #:</span> <strong className="text-white">0540-01725</strong></p>
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">Account Holder:</span> <strong className="text-white">Jhayro Ludena</strong></p>
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">Zelle Transfer:</span> <strong className="text-amber-400">jhayroludena@gmail.com</strong></p>
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">Location:</span> <span className="text-zinc-300">Maryland, USA</span></p>
-              </div>
-            </div>
-
-            {/* PRODUBANCO (Ecuador) */}
-            <div className="bg-zinc-950/80 border border-emerald-900/50 rounded-2xl p-5 space-y-3 relative overflow-hidden">
-              <div className="flex items-center justify-between border-b border-zinc-800/80 pb-3">
-                <div>
-                  <span className="text-[11px] uppercase tracking-wider text-emerald-400 font-bold block">
-                    Ecuador Continental &amp; Galápagos
-                  </span>
-                  <h4 className="text-base font-bold text-white font-serif">Banco Produbanco</h4>
-                </div>
-                <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-950 border border-emerald-800 text-emerald-300 font-medium">
-                  USD
-                </span>
-              </div>
-              <div className="text-xs space-y-1.5 text-zinc-300 font-mono">
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">Bank:</span> <strong className="text-white">Banco de la Producción S.A. Produbanco</strong></p>
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">Cuenta Corriente #:</span> <strong className="text-emerald-400 font-bold">27059152821</strong></p>
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">SWIFT Code:</span> <strong className="text-white">PRODECEQXXX</strong></p>
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">Titular:</span> <strong className="text-white">VERMILION ROUTES</strong></p>
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">RUC:</span> <strong className="text-white">1711992808001</strong></p>
-                <p className="flex justify-between items-center"><span className="text-zinc-400 font-sans">Comprobantes:</span> <span className="text-emerald-300">WhatsApp / Email / Checkout</span></p>
-              </div>
-            </div>
-          </div>
-
-          <div className="p-4 bg-emerald-950/40 border border-emerald-800/40 rounded-xl text-xs text-zinc-300 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p>
-              📸 <strong>Upload Payment Receipts:</strong> After making your transfer, you can upload the payment receipt/screenshot directly in your checkout portal or send it via WhatsApp to <strong className="text-white">+593-994-048-458</strong> for immediate confirmation.
-            </p>
-            <a
-              href="https://wa.me/593994048458?text=Hello%20Vermilion%20Routes,%20I%20would%20like%20to%20send%20my%20bank%20transfer%20receipt"
-              target="_blank"
-              rel="noreferrer"
-              className="shrink-0 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold tracking-wide transition-all shadow-md"
-            >
-              Send Receipt on WhatsApp
-            </a>
           </div>
         </div>
 
         {/* Guarantees & Badges */}
         <div className="py-8 flex flex-wrap justify-between items-center gap-4 border-b border-emerald-900/60 text-xs text-zinc-200">
-          <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span className="text-white font-medium">{t.licensed}</span>
+          <div className="flex flex-col gap-1 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span className="text-white font-medium">{t.licensed}</span>
+            </div>
+            <span className="text-[10px] text-emerald-400/80 font-mono">Reg. No: 1793215456001 • Ministerio de Turismo EC</span>
           </div>
           <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
             <Award className="w-4 h-4 text-emerald-400" />

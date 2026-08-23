@@ -29,7 +29,7 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
                 alt={getLocalizedText(slide.place, locale) || 'Vermilion Routes'}
                 fill
                 priority={idx <= 2}
-                quality={90}
+                quality={isMobile ? 75 : 90}
                 className="object-cover"
                 sizes="100vw"
               />

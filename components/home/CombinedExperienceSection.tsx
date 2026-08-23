@@ -110,7 +110,7 @@ export function CombinedExperienceSection() {
                   <TripAdvisorSvg className="w-3.5 h-3.5 text-emerald-600" />
                   <span>TripAdvisor Rating ↗</span>
                 </div>
-                <div className="text-[10px] text-zinc-500">Based on 120+ 5-Star Reviews</div>
+                <div className="text-[10px] text-zinc-500">Based on 51 Excellent Reviews</div>
               </div>
             </a>
 

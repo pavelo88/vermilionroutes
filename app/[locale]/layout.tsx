@@ -140,9 +140,10 @@ export default async function RootLayout({
     telephone: '+593994048458',
     email: 'info@vermilionroutes.com',
     priceRange: '$$$$',
+    openingHours: 'Mo,Tu,We,Th,Fr 09:00-18:00',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Alangasí Oe 1 – 210 Simón Bolívar and Juan León Mera',
+      streetAddress: 'Simón Bolívar oe1-120 y Juan León Mera',
       addressLocality: 'Quito',
       addressRegion: 'Pichincha',
       postalCode: '170150',

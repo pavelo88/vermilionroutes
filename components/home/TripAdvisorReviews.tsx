@@ -84,7 +84,7 @@ export function TripAdvisorReviews({
               TripAdvisor Verified Rating
               <ExternalLink className="w-3 h-3 text-zinc-400 group-hover:text-emerald-600 transition-colors" />
             </p>
-            <p className="text-[11px] text-zinc-500">Based on 120+ 5-Star Reviews</p>
+            <p className="text-[11px] text-zinc-500">Based on 51 Excellent Reviews</p>
           </div>
         </a>
       </div>
