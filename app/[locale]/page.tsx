@@ -39,6 +39,13 @@ const ContactSection = dynamic(
   }
 );
 
+const HomeBlogSection = dynamic(
+  () => import('@/components/home/HomeBlogSection').then((m) => m.HomeBlogSection),
+  {
+    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[350px]" />,
+  }
+);
+
 const FluidBackgroundCursor = dynamic(
   () => import('@/components/home/FluidBackgroundCursor'),
   {
@@ -69,10 +76,13 @@ export default function Home() {
       {/* 4. Featured Tours Carousel (Diferido) */}
       <FeaturedTours />
 
-      {/* 5. Frequently Asked Questions (Diferido) */}
+      {/* 5. Travel Blog & Video Expeditions (Diferido) */}
+      <HomeBlogSection />
+
+      {/* 6. Frequently Asked Questions (Diferido) */}
       <AlsoAskedFaq />
 
-      {/* 6. Contact & Tailor-Made Quotation Form (Diferido) */}
+      {/* 7. Contact & Tailor-Made Quotation Form (Diferido) */}
       <ContactSection />
     </div>
   );

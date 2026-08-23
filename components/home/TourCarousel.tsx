@@ -284,19 +284,24 @@ export function TourCarousel({ tours }: TourCarouselProps) {
       {/* ── Dot Indicators + Counter ── */}
       <div className="flex flex-col items-center gap-3">
         {/* Dot track */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           {filteredTours.map((_, idx) => (
             <button
               key={idx}
+              type="button"
               suppressHydrationWarning
               onClick={() => goTo(idx)}
               aria-label={`Go to expedition ${idx + 1}`}
-              className={`rounded-full transition-all duration-300 ${
-                idx === currentIndex
-                  ? 'w-6 h-2 bg-emerald-600'
-                  : 'w-2 h-2 bg-zinc-300 dark:bg-zinc-600 hover:bg-emerald-400'
-              }`}
-            />
+              className="p-2 flex items-center justify-center cursor-pointer"
+            >
+              <span
+                className={`rounded-full transition-all duration-300 ${
+                  idx === currentIndex
+                    ? 'w-6 h-2 bg-emerald-600'
+                    : 'w-2 h-2 bg-zinc-300 dark:bg-zinc-600 hover:bg-emerald-400'
+                }`}
+              />
+            </button>
           ))}
         </div>
 

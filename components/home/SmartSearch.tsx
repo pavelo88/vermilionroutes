@@ -83,10 +83,11 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
           <div className="lg:col-span-4 flex items-center gap-3 px-4 py-3 rounded-2xl bg-zinc-50 border border-zinc-200/80 focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all">
             <Search className="w-5 h-5 text-emerald-600 shrink-0" />
             <div className="w-full relative">
-              <label className="block text-[10px] uppercase font-bold text-zinc-400 tracking-wider">
+              <label htmlFor="smart-search-keyword" className="block text-[10px] uppercase font-bold text-zinc-400 tracking-wider">
                 Keyword or Experience
               </label>
               <input
+                id="smart-search-keyword"
                 type="text"
                 value={query}
                 onChange={(e) => {
@@ -100,6 +101,8 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
               />
               {query && (
                 <button
+                  type="button"
+                  aria-label="Clear search"
                   onClick={() => setQuery('')}
                   className="absolute right-0 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 p-1"
                 >
@@ -113,10 +116,12 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
           <div className="lg:col-span-3 flex items-center gap-3 px-4 py-3 rounded-2xl bg-zinc-50 border border-zinc-200/80 focus-within:border-emerald-500 transition-all">
             <MapPin className="w-5 h-5 text-emerald-600 shrink-0" />
             <div className="w-full">
-              <label className="block text-[10px] uppercase font-bold text-zinc-400 tracking-wider">
+              <label htmlFor="smart-search-destination" className="block text-[10px] uppercase font-bold text-zinc-400 tracking-wider">
                 Destination
               </label>
               <select
+                id="smart-search-destination"
+                aria-label="Select destination"
                 value={selectedDestination}
                 onChange={(e) => {
                   setSelectedDestination(e.target.value);
@@ -137,10 +142,12 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
           <div className="lg:col-span-3 flex items-center gap-3 px-4 py-3 rounded-2xl bg-zinc-50 border border-zinc-200/80 focus-within:border-emerald-500 transition-all">
             <Calendar className="w-5 h-5 text-emerald-600 shrink-0" />
             <div className="w-full">
-              <label className="block text-[10px] uppercase font-bold text-zinc-400 tracking-wider">
+              <label htmlFor="smart-search-duration" className="block text-[10px] uppercase font-bold text-zinc-400 tracking-wider">
                 Duration
               </label>
               <select
+                id="smart-search-duration"
+                aria-label="Select duration"
                 value={selectedDuration}
                 onChange={(e) => {
                   setSelectedDuration(e.target.value);
@@ -150,9 +157,9 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
                 suppressHydrationWarning
               >
                 <option value="all">Any Duration</option>
-                <option value="short">Short Expeditions (1 - 6 Days)</option>
-                <option value="medium">Signature Journeys (7 - 10 Days)</option>
-                <option value="long">Grand Combinations (11+ Days)</option>
+                <option value="short">1 - 6 Days</option>
+                <option value="medium">7 - 10 Days</option>
+                <option value="long">11+ Days</option>
               </select>
             </div>
           </div>

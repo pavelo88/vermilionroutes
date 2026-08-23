@@ -1,0 +1,46 @@
+# Vermilion Routes - Full AI & Agent Manifest
+> Comprehensive guide to Vermilion Routes travel agency, tour catalog, and booking APIs.
+
+## Company Information
+- Name: Vermilion Routes
+- Business Type: Licensed Boutique Tour Operator & Luxury Travel Designer
+- Head Office: Quito, Ecuador
+- WhatsApp & Direct Line: +593 99 404 8458
+- Email: info@vermilionroutes.com
+- Supported Currencies: USD ($), EUR (€), GBP (£), CAD ($)
+- Supported Languages: Spanish, English, French, German, Italian, Portuguese, Japanese, Chinese.
+
+## Complete Tour Portfolio (16 Expeditions)
+
+### Multi-Day Luxury Expeditions
+1. **Galápagos Islands – 4-Day Itinerary** (4 Days / 3 Nights, from $1,590 USD)
+   - Highlights: Twin Craters, Primicias Giant Tortoise Ranch, Isabela Island, Tintoreras Snorkeling, Las Grietas.
+2. **Galápagos Islands – 5-Day Itinerary** (5 Days / 4 Nights, from $1,799 USD)
+   - Highlights: Charles Darwin Station, Tortuga Bay Beach, Santa Fe Island, Isabela Tintoreras.
+3. **Galápagos Islands – 6-Day Itinerary** (6 Days / 5 Nights, from $2,300 USD)
+   - Highlights: North Seymour / Bartolomé Island, Sullivan Bay, Tintoreras, Sierra Negra Volcano.
+4. **Ecuador: Andes & Amazon Rainforest** (7 Days / 6 Nights, from $1,680 USD)
+   - Highlights: Quito Colonial, Cotopaxi Volcano, Quilotoa Lagoon, Baños Waterfalls, Puyo & Napo Jungle.
+5. **Ecuador: Volcanoes & Rivers** (7 Days / 6 Nights, from $1,680 USD)
+   - Highlights: Avenue of the Volcanoes, Chimborazo Reserve, Pastaza River Rafting, Baños.
+6. **Volcanoes, Snow & Waterfalls** (7 Days / 6 Nights, from $1,680 USD)
+   - Highlights: Antisana Condor Sanctuary, Papallacta Thermal Baths, Cotopaxi, Pailón del Diablo.
+7. **Fantastic Ecuador** (8 Days / 7 Nights, from $1,890 USD)
+   - Highlights: Quito, Otavalo Market, Mindo Cloud Forest, Cotopaxi, Quilotoa, Baños.
+8. **Ecuador & Galápagos Islands Master Journey** (12 Days / 11 Nights, from $3,450 USD)
+   - Highlights: Complete mainland Ecuador overland highlights + 5-day Galápagos luxury island hopping.
+9. **Ecuador & Galápagos Islands Experience** (11 Days / 10 Nights, from $3,250 USD)
+   - Highlights: Avenue of the Volcanoes, Baños, Amazonia, and 4-day Galápagos tour.
+
+### Single-Day Private & Guided Day Tours
+10. **Quito City Tour & Middle of the World (Mitad del Mundo)** (1 Day, $85 USD)
+11. **Otavalo Indigenous Market, Cuicocha & Cotacachi** (1 Day, $95 USD)
+12. **Papallacta Hot Springs & High Andean Paramo** (1 Day, $90 USD)
+13. **Mindo Cloud Forest, Hummingbirds & Chocolate Tour** (1 Day, $95 USD)
+14. **Antisana Ecological Reserve & La Mica Lagoon** (1 Day, $95 USD)
+15. **Cotopaxi National Park & Volcano Hike** (1 Day, $95 USD)
+16. **Quilotoa Crater Lagoon & Tigua Indigenous Art** (1 Day, $95 USD)
+
+## Booking Process
+- Real-time custom quotation available online via the Concierge Chat widget or direct WhatsApp dispatch (+593 99 404 8458).
+- PDF brochures can be downloaded on-demand for every tour.

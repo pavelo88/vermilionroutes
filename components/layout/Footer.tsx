@@ -87,6 +87,8 @@ const TRANSLATIONS: Record<string, Record<string, string>> = {
   }
 };
 
+import { BrandLogo } from '@/components/ui/BrandLogo';
+
 export function Footer() {
   const { settings } = useSettings();
   const locale = useLocale();
@@ -99,7 +101,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-emerald-900/60">
           {/* Brand Col */}
           <div className="lg:col-span-2 space-y-5">
-            <a href="#" className="flex items-center gap-3">
+            <a href={`/${locale}`} aria-label="Vermilion Routes Home" className="flex items-center gap-3">
               <div className="relative w-[160px] h-[40px] md:w-[220px] md:h-[55px] shrink-0">
                 <Image
                   src="/logo_inicio.png"
@@ -107,7 +109,6 @@ export function Footer() {
                   fill
                   sizes="220px"
                   className="object-contain drop-shadow-md"
-                  unoptimized
                 />
               </div>
             </a>
@@ -244,6 +245,9 @@ export function Footer() {
               <div className="relative">
                 <input
                   type="email"
+                  id="footer-newsletter-email"
+                  name="email"
+                  aria-label={t.emailPlaceholder || "Email"}
                   placeholder={t.emailPlaceholder}
                   suppressHydrationWarning
                   className="w-full bg-emerald-950/80 border border-emerald-800/80 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"

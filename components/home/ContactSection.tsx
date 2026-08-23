@@ -214,8 +214,9 @@ export function ContactSection() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('name')} *</label>
+                  <label htmlFor="contact-name" className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('name')} *</label>
                   <input
+                    id="contact-name"
                     type="text"
                     required
                     placeholder="e.g. Eleanor Vance"
@@ -235,8 +236,9 @@ export function ContactSection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('email')} *</label>
+                  <label htmlFor="contact-email" className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('email')} *</label>
                   <input
+                    id="contact-email"
                     type="email"
                     required
                     placeholder="eleanor@example.com"
@@ -258,8 +260,9 @@ export function ContactSection() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('phone')}</label>
+                  <label htmlFor="contact-phone" className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('phone')}</label>
                   <input
+                    id="contact-phone"
                     type="tel"
                     placeholder="+1 (555) 000-0000"
                     value={formData.phone}
@@ -275,8 +278,10 @@ export function ContactSection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('destination')}</label>
+                  <label htmlFor="contact-destination" className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('destination')}</label>
                   <select
+                    id="contact-destination"
+                    aria-label={t('destination')}
                     value={formData.destination}
                     onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
                     suppressHydrationWarning
@@ -290,8 +295,10 @@ export function ContactSection() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('travelers')}</label>
+                  <label htmlFor="contact-travelers" className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{t('travelers')}</label>
                   <select
+                    id="contact-travelers"
+                    aria-label={t('travelers')}
                     value={formData.travelers}
                     onChange={(e) => setFormData({ ...formData, travelers: e.target.value })}
                     suppressHydrationWarning
@@ -306,15 +313,17 @@ export function ContactSection() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                <label htmlFor="contact-message" className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
                   {t('message')}
                 </label>
                 <textarea
+                  id="contact-message"
                   rows={4}
-                  placeholder="e.g. Planning to travel in October for 10 days, interested in a Galapagos premium expedition, Cotopaxi volcano and Amazon rainforest..."
+                  placeholder="Tell us about dates, interests, preferences..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                  suppressHydrationWarning
+                  className="w-full bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors"
                 />
               </div>
 

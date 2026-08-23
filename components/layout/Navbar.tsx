@@ -24,6 +24,7 @@ import Image from 'next/image';
 import { getLocalizedText } from '@/utils/i18nHelper';
 import { AffiliateClubModal } from '@/components/auth/AffiliateClubModal';
 import { useCurrency, CURRENCIES, CurrencyCode } from '@/context/CurrencyContext';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -97,6 +98,28 @@ export function Navbar() {
   const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, href: string) => {
     if (href.includes('#')) {
       const hash = href.split('#')[1];
+
+      // Smart destination filters link handling
+      const destFilterMap: Record<string, string> = {
+        galapagos: 'Galapagos',
+        ecuador: 'Ecuador',
+        fullday: 'FullDay',
+        'full-day': 'FullDay',
+        combined: 'Combined'
+      };
+
+      if (destFilterMap[hash.toLowerCase()]) {
+        e.preventDefault();
+        window.dispatchEvent(new CustomEvent('selectDestinationFilter', { detail: destFilterMap[hash.toLowerCase()] }));
+        const toursEl = document.getElementById('tours');
+        if (toursEl) {
+          toursEl.scrollIntoView({ behavior: 'smooth' });
+        }
+        setMobileMenuOpen(false);
+        setDestinationsOpen(false);
+        return;
+      }
+
       const el = document.getElementById(hash);
       if (el) {
         e.preventDefault();
@@ -128,18 +151,18 @@ export function Navbar() {
             </a>
             <a
               href={`mailto:${getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}`}
-              className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors hidden md:flex"
+              className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors hidden sm:flex"
             >
               <Mail className="w-3.5 h-3.5 text-emerald-300" />
               <span className="text-white">{getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}</span>
             </a>
           </div>
-          <div className="flex items-center gap-4 text-xs mb-1 sm:mb-0">
+          <div className="flex items-center gap-4 text-xs">
             <span className="text-emerald-100 hidden lg:inline">
               {tNav('banner.tagline')}
             </span>
             <div className="hidden md:flex items-center gap-1 text-emerald-100 font-medium bg-emerald-950/50 px-2.5 py-1 rounded-full border border-emerald-700/60 shadow-sm">
-              <Sparkles className="w-3 h-3 text-emerald-300" />
+              <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
               <span>{tNav('banner.badge')}</span>
             </div>
           </div>
@@ -148,8 +171,6 @@ export function Navbar() {
 
       {/* 
         Main Sticky Header 
-        * CONTROLA LA ALTURA / PADDING VERTICAL DEL NAVBAR AQUÍ *
-        py-1.5 = altura mínima. Para más altura, cambia 'py-1.5' a 'py-2.5', 'py-3' o 'py-4'.
       */}
       <header
         className={`transition-all duration-300 backdrop-blur-md border-b border-white/20 dark:border-zinc-800/30 ${isScrolled ? 'pt-2.5 pb-2 sm:py-1 shadow-sm bg-[#F9F6F0]/50 dark:bg-[#05140C]/75' : 'pt-3 pb-2.5 sm:py-1.5 bg-[#F9F6F0]/35 dark:bg-[#05140C]/55'
@@ -157,27 +178,15 @@ export function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
-          <Link href={`/${locale}`} className="flex items-center gap-3 relative z-10 group notranslate">
+          <Link href={`/${locale}`} aria-label="Vermilion Routes Inicio" className="flex items-center gap-3 relative z-10 group notranslate">
             <div className="relative w-[165px] h-[40px] sm:w-[180px] sm:h-[45px] md:w-[220px] md:h-[55px] shrink-0">
-              {/* Light Mode Logo */}
               <Image
                 src="/logo_inicio.png"
                 alt="Vermilion Routes"
                 fill
-                sizes="(max-width: 640px) 180px, 200px"
-                className="object-contain transition-transform group-hover:scale-105 block dark:hidden"
+                sizes="(max-width: 640px) 180px, 220px"
+                className="object-contain transition-transform group-hover:scale-105"
                 priority
-                unoptimized
-              />
-              {/* Dark Mode Logo */}
-              <Image
-                src="/logo_inicio.png"
-                alt="Vermilion Routes"
-                fill
-                sizes="(max-width: 640px) 180px, 200px"
-                className="object-contain transition-transform group-hover:scale-105 hidden dark:block"
-                priority
-                unoptimized
               />
             </div>
           </Link>
@@ -261,12 +270,14 @@ export function Navbar() {
                   <button
                     suppressHydrationWarning
                     onClick={() => { setLangOpen(!langOpen); if (langOpen) setShowGTranslate(false); }}
+                    aria-label="Cambiar idioma / Change language"
                     className="flex items-center gap-2 px-3 py-2 text-xs font-semibold bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 rounded-xl cursor-pointer transition-colors shadow-xs"
                     title="Cambiar idioma / Change language"
                   >
                     <img
                       src={LOCALES.find((l) => l.code === locale)?.flagUrl || 'https://flagcdn.com/es.svg'}
-                      alt={locale}
+                      alt=""
+                      aria-hidden="true"
                       className="w-4 h-3 object-cover rounded-xs shadow-xs"
                     />
                     <span className="font-bold uppercase tracking-wider">{locale}</span>
@@ -284,7 +295,7 @@ export function Navbar() {
                               : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                               }`}
                           >
-                            <img src={l.flagUrl} alt={l.code} className="w-5 h-auto rounded-[2px] shadow-sm" />
+                            <img src={l.flagUrl} alt="" aria-hidden="true" className="w-5 h-auto rounded-[2px] shadow-sm" />
                             <span>{l.label}</span>
                           </button>
                         ))}
@@ -309,6 +320,7 @@ export function Navbar() {
                   <button
                     suppressHydrationWarning
                     onClick={() => setCurrencyOpen(!currencyOpen)}
+                    aria-label="Cambiar moneda / Change currency"
                     className="flex items-center gap-1.5 px-2.5 py-2 text-xs font-bold bg-white dark:bg-zinc-800 text-emerald-700 dark:text-emerald-400 border border-zinc-200 dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-700 rounded-xl cursor-pointer transition-colors shadow-xs"
                     title="Change Currency"
                   >
@@ -435,6 +447,7 @@ export function Navbar() {
               </>
             )}
             <button
+              suppressHydrationWarning
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200/80 dark:border-zinc-700 cursor-pointer"
               aria-label="Toggle menu"

@@ -35,7 +35,7 @@ export const HERO_SLIDES_DATA: SlideData[] = [
     },
     image: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
     desktopImage: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
-    mobileImage: '/images/tours/9-16/quito-plaza-independencia-9-16.jpg'
+    mobileImage: '/images/tours/16-9/quito-colonial-16-9.jpg'
   },
   {
     place: { en: 'Tungurahua - Baños', es: 'Tungurahua - Baños', fr: 'Tungurahua - Baños', de: 'Tungurahua - Baños', it: 'Tungurahua - Baños', pt: 'Tungurahua - Baños', ja: 'トゥングラワ - バニョス', zh: '通古拉瓦 - 巴尼奥斯' },
@@ -53,7 +53,7 @@ export const HERO_SLIDES_DATA: SlideData[] = [
     },
     image: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
     desktopImage: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
-    mobileImage: '/images/tours/9-16/banos-cascada-9-16.jpg'
+    mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg'
   },
   {
     place: { en: 'Cotopaxi - Andes', es: 'Cotopaxi - Andes', fr: 'Cotopaxi - Andes', de: 'Cotopaxi - Anden', it: 'Cotopaxi - Ande', pt: 'Cotopaxi - Andes', ja: 'コトパクシ - アンデス', zh: '科托帕希 - 安第斯' },
@@ -71,7 +71,7 @@ export const HERO_SLIDES_DATA: SlideData[] = [
     },
     image: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
     desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
-    mobileImage: '/images/tours/9-16/cotopaxi-volcano-9-16.jpg'
+    mobileImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg'
   },
   {
     place: { en: 'Cotopaxi - Quilotoa', es: 'Cotopaxi - Quilotoa', fr: 'Cotopaxi - Quilotoa', de: 'Cotopaxi - Quilotoa', it: 'Cotopaxi - Quilotoa', pt: 'Cotopaxi - Quilotoa', ja: 'キロトア - アンデス', zh: '基洛托阿 - 火山湖' },
@@ -89,7 +89,7 @@ export const HERO_SLIDES_DATA: SlideData[] = [
     },
     image: '/images/tours/16-9/quilotoa-16-9.jpg',
     desktopImage: '/images/tours/16-9/quilotoa-16-9.jpg',
-    mobileImage: '/images/tours/16-9/quilotoa-16-9.jpg'
+    mobileImage: '/images/tours/9-16/quilotoa-9-16.jpg'
   },
   {
     place: { en: 'Napo - Amazon Rainforest', es: 'Napo - Selva Amazónica', fr: 'Napo - Forêt Amazonienne', de: 'Napo - Amazonas Regenwald', it: 'Napo - Foresta Amazzonica', pt: 'Napo - Selva Amazônica', ja: 'ナポ - アマゾン熱帯雨林', zh: '纳波 - 亚马逊雨林' },
@@ -105,9 +105,9 @@ export const HERO_SLIDES_DATA: SlideData[] = [
       ja: '動力付きカヌーで手付かずのアマゾン川を航行し、固有の野生生物に出会い、先住民族キチュワの家族と交流しましょう。',
       zh: '乘坐机动独木舟穿行于原始亚马逊支流，探访野生动物保护区，融入传统奇瓦印第安社区。'
     },
-    image: '/images/tours/16-9/amazon-river-canoe-16-9.jpg',
-    desktopImage: '/images/tours/16-9/amazon-river-canoe-16-9.jpg',
-    mobileImage: '/images/tours/9-16/amazon-river-canoe-9-16.jpg'
+    image: '/images/tours/16-9/amazon-river-16-9.jpg',
+    desktopImage: '/images/tours/16-9/amazon-river-16-9.jpg',
+    mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg'
   },
   {
     place: { en: 'Galapagos - Isabela Island', es: 'Galápagos - Isla Isabela', fr: 'Galapagos - Île Isabela', de: 'Galapagos - Insel Isabela', it: 'Galapagos - Isola Isabela', pt: 'Galápagos - Ilha Isabela', ja: 'ガラパゴス - イサベラ島', zh: '加拉帕戈斯 - 伊莎贝拉岛' },
@@ -123,9 +123,9 @@ export const HERO_SLIDES_DATA: SlideData[] = [
       ja: 'ネムリブカやウミイグアナ、ウミガメと一緒に溶岩水路でシュノーケリングをし、フラミンゴのラグーンを訪れましょう。',
       zh: '在绿松石色火山熔岩水渠中与白顶礁鲨、海鬣蜥和海龟同游，探访火烈鸟泻湖。'
     },
-    image: '/images/tours/16-9/isabela-island-16-9.jpg',
-    desktopImage: '/images/tours/16-9/isabela-island-16-9.jpg',
-    mobileImage: '/images/tours/9-16/isabela-island-9-16.jpg'
+    image: '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
+    desktopImage: '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
+    mobileImage: '/images/tours/9-16/galapagos-flamingos-9-16.jpg'
   },
   {
     place: { en: 'Azuay - Cuenca & Cajas', es: 'Azuay - Cuenca y Cajas', fr: 'Azuay - Cuenca & Cajas', de: 'Azuay - Cuenca & Cajas', it: 'Azuay - Cuenca e Cajas', pt: 'Azuay - Cuenca e Cajas', ja: 'クエンカ＆カハス国立公園', zh: '昆卡与卡哈斯国家公园' },
@@ -141,8 +141,8 @@ export const HERO_SLIDES_DATA: SlideData[] = [
       ja: '世界遺産の街クエンカのコロニアルな優雅さとパナマハット工房を発見し、カハス国立公園の200以上の氷河湖を巡りましょう。',
       zh: '探索世界遗产城市昆卡的殖民典雅、巴拿马草帽工坊，徒步于卡哈斯国家公园的200多个冰川湖泊。'
     },
-    image: '/images/tours/16-9/cajas-national-park-16-9.jpg',
-    desktopImage: '/images/tours/16-9/cajas-national-park-16-9.jpg',
+    image: '/images/tours/16-9/cuenca-colonial-16-9.jpg',
+    desktopImage: '/images/tours/16-9/cuenca-colonial-16-9.jpg',
     mobileImage: '/images/tours/9-16/cajas-national-park-9-16.jpg'
   },
   {
@@ -154,14 +154,14 @@ export const HERO_SLIDES_DATA: SlideData[] = [
       es: 'El punto más cercano de la Tierra al Sol a 6.310 metros. Explora la reserva de fauna andina habitada por elegantes vicuñas y paisajes ancestrales.',
       fr: 'Le point le plus proche du Soleil sur Terre à 6 310 mètres. Explorez cette réserve andine peuplée de vigognes sauvages.',
       de: 'Der sonnennächste Punkt der Erde auf 6.310 Metern Höhe. Erkunden Sie das Andenreservat mit wilden Vikunjas.',
-      it: 'Il punto più vicino al Sole sulla Terra a 6.310 metri. Esplora la riserva andina popolata da vigogne selvatiche.',
+      it: 'Il punto más vicino al Sole sulla Terra a 6.310 metri. Esplora la riserva andina popolata da vigogne selvatiche.',
       pt: 'O ponto mais próximo do Sol na Terra a 6.310 metros. Explore a reserva andina com vicunhas selvagens.',
       ja: '地球上で太陽に最も近い標高6,310メートルのチンボラソ火山。野生のビクーニャが生息する雄大なアンデス自然保護区を体験。',
       zh: '海拔6310米，地球表面距离太阳最近的点。探索栖息着野生小羊驼与古老印加山地的宏伟安第斯保护区。'
     },
     image: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
     desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-    mobileImage: '/images/tours/9-16/chimborazo-volcano-9-16.jpg'
+    mobileImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg'
   },
   {
     place: { en: 'Galapagos - Puerto Ayora', es: 'Galápagos - Puerto Ayora', fr: 'Galapagos - Puerto Ayora', de: 'Galapagos - Puerto Ayora', it: 'Galapagos - Puerto Ayora', pt: 'Galápagos - Puerto Ayora', ja: 'ガラパゴス - プエルト・アヨラ', zh: '加拉帕戈斯 - 阿约拉港' },

@@ -29,12 +29,12 @@ export const dailyTours: Tour[] = [
     price: 89,
     price3Star: 89,
     price4Star: 89,
-    imageUrl: '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
-    mobileImage: '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
+    imageUrl: '/images/tours/16-9/quito-colonial-16-9.jpg',
+    mobileImage: '/images/tours/16-9/quito-colonial-16-9.jpg',
     desktopImage: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
     gallery: [
       '/images/tours/16-9/mitad-del-mundo-16-9.jpg',
-      '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
+      '/images/tours/16-9/quito-colonial-16-9.jpg',
       '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg'
     ],
     rating: 5,
@@ -216,13 +216,13 @@ export const dailyTours: Tour[] = [
     price: 108,
     price3Star: 108,
     price4Star: 108,
-    imageUrl: '/images/tours/9-16/banos-cascada-9-16.jpg',
-    mobileImage: '/images/tours/9-16/banos-cascada-9-16.jpg',
-    desktopImage: '/images/tours/16-9/avenue-of-volcanoes-16-9.jpg',
+    imageUrl: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+    mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+    desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
-      '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
-      '/images/tours/16-9/avenue-of-volcanoes-16-9.jpg'
+      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 29,
@@ -401,13 +401,13 @@ export const dailyTours: Tour[] = [
     price: 96,
     price3Star: 96,
     price4Star: 96,
-    imageUrl: '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
-    mobileImage: '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
+    imageUrl: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+    mobileImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
     desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
       '/images/tours/9-16/cajas-national-park-9-16.jpg',
-      '/images/tours/16-9/avenue-of-volcanoes-16-9.jpg'
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 26,
@@ -492,13 +492,13 @@ export const dailyTours: Tour[] = [
     price: 96,
     price3Star: 96,
     price4Star: 96,
-    imageUrl: '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
-    mobileImage: '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
+    imageUrl: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+    mobileImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
     desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/avenue-of-volcanoes-16-9.jpg',
-      '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
-      '/images/tours/16-9/chimborazo-volcano-16-9.1.jpg'
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 52,

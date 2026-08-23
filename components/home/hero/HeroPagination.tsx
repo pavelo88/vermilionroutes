@@ -9,20 +9,22 @@ export function HeroPagination({ totalSlides }: HeroPaginationProps) {
   return (
     <div id="pagination" className="absolute left-0 top-0 z-40 flex items-center pointer-events-auto">
       <div className="flex gap-3 mr-5">
-        <div
+        <button
+          type="button"
           onClick={() => (window as any).triggerPrevSlide?.()}
           className="w-[38px] h-[38px] rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center cursor-pointer transition-all active:scale-95"
           aria-label="Previous slide"
         >
           <ChevronLeft className="w-4 h-4 text-white" />
-        </div>
-        <div
+        </button>
+        <button
+          type="button"
           onClick={() => (window as any).triggerNextSlide?.()}
           className="w-[38px] h-[38px] rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center cursor-pointer transition-all active:scale-95"
           aria-label="Next slide"
         >
           <ChevronRight className="w-4 h-4 text-white" />
-        </div>
+        </button>
       </div>
 
       <div className="w-[300px] md:w-[400px] lg:w-[500px] h-[42px] flex items-center">

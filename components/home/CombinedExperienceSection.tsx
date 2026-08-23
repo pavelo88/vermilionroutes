@@ -147,9 +147,9 @@ export function CombinedExperienceSection() {
                   <span>{t('badge')}</span>
                 </div>
                 
-                <h4 className="font-serif text-xl sm:text-2xl font-bold text-white leading-snug">
+                <h3 className="font-serif text-xl sm:text-2xl font-bold text-white leading-snug">
                   {t('title')}
-                </h4>
+                </h3>
                 
                 <p className="text-emerald-50/90 text-xs sm:text-sm leading-relaxed">
                   {t('text')}

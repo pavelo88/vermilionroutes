@@ -44,7 +44,14 @@ export function useHeroSliderAnimation({
     const container = containerRef.current;
 
     const ctx = gsap.context(() => {
-      const set = (target: string, props: any) => gsap.set(container.querySelectorAll(target), props);
+      const set = (target: string | Element | NodeList | null, props: any) => {
+        if (!target) return;
+        if (typeof target === 'string') {
+          gsap.set(container.querySelectorAll(target), props);
+        } else {
+          gsap.set(target, props);
+        }
+      };
       const getCard = (index: number) => `.card-${index}`;
       const getCardContent = (index: number) => `.card-content-${index}`;
 
@@ -98,11 +105,41 @@ export function useHeroSliderAnimation({
         set("#pagination", { top: controlsY, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
         if (width >= 768) {
           set("#hero-action-buttons", { top: controlsY + 2, left: width >= 1024 ? 60 : 30 });
+        } else {
+          set("#hero-action-buttons", { clearProps: "top,left,right,bottom,transform" });
         }
-        set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", zIndex: 20 });
-        set(getCardContent(active), { opacity: 0 });
+        if (width < 768) {
+          order.forEach((i, index) => {
+            set(getCard(i), {
+              x: 0,
+              y: 0,
+              width: "100vw",
+              height: "100%",
+              opacity: index === 0 ? 1 : 0,
+              zIndex: index === 0 ? 20 : 10,
+              borderRadius: 0
+            });
+            set(getCardContent(i), { opacity: 0 });
+          });
+          set(detailsActive, { opacity: 0, zIndex: 22, x: 0, y: 30 });
+        } else {
+          set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", zIndex: 20 });
+          set(getCardContent(active), { opacity: 0 });
+          set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
 
-        set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
+          rest.forEach((i, index) => {
+            set(getCard(i), { x: offsetLeft + 400 + index * (cardWidth + gap), y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12 });
+            set(getCardContent(i), { x: offsetLeft + 400 + index * (cardWidth + gap), zIndex: 40, y: offsetTop });
+            set(`.slide-item-${i}`, { x: (index + 1) * numberSize });
+          });
+
+          const startDelay = 0.6;
+          rest.forEach((i, index) => {
+            gsap.to(container.querySelectorAll(getCard(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
+            gsap.to(container.querySelectorAll(getCardContent(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
+          });
+        }
+
         set(detailsInactive, { opacity: 0, zIndex: 12 });
         set(`${detailsInactive} .text`, { y: 100 });
         set(`${detailsInactive} .title-1`, { y: 100 });
@@ -113,20 +150,19 @@ export function useHeroSliderAnimation({
         set(".progress-sub-foreground", { width: 500 * (1 / order.length) * (active + 1) });
         set(".indicator", { x: -width });
 
-        rest.forEach((i, index) => {
-          set(getCard(i), { x: offsetLeft + 400 + index * (cardWidth + gap), y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12 });
-          set(getCardContent(i), { x: offsetLeft + 400 + index * (cardWidth + gap), zIndex: 40, y: offsetTop });
-          set(`.slide-item-${i}`, { x: (index + 1) * numberSize });
-        });
-
         const startDelay = 0.6;
-        rest.forEach((i, index) => {
-          gsap.to(container.querySelectorAll(getCard(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
-          gsap.to(container.querySelectorAll(getCardContent(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
-        });
-
         gsap.to(container.querySelectorAll("#pagination"), { y: 0, opacity: 1, ease, delay: startDelay, duration: 0.8 });
-        gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, x: 0, ease, delay: startDelay, duration: 0.8 });
+        if (width < 768) {
+          gsap.to(container.querySelectorAll(detailsActive), {
+            opacity: 1,
+            y: 0,
+            ease: "power2.out",
+            delay: 1.2,
+            duration: 0.9
+          });
+        } else {
+          gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, x: 0, ease, delay: startDelay, duration: 0.8 });
+        }
 
         window.addEventListener("resize", onResize);
         startLoop();
@@ -220,7 +256,41 @@ export function useHeroSliderAnimation({
           gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });
 
           const [active, ...rest] = order;
+          const isMobile = (container.clientWidth || window.innerWidth) < 768;
 
+          if (isMobile) {
+            set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", borderRadius: 0, opacity: 0, zIndex: 20 });
+            gsap.to(container.querySelectorAll(getCard(active)), {
+              opacity: 1,
+              duration: 0.85,
+              ease: "power2.out",
+              onComplete: () => {
+                transitioning = false;
+                set(getCard(prevActive), { opacity: 0, zIndex: 10 });
+              }
+            });
+
+            set(detailsActive, { zIndex: 22, opacity: 0, x: 0, y: 25 });
+            gsap.to(container.querySelectorAll(detailsActive), {
+              opacity: 1,
+              y: 0,
+              delay: 0.4,
+              ease: "power2.out",
+              duration: 0.65
+            });
+            animate(`${detailsActive} .text`, 0.5, { y: 0, delay: 0.2, ease });
+            animate(`${detailsActive} .title-1`, 0.5, { y: 0, delay: 0.25, ease });
+            animate(`${detailsActive} .title-2`, 0.5, { y: 0, delay: 0.25, ease });
+            animate(`${detailsActive} .desc`, 0.4, { y: 0, delay: 0.35, ease }).then(() => resolve());
+
+            order.forEach((itemIdx, idx) => {
+              gsap.to(container.querySelectorAll(`.slide-item-${itemIdx}`), { x: idx * numberSize, ease, duration: 0.8 });
+            });
+            gsap.to(container.querySelectorAll(".progress-sub-foreground"), { width: 500 * (1 / order.length) * (active + 1), ease, duration: 0.8 });
+            return;
+          }
+
+          // Desktop GSAP Carousel Animation
           set(getCard(prevActive), { zIndex: 10 });
           set(getCard(active), { zIndex: 20 });
           set(`${getCard(active)} .card-overlay`, { opacity: 0 });
@@ -236,6 +306,7 @@ export function useHeroSliderAnimation({
               width: "100vw",
               height: "100%",
               borderRadius: 0,
+              scale: 1,
               ease,
               duration: 1.1,
               onComplete: () => {
@@ -264,7 +335,6 @@ export function useHeroSliderAnimation({
                 }
               }
             });
-            gsap.to(cActive, { scale: 1.04, duration: 6.0, ease: "none" });
           }
 
           set(detailsActive, { zIndex: 22 });
@@ -290,19 +360,24 @@ export function useHeroSliderAnimation({
               width: cardWidth,
               height: cardHeight,
               borderRadius: 12,
+              scale: 1,
               ease,
-              duration: 0.7,
+              duration: 0.8,
               delay: 0.05 * (index + 1)
             });
-            gsap.to(container.querySelectorAll(getCardContent(i)), {
-              x: offsetLeft + index * (cardWidth + gap),
-              y: offsetTop,
-              opacity: 1,
-              zIndex: 40,
-              ease,
-              duration: 0.7,
-              delay: 0.05 * (index + 1)
-            });
+            const cContent = container.querySelector(getCardContent(i));
+            if (cContent) {
+              set(cContent, { zIndex: 40, opacity: 1 });
+              gsap.to(cContent, {
+                x: offsetLeft + index * (cardWidth + gap),
+                y: offsetTop,
+                opacity: 1,
+                zIndex: 40,
+                ease,
+                duration: 0.8,
+                delay: 0.05 * (index + 1)
+              });
+            }
           });
         });
       }

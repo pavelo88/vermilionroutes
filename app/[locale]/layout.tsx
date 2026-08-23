@@ -25,45 +25,60 @@ const playfair = Playfair_Display({
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'meta' });
+  const isEs = locale === 'es';
+  const defaultTitle = isEs
+    ? 'Vermilion Routes | Viajes de Lujo a Medida en Ecuador y Galápagos'
+    : 'Vermilion Routes | Bespoke Ecuador & Galapagos Luxury Travel';
+  const defaultDescription = isEs
+    ? 'Agencia de viajes de lujo boutique especializada en itinerarios a medida, expediciones a las Islas Galápagos, lodges en la Amazonía, y travesías volcánicas andinas en Ecuador.'
+    : 'Expert-guided bespoke tours to the Galapagos Islands, Amazon rainforest, Avenue of Volcanoes & colonial cities. Ecuador\'s premier luxury boutique travel agency.';
+
   return {
-    title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel in Galapagos & Ecuador',
-    description: t('description') || 'Experience South America with bespoke travel itineraries, Galapagos luxury cruises, and Andean volcanic treks.',
+    title: t('title') || defaultTitle,
+    description: t('description') || defaultDescription,
     keywords: [
-      'Galapagos luxury cruises',
+      'Galapagos luxury tours',
+      'Galapagos island hopping',
       'Ecuador travel agency',
-      'South America luxury expeditions',
-      'Tailor-made itineraries Galapagos',
-      'Bespoke travel Ecuador Galapagos',
+      'bespoke Ecuador travel',
+      'tailor-made Galapagos itineraries',
+      'Cotopaxi volcano trek',
+      'Quilotoa crater lake',
+      'Amazon rainforest Ecuador',
+      'Baños Pailón del Diablo',
+      'Quito colonial tour',
       'Vermilion Routes',
+      'luxury boutique travel Ecuador',
     ],
     authors: [{ name: 'Vermilion Routes' }],
     creator: 'Vermilion Routes',
     publisher: 'Vermilion Routes',
-    metadataBase: new URL('https://vermilionroutes.com'),
+    metadataBase: new URL('https://www.vermilionroutes.com'),
     alternates: {
-      canonical: `/${locale}`,
+      canonical: `https://www.vermilionroutes.com/${locale}`,
       languages: {
-        'en': 'https://vermilionroutes.com/en',
-        'es': 'https://vermilionroutes.com/es',
-        'fr': 'https://vermilionroutes.com/fr',
-        'de': 'https://vermilionroutes.com/de',
-        'zh': 'https://vermilionroutes.com/zh',
-        'it': 'https://vermilionroutes.com/it',
-        'pt': 'https://vermilionroutes.com/pt',
-        'ja': 'https://vermilionroutes.com/ja',
+        'x-default': 'https://www.vermilionroutes.com/en',
+        'en': 'https://www.vermilionroutes.com/en',
+        'es': 'https://www.vermilionroutes.com/es',
+        'fr': 'https://www.vermilionroutes.com/fr',
+        'de': 'https://www.vermilionroutes.com/de',
+        'zh': 'https://www.vermilionroutes.com/zh',
+        'it': 'https://www.vermilionroutes.com/it',
+        'pt': 'https://www.vermilionroutes.com/pt',
+        'ja': 'https://www.vermilionroutes.com/ja',
       },
     },
     openGraph: {
-      title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel in Galapagos & Ecuador',
-      description: t('description') || 'Experience South America with bespoke travel itineraries.',
+      title: t('title') || defaultTitle,
+      description: t('description') || defaultDescription,
       url: `https://vermilionroutes.com/${locale}`,
       siteName: 'Vermilion Routes',
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://vermilionroutes.com/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
           width: 1200,
           height: 630,
-          alt: 'Vermilion Routes Luxury Galapagos Expedition',
+          alt: 'Giant Tortoises of Galapagos – Vermilion Routes Luxury Ecuador Travel',
         },
       ],
       locale,
@@ -71,9 +86,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     twitter: {
       card: 'summary_large_image',
-      title: t('title') || 'Vermilion Routes | Tailor-Made Luxury Travel in Galapagos & Ecuador',
-      description: t('description') || 'Experience Ecuador with bespoke travel itineraries.',
-      images: ['https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80'],
+      title: t('title') || defaultTitle,
+      description: t('description') || defaultDescription,
+      images: ['https://vermilionroutes.com/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'],
     },
     robots: {
       index: true,

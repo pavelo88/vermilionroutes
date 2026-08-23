@@ -26,7 +26,7 @@ export function TourJsonLd({ tour, locale }: TourJsonLdProps) {
       price: tour.price,
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
-      url: `https://vermilionroutes.com/${locale}/#tours`,
+      url: `https://vermilionroutes.com/${locale}/tours/${tour.id}`,
       validFrom: '2026-01-01',
     },
     provider: {

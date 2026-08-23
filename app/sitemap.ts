@@ -25,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (const tour of mockTours) {
     for (const locale of LOCALES) {
       sitemapEntries.push({
-        url: `${BASE_URL}/${locale}#${tour.id}`,
+        url: `${BASE_URL}/${locale}/tours/${tour.id}`,
         lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 0.9,

@@ -178,13 +178,17 @@ export default function FluidBackgroundCursor() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
+  const [isTouchDevice, setIsTouchDevice] = React.useState(false);
 
   useEffect(() => {
     setMounted(true);
+    if (typeof window !== 'undefined') {
+      setIsTouchDevice(window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
+    }
   }, []);
 
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted || isTouchDevice) return;
 
     const trailCanvas = trailCanvasRef.current;
     if (!trailCanvas) return;
@@ -339,7 +343,7 @@ export default function FluidBackgroundCursor() {
     return () => window.removeEventListener("mousemove", moveCursor);
   }, { scope: containerRef, dependencies: [mounted] });
 
-  if (!mounted) return null;
+  if (!mounted || isTouchDevice) return null;
 
   return (
     <div ref={containerRef} className="pointer-events-none">

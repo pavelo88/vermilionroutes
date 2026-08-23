@@ -161,8 +161,8 @@ const multiDayTours: Tour[] = [
     price: 1850,
     price3Star: 1850,
     price4Star: 2099,
-    imageUrl: '/images/tours/9-16/isabela-island-9-16.jpg',
-    mobileImage: '/images/tours/9-16/isabela-island-9-16.jpg',
+    imageUrl: '/images/tours/16-9/isabela-island-9-16.jpg',
+    mobileImage: '/images/tours/16-9/isabela-island-9-16.jpg',
     desktopImage: '/images/tours/16-9/isabela-island-16-9.jpg',
     gallery: [
       '/images/tours/9-16/galapagos-iguana-9-16.jpg',
@@ -442,14 +442,14 @@ const multiDayTours: Tour[] = [
     price: 1543,
     price3Star: 1543,
     price4Star: 1800,
-    imageUrl: '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
-    mobileImage: '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
+    imageUrl: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+    mobileImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
     desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
-      '/images/tours/9-16/amazon-river-canoe-9-16.jpg',
+      '/images/tours/16-9/quito-colonial-16-9.jpg',
+      '/images/tours/16-9/amazon-river-16-9.jpg',
       '/images/tours/9-16/amazon-loro-9-16.jpg',
-      '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
       '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
       '/images/tours/16-9/quilotoa-16-9.jpg'
     ],
@@ -611,13 +611,13 @@ const multiDayTours: Tour[] = [
     price: 1307,
     price3Star: 1307,
     price4Star: 1600,
-    imageUrl: '/images/tours/9-16/amazon-river-canoe-9-16.jpg',
-    mobileImage: '/images/tours/9-16/amazon-river-canoe-9-16.jpg',
-    desktopImage: '/images/tours/16-9/amazon-river-canoe-16-9.jpg',
+    imageUrl: '/images/tours/16-9/amazon-river-16-9.jpg',
+    mobileImage: '/images/tours/16-9/amazon-river-16-9.jpg',
+    desktopImage: '/images/tours/16-9/amazon-river-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
+      '/images/tours/16-9/quito-colonial-16-9.jpg',
       '/images/tours/9-16/amazon-loro-9-16.jpg',
-      '/images/tours/9-16/amazon-cocodrilo-9-16.jpg',
+      '/images/tours/9-16/amazon-loro-9-16.jpg',
       '/images/tours/9-16/amazon-waterfall-9-16.jpg',
       '/images/tours/16-9/amazon-cuyabeno-16-9.jpg',
       '/images/tours/16-9/amazon-river-16-9.jpg'
@@ -765,13 +765,13 @@ const multiDayTours: Tour[] = [
     price: 1102,
     price3Star: 1102,
     price4Star: 1300,
-    imageUrl: '/images/tours/9-16/banos-cascada-9-16.jpg',
-    mobileImage: '/images/tours/9-16/banos-cascada-9-16.jpg',
+    imageUrl: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+    mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
     desktopImage: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/avenue-of-volcanoes-16-9.jpg',
-      '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
-      '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
       '/images/tours/16-9/puyo-yanacocha-16-9.jpg'
     ],
     rating: 5,
@@ -906,18 +906,18 @@ const multiDayTours: Tour[] = [
     price: 1512,
     price3Star: 1512,
     price4Star: 1799,
-    imageUrl: '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
-    mobileImage: '/images/tours/9-16/chimborazo-volcano-9-16.jpg',
-    desktopImage: '/images/tours/16-9/cajas-national-park-16-9.jpg',
+    imageUrl: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+    mobileImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+    desktopImage: '/images/tours/16-9/cuenca-colonial-16-9.jpg',
     gallery: [
       '/images/tours/16-9/otavalo-peguche-16-9.jpg',
-      '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
+      '/images/tours/16-9/quito-colonial-16-9.jpg',
       '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
-      '/images/tours/16-9/chimborazo-volcano-16-9.1.jpg',
-      '/images/tours/9-16/ruinas-de-ingapirca-9-16.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+      '/images/tours/16-9/ruinas-de-ingapirca-16-9.jpg',
       '/images/tours/9-16/cajas-national-park-9-16.jpg',
       '/images/tours/9-16/guayaquil-9-16.jpg',
-      '/images/tours/16-9/guayaquil-city-16-9.jpg'
+      '/images/tours/16-9/guayaquil-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 45,
@@ -1083,12 +1083,12 @@ const multiDayTours: Tour[] = [
     mobileImage: '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg',
     desktopImage: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
-      '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
-      '/images/tours/9-16/amazon-river-canoe-9-16.jpg',
+      '/images/tours/16-9/quito-colonial-16-9.jpg',
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/amazon-river-16-9.jpg',
       '/images/tours/9-16/galapagos-piquero-patas-azules-9-16.jpg',
       '/images/tours/9-16/galapagos-iguana-9-16.jpg',
-      '/images/tours/9-16/isabela-island-9-16.jpg',
+      '/images/tours/16-9/isabela-island-9-16.jpg',
       '/images/tours/9-16/las-grietas-canyon-9-16.jpg',
       '/images/tours/9-16/santa-fe-island-9-16.jpg'
     ],
@@ -1306,10 +1306,10 @@ const multiDayTours: Tour[] = [
     mobileImage: '/images/tours/9-16/galapagos-flamingos-9-16.jpg',
     desktopImage: '/images/tours/16-9/galapagos-flamingos-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/quito-plaza-independencia-9-16.jpg',
-      '/images/tours/9-16/cotopaxi-volcano-9-16.jpg',
+      '/images/tours/16-9/quito-colonial-16-9.jpg',
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
       '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
-      '/images/tours/9-16/amazon-river-canoe-9-16.jpg',
+      '/images/tours/16-9/amazon-river-16-9.jpg',
       '/images/tours/9-16/galapagos-lobos-de-mar-9-16.jpg',
       '/images/tours/9-16/galapagos-flamingos-9-16.jpg',
       '/images/tours/9-16/las-grietas-canyon-9-16.jpg',
@@ -1495,7 +1495,7 @@ export const mockDestinations: Destination[] = [
       es: 'Atraviesa la Avenida de los Volcanes, explora lodges en la selva profunda y maravíllate con la arquitectura colonial.',
       zh: '探索火山大道、基多古城、巴尼奥斯瀑布、亚马逊丛林木屋与印加遗址。'
     },
-    imageUrl: '/images/tours/16-9/cajas-national-park-16-9.jpg',
+    imageUrl: '/images/tours/16-9/cuenca-colonial-16-9.jpg',
     toursCount: 5,
     slug: 'ecuador'
   },
@@ -1512,6 +1512,8 @@ export const mockDestinations: Destination[] = [
     toursCount: 3,
     slug: 'galapagos'
   },
+  /* PERU_DISABLED: Combined Journeys destination temporarily disabled.
+     Re-enable by removing these comment delimiters when Peru tours are ready.
   {
     id: 'combined',
     name: { en: 'Combined Journeys', es: 'Viajes Combinados', fr: 'Voyages Combinés', de: 'Kombinierte Reisen', it: 'Viaggi Combinati', pt: 'Viagens Combinadas', ja: 'コンビネーションツアー', zh: '全景组合探索' },
@@ -1525,6 +1527,7 @@ export const mockDestinations: Destination[] = [
     toursCount: 2,
     slug: 'combined'
   },
+  */
   {
     id: 'full-day',
     name: { en: 'Day Excursions', es: 'Excursiones Full Day', fr: 'Excursions Full Day', de: 'Full-Day Tagesausflüge', it: 'Escursioni Full Day', pt: 'Passeios Full Day', ja: '日帰りツアー (Full Day)', zh: '单日全景游 (Full Day)' },
@@ -1543,35 +1546,112 @@ export const mockDestinations: Destination[] = [
 export const mockReviews: Review[] = [
   {
     id: 'rev-1',
-    author: 'Sarah & Michael Jenkins',
-    location: 'London, United Kingdom',
+    author: 'Dylan A',
+    location: 'United States',
     rating: 5,
-    date: '2026-02-10',
-    tourTitle: 'Galápagos Islands 6-Day Grand Tour',
-    title: 'The adventure of a lifetime with incredible guides!',
-    comment: 'Our 6-day Galápagos experience with Vermilion Routes was beyond perfection. Swimming with sea lions and seeing giant tortoises in the wild was magical. Every detail and transfer was flawless.',
+    date: '2026-04-10',
+    tourTitle: 'The Avenue of the Volcanoes & Galapagos',
+    title: 'A trip of a lifetime',
+    comment: 'Truly a magical trip that I will never forget. From hiking in The Avenue of the Volcanos to snorkeling with sea lions and turtles in the Galapagos you truly will never have a dull moment on this trip. Our tour guide Jhayro was truly the best guide. Went above and beyond to make sure everyone was taken care of and provided many additional activities for us on the tour.',
     verifiedTripAdvisor: true
   },
   {
     id: 'rev-2',
-    author: 'David Van Der Berg',
-    location: 'Amsterdam, Netherlands',
+    author: 'Guadalupe L',
+    location: 'United States',
     rating: 5,
-    date: '2026-01-24',
-    tourTitle: 'Ecuador & Galápagos 12-Day Flagship',
-    title: 'Flawless overland journey and pristine islands',
-    comment: 'Combining the Amazon rainforest in Tena with the Galápagos was the best decision. The private guides were exceptionally knowledgeable, and the boutique lodges were top-notch.',
+    date: '2026-04-08',
+    tourTitle: 'Ecuador & Galapagos Master Tour',
+    title: 'Book it!',
+    comment: 'This tour was amazing. Very detailed, organized and so fun. I can’t recommend it enough. Jhayro was an incredible and knowledgeable guide.',
     verifiedTripAdvisor: true
   },
   {
     id: 'rev-3',
-    author: 'Elena & Roberto Rossi',
-    location: 'Milan, Italy',
+    author: 'Alana F',
+    location: 'United States',
     rating: 5,
-    date: '2026-01-08',
-    tourTitle: 'Ecuador Fantastic 8 Days',
-    title: 'Spectacular Andes, Baños and Cuenca',
-    comment: 'From the heights of Chimborazo to the colonial beauty of Cuenca and Cajas National Park, Ecuador exceeded all our expectations. Vermilion Routes provides true VIP bespoke service.',
+    date: '2026-04-08',
+    tourTitle: 'Ecuador and the Galapagos',
+    title: 'The best trip!',
+    comment: 'This was the best trip! Our tour guide, Vermilion Jhayro was extremely knowledgeable and showed us the best of Ecuador. His kind, caring, and friendly personality made the trip unforgettable. I highly recommend taking this trip with him as your guide!',
+    verifiedTripAdvisor: true
+  },
+  {
+    id: 'rev-4',
+    author: 'Nicole H',
+    location: 'United States',
+    rating: 5,
+    date: '2026-04-04',
+    tourTitle: '11-Day Ecuador Flagship Expedition',
+    title: 'Hola vida!',
+    comment: 'My time with Jhayro was truly excellent, I couldn’t have asked for a better tour director for our 11 days in Ecuador. From start to finish, he went above and beyond to make the experience unforgettable. Visiting an indigenous community in the Amazon, sharing an authentic meal, exploring an animal refuge, and hiking to a beautiful waterfall were experiences I never would have been able to organize on my own.',
+    verifiedTripAdvisor: true
+  },
+  {
+    id: 'rev-5',
+    author: 'Katie V',
+    location: 'United States',
+    rating: 5,
+    date: '2026-04-04',
+    tourTitle: 'Ecuador & Galapagos with Jhayro',
+    title: 'Unforgettable memories!',
+    comment: 'Jhayro was an incredible guide who made our time in Ecuador and the Galapagos so enjoyable and stress free! Not only was he very knowledgeable about the history of Ecuador, he made sure to plan excursions for us to experience the culture with indigenous communities and traditional food.',
+    verifiedTripAdvisor: true
+  },
+  {
+    id: 'rev-6',
+    author: 'Mackenzie L',
+    location: 'United States',
+    rating: 5,
+    date: '2026-04-03',
+    tourTitle: 'Ecuador Cultural & Natural Wonders',
+    title: 'An unforgettable experience in Ecuador',
+    comment: 'We had an amazing time in Ecuador thanks to Jhayro! He was incredibly informative and so passionate about his country and everything it has to offer. You could really feel how much he cares about sharing Ecuador’s beauty and culture. Always punctual, organized, and attentive.',
+    verifiedTripAdvisor: true
+  },
+  {
+    id: 'rev-7',
+    author: 'Sarah F',
+    location: 'United States',
+    rating: 5,
+    date: '2026-04-03',
+    tourTitle: 'Bespoke Galapagos Expedition',
+    title: 'Incredible trip!',
+    comment: 'This trip was amazing!! Jhayro was an excellent tour guide and made sure we got to see as much as possible. He planned extra stops for us and made special accommodations for people when needed. Would highly recommend booking a tour with him!',
+    verifiedTripAdvisor: true
+  },
+  {
+    id: 'rev-8',
+    author: 'Taylor K',
+    location: 'United States',
+    rating: 5,
+    date: '2026-04-03',
+    tourTitle: 'Andes, Amazon & Galapagos',
+    title: 'Most knowledgeable guide and most fun itinerary',
+    comment: 'We were always moving and going onto the next activity. It was so fun, there were so many surprises and cool things outside of the itinerary that we got to do and see. Our guide was not just organized, but he took care of every thing we needed, all while being so funny and fun to be around.',
+    verifiedTripAdvisor: true
+  },
+  {
+    id: 'rev-9',
+    author: 'Navera H',
+    location: 'United States',
+    rating: 5,
+    date: '2026-04-01',
+    tourTitle: 'Ecuador Tailor-Made Private Tour',
+    title: 'Best Tour Guide Ever!',
+    comment: 'We had the absolute best experience with our tour guide in Ecuador! From start to finish, he went above and beyond to make sure everything was smooth, enjoyable, and unforgettable. His knowledge of the history, culture, and local spots was incredible. He brought places to life with stories and insights you wouldn’t get anywhere else.',
+    verifiedTripAdvisor: true
+  },
+  {
+    id: 'rev-10',
+    author: 'Julio M',
+    location: 'United States',
+    rating: 5,
+    date: '2026-04-01',
+    tourTitle: 'Ecuador tour (Andes, Baños, and Galapagos)',
+    title: 'Attentive, professional and fluent English',
+    comment: 'Jhayro was very attentive. Very fluent English made everything so much easier and comfortable throughout the journey. Highly recommended tour company in Ecuador!',
     verifiedTripAdvisor: true
   }
 ];

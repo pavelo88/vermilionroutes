@@ -11,7 +11,9 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
       if (
         args[0].includes('Encountered a script tag while rendering React component') ||
         args[0].includes('Could not reach Cloud Firestore backend') ||
-        args[0].includes('@firebase/firestore')
+        args[0].includes('@firebase/firestore') ||
+        args[0].includes('fdprocessedid') ||
+        args[0].includes('A tree hydrated but some attributes of the server rendered HTML didn\'t match')
       ) {
         return;
       }

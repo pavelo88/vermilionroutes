@@ -17,7 +17,9 @@ import {
   MapPin,
   CheckCircle2,
   ArrowRight,
-  ShieldCheck
+  ShieldCheck,
+  Compass,
+  MessageCircle
 } from 'lucide-react';
 
 interface BlogPostPageProps {
@@ -95,8 +97,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     mainEntityOfPage: `https://vermilionroutes.com/${locale}/blog/${post.slug}`,
   };
 
+  const backLabel = locale === 'es' ? 'Volver a todas las Guías' : 'Back to All Travel Guides';
+  const shareLabel = locale === 'es' ? 'Compartir:' : 'Share:';
+  const relatedLabel = locale === 'es' ? 'Expedición Recomendada para esta Guía' : 'Recommended Expedition for this Guide';
+  const fromLabel = locale === 'es' ? 'Desde' : 'From';
+  const bookLabel = locale === 'es' ? 'Reservar Expedición' : 'Book Expedition';
+
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 pt-28 pb-20 px-4 sm:px-6 lg:px-8 font-sans selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#07130C] text-zinc-900 dark:text-zinc-100 pt-28 pb-20 px-4 sm:px-6 lg:px-8 font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-300">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -108,64 +116,65 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div>
           <Link
             href={`/${locale}/blog`}
-            className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors uppercase tracking-wider"
+            className="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 transition-colors uppercase tracking-wider"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to All Travel Guides</span>
+            <span>{backLabel}</span>
           </Link>
         </div>
 
         {/* Article Header */}
         <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-3 text-xs">
-            <span className="px-3.5 py-1 rounded-full bg-emerald-950 border border-emerald-800 text-emerald-400 font-bold uppercase tracking-wider">
+            <span className="px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-bold uppercase tracking-wider shadow-sm">
               {getLocalizedText(post.category, locale)}
             </span>
-            <span className="flex items-center gap-1 text-zinc-400">
-              <Calendar className="w-3.5 h-3.5 text-emerald-400" /> {post.publishedAt}
+            <span className="flex items-center gap-1 text-zinc-500 dark:text-zinc-400">
+              <Calendar className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> {post.publishedAt}
             </span>
-            <span className="text-zinc-600">&bull;</span>
-            <span className="flex items-center gap-1 text-zinc-400">
-              <Clock className="w-3.5 h-3.5 text-emerald-400" /> {post.readTime}
+            <span className="text-zinc-400 dark:text-zinc-600">&bull;</span>
+            <span className="flex items-center gap-1 text-zinc-500 dark:text-zinc-400">
+              <Clock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> {post.readTime}
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-white leading-tight tracking-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-zinc-900 dark:text-white leading-tight tracking-tight">
             {getLocalizedText(post.title, locale)}
           </h1>
 
-          <p className="text-base sm:text-lg text-zinc-300 leading-relaxed font-light">
+          <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed font-light">
             {getLocalizedText(post.subtitle, locale)}
           </p>
 
           {/* Author info & Social */}
-          <div className="pt-4 border-t border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="pt-4 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-emerald-700">
+              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-emerald-600 dark:border-emerald-700">
                 <Image src={post.author.avatar} alt={post.author.name} fill className="object-cover" />
               </div>
               <div>
-                <p className="text-sm font-bold text-white">{post.author.name}</p>
-                <p className="text-xs text-zinc-400">{post.author.role}</p>
+                <p className="text-sm font-bold text-zinc-900 dark:text-white">{post.author.name}</p>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">{post.author.role}</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-zinc-400">
-              <span className="font-semibold text-zinc-300">Share:</span>
+            <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="font-semibold text-zinc-700 dark:text-zinc-300">{shareLabel}</span>
               <a
                 href={`https://wa.me/?text=${encodeURIComponent(getLocalizedText(post.title, locale))} - https://vermilionroutes.com/${locale}/blog/${post.slug}`}
                 target="_blank"
                 rel="noreferrer"
-                className="p-2 rounded-xl bg-zinc-900 hover:bg-emerald-900/60 border border-zinc-800 text-zinc-300 hover:text-white transition-all"
+                className="px-3 py-1.5 rounded-xl bg-white dark:bg-zinc-900 hover:bg-emerald-50 dark:hover:bg-emerald-950 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-emerald-700 dark:hover:text-emerald-300 transition-all font-medium shadow-sm flex items-center gap-1.5"
                 title="Share on WhatsApp"
               >
-                WhatsApp
+                <MessageCircle className="w-3.5 h-3.5 text-emerald-600" />
+                <span>WhatsApp</span>
               </a>
               <a
                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(getLocalizedText(post.title, locale))}&url=https://vermilionroutes.com/${locale}/blog/${post.slug}`}
                 target="_blank"
                 rel="noreferrer"
-                className="p-2 rounded-xl bg-zinc-900 hover:bg-emerald-900/60 border border-zinc-800 text-zinc-300 hover:text-white transition-all"
+                className="px-3 py-1.5 rounded-xl bg-white dark:bg-zinc-900 hover:bg-emerald-50 dark:hover:bg-emerald-950 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-emerald-700 dark:hover:text-emerald-300 transition-all font-medium shadow-sm"
                 title="Share on Twitter"
               >
                 X / Twitter
@@ -175,63 +184,75 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
 
         {/* Featured Image */}
-        <div className="relative h-72 sm:h-96 lg:h-[480px] w-full rounded-3xl overflow-hidden shadow-2xl border border-zinc-800">
+        <div className="relative h-72 sm:h-96 lg:h-[480px] w-full rounded-3xl overflow-hidden shadow-2xl border border-zinc-200 dark:border-zinc-800">
           <Image
             src={post.imageUrl}
             alt={getLocalizedText(post.title, locale)}
             fill
             priority
+            sizes="(max-width: 1024px) 100vw, 896px"
             className="object-cover"
           />
         </div>
 
         {/* Article Body */}
-        <div className="prose prose-invert prose-emerald max-w-none text-zinc-300 text-sm sm:text-base leading-relaxed space-y-6">
+        <div className="space-y-6 text-zinc-700 dark:text-zinc-300 text-sm sm:text-base leading-relaxed">
           {contentText.split('\n\n').map((paragraph, idx) => {
-            if (paragraph.startsWith('## ')) {
+            const trimmed = paragraph.trim();
+            if (!trimmed) return null;
+
+            if (trimmed.startsWith('## ')) {
               return (
-                <h2 key={idx} className="text-2xl sm:text-3xl font-bold font-serif text-white pt-4 pb-2 border-b border-zinc-800">
-                  {paragraph.replace('## ', '')}
+                <h2 key={idx} className="text-2xl sm:text-3xl font-bold font-serif text-zinc-900 dark:text-white pt-6 pb-2 border-b border-zinc-200 dark:border-zinc-800">
+                  {trimmed.replace('## ', '')}
                 </h2>
               );
             }
-            if (paragraph.startsWith('### ')) {
+            if (trimmed.startsWith('### ')) {
               return (
-                <h3 key={idx} className="text-xl sm:text-2xl font-bold text-emerald-400 pt-3 pb-1">
-                  {paragraph.replace('### ', '')}
+                <h3 key={idx} className="text-xl sm:text-2xl font-bold text-emerald-800 dark:text-emerald-400 pt-4 pb-1">
+                  {trimmed.replace('### ', '')}
                 </h3>
               );
             }
-            if (paragraph.startsWith('* ')) {
-              const items = paragraph.split('\n* ').map((i) => i.replace('* ', ''));
+            if (trimmed.startsWith('#### ')) {
               return (
-                <ul key={idx} className="space-y-2 list-disc list-inside pl-2 text-zinc-300">
+                <h4 key={idx} className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white pt-3 pb-1 border-l-4 border-emerald-600 pl-3">
+                  {trimmed.replace('#### ', '')}
+                </h4>
+              );
+            }
+            if (trimmed.startsWith('* ')) {
+              const items = trimmed.split('\n* ').map((i) => i.replace(/^\*\s*/, ''));
+              return (
+                <ul key={idx} className="space-y-2 list-disc list-inside pl-2 text-zinc-700 dark:text-zinc-300">
                   {items.map((it, iIdx) => (
-                    <li key={iIdx} dangerouslySetInnerHTML={{ __html: it.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>') }} />
+                    <li key={iIdx} dangerouslySetInnerHTML={{ __html: it.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-zinc-900 dark:text-white">$1</strong>') }} />
                   ))}
                 </ul>
               );
             }
-            if (paragraph.startsWith('1. ') || paragraph.startsWith('2. ') || paragraph.startsWith('3. ') || paragraph.startsWith('4. ')) {
+            if (/^\d+\.\s/.test(trimmed)) {
               return (
-                <div key={idx} className="space-y-2 pl-2 text-zinc-300" dangerouslySetInnerHTML={{ __html: paragraph.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>').replace(/\n/g, '<br />') }} />
+                <div key={idx} className="space-y-2 pl-2 text-zinc-700 dark:text-zinc-300" dangerouslySetInnerHTML={{ __html: trimmed.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-zinc-900 dark:text-white">$1</strong>').replace(/\n/g, '<br />') }} />
               );
             }
+            if (trimmed.startsWith('---')) {
+              return <hr key={idx} className="border-zinc-200 dark:border-zinc-800 my-6" />;
+            }
             return (
-              <p key={idx} className="leading-relaxed">
-                {paragraph}
-              </p>
+              <p key={idx} className="leading-relaxed" dangerouslySetInnerHTML={{ __html: trimmed.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-zinc-900 dark:text-white">$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>') }} />
             );
           })}
         </div>
 
         {/* Tags */}
-        <div className="pt-6 border-t border-zinc-800 flex flex-wrap items-center gap-2 text-xs">
-          <span className="text-zinc-500 font-semibold">Related Topics:</span>
+        <div className="pt-6 border-t border-zinc-200 dark:border-zinc-800 flex flex-wrap items-center gap-2 text-xs">
+          <span className="text-zinc-500 font-semibold">{locale === 'es' ? 'Temas Relacionados:' : 'Related Topics:'}</span>
           {post.tags.map((tag) => (
             <span
               key={tag}
-              className="px-3 py-1 bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300"
+              className="px-3 py-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-700 dark:text-zinc-300 font-medium shadow-sm"
             >
               #{tag}
             </span>
@@ -240,23 +261,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Related Tour Recommendation Box */}
         {relatedTour && (
-          <div className="bg-gradient-to-r from-emerald-950/90 to-zinc-900 border border-emerald-800/80 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-emerald-900/60 pb-5">
+          <div className="bg-gradient-to-r from-emerald-900 via-zinc-900 to-zinc-950 border border-emerald-700/60 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl text-white">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-emerald-800/60 pb-5">
               <div>
                 <span className="text-xs uppercase font-bold text-emerald-400 tracking-wider flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" />
-                  Recommended Expedition for this Guide
+                  {relatedLabel}
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold font-serif text-white mt-1">
                   {getLocalizedText(relatedTour.title, locale)}
                 </h3>
                 <p className="text-xs text-zinc-300 mt-1">
-                  {getLocalizedText(relatedTour.duration, locale)} &bull; Private Naturalist Guide &bull; Luxury Accommodations
+                  {getLocalizedText(relatedTour.duration, locale)} &bull; {locale === 'es' ? 'Guía Naturalista Privado · Hotelería Exclusiva' : 'Private Naturalist Guide · Luxury Accommodations'}
                 </p>
               </div>
 
               <div className="text-right shrink-0">
-                <span className="text-xs text-zinc-400 block">From</span>
+                <span className="text-xs text-zinc-400 block">{fromLabel}</span>
                 <span className="text-2xl font-extrabold text-emerald-400 font-serif">
                   ${relatedTour.price.toLocaleString()} <span className="text-xs text-zinc-400 font-normal">USD</span>
                 </span>
@@ -265,7 +286,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
               <p className="text-xs text-zinc-300 leading-relaxed max-w-md">
-                Experience this destination in complete comfort with customized private transport, VIP airport assistance, and 24/7 concierge.
+                {locale === 'es'
+                  ? 'Vive esta experiencia en total confort con transporte privado personalizado, asistencia VIP en aeropuertos y conserjería 24/7.'
+                  : 'Experience this destination in complete comfort with customized private transport, VIP airport assistance, and 24/7 concierge.'}
               </p>
 
               <div className="flex gap-3 w-full sm:w-auto">
@@ -273,7 +296,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   href={`/${locale}/booking?tourId=${relatedTour.id}`}
                   className="flex-1 sm:flex-initial px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
                 >
-                  <span>Book Expedition</span>
+                  <span>{bookLabel}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>

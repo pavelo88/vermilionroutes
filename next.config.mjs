@@ -5,6 +5,18 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  allowedDevOrigins: [
+    'localhost',
+    'localhost:3000',
+    'localhost:3001',
+    'localhost:3005',
+    '127.0.0.1',
+    '127.0.0.1:3000',
+    '127.0.0.1:3001',
+    '127.0.0.1:3005',
+    '0.0.0.0',
+    '0.0.0.0:3005'
+  ],
   // Bypass Next.js 16.3.0 TypeScript CLI false-positive errors on Vercel
   // (local builds pass; errors are caused by missing .next/dev/types in the CI environment)
   typescript: {
@@ -25,7 +37,14 @@ const nextConfig = {
         hostname: 'firebasestorage.googleapis.com',
       },
       {
-        // Firebase Storage (new *.firebasestorage.app domain — different from googleapis.com)
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+      },
+      {
         protocol: 'https',
         hostname: '*.firebasestorage.app',
       },
@@ -53,6 +72,15 @@ const nextConfig = {
   },
   async headers() {
     return [
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
       {
         source: '/(.*)',
         headers: [

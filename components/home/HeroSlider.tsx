@@ -13,8 +13,7 @@ import { useHeroSliderAnimation } from './hero/useHeroSliderAnimation';
 
 export function HeroSlider() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { settings, loading } = useSettings();
-  const [isReady, setIsReady] = useState(false);
+  const [isReady, setIsReady] = useState(true);
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window !== 'undefined') {
       return window.innerWidth < 768;
@@ -28,15 +27,16 @@ export function HeroSlider() {
     };
     handleResize();
     window.addEventListener('resize', handleResize);
+    
+    // Ensure initial landing starts at Hero
+    if (typeof window !== 'undefined' && !window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const [showSplash, setShowSplash] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return !sessionStorage.getItem('vermilion_splash_shown');
-    }
-    return true;
-  });
+  const [showSplash, setShowSplash] = useState(false);
 
   const locale = useLocale();
   const t = useTranslations('hero');
@@ -80,15 +80,6 @@ export function HeroSlider() {
       return fallbackMap[locale] || 'Explore Tours';
     }
   };
-
-  useEffect(() => {
-    if (!loading) {
-      setIsReady(true);
-      return;
-    }
-    const timer = setTimeout(() => setIsReady(true), 1500);
-    return () => clearTimeout(timer);
-  }, [loading]);
 
   const slidesData = HERO_SLIDES_DATA;
   const initialData = slidesData[0];

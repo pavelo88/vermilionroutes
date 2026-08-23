@@ -3,14 +3,14 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { Compass, ArrowRight, ChevronLeft, ChevronRight, Play, Pause, Menu } from 'lucide-react';
-import { useDestinationsData } from '@/hooks/useDestinationsData';
+import { mockDestinations } from '@/data/mock';
 import { useTranslations, useLocale } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
 
 const SLIDE_DURATION = 2500; // 2.5s auto-movement as requested
 
 export function DestinationsGrid() {
-  const { destinations } = useDestinationsData();
+  const destinations = mockDestinations;
   const t = useTranslations('destinations');
   const tTour = useTranslations('tours');
   const locale = useLocale();
