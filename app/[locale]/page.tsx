@@ -9,11 +9,9 @@ import { HomeBlogSection } from '@/components/home/HomeBlogSection';
 import { AlsoAskedFaq } from '@/components/home/AlsoAskedFaq';
 import { ContactSection } from '@/components/home/ContactSection';
 
-// Only WebGL cursor is client-deferred to keep SSR lightweight and TBT near 0
 const FluidBackgroundCursor = dynamic(
   () => import('@/components/home/FluidBackgroundCursor'),
   {
-    ssr: false,
     loading: () => null,
   }
 );
