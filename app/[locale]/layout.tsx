@@ -88,7 +88,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       card: 'summary_large_image',
       title: t('title') || defaultTitle,
       description: t('description') || defaultDescription,
-      images: ['https://vermilionroutes.com/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'],
+      images: ['https://www.vermilionroutes.com/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'],
     },
     robots: {
       index: true,
@@ -128,8 +128,8 @@ export default async function RootLayout({
     taxID: '1711992808001',
     description:
       'Premier luxury boutique tour operator specializing in bespoke travel itineraries, Galapagos island cruises, Amazon lodges, and Andean expeditions in Ecuador.',
-    url: 'https://vermilionroutes.com',
-    logo: 'https://vermilionroutes.com/logo.png',
+    url: 'https://www.vermilionroutes.com',
+    logo: 'https://www.vermilionroutes.com/logo.png',
     image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
     telephone: '+593994048458',
     email: 'info@vermilionroutes.com',

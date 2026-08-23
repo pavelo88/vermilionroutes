@@ -243,6 +243,9 @@ export function Footer() {
             </p>
             <form onSubmit={(e) => e.preventDefault()} className="space-y-2">
               <div className="relative">
+                <label htmlFor="footer-newsletter-email" className="sr-only">
+                  {t.emailPlaceholder || "Email"}
+                </label>
                 <input
                   type="email"
                   id="footer-newsletter-email"

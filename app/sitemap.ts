@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { mockTours } from '@/data/mock';
 import { BLOG_POSTS } from '@/data/blogData';
 
-const BASE_URL = 'https://vermilionroutes.com';
+const BASE_URL = 'https://www.vermilionroutes.com';
 const LOCALES = ['en', 'es', 'fr', 'de', 'zh', 'it', 'pt', 'ja'];
 
 export default function sitemap(): MetadataRoute.Sitemap {

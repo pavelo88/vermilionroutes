@@ -48,8 +48,6 @@ export function StatsSection() {
     return labels[fallbackIdx];
   };
 
-  if (!mounted) return null;
-
   return (
     <section className="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200/80 dark:border-zinc-900 relative z-10 w-full py-4 px-4 sm:px-6 lg:px-8 shadow-xl">
       <div className="max-w-7xl mx-auto flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">

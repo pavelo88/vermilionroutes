@@ -2,53 +2,18 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { HeroSlider } from '@/components/home/HeroSlider';
 import { StatsSection } from '@/components/home/StatsSection';
+import { DestinationsGrid } from '@/components/home/DestinationsGrid';
+import { CombinedExperienceSection } from '@/components/home/CombinedExperienceSection';
+import { FeaturedTours } from '@/components/home/FeaturedTours';
+import { HomeBlogSection } from '@/components/home/HomeBlogSection';
+import { AlsoAskedFaq } from '@/components/home/AlsoAskedFaq';
+import { ContactSection } from '@/components/home/ContactSection';
 
-// Carga diferida (next/dynamic) de componentes debajo del fold para optimizar Core Web Vitals (TBT, CLS y LCP)
-const DestinationsGrid = dynamic(
-  () => import('@/components/home/DestinationsGrid').then((m) => m.DestinationsGrid),
-  {
-    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[300px]" />,
-  }
-);
-
-const CombinedExperienceSection = dynamic(
-  () => import('@/components/home/CombinedExperienceSection').then((m) => m.CombinedExperienceSection),
-  {
-    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[400px]" />,
-  }
-);
-
-const FeaturedTours = dynamic(
-  () => import('@/components/home/FeaturedTours').then((m) => m.FeaturedTours),
-  {
-    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[500px]" />,
-  }
-);
-
-const AlsoAskedFaq = dynamic(
-  () => import('@/components/home/AlsoAskedFaq').then((m) => m.AlsoAskedFaq),
-  {
-    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[300px]" />,
-  }
-);
-
-const ContactSection = dynamic(
-  () => import('@/components/home/ContactSection').then((m) => m.ContactSection),
-  {
-    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[400px]" />,
-  }
-);
-
-const HomeBlogSection = dynamic(
-  () => import('@/components/home/HomeBlogSection').then((m) => m.HomeBlogSection),
-  {
-    loading: () => <div className="py-12 max-w-7xl mx-auto min-h-[350px]" />,
-  }
-);
-
+// Only WebGL cursor is client-deferred to keep SSR lightweight and TBT near 0
 const FluidBackgroundCursor = dynamic(
   () => import('@/components/home/FluidBackgroundCursor'),
   {
+    ssr: false,
     loading: () => null,
   }
 );
@@ -67,22 +32,22 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 2. Top Destinations Grid (Diferido) */}
+      {/* 2. Top Destinations Grid (Direct SSR - 0.00 CLS) */}
       <DestinationsGrid />
 
-      {/* 3. Combined Trust & Expertise Section (Diferido) */}
+      {/* 3. Combined Trust & Expertise Section (Direct SSR - 0.00 CLS) */}
       <CombinedExperienceSection />
 
-      {/* 4. Featured Tours Carousel (Diferido) */}
+      {/* 4. Featured Tours Carousel (Direct SSR - 0.00 CLS) */}
       <FeaturedTours />
 
-      {/* 5. Travel Blog & Video Expeditions (Diferido) */}
+      {/* 5. Travel Blog & Video Expeditions (Direct SSR - 0.00 CLS) */}
       <HomeBlogSection />
 
-      {/* 6. Frequently Asked Questions (Diferido) */}
+      {/* 6. Frequently Asked Questions (Direct SSR - 0.00 CLS) */}
       <AlsoAskedFaq />
 
-      {/* 7. Contact & Tailor-Made Quotation Form (Diferido) */}
+      {/* 7. Contact & Tailor-Made Quotation Form (Direct SSR - 0.00 CLS) */}
       <ContactSection />
     </div>
   );

@@ -19,20 +19,20 @@ export function TourJsonLd({ tour, locale }: TourJsonLdProps) {
     '@type': ['TouristTrip', 'Product'],
     name: title,
     description: description,
-    image: `https://vermilionroutes.com${tour.imageUrl}`,
+    image: `https://www.vermilionroutes.com${tour.imageUrl}`,
     touristType: ['Luxury Traveler', 'Eco-Tourist', 'Wildlife Enthusiast'],
     offers: {
       '@type': 'Offer',
       price: tour.price,
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
-      url: `https://vermilionroutes.com/${locale}/tours/${tour.id}`,
+      url: `https://www.vermilionroutes.com/${locale}/tours/${tour.id}`,
       validFrom: '2026-01-01',
     },
     provider: {
       '@type': 'TravelAgency',
       name: 'Vermilion Routes - Agencia de Viajes Vermilion',
-      url: 'https://vermilionroutes.com',
+      url: 'https://www.vermilionroutes.com',
       telephone: '+593994048458',
     },
     aggregateRating: {
