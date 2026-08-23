@@ -16,7 +16,7 @@ export function HeroActions({ exploreLabel, planLabel }: HeroActionsProps) {
         suppressHydrationWarning
         className="w-[270px] sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center justify-center gap-2 shadow-xl shadow-emerald-950/60 active:scale-95 cursor-pointer text-center shrink-0"
         onClick={() => {
-          const el = document.getElementById('tours');
+          const el = document.getElementById('destinations');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }}
       >

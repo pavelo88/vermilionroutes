@@ -16,9 +16,9 @@ export function HeroDetails({ initialData, locale }: HeroDetailsProps) {
           <div
             key={id}
             id={id}
-            className="absolute left-0 w-full px-5 sm:px-6 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[120px] sm:top-[120px] md:top-[90px] lg:top-[95px] z-[22] flex flex-col items-center md:items-start text-center md:text-left"
+            className="absolute left-0 w-full px-5 sm:px-6 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[140px] sm:top-[150px] md:top-[160px] lg:top-[180px] xl:top-[200px] z-[22] flex flex-col items-center md:items-start text-center md:text-left"
           >
-            {/* AJUSTE AQUI: Mover textos arriba/abajo en celular cambiando top-[120px] a top-[130px] o top-[110px] */}
+            {/* AJUSTE AQUI: Mover textos arriba/abajo en celular cambiando top-[140px] */}
             <div className="h-auto mb-1.5">
               <div className="text text-white font-medium tracking-widest uppercase text-base md:text-sm pt-2 relative flex flex-col items-center md:items-start drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
                 <div className="w-8 h-[2px] bg-white rounded-full mb-2" />

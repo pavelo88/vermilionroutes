@@ -67,12 +67,12 @@ export function useHeroSliderAnimation({
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
-        set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", borderRadius: 0, scale: 1.05 });
+        set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", borderRadius: 0, scale: 1.05, opacity: 1 });
         set(getCardContent(active), { opacity: 0 });
 
         rest.forEach((i, index) => {
           const x = offsetLeft + index * (cardWidth + gap);
-          set(getCard(i), { x, y: offsetTop, width: cardWidth, height: cardHeight, borderRadius: 12 });
+          set(getCard(i), { x, y: offsetTop, width: cardWidth, height: cardHeight, borderRadius: 12, opacity: 1 });
           set(getCardContent(i), { x, y: offsetTop, opacity: 1 });
         });
 
@@ -123,12 +123,12 @@ export function useHeroSliderAnimation({
           });
           set(detailsActive, { opacity: 0, zIndex: 22, x: 0, y: 30 });
         } else {
-          set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", zIndex: 20 });
+          set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", zIndex: 20, opacity: 1 });
           set(getCardContent(active), { opacity: 0 });
           set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
 
           rest.forEach((i, index) => {
-            set(getCard(i), { x: offsetLeft + 400 + index * (cardWidth + gap), y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12 });
+            set(getCard(i), { x: offsetLeft + 400 + index * (cardWidth + gap), y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, opacity: 1 });
             set(getCardContent(i), { x: offsetLeft + 400 + index * (cardWidth + gap), zIndex: 40, y: offsetTop });
             set(`.slide-item-${i}`, { x: (index + 1) * numberSize });
           });

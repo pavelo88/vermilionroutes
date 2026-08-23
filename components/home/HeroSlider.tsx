@@ -62,22 +62,22 @@ export function HeroSlider() {
 
   const getExploreLabel = () => {
     const fallbackMap: Record<string, string> = {
-      es: 'Explorar Tours',
-      en: 'Explore Tours',
-      fr: 'Explorer les Circuits',
-      de: 'Touren Entdecken',
-      it: 'Esplora i Tour',
-      pt: 'Explorar Passeios',
-      ja: 'ツアーを見る',
-      zh: '探索行程'
+      es: 'Explorar Rutas',
+      en: 'Explore Routes',
+      fr: 'Explorer les itinéraires',
+      de: 'Routen erkunden',
+      it: 'Esplora i percorsi',
+      pt: 'Explorar rotas',
+      ja: 'ルートを探す',
+      zh: '探索路线'
     };
     try {
       const val = t('cta.explore');
       return (!val || val.includes('hero.cta.explore') || val.toLowerCase().includes('todos') || val.toLowerCase().includes('all'))
-        ? (fallbackMap[locale] || 'Explore Tours')
+        ? (fallbackMap[locale] || 'Explore Routes')
         : val;
     } catch {
-      return fallbackMap[locale] || 'Explore Tours';
+      return fallbackMap[locale] || 'Explore Routes';
     }
   };
 

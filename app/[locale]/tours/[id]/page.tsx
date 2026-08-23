@@ -120,7 +120,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
     })),
     offers: {
       '@type': 'Offer',
-      price: tour.priceFromUSD || tour.price,
+      price: Number((tour.priceFromUSD || tour.price || 1000).toString().replace(/[^0-9.]/g, '')),
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: `https://vermilionroutes.com/tours/${tour.id}`,
