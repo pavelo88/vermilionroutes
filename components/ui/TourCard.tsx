@@ -55,7 +55,8 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
                 src={tour.imageUrl}
                 alt={title || 'Tour image'}
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                quality={90}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 500px"
                 className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                 referrerPolicy="no-referrer"
               />

@@ -24,7 +24,7 @@ export function CombinedExperienceSection() {
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
-  const tripAdvisorUrl = settings?.contact?.tripadvisor || 'https://www.tripadvisor.com/Attraction_Review-g294308-d26260308-Reviews-Vermilion_Routes-Quito_Pichincha_Province.html';
+  const tripAdvisorUrl = 'https://www.tripadvisor.com/Attraction_Review-g294308-d26260308-Reviews-Vermilion_Routes-Quito_Pichincha_Province.html';
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + total) % total);

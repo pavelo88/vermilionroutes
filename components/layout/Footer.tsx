@@ -156,7 +156,7 @@ export function Footer() {
                 </a>
               )}
               <a
-                href={settings?.contact?.tripadvisor || "https://www.tripadvisor.com/Attraction_Review-g294308-d26260308-Reviews-Vermilion_Routes-Quito_Pichincha_Province.html"}
+                href="https://www.tripadvisor.com/Attraction_Review-g294308-d26260308-Reviews-Vermilion_Routes-Quito_Pichincha_Province.html"
                 target="_blank"
                 rel="noreferrer"
                 className="w-9 h-9 rounded-xl bg-emerald-900/50 hover:bg-emerald-600 hover:text-white border border-emerald-800/60 flex items-center justify-center text-amber-400 transition-all hover:scale-105"

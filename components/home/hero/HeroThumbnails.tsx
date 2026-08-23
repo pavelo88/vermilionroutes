@@ -28,9 +28,10 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
                 src={imageSrc}
                 alt={getLocalizedText(slide.place, locale) || 'Vermilion Routes'}
                 fill
-                priority={idx === 0}
+                priority={idx <= 2}
+                quality={90}
                 className="object-cover"
-                sizes={idx === 0 ? "100vw" : "(max-width: 768px) 180px, 200px"}
+                sizes="100vw"
               />
 
               <div className="card-overlay absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none transition-opacity duration-300" />

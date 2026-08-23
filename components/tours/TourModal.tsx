@@ -176,8 +176,9 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                       src={galleryImages[currentImgIndex] || tour.imageUrl}
                       alt={`${tourTitleText} - Image ${currentImgIndex + 1}`}
                       fill
+                      quality={90}
                       className="object-cover opacity-90"
-                      sizes="(max-width: 1024px) 100vw, 40vw"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                       priority
                     />
                   </motion.div>
