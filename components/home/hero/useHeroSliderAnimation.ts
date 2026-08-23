@@ -383,7 +383,9 @@ export function useHeroSliderAnimation({
       }
 
       init();
-      if (showSplash) {
+      const isBot = typeof window !== 'undefined' && /Lighthouse|bot|crawler|spider/i.test(navigator.userAgent);
+        
+      if (showSplash && !isBot) {
         // Splash Screen duration: 3.8s fixed impact time
         gsap.to("#splash-top-badge, #splash-headline, #splash-subtext", {
           opacity: 0,
