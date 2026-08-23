@@ -359,8 +359,9 @@ export default function FluidBackgroundCursor() {
         className="fixed top-0 left-0 w-4 h-4 z-[100] pointer-events-none -translate-x-1/2 -translate-y-1/2 drop-shadow-md select-none"
       >
         <img
-          src="/icon.png"
-          alt="Cursor"
+          src="/cursor-icon.png"
+          alt=""
+          aria-hidden="true"
           className="w-full h-full object-contain pointer-events-none"
           draggable={false}
         />

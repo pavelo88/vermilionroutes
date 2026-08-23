@@ -36,7 +36,9 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
 
               <div className="card-overlay absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none transition-opacity duration-300" />
 
-              <div
+              <button
+                type="button"
+                aria-label={`View ${getLocalizedText(slide.place, locale) || 'slide'} ${idx + 1}`}
                 className="absolute inset-0 cursor-pointer z-10"
                 onClick={() => (window as any).jumpToSlide?.(idx)}
               />

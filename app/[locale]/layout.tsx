@@ -71,11 +71,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     openGraph: {
       title: t('title') || defaultTitle,
       description: t('description') || defaultDescription,
-      url: `https://vermilionroutes.com/${locale}`,
+      url: `https://www.vermilionroutes.com/${locale}`,
       siteName: 'Vermilion Routes',
       images: [
         {
-          url: 'https://vermilionroutes.com/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
+          url: 'https://www.vermilionroutes.com/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
           width: 1200,
           height: 630,
           alt: 'Giant Tortoises of Galapagos – Vermilion Routes Luxury Ecuador Travel',

@@ -250,7 +250,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
             return (
               <div
                 key={`${tour.id}-${idx}`}
-                className={`absolute top-0 left-0 w-full h-full transform transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${cls}`}
+                className={`absolute top-0 left-0 w-full h-full transform transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${cls}`}
               >
                 <TourCard tour={tour} className="h-full" />
               </div>
@@ -292,10 +292,10 @@ export function TourCarousel({ tours }: TourCarouselProps) {
               suppressHydrationWarning
               onClick={() => goTo(idx)}
               aria-label={`Go to expedition ${idx + 1}`}
-              className="p-2 flex items-center justify-center cursor-pointer"
+              className="p-3 flex items-center justify-center cursor-pointer -m-1"
             >
               <span
-                className={`rounded-full transition-all duration-300 ${
+                className={`rounded-full transition-[width,background-color] duration-300 ${
                   idx === currentIndex
                     ? 'w-6 h-2 bg-emerald-600'
                     : 'w-2 h-2 bg-zinc-300 dark:bg-zinc-600 hover:bg-emerald-400'
