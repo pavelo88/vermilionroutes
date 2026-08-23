@@ -142,7 +142,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
               key={cat.id}
               onClick={() => handleFilterChange(cat.id)}
               suppressHydrationWarning
-              className={`px-5 py-2.5 rounded-full text-xs font-semibold transition-all duration-300 cursor-pointer border ${
+              className={`px-5 py-2.5 rounded-full text-xs font-semibold transition-[transform,opacity,color,background-color,border-color] duration-300 cursor-pointer border ${
                 activeFilter === cat.id
                   ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 scale-105 border-emerald-600'
                   : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 border-zinc-200 dark:border-zinc-700 hover:border-emerald-400 dark:hover:border-emerald-500'
@@ -214,7 +214,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
           <div className="hidden md:flex items-stretch justify-center gap-6 px-20 py-4">
             {/* Prev card — dimmed */}
             <div
-              className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-all duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
+              className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-[transform,opacity,color,background-color,border-color] duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
               onClick={handlePrev}
               style={{ transformOrigin: 'right center' }}
             >
@@ -222,13 +222,13 @@ export function TourCarousel({ tours }: TourCarouselProps) {
             </div>
 
             {/* Active card — full focus */}
-            <div className="w-[320px] lg:w-[360px] xl:w-[380px] shrink-0 z-10 transition-all duration-500 ease-out drop-shadow-2xl">
+            <div className="w-[320px] lg:w-[360px] xl:w-[380px] shrink-0 z-10 transition-[transform,opacity,color,background-color,border-color] duration-500 ease-out drop-shadow-2xl">
               <TourCard tour={filteredTours[currentIndex]} className="h-[490px] ring-2 ring-emerald-500/30 ring-offset-4 ring-offset-transparent" />
             </div>
 
             {/* Next card — dimmed */}
             <div
-              className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-all duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
+              className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-[transform,opacity,color,background-color,border-color] duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
               onClick={handleNext}
               style={{ transformOrigin: 'left center' }}
             >
@@ -265,7 +265,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
               onClick={handlePrev}
               suppressHydrationWarning
               aria-label="Previous expedition"
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-all duration-200 z-30 opacity-0 group-hover/carousel:opacity-100 cursor-pointer"
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-[transform,opacity,color,background-color,border-color] duration-200 z-30 opacity-0 group-hover/carousel:opacity-100 cursor-pointer"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -273,7 +273,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
               onClick={handleNext}
               suppressHydrationWarning
               aria-label="Next expedition"
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-all duration-200 z-30 opacity-0 group-hover/carousel:opacity-100 cursor-pointer"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-[transform,opacity,color,background-color,border-color] duration-200 z-30 opacity-0 group-hover/carousel:opacity-100 cursor-pointer"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -295,7 +295,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
               className="p-3 flex items-center justify-center cursor-pointer -m-1"
             >
               <span
-                className={`rounded-full transition-[width,background-color] duration-300 ${
+                className={`rounded-full transition-colors duration-300 ${
                   idx === currentIndex
                     ? 'w-6 h-2 bg-emerald-600'
                     : 'w-2 h-2 bg-zinc-300 dark:bg-zinc-600 hover:bg-emerald-400'

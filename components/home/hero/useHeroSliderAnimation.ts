@@ -79,7 +79,7 @@ export function useHeroSliderAnimation({
         const controlsY = offsetTop + cardHeight + 16;
         set("#pagination", { top: controlsY, left: offsetLeft });
         if (width >= 768) {
-          set("#hero-action-buttons", { top: controlsY + 2, left: width >= 1024 ? 60 : 30 });
+
         }
         set(".cover", { x: width + 400 });
       }
@@ -104,9 +104,9 @@ export function useHeroSliderAnimation({
         const controlsY = offsetTop + cardHeight + 16;
         set("#pagination", { top: controlsY, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
         if (width >= 768) {
-          set("#hero-action-buttons", { top: controlsY + 2, left: width >= 1024 ? 60 : 30 });
+
         } else {
-          set("#hero-action-buttons", { clearProps: "top,left,right,bottom,transform" });
+
         }
         if (width < 768) {
           order.forEach((i, index) => {

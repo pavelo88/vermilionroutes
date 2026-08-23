@@ -7,6 +7,13 @@
   --color-brand-red: #8F1010;
   --color-vermilion: #8F1010;
   --color-brand-cyan: #86D2D9;
+  
+  /* Accessibility Overrides to fix Contrast errors globally */
+  --color-emerald-600: #065f46; /* Matches tailwind emerald-800, contrast 7.2 on white */
+  --color-emerald-500: #047857; /* Matches tailwind emerald-700, contrast 4.9 on white */
+  --color-zinc-400: #52525b; /* Matches zinc-600, contrast 5.7 on white */
+  --color-zinc-500: #3f3f46; /* Matches zinc-700, contrast 7.5 on white */
+
   --font-editorial: "Playfair Display", serif;
   --font-sans: "Inter", sans-serif;
 }
@@ -51,11 +58,11 @@
   height: 100vh;
   z-index: -1;
   pointer-events: none;
-  background-image: url('https://images.unsplash.com/photo-1603513492128-ba7bc9b3e143?q=80&w=2744&auto=format&fit=crop');
-  background-size: cover;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
   background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.2; /* Subtle paper texture in light mode */
+  background-repeat: repeat;
+  opacity: 0.15; /* Subtle paper texture */
   mix-blend-mode: multiply;
 }
 

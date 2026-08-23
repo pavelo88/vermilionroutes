@@ -106,7 +106,7 @@ export function HomeBlogSection() {
                 alt={getLocalizedText(post.title, locale)}
                 fill
                 quality={90}
-                sizes="(max-width: 768px) 100vw, 500px"
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-md border border-white/15 text-[10px] uppercase tracking-wider font-semibold text-emerald-300">

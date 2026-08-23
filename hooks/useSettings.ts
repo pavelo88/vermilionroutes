@@ -6,26 +6,28 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { defaultSettings } from '@/lib/seed';
 
+let cachedSettingsPromise: Promise<typeof defaultSettings> | null = null;
+let cachedSettings: typeof defaultSettings | null = null;
+
 export function useSettings() {
-  const [settings, setSettings] = useState(defaultSettings);
-  const [loading, setLoading] = useState(true);
+  const [settings, setSettings] = useState(cachedSettings || defaultSettings);
+  const [loading, setLoading] = useState(!cachedSettings);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (cachedSettings) return;
+
     async function loadSettings() {
       try {
-        setLoading(true);
-        const docRef = doc(db, 'settings', 'general');
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setSettings(docSnap.data() as typeof defaultSettings);
-        } else {
-          // ✅ W-06 FIX: NO crear el documento desde el cliente sin autenticación.
-          // Si el documento no existe, usar defaultSettings en memoria.
-          // La creación del documento settings se hace manualmente desde el admin
-          // autenticado o vía el endpoint /api/seed protegido.
-          setSettings(defaultSettings);
+        if (!cachedSettingsPromise) {
+          const docRef = doc(db, 'settings', 'general');
+          cachedSettingsPromise = getDoc(docRef).then(docSnap => {
+            return docSnap.exists() ? (docSnap.data() as typeof defaultSettings) : defaultSettings;
+          });
         }
+        const data = await cachedSettingsPromise;
+        cachedSettings = data;
+        setSettings(data);
       } catch (err: any) {
         console.warn('Failed to load settings from Firestore, using default values:', err);
         setError(err.message || 'Failed to load settings');

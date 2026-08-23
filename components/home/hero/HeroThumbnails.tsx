@@ -22,7 +22,7 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
         return (
           <div key={`card-wrap-${idx}`}>
             <div
-              className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden w-[180px] h-[260px]`}
+              className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden w-[180px] h-[260px] opacity-0`}
             >
               <Image
                 src={imageSrc}
@@ -44,11 +44,11 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
               />
             </div>
 
-            <div className={`card-content card-content-${idx} absolute left-0 top-0 text-white w-[180px] h-[260px] pointer-events-none`}>
+            <div className={`card-content card-content-${idx} absolute left-0 top-0 text-white w-[180px] h-[260px] pointer-events-none opacity-0`}>
               <div className="absolute bottom-4 left-4 right-4 text-left">
-                <h4 className="text-xs font-oswald font-semibold tracking-wider uppercase leading-tight drop-shadow-md notranslate text-white">
+                <span className="block text-xs font-oswald font-semibold tracking-wider uppercase leading-tight drop-shadow-md notranslate text-white">
                   {getLocalizedText(slide.title, locale)}
-                </h4>
+                </span>
                 {slide.title2 && (
                   <p className="text-sm font-oswald font-bold tracking-wide uppercase text-emerald-300 drop-shadow notranslate mt-0.5">
                     {getLocalizedText(slide.title2, locale)}

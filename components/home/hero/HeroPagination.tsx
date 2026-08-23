@@ -7,7 +7,7 @@ interface HeroPaginationProps {
 
 export function HeroPagination({ totalSlides }: HeroPaginationProps) {
   return (
-    <div id="pagination" className="absolute left-0 top-0 z-40 flex items-center pointer-events-auto">
+    <div id="pagination" className="absolute left-0 top-0 z-40 flex items-center pointer-events-auto opacity-0 transition-opacity duration-300">
       <div className="flex gap-3 mr-5">
         <button
           type="button"

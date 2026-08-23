@@ -10,7 +10,7 @@ export function HeroActions({ exploreLabel, planLabel }: HeroActionsProps) {
   return (
     <div
       id="hero-action-buttons"
-      className="absolute inset-x-0 bottom-[55px] sm:bottom-[65px] md:bottom-auto md:inset-x-auto md:left-[30px] lg:left-[60px] z-30 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-2.5 sm:gap-3.5 px-4 pointer-events-auto"
+      className="absolute inset-x-0 bottom-[55px] sm:bottom-[65px] md:bottom-auto md:top-[calc(50%+148px)] md:inset-x-auto md:left-[30px] lg:left-[60px] z-30 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-2.5 sm:gap-3.5 px-4 pointer-events-auto"
     >
       <button
         suppressHydrationWarning

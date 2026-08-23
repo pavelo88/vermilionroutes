@@ -27,6 +27,7 @@ const nextConfig = {
   transpilePackages: ['motion', 'framer-motion', 'motion-dom'],
   images: {
     formats: ['image/avif', 'image/webp'],
+    qualities: [75, 85, 90, 100],
     remotePatterns: [
       {
         protocol: 'https',
