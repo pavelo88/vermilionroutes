@@ -30,7 +30,7 @@ const multiDayTours: Tour[] = [
     price: 1590,
     price3Star: 1590,
     price4Star: 1899,
-    imageUrl: '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg',
+    imageUrl: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
     mobileImage: '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg',
     desktopImage: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
     gallery: [
@@ -161,7 +161,7 @@ const multiDayTours: Tour[] = [
     price: 1850,
     price3Star: 1850,
     price4Star: 2099,
-    imageUrl: '/images/tours/16-9/isabela-island-9-16.jpg',
+    imageUrl: '/images/tours/16-9/galapagos-lobo-marino-16-9.jpg',
     mobileImage: '/images/tours/16-9/isabela-island-9-16.jpg',
     desktopImage: '/images/tours/16-9/isabela-island-16-9.jpg',
     gallery: [
@@ -299,7 +299,7 @@ const multiDayTours: Tour[] = [
     price: 1999,
     price3Star: 1999,
     price4Star: 2300,
-    imageUrl: '/images/tours/9-16/galapagos-piquero-patas-azules-9-16.jpg',
+    imageUrl: '/images/tours/16-9/galapagos-baltra-island-16-9.jpg',
     mobileImage: '/images/tours/9-16/galapagos-piquero-patas-azules-9-16.jpg',
     desktopImage: '/images/tours/16-9/galapagos-piquero-patas-azules-16-9.jpg',
     gallery: [
@@ -611,7 +611,7 @@ const multiDayTours: Tour[] = [
     price: 1307,
     price3Star: 1307,
     price4Star: 1600,
-    imageUrl: '/images/tours/16-9/amazon-river-16-9.jpg',
+    imageUrl: '/images/tours/16-9/amazon-cuyabeno-16-9.jpg',
     mobileImage: '/images/tours/16-9/amazon-river-16-9.jpg',
     desktopImage: '/images/tours/16-9/amazon-river-16-9.jpg',
     gallery: [
@@ -765,7 +765,7 @@ const multiDayTours: Tour[] = [
     price: 1102,
     price3Star: 1102,
     price4Star: 1300,
-    imageUrl: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+    imageUrl: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
     mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
     desktopImage: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
     gallery: [
@@ -906,7 +906,7 @@ const multiDayTours: Tour[] = [
     price: 1512,
     price3Star: 1512,
     price4Star: 1799,
-    imageUrl: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+    imageUrl: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
     mobileImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
     desktopImage: '/images/tours/16-9/cuenca-colonial-16-9.jpg',
     gallery: [
@@ -1079,7 +1079,7 @@ const multiDayTours: Tour[] = [
     price: 2797,
     price3Star: 2797,
     price4Star: 2950,
-    imageUrl: '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg',
+    imageUrl: '/images/tours/16-9/quito-colonial-16-9.jpg',
     mobileImage: '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg',
     desktopImage: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
     gallery: [
@@ -1302,7 +1302,7 @@ const multiDayTours: Tour[] = [
     price: 2437,
     price3Star: 2437,
     price4Star: 2599,
-    imageUrl: '/images/tours/9-16/galapagos-flamingos-9-16.jpg',
+    imageUrl: '/images/tours/16-9/mitad-del-mundo-16-9.jpg',
     mobileImage: '/images/tours/9-16/galapagos-flamingos-9-16.jpg',
     desktopImage: '/images/tours/16-9/galapagos-flamingos-16-9.jpg',
     gallery: [
