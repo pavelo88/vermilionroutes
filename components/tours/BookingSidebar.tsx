@@ -5,6 +5,8 @@ import { Tour } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { createBookingInFirestore } from '@/lib/bookings';
 import { filterPhoneInput, isValidEmail, isValidPhone, sanitizeText } from '@/lib/validation';
+import { useLocale } from 'next-intl';
+import { getLocalizedText } from '@/utils/i18nHelper';
 import {
   Star,
   Clock,
@@ -27,6 +29,11 @@ interface BookingSidebarProps {
 }
 
 export function BookingSidebar({ tour }: BookingSidebarProps) {
+  const locale = useLocale();
+  const tourTitle = getLocalizedText(tour.title, locale);
+  const tourDuration = getLocalizedText(tour.duration, locale);
+  const tourDestination = getLocalizedText(tour.destination, locale);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -160,8 +167,8 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
     }
   };
 
-  const tourTitleStr = typeof tour.title === 'string' ? tour.title : (tour.title?.en || tour.title?.es || 'Expedition');
-  const tourDurationStr = typeof tour.duration === 'string' ? tour.duration : (tour.duration?.en || tour.duration?.es || '');
+  const tourTitleStr = tourTitle;
+  const tourDurationStr = tourDuration;
   const whatsappMessage = encodeURIComponent(
     `Hello Vermilion Routes! I am interested in the tour "${tourTitleStr}" (${tourDurationStr}) for ${formData.travelers}. Could you please send me a custom quote and departure availability?`
   );
@@ -190,7 +197,7 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
 
         <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-semibold pt-1">
           <Clock className="w-3.5 h-3.5" />
-          <span>Duration: {tour.duration}</span>
+          <span>Duration: {tourDuration}</span>
         </div>
       </div>
 
@@ -201,7 +208,7 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
             Quote Request Submitted!
           </h4>
           <p className="text-xs text-zinc-600 leading-relaxed">
-            Thank you, <span className="font-semibold text-zinc-900">{formData.name}</span>. A travel specialist for {tour.destination} will prepare your customized itinerary and contact you shortly.
+            Thank you, <span className="font-semibold text-zinc-900">{formData.name}</span>. A travel specialist for {tourDestination} will prepare your customized itinerary and contact you shortly.
           </p>
           <button
             onClick={() => {

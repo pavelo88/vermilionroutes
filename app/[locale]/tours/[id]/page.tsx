@@ -227,7 +227,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                 Expedition Overview
               </h3>
               <p className="text-zinc-700 text-base leading-relaxed first-letter:font-serif first-letter:text-5xl first-letter:font-bold first-letter:float-left first-letter:mr-3 first-letter:text-emerald-800 first-letter:leading-none">
-                {tour.description}
+                {getLocalizedText(tour.description, locale)}
               </p>
             </div>
           )}
@@ -258,7 +258,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                     <div className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5 text-xs">
                       ✓
                     </div>
-                    <span className="font-medium">{item}</span>
+                    <span className="font-medium">{getLocalizedText(item, locale)}</span>
                   </li>
                 ))}
               </ul>
@@ -283,7 +283,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                   {tour.inclusions.map((inc, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                      <span>{inc}</span>
+                      <span>{getLocalizedText(inc, locale)}</span>
                     </li>
                   ))}
                 </ul>
@@ -301,7 +301,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
                   {tour.exclusions.map((exc, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <X className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
-                      <span>{exc}</span>
+                      <span>{getLocalizedText(exc, locale)}</span>
                     </li>
                   ))}
                 </ul>

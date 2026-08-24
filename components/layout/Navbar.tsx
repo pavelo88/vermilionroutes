@@ -173,7 +173,7 @@ export function Navbar() {
         Main Sticky Header 
       */}
       <header
-        className={`transition-all duration-300 border-b ${isScrolled ? 'pt-2.5 pb-2 sm:py-1 shadow-sm bg-[#F9F6F0]/80 dark:bg-[#05140C]/80 backdrop-blur-md border-white/20 dark:border-zinc-800/30' : 'pt-3 pb-2.5 sm:py-1.5 bg-gradient-to-b from-black/50 to-transparent border-transparent'
+        className={`transition-all duration-300 backdrop-blur-md border-b border-white/20 dark:border-zinc-800/30 ${isScrolled ? 'pt-2.5 pb-2 sm:py-1 shadow-sm bg-[#F9F6F0]/50 dark:bg-[#05140C]/75' : 'pt-3 pb-2.5 sm:py-1.5 bg-[#F9F6F0]/35 dark:bg-[#05140C]/55'
           }`}
       >
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex items-center justify-between">

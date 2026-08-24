@@ -195,23 +195,21 @@ export function TourCarousel({ tours }: TourCarouselProps) {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Desktop Layout 3D Spatial Coverflow */}
-        <div className="hidden md:block relative w-full h-[520px] perspective-[1200px]">
+        {/* Desktop Layout 3D Spatial Coverflow — full width */}
+        <div className="hidden md:block relative w-full h-[580px] perspective-[1400px]">
           {filteredTours.map((tour, idx) => {
             let diff = idx - currentIndex;
-            // Handle wrap-around for infinite carousel
             if (diff > total / 2) diff -= total;
             if (diff < -total / 2) diff += total;
 
-            // Only show up to 2 cards on each side
             if (Math.abs(diff) > 2) return null;
 
             const zIndex = 50 - Math.abs(diff);
-            const translateX = diff * 45; // percentage
-            const translateZ = Math.abs(diff) * -120; // pixels
-            const scale = 1 - Math.abs(diff) * 0.15;
-            const opacity = 1 - Math.abs(diff) * 0.35;
-            const rotateY = diff * -25; // degrees
+            const translateX = diff * 38; // % — más separación entre cards
+            const translateZ = Math.abs(diff) * -100;
+            const scale = diff === 0 ? 1 : 1 - Math.abs(diff) * 0.10; // cards laterales más grandes
+            const opacity = 1 - Math.abs(diff) * 0.28;
+            const rotateY = diff * -18; // menos rotación, más visible
 
             const isCurrent = diff === 0;
 
@@ -219,7 +217,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
               <div
                 key={tour.id}
                 onClick={() => !isCurrent && goTo(idx)}
-                className={`absolute top-0 left-1/2 -ml-[180px] lg:-ml-[200px] w-[360px] lg:w-[400px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                className={`absolute top-0 left-1/2 -ml-[220px] lg:-ml-[240px] w-[440px] lg:w-[480px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                   !isCurrent ? 'cursor-pointer group' : ''
                 }`}
                 style={{
@@ -228,14 +226,13 @@ export function TourCarousel({ tours }: TourCarouselProps) {
                   opacity,
                 }}
               >
-                <div className={`transition-transform duration-500 ${!isCurrent ? 'group-hover:scale-105 pointer-events-none' : ''}`}>
-                  <TourCard 
-                    tour={tour} 
-                    className={`h-[490px] ${isCurrent ? 'ring-2 ring-emerald-500/50 ring-offset-4 ring-offset-transparent drop-shadow-2xl pointer-events-auto' : 'drop-shadow-lg'}`} 
+                <div className={`transition-transform duration-500 rounded-3xl overflow-hidden ${!isCurrent ? 'group-hover:scale-105 pointer-events-none' : ''}`}>
+                  <TourCard
+                    tour={tour}
+                    className={`h-[540px] rounded-3xl ${isCurrent ? 'ring-2 ring-emerald-500/50 ring-offset-4 ring-offset-transparent drop-shadow-2xl pointer-events-auto' : 'drop-shadow-lg'}`}
                   />
-                  {/* Liquid Glass Overlay for non-active cards */}
                   {!isCurrent && (
-                    <div className="absolute inset-0 bg-white/10 dark:bg-black/20 backdrop-blur-[2px] rounded-2xl transition-opacity duration-300 group-hover:opacity-0" />
+                    <div className="absolute inset-0 bg-white/10 dark:bg-black/20 backdrop-blur-[2px] rounded-3xl transition-opacity duration-300 group-hover:opacity-0" />
                   )}
                 </div>
               </div>
