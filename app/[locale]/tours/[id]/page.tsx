@@ -25,11 +25,13 @@ import {
 
 interface TourDetailPageProps {
   params: Promise<{
+    locale: string;
     id: string;
   }>;
 }
 
 import { mockTours } from '@/data/mock';
+import { getLocalizedText } from '@/utils/i18nHelper';
 
 export async function generateStaticParams() {
   return mockTours.map((tour) => ({
@@ -47,20 +49,23 @@ export async function generateMetadata({ params }: TourDetailPageProps): Promise
     };
   }
 
-  const days = tour.durationDays || tour.duration;
+  const title = getLocalizedText(tour.title, resolvedParams.locale);
+  const description = getLocalizedText(tour.description || tour.shortDescription, resolvedParams.locale);
+  const days = getLocalizedText(tour.durationDays || tour.duration, resolvedParams.locale);
+  const dest = getLocalizedText(tour.destination, resolvedParams.locale);
 
   return {
-    title: `${tour.title} (${days}) | Vermilion Routes`,
-    description: tour.shortDescription || tour.description?.slice(0, 160),
+    title: `${title} (${days}) | Vermilion Routes`,
+    description: typeof description === 'string' ? description.slice(0, 160) : '',
     openGraph: {
-      title: `${tour.title} - ${tour.destination}`,
-      description: tour.shortDescription || tour.description?.slice(0, 160),
+      title: `${title} - ${dest}`,
+      description: typeof description === 'string' ? description.slice(0, 160) : '',
       images: [
         {
           url: tour.mainImage || tour.imageUrl,
           width: 1200,
           height: 630,
-          alt: tour.title,
+          alt: title,
         },
       ],
     },
@@ -76,7 +81,8 @@ export async function generateMetadata({ params }: TourDetailPageProps): Promise
 
 export default async function TourDetailPage({ params }: TourDetailPageProps) {
   const resolvedParams = await params;
-  const tour = await getTourByIdFromFirestore(resolvedParams.id);
+  const { locale, id } = resolvedParams;
+  const tour = await getTourByIdFromFirestore(id);
 
   if (!tour) {
     return (
@@ -100,6 +106,11 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
     );
   }
 
+  const title = getLocalizedText(tour.title, locale);
+  const dest = getLocalizedText(tour.destination, locale);
+  const duration = getLocalizedText(tour.duration, locale);
+  const category = getLocalizedText(tour.category, locale);
+
   // Gallery array preparation
   const galleryImages = tour.gallery && tour.gallery.length > 0
     ? tour.gallery
@@ -109,14 +120,14 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
   const tourJsonLd = {
     '@context': 'https://schema.org',
     '@type': ['TouristTrip', 'Product'],
-    name: tour.title,
-    description: tour.description || tour.shortDescription,
+    name: title,
+    description: getLocalizedText(tour.description || tour.shortDescription, locale),
     image: [tour.mainImage || tour.imageUrl, ...galleryImages],
     touristType: ['Luxury Traveler', 'Eco-Tourist', 'Family Adventure'],
     itinerary: tour.itinerary?.map((day) => ({
       '@type': 'City',
-      name: day.title,
-      description: day.description,
+      name: getLocalizedText(day.title, locale),
+      description: getLocalizedText(day.description, locale),
     })),
     offers: {
       '@type': 'Offer',
@@ -156,7 +167,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         </a>
         <span>/</span>
         <span className="text-zinc-900 font-semibold truncate max-w-xs sm:max-w-md">
-          {tour.title}
+          {title}
         </span>
       </nav>
 
@@ -165,12 +176,12 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200/80">
             <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-            {tour.destination}
+            {dest}
           </span>
 
-          {tour.category && (
+          {category && (
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-zinc-100 text-zinc-800">
-              {tour.category}
+              {category}
             </span>
           )}
 
@@ -183,13 +194,13 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         </div>
 
         <h1 className="font-serif text-3xl sm:text-5xl font-bold text-zinc-900 tracking-tight leading-tight">
-          {tour.title}
+          {title}
         </h1>
 
         <div className="flex flex-wrap items-center gap-6 text-xs sm:text-sm text-zinc-600 pt-1">
           <div className="flex items-center gap-1.5 font-medium">
             <Clock className="w-4 h-4 text-emerald-600" />
-            <span>{tour.duration}</span>
+            <span>{duration}</span>
           </div>
 
           <div className="flex items-center gap-1 font-semibold text-zinc-900">
@@ -207,7 +218,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         {/* Left Main Content Col */}
         <div className="lg:col-span-8 space-y-12">
           {/* Photo Gallery */}
-          <TourGallery images={galleryImages} title={tour.title} />
+          <TourGallery images={galleryImages} title={title} />
 
           {/* Tour Overview with Editorial Drop Cap */}
           {tour.description && (

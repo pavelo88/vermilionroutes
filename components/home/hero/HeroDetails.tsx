@@ -16,7 +16,7 @@ export function HeroDetails({ initialData, locale }: HeroDetailsProps) {
           <div
             key={id}
             id={id}
-            className="absolute left-0 w-full px-5 sm:px-6 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[140px] sm:top-[150px] md:top-[160px] lg:top-[180px] xl:top-[200px] z-[22] flex flex-col items-center md:items-start text-center md:text-left"
+            className="absolute left-0 w-full px-4 sm:px-6 md:px-0 md:w-auto md:left-[30px] lg:left-[60px] top-[28svh] sm:top-[30svh] md:top-[120px] lg:top-[130px] xl:top-[140px] z-[22] flex flex-col items-center md:items-start text-center md:text-left"
           >
             {/* AJUSTE AQUI: Mover textos arriba/abajo en celular cambiando top-[140px] */}
             <div className="h-auto mb-1.5">
@@ -28,14 +28,14 @@ export function HeroDetails({ initialData, locale }: HeroDetailsProps) {
 
             {/* Line 1 (title) */}
             <div className="h-auto md:min-h-[46px] lg:min-h-[54px] mt-1 flex flex-col items-center md:items-start">
-              <h1 className="title-1 font-oswald font-extrabold text-[28px] sm:text-3xl md:text-4xl lg:text-5xl xl:text-[54px] uppercase leading-[0.95] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap m-0 p-0">
+              <h1 className="title-1 font-oswald font-extrabold text-[40px] sm:text-[46px] md:text-4xl lg:text-5xl xl:text-[54px] uppercase leading-[0.95] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap m-0 p-0">
                 <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
               </h1>
             </div>
 
             {/* Line 2 (title2) */}
             <div className="h-auto md:min-h-[46px] lg:min-h-[54px] mt-1 flex flex-col items-center md:items-start">
-              <h2 className="title-2 font-oswald font-extrabold text-[28px] sm:text-3xl md:text-4xl lg:text-5xl xl:text-[54px] uppercase leading-[0.95] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap m-0 p-0">
+              <h2 className="title-2 font-oswald font-extrabold text-[40px] sm:text-[46px] md:text-4xl lg:text-5xl xl:text-[54px] uppercase leading-[0.95] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap m-0 p-0">
                 <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
               </h2>
             </div>
