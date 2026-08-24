@@ -61,7 +61,7 @@ export function DestinationsGrid() {
 
   // Staggered interval: alternates one destination card every 2.4 seconds
   useEffect(() => {
-    if (isHovered || !destinations || destinations.length === 0) return;
+    if (!destinations || destinations.length === 0) return;
 
     const interval = setInterval(() => {
       if (document.hidden) return;
@@ -82,7 +82,7 @@ export function DestinationsGrid() {
     }, 2400);
 
     return () => clearInterval(interval);
-  }, [isHovered, destinations]);
+  }, [destinations]);
 
   const handleDestinationClick = (destId: string) => {
     setActiveDestId(destId);
@@ -106,8 +106,6 @@ export function DestinationsGrid() {
     <section
       id="destinations"
       className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 sm:mb-8">
@@ -130,7 +128,7 @@ export function DestinationsGrid() {
       </div>
 
       {/* ── Visual Destinations 4-Grid Stage with Staggered Dynamic Images ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+      <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0">
         {destinations.map((dest, destIndex) => {
           const pool = DESTINATION_IMAGE_POOLS[dest.id] || [dest.imageUrl];
           const activeIndex = cardImageIndices[dest.id] ?? 0;
@@ -140,7 +138,7 @@ export function DestinationsGrid() {
               key={dest.id}
               id={dest.id.toLowerCase()}
               onClick={() => handleDestinationClick(dest.id)}
-              className="group relative h-[420px] sm:h-[440px] md:h-[460px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-zinc-200/80 dark:border-zinc-800/80 hover:border-emerald-500/80 transition-all duration-500 flex flex-col justify-between p-5 sm:p-6 cursor-pointer hover:-translate-y-1 bg-zinc-950"
+              className="group relative h-[420px] sm:h-[440px] md:h-[460px] w-[290px] xs:w-[320px] md:w-auto shrink-0 snap-center rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-zinc-200/80 dark:border-zinc-800/80 hover:border-emerald-500/80 transition-all duration-500 flex flex-col justify-between p-5 sm:p-6 cursor-pointer hover:-translate-y-1 bg-zinc-950"
             >
               {/* Dynamic Layered Images with Seamless Crossfade & Subtle Ken Burns Zoom */}
               {pool.map((imgSrc, imgIdx) => {

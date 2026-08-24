@@ -10,14 +10,17 @@ interface TourGalleryProps {
 }
 
 export function TourGallery({ images, title }: TourGalleryProps) {
-  // De-duplicate any accidental duplicate URLs in images array
+  // De-duplicate and filter out 9-16 vertical images in the tour page gallery
   const uniqueImages = React.useMemo(() => {
     const set = new Set<string>();
-    return (images || []).filter((img) => {
-      if (!img || set.has(img)) return false;
-      set.add(img);
-      return true;
-    });
+    return (images || [])
+      .filter((img) => {
+        if (!img || set.has(img)) return false;
+        // Exclude 9:16 vertical images from the tour page gallery to avoid pixelation/stretching
+        if (img.includes('/9-16/') || img.includes('-9-16.jpg')) return false;
+        set.add(img);
+        return true;
+      });
   }, [images]);
 
   const [selectedMainIndex, setSelectedMainIndex] = useState(0);
@@ -26,9 +29,9 @@ export function TourGallery({ images, title }: TourGalleryProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Smooth Auto-Play Slideshow every 3.8s when not hovered or in lightbox
+  // Smooth Auto-Play Slideshow every 3.8s when not in lightbox
   useEffect(() => {
-    if (isHovered || activeImageIndex !== null || uniqueImages.length <= 1) return;
+    if (activeImageIndex !== null || uniqueImages.length <= 1) return;
 
     const timer = setInterval(() => {
       setSelectedMainIndex((current) => {
@@ -41,22 +44,36 @@ export function TourGallery({ images, title }: TourGalleryProps) {
     }, 3800);
 
     return () => clearInterval(timer);
-  }, [isHovered, activeImageIndex, uniqueImages.length]);
+  }, [activeImageIndex, uniqueImages.length]);
 
   if (!uniqueImages || uniqueImages.length === 0) return null;
 
   const currentImage = uniqueImages[selectedMainIndex] || uniqueImages[0];
   const previousImage = uniqueImages[prevMainIndex] || currentImage;
 
-  // Desktop side images (first 3 other photos, or next 3 photos)
-  const sideImages = uniqueImages.slice(1, 4).length === 3 
-    ? uniqueImages.slice(1, 4) 
-    : uniqueImages.filter((_, idx) => idx !== selectedMainIndex).slice(0, 3);
+  // Desktop side images: the next 3 images following selectedMainIndex
+  const sideImages = React.useMemo(() => {
+    const list: string[] = [];
+    if (uniqueImages.length <= 1) return list;
+    const count = Math.min(3, uniqueImages.length - 1);
+    for (let i = 1; i <= count; i++) {
+      const targetIndex = (selectedMainIndex + i) % uniqueImages.length;
+      list.push(uniqueImages[targetIndex]);
+    }
+    return list;
+  }, [selectedMainIndex, uniqueImages]);
 
-  // Mobile side images (up to 4 photos)
-  const mobileSideImages = uniqueImages.slice(1, 5).length > 0 
-    ? uniqueImages.slice(1, 5) 
-    : uniqueImages.slice(0, 4);
+  // Mobile side images: the next 4 images following selectedMainIndex
+  const mobileSideImages = React.useMemo(() => {
+    const list: string[] = [];
+    if (uniqueImages.length <= 1) return list;
+    const count = Math.min(4, uniqueImages.length - 1);
+    for (let i = 1; i <= count; i++) {
+      const targetIndex = (selectedMainIndex + i) % uniqueImages.length;
+      list.push(uniqueImages[targetIndex]);
+    }
+    return list;
+  }, [selectedMainIndex, uniqueImages]);
 
   const handleSelectThumbnail = (targetIndex: number) => {
     if (targetIndex === selectedMainIndex) return;
@@ -79,8 +96,6 @@ export function TourGallery({ images, title }: TourGalleryProps) {
   return (
     <div 
       className="space-y-2"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Bento Grid Container */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 rounded-2xl overflow-hidden">
@@ -90,7 +105,7 @@ export function TourGallery({ images, title }: TourGalleryProps) {
           className="relative h-72 md:h-[420px] md:col-span-2 group cursor-pointer overflow-hidden rounded-2xl bg-zinc-950 shadow-md"
         >
           {/* Base Previous Layer (during crossfade) */}
-          {previousImage && (
+          {previousImage && previousImage !== currentImage && (
             <Image
               src={previousImage}
               alt={`${title} - Previous Photo`}

@@ -32,7 +32,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
-  const filteredTours =
+  const rawFiltered =
     activeFilter === 'all'
       ? tours
       : tours.filter((tour) => {
@@ -57,6 +57,8 @@ export function TourCarousel({ tours }: TourCarouselProps) {
           return false;
         });
 
+  const filteredTours = rawFiltered;
+
   const total = filteredTours.length;
 
   const goTo = useCallback((idx: number) => {
@@ -71,14 +73,14 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
   // Auto-play
   useEffect(() => {
-    if (isHovered || total <= 1) return;
+    if (total <= 1) return;
     autoPlayRef.current = setInterval(() => {
       if (!document.hidden) handleNext();
     }, 3300);
     return () => {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
-  }, [handleNext, isHovered, total]);
+  }, [handleNext, total]);
 
   // Listen for filter events from DestinationsGrid
   useEffect(() => {
@@ -197,54 +199,61 @@ export function TourCarousel({ tours }: TourCarouselProps) {
       >
         {/* 🎨 AJUSTE ESCENARIO CARRUSEL ESCRITORIO:
             - h-[510px]: Alto total del contenedor del carrusel */}
-        <div className="hidden md:block relative w-full h-[510px] perspective-[1400px]">
-          {filteredTours.map((tour, idx) => {
-            let diff = idx - currentIndex;
-            if (diff > total / 2) diff -= total;
-            if (diff < -total / 2) diff += total;
-
-            if (Math.abs(diff) > 2) return null;
-
-            const isCurrent = diff === 0;
-            const zIndex = 50 - Math.abs(diff);
-            {/* 🎨 AJUSTE SEPARACIÓN Y ROTACIÓN 3D PANORÁMICA:
-                - diff = 0: Centro (100% visible)
-                - diff = ±1: 68% -> 70% visible de las tarjetas contiguas
-                - diff = ±2: 125% -> 50% visible de las tarjetas de los extremos */}
-            const translateX = diff === 0 
-              ? 0 
-              : Math.sign(diff) * (68 + (Math.abs(diff) - 1) * 57);
-            const translateZ = Math.abs(diff) * -65;
-            const scale = diff === 0 ? 1 : 1 - Math.abs(diff) * 0.06;
-            const opacity = 1 - Math.abs(diff) * 0.18;
-            const rotateY = diff * -12;
-
-            {/* 🎨 AJUSTE ANCHO DE TARJETA:
-                - w-[320px] lg:w-[350px]: Ancho de cada tarjeta
-                - -ml-[160px] lg:-ml-[175px]: Margen izquierdo (SIEMPRE debe ser exactamente la mitad del ancho para centrar) */}
-            return (
-              <div
-                key={tour.id}
-                onClick={() => !isCurrent && goTo(idx)}
-                className={`absolute top-0 left-1/2 -ml-[160px] lg:-ml-[175px] w-[320px] lg:w-[350px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
-                  !isCurrent ? 'cursor-pointer group' : ''
-                }`}
-                style={{
-                  zIndex,
-                  transform: `translateX(${translateX}%) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
-                  opacity,
-                }}
-              >
-                <div className={`transition-transform duration-500 rounded-3xl overflow-hidden ${!isCurrent ? 'group-hover:scale-105 pointer-events-none' : ''}`}>
-                  <TourCard
-                    tour={tour}
-                    className={`h-[470px] rounded-3xl ${isCurrent ? 'ring-2 ring-emerald-500/50 ring-offset-4 ring-offset-transparent drop-shadow-2xl pointer-events-auto' : 'drop-shadow-lg'}`}
-                  />
-                </div>
+        {/* Desktop View */}
+        {total <= 3 ? (
+          <div className="hidden md:flex flex-row justify-center items-center gap-6 w-full py-4 min-h-[490px]">
+            {filteredTours.map((tour) => (
+              <div key={tour.id} className="w-[320px] lg:w-[340px]">
+                <TourCard
+                  tour={tour}
+                  className="h-[470px] rounded-3xl drop-shadow-xl border border-zinc-200/50 dark:border-zinc-800/80"
+                />
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="hidden md:block relative w-full h-[510px] perspective-[1400px]">
+            {filteredTours.map((tour, idx) => {
+              let diff = idx - currentIndex;
+              if (diff > total / 2) diff -= total;
+              if (diff < -total / 2) diff += total;
+
+              if (Math.abs(diff) > 2) return null;
+
+              const isCurrent = diff === 0;
+              const zIndex = 50 - Math.abs(diff);
+              const translateX = diff === 0 
+                ? 0 
+                : Math.sign(diff) * (68 + (Math.abs(diff) - 1) * 57);
+              const translateZ = Math.abs(diff) * -65;
+              const scale = diff === 0 ? 1 : 1 - Math.abs(diff) * 0.06;
+              const opacity = 1 - Math.abs(diff) * 0.18;
+              const rotateY = diff * -12;
+
+              return (
+                <div
+                  key={tour.id}
+                  onClick={() => !isCurrent && goTo(idx)}
+                  className={`absolute top-0 left-1/2 -ml-[160px] lg:-ml-[175px] w-[320px] lg:w-[350px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                    !isCurrent ? 'cursor-pointer group' : ''
+                  }`}
+                  style={{
+                    zIndex,
+                    transform: `translateX(${translateX}%) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+                    opacity,
+                  }}
+                >
+                  <div className={`transition-transform duration-500 rounded-3xl overflow-hidden ${!isCurrent ? 'group-hover:scale-105 pointer-events-none' : ''}`}>
+                    <TourCard
+                      tour={tour}
+                      className={`h-[470px] rounded-3xl ${isCurrent ? 'ring-2 ring-emerald-500/50 ring-offset-4 ring-offset-transparent drop-shadow-2xl pointer-events-auto' : 'drop-shadow-lg'}`}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* Mobile: single card with CSS slide */}
         <div className="md:hidden relative w-full max-w-[340px] mx-auto h-[490px]">
@@ -274,7 +283,9 @@ export function TourCarousel({ tours }: TourCarouselProps) {
               onClick={handlePrev}
               suppressHydrationWarning
               aria-label="Previous expedition"
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-[transform,opacity,color,background-color,border-color] duration-200 z-30 opacity-0 group-hover/carousel:opacity-100 cursor-pointer"
+              className={`absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-[transform,opacity,color,background-color,border-color] duration-200 z-30 opacity-0 group-hover/carousel:opacity-100 cursor-pointer ${
+                total <= 3 ? 'md:hidden' : ''
+              }`}
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -282,7 +293,9 @@ export function TourCarousel({ tours }: TourCarouselProps) {
               onClick={handleNext}
               suppressHydrationWarning
               aria-label="Next expedition"
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-[transform,opacity,color,background-color,border-color] duration-200 z-30 opacity-0 group-hover/carousel:opacity-100 cursor-pointer"
+              className={`absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/95 dark:bg-zinc-900/95 rounded-full shadow-xl border border-zinc-200 dark:border-zinc-700 flex items-center justify-center text-zinc-700 dark:text-zinc-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 hover:scale-110 transition-[transform,opacity,color,background-color,border-color] duration-200 z-30 opacity-0 group-hover/carousel:opacity-100 cursor-pointer ${
+                total <= 3 ? 'md:hidden' : ''
+              }`}
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -293,7 +306,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
       {/* ── Dot Indicators + Counter ── */}
       <div className="flex flex-col items-center gap-3">
         {/* Dot track */}
-        <div className="flex items-center gap-1">
+        <div className={`flex items-center gap-1 ${total <= 3 ? 'md:hidden' : ''}`}>
           {filteredTours.map((_, idx) => (
             <button
               key={idx}
@@ -316,10 +329,10 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
         {/* Counter */}
         <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium tracking-wide">
-          <span className="font-bold text-zinc-700 dark:text-zinc-300">{currentIndex + 1}</span>
-          <span className="mx-1">/</span>
-          <span>{total}</span>
-          <span className="mx-2 text-zinc-300">·</span>
+          <span className={`font-bold text-zinc-700 dark:text-zinc-300 ${total <= 3 ? 'md:hidden' : ''}`}>{currentIndex + 1}</span>
+          <span className={`mx-1 ${total <= 3 ? 'md:hidden' : ''}`}>/</span>
+          <span className={total <= 3 ? 'md:hidden' : ''}>{total}</span>
+          <span className={`mx-2 text-zinc-300 ${total <= 3 ? 'md:hidden' : ''}`}>·</span>
           <span>{filteredTours.length} {filteredTours.length === 1 ? 'expedition' : 'expeditions'} available</span>
         </p>
       </div>
