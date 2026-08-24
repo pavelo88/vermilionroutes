@@ -30,14 +30,14 @@ interface ChatMessage {
 export function ConciergeWidget() {
   const locale = useLocale();
   const GREETINGS_BY_LOCALE: Record<string, string> = {
-    es: '¡Hola! Soy **Valentina**, tu Concierge y asesora de viajes en Vermilion Routes.\n\nEstoy aquí para ayudarte a diseñar y personalizar tu viaje por **Ecuador Continental y las Islas Galápagos**.\n\n¿En qué destino o fechas te gustaría comenzar a planificar?',
-    en: 'Hello! I am **Valentina**, Lead Concierge at Vermilion Routes.\n\nI am here to assist you in designing and customizing your journey across **Mainland Ecuador and the Galápagos Islands**.\n\nWhat destinations or travel dates do you have in mind to get started?',
-    fr: 'Bonjour ! Je suis **Valentina**, votre Concierge et conseillère de voyage chez Vermilion Routes.\n\nJe suis là pour vous aider à concevoir votre voyage sur mesure en **Équateur Continental et aux Îles Galápagos**.\n\nQuelle destination ou quelles dates avez-vous en tête pour commencer ?',
-    de: 'Guten Tag! Ich bin **Valentina**, Ihre persönliche Reiseberaterin bei Vermilion Routes.\n\nIch helfe Ihnen gerne bei der Planung Ihrer maßgeschneiderten Traumreise durch **Festland-Ecuador und die Galapagos-Inseln**.\n\nWelche Reiseziele oder Reisedaten haben Sie im Sinn?',
-    it: 'Buongiorno! Sono **Valentina**, la tua Concierge e consulente di viaggio per Vermilion Routes.\n\nSono a tua disposizione per creare il tuo viaggio su misura tra l\'**Ecuador Continentale e le Isole Galapagos**.\n\nQuale destinazione o date hai in mente per iniziare?',
-    pt: 'Olá! Sou **Valentina**, sua Concierge e consultora de viagens na Vermilion Routes.\n\nEstou aqui para ajudar você a planejar sua viagem personalizada pelo **Equador Continental e Ilhas Galápagos**.\n\nQuais destinos ou datas você tem em mente para começar?',
-    ja: 'こんにちは！Vermilion Routesの専任コンシェルジュ、**ヴァレンティーナ**です。\n\n**エクアドル本土およびガラパゴス諸島**へのオーダーメイドの贅沢な旅のプランニングをお手伝いいたします。\n\nご希望の目的地やご旅行の時期など、お気軽にお聞かせください。',
-    zh: '您好！我是 Vermilion Routes 的专属旅行礼宾顾问 **Valentina**。\n\n我将竭诚为您定制**厄瓜多尔大陆与加拉帕戈斯群岛**的专属探索之旅。\n\n请问您心仪的目的地或预计出发日期是什么时候？',
+    es: '¡Hola! Soy **Pyro**, tu Concierge y asesor de viajes en Vermilion Routes.\n\nEstoy aquí para ayudarte a diseñar y personalizar tu viaje por **Ecuador Continental y las Islas Galápagos**.\n\n¿En qué destino o fechas te gustaría comenzar a planificar?',
+    en: 'Hello! I am **Pyro**, Lead Concierge at Vermilion Routes.\n\nI am here to assist you in designing and customizing your journey across **Mainland Ecuador and the Galápagos Islands**.\n\nWhat destinations or travel dates do you have in mind to get started?',
+    fr: 'Bonjour ! Je suis **Pyro**, votre Concierge et conseiller de voyage chez Vermilion Routes.\n\nJe suis là pour vous aider à concevoir votre voyage sur mesure en **Équateur Continental et aux Îles Galápagos**.\n\nQuelle destination ou quelles dates avez-vous en tête pour commencer ?',
+    de: 'Guten Tag! Ich bin **Pyro**, Ihr persönlicher Reiseberater bei Vermilion Routes.\n\nIch helfe Ihnen gerne bei der Planung Ihrer maßgeschneiderten Traumreise durch **Festland-Ecuador und die Galapagos-Inseln**.\n\nWelche Reiseziele oder Reisedaten haben Sie im Sinn?',
+    it: 'Buongiorno! Sono **Pyro**, il tuo Concierge e consulente di viaggio per Vermilion Routes.\n\nSono a tua disposizione per creare il tuo viaggio su misura tra l\'**Ecuador Continentale e le Isole Galapagos**.\n\nQuale destinazione o date hai in mente per iniziare?',
+    pt: 'Olá! Sou **Pyro**, seu Concierge e consultor de viagens na Vermilion Routes.\n\nEstou aqui para ajudar você a planejar sua viagem personalizada pelo **Equador Continental e Ilhas Galápagos**.\n\nQuais destinos ou datas você tem em mente para começar?',
+    ja: 'こんにちは！Vermilion Routesの専任コンシェルジュ、**Pyro（パイロ）**です。\n\n**エクアドル本土およびガラパゴス諸岛**へのオーダーメイドの贅沢な旅のプランニングをお手伝いいたします。\n\nご希望の目的地やご旅行の時期など、お気軽にお聞かせください。',
+    zh: '您好！我是 Vermilion Routes 的专属旅行礼宾顾问 **Pyro**。\n\n我将竭诚为您定制**厄瓜多尔大陆与加拉帕戈斯群岛**的专属探索之旅。\n\n请问您心仪的目的地或预计出发日期是什么时候？',
   };
 
   const TOUR_INQUIRY_BY_LOCALE: Record<string, (title: string) => string> = {
@@ -201,7 +201,7 @@ export function ConciergeWidget() {
 
   const transferChatToWhatsApp = () => {
     const lastUserMsgs = messages.filter((m) => m.role === 'user').map((m) => m.content).join(' | ');
-    const summary = `Hello Vermilion Routes! I was chatting with Valentina AI on your website about: "${lastUserMsgs || 'Expeditions'}". Can a travel advisor assist me?`;
+    const summary = `Hello Vermilion Routes! I was chatting with Pyro AI on your website about: "${lastUserMsgs || 'Expeditions'}". Can a travel advisor assist me?`;
     window.open(getWhatsAppLink(summary), '_blank');
   };
 
@@ -335,13 +335,13 @@ export function ConciergeWidget() {
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h3 className="font-serif font-semibold text-sm text-amber-100">Valentina</h3>
+                  <h3 className="font-serif font-semibold text-sm text-amber-100">Pyro</h3>
                   <span className="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded font-sans">
                     AI Concierge
                   </span>
                 </div>
                 <p className="text-[11px] text-zinc-400 flex items-center gap-1">
-                  <span>Vermilion Routes Sales Advisor</span>
+                  <span>Vermilion Routes Expedition Specialist</span>
                 </p>
               </div>
             </div>
@@ -427,7 +427,7 @@ export function ConciergeWidget() {
                 </div>
                 <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-3 text-xs text-zinc-400 flex items-center gap-2">
                   <span className="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                  <span>Valentina is crafting your itinerary...</span>
+                  <span>Pyro is crafting your itinerary...</span>
                 </div>
               </div>
             )}
@@ -470,7 +470,7 @@ export function ConciergeWidget() {
               type="text"
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              placeholder="Ask Valentina about tours, dates, prices..."
+              placeholder="Ask Pyro about tours, dates, prices..."
               suppressHydrationWarning
               className="flex-1 bg-zinc-950 border border-zinc-800 text-white placeholder-zinc-500 text-xs sm:text-sm rounded-xl px-3 py-2.5 focus:outline-none focus:border-amber-500 transition-colors"
               disabled={isLoading}

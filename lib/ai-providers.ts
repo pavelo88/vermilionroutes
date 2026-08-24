@@ -92,7 +92,7 @@ export async function buildSystemPrompt(locale: string = 'en'): Promise<string> 
   const catalog = await getCatalogContext();
   const targetLanguage = LOCALE_NAMES[locale] || 'English';
 
-  return `You are "Valentina", the Senior AI Luxury Travel Concierge & Sales Advisor at Vermilion Routes (https://vermilionroutes.com).
+  return `You are "Pyro", the Senior AI Luxury Travel Concierge & Sales Advisor at Vermilion Routes (https://vermilionroutes.com).
 Your mission is to welcome website visitors, qualify their luxury travel desires in Galapagos and Mainland Ecuador, build bespoke itineraries, and convert their interest into custom quote requests.
 
 ### CURRENT VISITOR LANGUAGE / LOCALE:
@@ -368,32 +368,32 @@ function generateFallbackConciergeReply(
       } else if (lastUserMsg.includes('precio') || lastUserMsg.includes('costo') || lastUserMsg.includes('cotiz')) {
         reply = `Nuestras expediciones a medida van desde escapadas de 1 día hasta travesías integrales de 12 días, con guías naturalistas privados, hoteles boutique seleccionados y logística integral.\n\nSi me compartes tu **Nombre**, **Correo** y **WhatsApp**, te preparo una cotización formal y personalizada de inmediato.`;
       } else {
-        reply = `¡Hola! Soy **Valentina**, tu Concierge y asesora de viajes en Vermilion Routes.\n\nYa sea que sueñes con nadar con leones marinos en **Galápagos**, explorar la **Amazonía profunda** o recorrer la **Avenida de los Volcanes**, estoy lista para ayudarte a diseñar la experiencia perfecta.\n\n¿Qué destino te gustaría conocer primero?`;
+        reply = `¡Hola! Soy **Pyro**, tu Concierge y asesor de viajes inteligente en Vermilion Routes.\n\nYa sea que sueñes con nadar con leones marinos en **Galápagos**, explorar la **Amazonía profunda** o recorrer la **Avenida de los Volcanes**, estoy listo para ayudarte a diseñar la experiencia perfecta.\n\n¿Qué destino te gustaría conocer primero?`;
       }
       break;
 
     case 'fr':
-      reply = `Bonjour ! Je suis **Valentina**, votre Concierge chez Vermilion Routes.\n\nNos expéditions exclusives aux **Îles Galápagos et en Équateur Continental** sont entièrement personnalisables.\n\nQuelles sont vos dates de voyage souhaitées et le nombre de participants ? Je me ferai un plaisir de vous préparer un itinéraire sur mesure.`;
+      reply = `Bonjour ! Je suis **Pyro**, votre Concierge chez Vermilion Routes.\n\nNos expéditions exclusives aux **Îles Galápagos et en Équateur Continental** sont entièrement personnalisables.\n\nQuelles sont vos dates de voyage souhaitées et le nombre de participants ? Je me ferai un plaisir de vous préparer un itinéraire sur mesure.`;
       break;
 
     case 'de':
-      reply = `Guten Tag! Ich bin **Valentina**, Ihre Concierge bei Vermilion Routes.\n\nGerne plane ich Ihre maßgeschneiderte Luxusreise durch **Festland-Ecuador und die Galapagos-Inseln**.\n\nWelche Reisedaten oder Regionen interessieren Sie besonders?`;
+      reply = `Guten Tag! Ich bin **Pyro**, Ihr Concierge bei Vermilion Routes.\n\nGerne plane ich Ihre maßgeschneiderte Luxusreise durch **Festland-Ecuador und die Galapagos-Inseln**.\n\nWelche Reisedaten oder Regionen interessieren Sie besonders?`;
       break;
 
     case 'it':
-      reply = `Buongiorno! Sono **Valentina**, la tua Concierge per Vermilion Routes.\n\nSarei lieta di aiutarti a creare un itinerario su misura per le **Isole Galapagos e l'Ecuador Continentale**.\n\nIn quali date vorresti viaggiare e quante persone faranno parte del viaggio?`;
+      reply = `Buongiorno! Sono **Pyro**, il tuo Concierge per Vermilion Routes.\n\nSarei lieto di aiutarti a creare un itinerario su misura per le **Isole Galapagos e l'Ecuador Continentale**.\n\nIn quali date vorresti viaggiare e quante persone faranno parte del viaggio?`;
       break;
 
     case 'pt':
-      reply = `Olá! Sou **Valentina**, sua Concierge na Vermilion Routes.\n\nSerá um prazer desenhar seu roteiro personalizado pelas **Ilhas Galápagos e Equador Continental**.\n\nQuais são as suas datas de viagem estimadas e o número de pessoas?`;
+      reply = `Olá! Sou **Pyro**, seu Concierge na Vermilion Routes.\n\nSerá um prazer desenhar seu roteiro personalizado pelas **Ilhas Galápagos e Equador Continental**.\n\nQuais são as suas datas de viagem estimadas e o número de pessoas?`;
       break;
 
     case 'ja':
-      reply = `こんにちは！Vermilion Routes専任コンシェルジュの**ヴァレンティーナ**です。\n\n**ガラパゴス諸島およびエクアドル本土**のオーダーメイド旅行プランをご案内いたします。\n\nご希望の時期や人数をお知らせいただければ、最適なプランとお見積りをご提案いたします。`;
+      reply = `こんにちは！Vermilion Routes専任AIコンシェルジュの**Pyro（パイロ）**です。\n\n**ガラパゴス諸島およびエクアドル本土**のオーダーメイド旅行プランをご案内いたします。\n\nご希望の時期や人数をお知らせいただければ、最適なプランとお見積りをご提案いたします。`;
       break;
 
     case 'zh':
-      reply = `您好！我是 Vermilion Routes 的专属旅行礼宾顾问 **Valentina**。\n\n我将为您量身定制**加拉帕戈斯群岛与厄瓜多尔大陆**的高端专属行程。\n\n请问您的预计出行时间与随行人数是多少？我将立即为您出具专属方案。`;
+      reply = `您好！我是 Vermilion Routes 的专属 AI 旅行礼宾顾问 **Pyro**。\n\n我将为您量身定制**加拉帕戈斯群岛与厄瓜多尔大陆**的高端专属行程。\n\n请问您的预计出行时间与随行人数是多少？我将立即为您出具专属方案。`;
       break;
 
     default: // en
@@ -402,7 +402,7 @@ function generateFallbackConciergeReply(
       } else if (lastUserMsg.includes('price') || lastUserMsg.includes('cost') || lastUserMsg.includes('quote')) {
         reply = `Our tailor-made expeditions include boutique stays, private expert naturalist guides, and seamless internal transfers.\n\nIf you provide your **Name**, **Email**, and **WhatsApp number**, I will instantly submit a custom quote request for our team to review.`;
       } else {
-        reply = `Hello! I am **Valentina**, Lead Concierge at Vermilion Routes.\n\nWhether you dream of snorkeling with sea lions in the **Galapagos Islands**, exploring the **Amazon Rainforest**, or hiking the **Avenue of Volcanoes**, I am here to design your perfect journey.\n\nHow may I assist you today?`;
+        reply = `Hello! I am **Pyro**, Lead AI Concierge at Vermilion Routes.\n\nWhether you dream of snorkeling with sea lions in the **Galapagos Islands**, exploring the **Amazon Rainforest**, or hiking the **Avenue of Volcanoes**, I am here to design your perfect journey.\n\nHow may I assist you today?`;
       }
       break;
   }

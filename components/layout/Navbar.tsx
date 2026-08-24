@@ -489,13 +489,25 @@ export function Navbar() {
               ))}
             </nav>
 
-            <div className="pt-3 border-t border-zinc-100 flex flex-col gap-2.5">
+            <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 flex flex-col gap-2.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setClubModalOpen(true);
+                }}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-sm font-bold shadow-md cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
+                <span>{locale === 'es' ? '10% OFF Club de Viajeros' : '10% OFF Travelers Club'}</span>
+              </button>
+
               <Button
                 variant="primary"
                 className="w-full"
                 onClick={(e) => handleAnchorClick(e, `/${locale}#contact`)}
               >
-                Request Custom Itinerary
+                {locale === 'es' ? 'Solicitar Cotización Personalizada' : 'Request Custom Itinerary'}
               </Button>
             </div>
           </div>

@@ -74,7 +74,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
     if (isHovered || total <= 1) return;
     autoPlayRef.current = setInterval(() => {
       if (!document.hidden) handleNext();
-    }, 3500);
+    }, 3300);
     return () => {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current);
     };
@@ -195,8 +195,9 @@ export function TourCarousel({ tours }: TourCarouselProps) {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Desktop Layout 3D Spatial Coverflow — full width */}
-        <div className="hidden md:block relative w-full h-[580px] perspective-[1400px]">
+        {/* 🎨 AJUSTE ESCENARIO CARRUSEL ESCRITORIO:
+            - h-[510px]: Alto total del contenedor del carrusel */}
+        <div className="hidden md:block relative w-full h-[510px] perspective-[1400px]">
           {filteredTours.map((tour, idx) => {
             let diff = idx - currentIndex;
             if (diff > total / 2) diff -= total;
@@ -204,20 +205,28 @@ export function TourCarousel({ tours }: TourCarouselProps) {
 
             if (Math.abs(diff) > 2) return null;
 
-            const zIndex = 50 - Math.abs(diff);
-            const translateX = diff * 38; // % — más separación entre cards
-            const translateZ = Math.abs(diff) * -100;
-            const scale = diff === 0 ? 1 : 1 - Math.abs(diff) * 0.10; // cards laterales más grandes
-            const opacity = 1 - Math.abs(diff) * 0.28;
-            const rotateY = diff * -18; // menos rotación, más visible
-
             const isCurrent = diff === 0;
+            const zIndex = 50 - Math.abs(diff);
+            {/* 🎨 AJUSTE SEPARACIÓN Y ROTACIÓN 3D PANORÁMICA:
+                - diff = 0: Centro (100% visible)
+                - diff = ±1: 68% -> 70% visible de las tarjetas contiguas
+                - diff = ±2: 125% -> 50% visible de las tarjetas de los extremos */}
+            const translateX = diff === 0 
+              ? 0 
+              : Math.sign(diff) * (68 + (Math.abs(diff) - 1) * 57);
+            const translateZ = Math.abs(diff) * -65;
+            const scale = diff === 0 ? 1 : 1 - Math.abs(diff) * 0.06;
+            const opacity = 1 - Math.abs(diff) * 0.18;
+            const rotateY = diff * -12;
 
+            {/* 🎨 AJUSTE ANCHO DE TARJETA:
+                - w-[320px] lg:w-[350px]: Ancho de cada tarjeta
+                - -ml-[160px] lg:-ml-[175px]: Margen izquierdo (SIEMPRE debe ser exactamente la mitad del ancho para centrar) */}
             return (
               <div
                 key={tour.id}
                 onClick={() => !isCurrent && goTo(idx)}
-                className={`absolute top-0 left-1/2 -ml-[220px] lg:-ml-[240px] w-[440px] lg:w-[480px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                className={`absolute top-0 left-1/2 -ml-[160px] lg:-ml-[175px] w-[320px] lg:w-[350px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                   !isCurrent ? 'cursor-pointer group' : ''
                 }`}
                 style={{
@@ -229,11 +238,8 @@ export function TourCarousel({ tours }: TourCarouselProps) {
                 <div className={`transition-transform duration-500 rounded-3xl overflow-hidden ${!isCurrent ? 'group-hover:scale-105 pointer-events-none' : ''}`}>
                   <TourCard
                     tour={tour}
-                    className={`h-[540px] rounded-3xl ${isCurrent ? 'ring-2 ring-emerald-500/50 ring-offset-4 ring-offset-transparent drop-shadow-2xl pointer-events-auto' : 'drop-shadow-lg'}`}
+                    className={`h-[470px] rounded-3xl ${isCurrent ? 'ring-2 ring-emerald-500/50 ring-offset-4 ring-offset-transparent drop-shadow-2xl pointer-events-auto' : 'drop-shadow-lg'}`}
                   />
-                  {!isCurrent && (
-                    <div className="absolute inset-0 bg-white/10 dark:bg-black/20 backdrop-blur-[2px] rounded-3xl transition-opacity duration-300 group-hover:opacity-0" />
-                  )}
                 </div>
               </div>
             );

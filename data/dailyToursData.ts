@@ -30,7 +30,7 @@ export const dailyTours: Tour[] = [
     price3Star: 89,
     price4Star: 89,
     imageUrl: '/images/tours/16-9/quito-colonial-16-9.jpg',
-    mobileImage: '/images/tours/16-9/quito-colonial-16-9.jpg',
+    mobileImage: '/images/tours/9-16/quito-centro-historico.jpg',
     desktopImage: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
     gallery: [
       '/images/tours/16-9/mitad-del-mundo-16-9.jpg',
@@ -123,7 +123,7 @@ export const dailyTours: Tour[] = [
     price3Star: 92,
     price4Star: 92,
     imageUrl: '/images/tours/16-9/otavalo-market-16-9.jpg',
-    mobileImage: '/images/tours/16-9/otavalo-market-16-9.jpg',
+    mobileImage: '/images/tours/9-16/cajas-national-park-9-16.jpg',
     desktopImage: '/images/tours/16-9/otavalo-market-16-9.jpg',
     gallery: [
       '/images/tours/16-9/otavalo-peguche-16-9.jpg',
@@ -216,13 +216,13 @@ export const dailyTours: Tour[] = [
     price: 108,
     price3Star: 108,
     price4Star: 108,
-    imageUrl: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+    imageUrl: '/images/tours/16-9/puyo-yanacocha-16-9.jpg',
     mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
-    desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+    desktopImage: '/images/tours/16-9/puyo-yanacocha-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
-      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg'
+      '/images/tours/16-9/puyo-yanacocha-16-9.jpg',
+      '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+      '/images/tours/16-9/pailon-del-diablo-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 29,
@@ -308,13 +308,14 @@ export const dailyTours: Tour[] = [
     price: 117,
     price3Star: 117,
     price4Star: 117,
-    imageUrl: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+    imageUrl: '/images/tours/16-9/mindo-16-9.jpg',
     mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
-    desktopImage: '/images/tours/16-9/mindo-waterfall-16-9.jpg',
+    desktopImage: '/images/tours/16-9/mindo-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/mindo-waterfall-16-9.jpg',
+      '/images/tours/16-9/mindo-16-9.jpg',
       '/images/tours/9-16/amazon-waterfall-9-16.jpg',
-      '/images/tours/9-16/amazon-loro-9-16.jpg'
+      '/images/tours/9-16/amazon-loro-9-16.jpg',
+      '/images/tours/16-9/pailon-del-diablo-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 45,
@@ -402,7 +403,7 @@ export const dailyTours: Tour[] = [
     price3Star: 96,
     price4Star: 96,
     imageUrl: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-    mobileImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+    mobileImage: '/images/tours/9-16/chimborazo-9-16.jpg',
     desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
     gallery: [
       '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
@@ -469,7 +470,7 @@ export const dailyTours: Tour[] = [
     id: 'cotopaxi-national-park',
     title: {
       en: 'COTOPAXI NATIONAL PARK & VOLCANO',
-      es: 'PARQUE NACIONAL COTOPAXI Y VOLCÁN',
+      es: 'PARQUE NACIONAL Y VOLCÁN COTOPAXI',
       fr: 'PARC NATIONAL COTOPAXI ET VOLCAN',
       de: 'COTOPAXI-NATIONALPARK & VULKAN',
       it: 'PARCO NAZIONALE COTOPAXI E VULCANO',
@@ -493,7 +494,7 @@ export const dailyTours: Tour[] = [
     price3Star: 96,
     price4Star: 96,
     imageUrl: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
-    mobileImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+    mobileImage: '/images/tours/9-16/chimborazo-9-16.jpg',
     desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
     gallery: [
       '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
@@ -585,12 +586,13 @@ export const dailyTours: Tour[] = [
     price3Star: 97,
     price4Star: 97,
     imageUrl: '/images/tours/16-9/quilotoa-16-9.jpg',
-    mobileImage: '/images/tours/16-9/quilotoa-16-9.jpg',
+    mobileImage: '/images/tours/9-16/quilotoa-9-16.jpg',
     desktopImage: '/images/tours/16-9/quilotoa-16-9.jpg',
     gallery: [
+      '/images/tours/16-9/quilotoa-16-9.jpg',
       '/images/tours/16-9/quilotoa-16-9.1.jpg',
       '/images/tours/16-9/quilotoa-16-9.2.jpg',
-      '/images/tours/16-9/quilotoa-16-9.3.jpg'
+      '/images/tours/9-16/quilotoa-9-16.jpg'
     ],
     rating: 5,
     reviewsCount: 48,

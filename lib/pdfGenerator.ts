@@ -446,8 +446,25 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
   const coverBase64 = await loadImageAsBase64(coverImgPath);
 
   const dayImagesBase64: (string | null)[] = [];
+  const usedImageUrls = new Set<string>();
+
   for (let i = 0; i < itinerary.length; i++) {
-    const imgUrl = gallery[i] || gallery[i % gallery.length] || coverImgPath;
+    const day = itinerary[i];
+    let imgUrl = day.image;
+
+    if (!imgUrl) {
+      const unused = gallery.find((g) => g && !usedImageUrls.has(g));
+      if (unused) {
+        imgUrl = unused;
+      } else {
+        imgUrl = gallery[i % gallery.length] || coverImgPath;
+      }
+    }
+
+    if (imgUrl) {
+      usedImageUrls.add(imgUrl);
+    }
+
     const b64 = await loadImageAsBase64(imgUrl);
     dayImagesBase64.push(b64);
   }

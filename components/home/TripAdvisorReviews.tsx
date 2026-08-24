@@ -72,7 +72,7 @@ export function TripAdvisorReviews({
           title="Ver perfil oficial en TripAdvisor"
         >
           <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-serif font-bold text-xl shadow-md shadow-emerald-600/30 group-hover:scale-105 transition-transform">
-            5.0
+            4.9
           </div>
           <div>
             <div className="flex items-center gap-1 text-emerald-600">
@@ -81,10 +81,10 @@ export function TripAdvisorReviews({
               ))}
             </div>
             <p className="text-xs font-bold text-zinc-900 dark:text-white mt-1 flex items-center gap-1">
-              TripAdvisor Verified Rating
+              TripAdvisor Verified Rating (4.9 / 5.0)
               <ExternalLink className="w-3 h-3 text-zinc-400 group-hover:text-emerald-600 transition-colors" />
             </p>
-            <p className="text-[11px] text-zinc-500">Based on 51 Excellent Reviews</p>
+            <p className="text-[11px] text-zinc-500">51 Reviews • #85 of 678 in Quito</p>
           </div>
         </a>
       </div>
@@ -191,15 +191,19 @@ export function TripAdvisorReviews({
                 {/* Author Footer */}
                 <div className="pt-4 border-t border-zinc-100 dark:border-zinc-800/50 flex items-center justify-between gap-3.5 mt-auto relative z-10">
                   <div className="flex items-center gap-3.5">
-                    <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0 border border-emerald-500/30 shadow-sm">
-                      <Image
-                        src={rev.avatarUrl}
-                        alt={rev.author}
-                        fill
-                        sizes="44px"
-                        className="object-cover"
-                        referrerPolicy="no-referrer"
-                      />
+                    <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0 border border-emerald-500/30 shadow-sm bg-gradient-to-br from-emerald-600 to-teal-700 flex items-center justify-center text-white font-bold text-sm">
+                      {rev.avatarUrl ? (
+                        <Image
+                          src={rev.avatarUrl}
+                          alt={rev.author || 'Reviewer'}
+                          fill
+                          sizes="44px"
+                          className="object-cover"
+                          referrerPolicy="no-referrer"
+                        />
+                      ) : (
+                        <span>{rev.author ? rev.author.charAt(0).toUpperCase() : 'G'}</span>
+                      )}
                     </div>
 
                     <div className="space-y-0.5">

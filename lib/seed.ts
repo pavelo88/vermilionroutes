@@ -41,7 +41,7 @@ export const defaultSettings = {
         description: 'The first UNESCO World Cultural Heritage site in the world. Walk along preserved cobblestone streets and marvel at the golden altars of La Compañía Church.',
         image: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
         desktopImage: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
-        mobileImage: '/images/tours/9-16/quito-plaza-independencia-9-16.jpg'
+        mobileImage: '/images/tours/16-9/quito-colonial-16-9.jpg'
       },
       {
         place: 'Tungurahua - Baños',
@@ -50,7 +50,7 @@ export const defaultSettings = {
         description: 'Feel the thunderous roar of Ecuador’s most famous waterfall. Experience suspension bridges, lush tropical cloud forest, and the scenic Route of the Waterfalls.',
         image: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
         desktopImage: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
-        mobileImage: '/images/tours/9-16/banos-cascada-9-16.jpg'
+        mobileImage: '/images/tours/9-16/pailon-diablo-9-16.jpg'
       },
       {
         place: 'Cotopaxi - Andes',
@@ -59,7 +59,7 @@ export const defaultSettings = {
         description: 'The iconic snow-capped volcano rising proudly over 5,897 meters across the Avenue of Volcanoes, surrounded by wild horses and high-altitude Andean páramo.',
         image: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
         desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
-        mobileImage: '/images/tours/9-16/cotopaxi-volcano-9-16.jpg'
+        mobileImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg'
       },
       {
         place: 'Cotopaxi - Quilotoa',
@@ -68,33 +68,33 @@ export const defaultSettings = {
         description: 'Marvel at the striking turquoise waters inside an ancient volcanic caldera located at 3,500 meters altitude with panoramic views of the western Andes range.',
         image: '/images/tours/16-9/quilotoa-16-9.jpg',
         desktopImage: '/images/tours/16-9/quilotoa-16-9.jpg',
-        mobileImage: '/images/tours/16-9/quilotoa-16-9.jpg'
+        mobileImage: '/images/tours/9-16/quilotoa-9-16.jpg'
       },
       {
         place: 'Napo - Amazon Rainforest',
         title: 'DEEP RAINFOREST',
         title2: 'OF AMAZON',
         description: 'Navigate pristine Amazonian rivers by motorized canoe, encounter native wildlife at rescue sanctuaries, and connect with authentic Kichwa indigenous families.',
-        image: '/images/tours/16-9/amazon-river-canoe-16-9.jpg',
-        desktopImage: '/images/tours/16-9/amazon-river-canoe-16-9.jpg',
-        mobileImage: '/images/tours/9-16/amazon-river-canoe-9-16.jpg'
+        image: '/images/tours/16-9/amazon-river-16-9.jpg',
+        desktopImage: '/images/tours/16-9/amazon-river-16-9.jpg',
+        mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg'
       },
       {
         place: 'Galapagos - Isabela Island',
         title: 'TINTORERAS ISLET',
         title2: '& FLAMINGOS',
         description: 'Snorkel in turquoise lava channels with white-tip reef sharks, marine iguanas, and sea turtles, and visit coastal lagoons filled with wild flamingos.',
-        image: '/images/tours/16-9/isabela-island-16-9.jpg',
-        desktopImage: '/images/tours/16-9/isabela-island-16-9.jpg',
-        mobileImage: '/images/tours/9-16/isabela-island-9-16.jpg'
+        image: '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
+        desktopImage: '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
+        mobileImage: '/images/tours/9-16/galapagos-flamingos-9-16.jpg'
       },
       {
         place: 'Azuay - Cuenca & Cajas',
         title: 'COLONIAL CUENCA',
         title2: '& CAJAS',
         description: 'Discover the UNESCO-listed colonial elegance of Cuenca, handcrafted toquilla hats, and hike among the 200 glacial lakes of Cajas National Park.',
-        image: '/images/tours/16-9/cajas-national-park-16-9.jpg',
-        desktopImage: '/images/tours/16-9/cajas-national-park-16-9.jpg',
+        image: '/images/tours/16-9/cuenca-colonial-16-9.jpg',
+        desktopImage: '/images/tours/16-9/cuenca-colonial-16-9.jpg',
         mobileImage: '/images/tours/9-16/cajas-national-park-9-16.jpg'
       },
       {
@@ -104,16 +104,16 @@ export const defaultSettings = {
         description: 'The closest point on Earth to the Sun at 6,310 meters. Experience the majestic Andean reserve home to wild vicuñas and ancestral Inca mountain landscapes.',
         image: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
         desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-        mobileImage: '/images/tours/9-16/chimborazo-volcano-9-16.jpg'
+        mobileImage: '/images/tours/9-16/chimborazo-9-16.jpg'
       },
       {
         place: 'Galapagos - Puerto Ayora',
         title: 'LAS GRIETAS',
         title2: '& LOBERÍA',
         description: 'Swim and snorkel in the crystal-clear volcanic crevice of Las Grietas and observe playful Galapagos sea lions resting on the white sand beaches of La Lobería.',
-        image: '/images/tours/16-9/las-grietas-canyon-16-9.jpg',
-        desktopImage: '/images/tours/16-9/las-grietas-canyon-16-9.jpg',
-        mobileImage: '/images/tours/9-16/las-grietas-canyon-9-16.jpg'
+        image: '/images/tours/16-9/galapagos-las-grietas-16-9.jpg',
+        desktopImage: '/images/tours/16-9/galapagos-las-grietas-16-9.jpg',
+        mobileImage: '/images/tours/9-16/galapagos-las-grietas-9-16.jpg'
       }
     ]
   },
@@ -122,7 +122,7 @@ export const defaultSettings = {
     subtitle: "OUR CREDENTIALS",
     paragraph1: "At Vermilion Routes, we don't just book tours. We curate deeply personal, once-in-a-lifetime expeditions across the spectacular landscapes of Ecuador and the Galapagos. As direct local operators, we combine local wisdom with uncompromising exclusivity.",
     paragraph2: "Whether you are navigating the volcanic channels of the Galapagos on a private yacht charter, staying in remote, eco-friendly Amazon rainforest canopy suites, or walking the cobblestone paths of Quito historic center, we handle every detail with absolute precision.",
-    imageUrl: "/images/tours/16-9/cajas-national-park-16-9.jpg",
+    imageUrl: "/images/tours/16-9/cuenca-colonial-16-9.jpg",
     metric1Val: "100%",
     metric1Lbl: "Bespoke & Tailor-Made",
     metric2Val: "+15 Yrs",

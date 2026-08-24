@@ -63,7 +63,7 @@ export function useHeroSliderAnimation({
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
 
-        offsetTop = height - cardHeight - 160;
+        offsetTop = height - cardHeight - 65;
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
@@ -76,7 +76,7 @@ export function useHeroSliderAnimation({
           set(getCardContent(i), { x, y: offsetTop, opacity: 1 });
         });
 
-        const controlsY = offsetTop + cardHeight + 16;
+        const controlsY = offsetTop + cardHeight + 14;
         set("#pagination", { top: controlsY, left: offsetLeft });
         if (width >= 768) {
 
@@ -94,14 +94,14 @@ export function useHeroSliderAnimation({
         const height = container.clientHeight || window.innerHeight;
         const width = container.clientWidth || window.innerWidth;
 
-        offsetTop = height - cardHeight - 160;
+        offsetTop = height - cardHeight - 65;
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
         const detailsActive = detailsEven ? "#details-even" : "#details-odd";
         const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
 
-        const controlsY = offsetTop + cardHeight + 16;
+        const controlsY = offsetTop + cardHeight + 14;
         set("#pagination", { top: controlsY, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
         if (width >= 768) {
 
@@ -251,6 +251,13 @@ export function useHeroSliderAnimation({
             if (title1El) title1El.textContent = getLocalizedText(currentData.title, locale);
             if (title2El) title2El.textContent = getLocalizedText(currentData.title2, locale);
             if (descEl) descEl.textContent = getLocalizedText(currentData.description, locale);
+          }
+
+          const counterEl = container.querySelector('#hero-slide-counter');
+          if (counterEl) {
+            const currentNum = (order[0] + 1) < 10 ? `0${order[0] + 1}` : `${order[0] + 1}`;
+            const totalNum = slidesData.length < 10 ? `0${slidesData.length}` : `${slidesData.length}`;
+            counterEl.textContent = `${currentNum} / ${totalNum}`;
           }
 
           gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });

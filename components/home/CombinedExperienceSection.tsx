@@ -169,7 +169,7 @@ export function CombinedExperienceSection() {
             </div>
           </div>
 
-          {/* RIGHT SIDE: TripAdvisor Reviews 2-Card Stage (Zero Cut-off) */}
+          {/* RIGHT SIDE: TripAdvisor Reviews 2x2 Grid Stage (4 Compact Cards) */}
           <div 
             className="flex-1 overflow-hidden"
             onMouseEnter={() => setIsHovered(true)}
@@ -178,54 +178,52 @@ export function CombinedExperienceSection() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 h-full">
-              {[0, 1].map((offset) => {
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 h-full">
+              {[0, 1, 2, 3].map((offset) => {
                 const revIndex = (currentIndex + offset) % total;
                 const rev = reviews[revIndex];
 
                 return (
                   <div
                     key={`${rev.id}-${currentIndex}-${offset}`}
-                    className={`bg-white dark:bg-zinc-900/90 backdrop-blur-xl p-5 sm:p-6 rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-3 relative group animate-fade-in ${
-                      offset === 1 ? 'hidden sm:flex' : 'flex'
-                    }`}
+                    className="bg-white dark:bg-zinc-900/90 backdrop-blur-xl p-4 sm:p-4.5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-2 relative group animate-fade-in"
                   >
-                    <Quote className="w-7 h-7 text-emerald-100 dark:text-emerald-950/80 absolute top-5 right-5 pointer-events-none group-hover:text-emerald-200 transition-colors" />
+                    <Quote className="w-5 h-5 text-emerald-100 dark:text-emerald-950/80 absolute top-3.5 right-3.5 pointer-events-none group-hover:text-emerald-200 transition-colors" />
 
-                    <div className="space-y-2.5 relative z-10 flex-1">
+                    <div className="space-y-1.5 relative z-10 flex-1">
                       <div className="flex items-center justify-between">
-                        <div className="flex gap-1">
+                        <div className="flex gap-0.5">
                           {[...Array(rev.rating)].map((_, i) => (
-                            <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                            <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
                           ))}
                         </div>
                         <a 
                           href={tripAdvisorUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+                          className="flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
                         >
-                          <TripAdvisorSvg className="w-3.5 h-3.5" />
+                          <TripAdvisorSvg className="w-3 h-3" />
                           <span>TripAdvisor ↗</span>
                         </a>
                       </div>
                       
-                      <h4 className="font-serif text-sm sm:text-base font-bold text-zinc-900 dark:text-white leading-snug line-clamp-2">
+                      <h4 className="font-serif text-xs sm:text-sm font-bold text-zinc-900 dark:text-white leading-snug line-clamp-1">
                         "{rev.title}"
                       </h4>
                       
-                      <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed italic line-clamp-4">
+                      <p className="text-zinc-600 dark:text-zinc-400 text-[11px] sm:text-xs leading-relaxed italic line-clamp-3">
                         "{rev.comment}"
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-3 relative z-10 pt-3 border-t border-zinc-100 dark:border-zinc-800/60 mt-auto shrink-0">
-                      <div className="w-9 h-9 rounded-full bg-zinc-200 overflow-hidden shrink-0">
-                        <img src={rev.avatarUrl} alt={rev.author} className="w-full h-full object-cover" />
+                    <div className="flex items-center gap-2.5 relative z-10 pt-2 border-t border-zinc-100 dark:border-zinc-800/60 mt-auto shrink-0">
+                      <div className="w-7 h-7 rounded-full bg-emerald-600/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold text-[10px] flex items-center justify-center shrink-0 border border-emerald-500/20">
+                        {rev.author.charAt(0)}
                       </div>
                       <div>
-                        <div className="font-bold text-xs text-zinc-900 dark:text-white">{rev.author}</div>
-                        <div className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">
+                        <div className="font-bold text-xs text-zinc-900 dark:text-white leading-tight">{rev.author}</div>
+                        <div className="text-[9px] text-zinc-500 uppercase tracking-wider font-medium">
                           {rev.location}
                         </div>
                       </div>

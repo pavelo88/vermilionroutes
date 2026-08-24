@@ -52,7 +52,7 @@ export default function BlogIndexPage() {
   const featuredPost = BLOG_POSTS.find((p) => p.featured) || BLOG_POSTS[0];
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#07130C] text-zinc-900 dark:text-zinc-100 pt-28 pb-20 px-4 sm:px-6 lg:px-8 font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#07130C] text-zinc-900 dark:text-zinc-100 pt-32 sm:pt-36 pb-20 px-4 sm:px-6 lg:px-8 font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-300">
       <div className="max-w-7xl mx-auto space-y-12">
         
         {/* Hero Header */}

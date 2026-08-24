@@ -53,7 +53,7 @@ export const HERO_SLIDES_DATA: SlideData[] = [
     },
     image: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
     desktopImage: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
-    mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg'
+    mobileImage: '/images/tours/9-16/pailon-diablo-9-16.jpg'
   },
   {
     place: { en: 'Cotopaxi - Andes', es: 'Cotopaxi - Andes', fr: 'Cotopaxi - Andes', de: 'Cotopaxi - Anden', it: 'Cotopaxi - Ande', pt: 'Cotopaxi - Andes', ja: 'コトパクシ - アンデス', zh: '科托帕希 - 安第斯' },
@@ -87,8 +87,8 @@ export const HERO_SLIDES_DATA: SlideData[] = [
       ja: 'アンデス山脈のパノラマビューを望む標高3,500メートルの古代カルデラ内の見事なターコイズブルーの湖水。',
       zh: '惊叹于海拔3500米古代火山口内令人着迷的绿松石色湖水与壮丽安第斯全景。'
     },
-    image: '/images/tours/16-9/quilotoa-16-9.jpg',
-    desktopImage: '/images/tours/16-9/quilotoa-16-9.jpg',
+    image: '/images/tours/16-9/laguna-quilotoa-16-9.jpg',
+    desktopImage: '/images/tours/16-9/laguna-quilotoa-16-9.jpg',
     mobileImage: '/images/tours/9-16/quilotoa-9-16.jpg'
   },
   {
@@ -106,7 +106,7 @@ export const HERO_SLIDES_DATA: SlideData[] = [
       zh: '乘坐机动独木舟穿行于原始亚马逊支流，探访野生动物保护区，融入传统奇瓦印第安社区。'
     },
     image: '/images/tours/16-9/amazon-river-16-9.jpg',
-    desktopImage: '/images/tours/16-9/amazon-river-16-9.jpg',
+    desktopImage: '/images/tours/16-9/amazon-nutria-9-16.jpg',
     mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg'
   },
   {
@@ -124,7 +124,7 @@ export const HERO_SLIDES_DATA: SlideData[] = [
       zh: '在绿松石色火山熔岩水渠中与白顶礁鲨、海鬣蜥和海龟同游，探访火烈鸟泻湖。'
     },
     image: '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
-    desktopImage: '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
+    desktopImage: '/images/tours/16-9/isabela-island-16-9.jpg',
     mobileImage: '/images/tours/9-16/galapagos-flamingos-9-16.jpg'
   },
   {
@@ -160,8 +160,8 @@ export const HERO_SLIDES_DATA: SlideData[] = [
       zh: '海拔6310米，地球表面距离太阳最近的点。探索栖息着野生小羊驼与古老印加山地的宏伟安第斯保护区。'
     },
     image: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-    desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-    mobileImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg'
+    desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.1.jpg',
+    mobileImage: '/images/tours/9-16/chimborazo-9-16.jpg'
   },
   {
     place: { en: 'Galapagos - Puerto Ayora', es: 'Galápagos - Puerto Ayora', fr: 'Galapagos - Puerto Ayora', de: 'Galapagos - Puerto Ayora', it: 'Galapagos - Puerto Ayora', pt: 'Galápagos - Puerto Ayora', ja: 'ガラパゴス - プエルト・アヨラ', zh: '加拉帕戈斯 - 阿约拉港' },
@@ -177,8 +177,8 @@ export const HERO_SLIDES_DATA: SlideData[] = [
       ja: 'ラス・グリエタスの透き通った溶岩の裂け目で泳ぎ、ラ・ロベリアの白砂のビーチで遊ぶアシカを観察しましょう。',
       zh: '在拉斯格里塔斯清澈见底的火山峡谷裂缝中游泳潜水，在拉洛贝里亚白沙滩观赏海狮群。'
     },
-    image: '/images/tours/16-9/las-grietas-canyon-16-9.jpg',
-    desktopImage: '/images/tours/16-9/las-grietas-canyon-16-9.jpg',
-    mobileImage: '/images/tours/9-16/las-grietas-canyon-9-16.jpg'
+    image: '/images/tours/16-9/galapagos-las-grietas-16-9.jpg',
+    desktopImage: '/images/tours/16-9/galapagos-las-grietas-16-9.jpg',
+    mobileImage: '/images/tours/9-16/galapagos-las-grietas-9-16.jpg'
   }
 ];

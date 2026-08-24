@@ -33,9 +33,9 @@ export function HeroPagination({ totalSlides }: HeroPaginationProps) {
         </div>
       </div>
 
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 overflow-hidden h-[50px] w-12 hidden md:block">
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 overflow-hidden h-[50px] w-14 hidden md:block">
         <div className="indicator absolute right-0 top-0 h-full bg-white/20" style={{ width: '100vw' }} />
-        <div className="relative z-10 flex items-center justify-end h-full pr-2 text-xs font-mono font-bold text-white/80">
+        <div id="hero-slide-counter" className="relative z-10 flex items-center justify-end h-full pr-2 text-xs font-mono font-bold text-white/80">
           01 / {totalSlides < 10 ? `0${totalSlides}` : totalSlides}
         </div>
       </div>

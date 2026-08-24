@@ -30,7 +30,7 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
                 fill
                 priority={idx <= 2}
                 quality={isMobile ? 75 : 90}
-                className="object-cover"
+                className="object-cover object-center md:object-[center_28%]"
                 sizes="100vw"
               />
 

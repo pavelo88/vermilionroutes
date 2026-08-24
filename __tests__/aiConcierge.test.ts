@@ -4,7 +4,7 @@ import { generateConciergeReply, buildSystemPrompt } from '@/lib/ai-providers';
 describe('AI Concierge & Resilient Multi-Language Engine', () => {
   it('should build system prompt containing catalog context and locale instructions', async () => {
     const promptEs = await buildSystemPrompt('es');
-    expect(promptEs).toContain('Valentina');
+    expect(promptEs).toContain('Pyro');
     expect(promptEs).toContain('Spanish (Español)');
     expect(promptEs).toContain('Vermilion Routes');
 

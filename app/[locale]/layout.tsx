@@ -157,8 +157,8 @@ export default async function RootLayout({
     areaServed: ['Galapagos Islands', 'Ecuador', 'Mainland Ecuador', 'Amazon Rainforest', 'Andes Mountains'],
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: '5.0',
-      reviewCount: '148',
+      ratingValue: '4.9',
+      reviewCount: '51',
       bestRating: '5',
       worstRating: '1',
     },
@@ -179,7 +179,7 @@ export default async function RootLayout({
           href="/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg"
           media="(min-width: 768px)"
           // @ts-ignore
-          fetchpriority="high"
+          fetchPriority="high"
         />
         <link
           rel="preload"
@@ -187,7 +187,7 @@ export default async function RootLayout({
           href="/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg"
           media="(max-width: 767px)"
           // @ts-ignore
-          fetchpriority="high"
+          fetchPriority="high"
         />
         <script
           type="application/ld+json"

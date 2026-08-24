@@ -25,9 +25,7 @@ export default function Home() {
       {/* 1. Critical Above-the-Fold Viewport */}
       <div>
         <HeroSlider />
-        <div className="hidden md:block">
-          <StatsSection />
-        </div>
+        <StatsSection />
       </div>
 
       {/* 2. Top Destinations Grid (Direct SSR - 0.00 CLS) */}

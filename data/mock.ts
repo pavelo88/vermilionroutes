@@ -34,11 +34,14 @@ const multiDayTours: Tour[] = [
     mobileImage: '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg',
     desktopImage: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/galapagos-iguana-9-16.jpg',
-      '/images/tours/9-16/galapagos-loberia-9-16.jpg',
-      '/images/tours/9-16/las-grietas-canyon-9-16.jpg',
-      '/images/tours/9-16/galapagos-tortuga-gigante-9-16.1.jpg',
-      '/images/tours/9-16/galapagos-snorkeling-9-16.jpg'
+      '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
+      '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
+      '/images/tours/16-9/galapagos-las-grietas-16-9.jpg',
+      '/images/tours/16-9/galapagos-lobo-marino-16-9.jpg',
+      '/images/tours/16-9/galapagos-piquero-patas-azules-16-9.jpg',
+      '/images/tours/16-9/galapagos-snorkeling-16-9.jpg',
+      '/images/tours/16-9/galapagos-tortuga-bay-16-9.jpg',
+      '/images/tours/16-9/galapagos-tintoreras16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 28,
@@ -93,6 +96,7 @@ const multiDayTours: Tour[] = [
           en: 'Upon arrival at Seymour Airport on Baltra Island, you will be welcomed by our representative and begin your journey through the Galápagos Islands.\n\nAfter crossing the Itabaca Channel to Santa Cruz Island, we will travel to the highlands to visit the famous Twin Craters (Los Gemelos). These impressive volcanic formations are surrounded by the lush Scalesia forest and offer an excellent introduction to the unique geological landscape of Santa Cruz Island.\n\nWe will then continue to Primicias Ranch, a private reserve where giant Galápagos tortoises can be observed roaming freely in their natural environment. During the visit, you will learn about these iconic animals and their importance to the Galápagos ecosystem.\n\nAfter the excursion, we will continue to Puerto Ayora for hotel check-in and the remainder of the day at leisure.',
           es: 'Llegada al Aeropuerto Seymour en Isla Baltra, recepción por nuestro representante e inicio del viaje en Galápagos.\n\nTras cruzar el Canal de Itabaca hacia Isla Santa Cruz, nos trasladamos a las tierras altas para visitar los famosos Cráteres Gemelos (Los Gemelos), impresionantes formaciones volcánicas rodeadas por el bosque de Scalesia.\n\nContinuamos hacia el Rancho Primicias, reserva privada donde las tortugas gigantes de Galápagos viven libremente en su hábitat natural, aprendiendo sobre su conservación y explorando túneles de lava.\n\nTraslado a Puerto Ayora para check-in en el hotel y resto de la tarde libre.'
         },
+        image: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
         accommodation: { en: 'Santa Cruz Island – Puerto Ayora', es: 'Isla Santa Cruz – Puerto Ayora' },
         meals: { en: 'According to selected hotel plan', es: 'Según plan hotelero' },
         transportation: { en: 'Private land transportation & airport shuttle', es: 'Transporte privado terrestre y shuttle de aeropuerto' }
@@ -104,6 +108,7 @@ const multiDayTours: Tour[] = [
           en: 'After breakfast, transfer to the pier to board a speedboat to Isabela Island. The navigation takes approximately 2 to 2.5 hours, depending on sea conditions.\n\nUpon arrival in Puerto Villamil, we will visit the Giant Tortoise Breeding Center, where you will learn about the conservation and breeding programs established to protect Isabela\'s giant tortoise populations.\n\nWe will then visit the Flamingo Lagoon, one of the island\'s most important wetlands. Depending on natural conditions, you may observe Galápagos flamingos and other species of birds in their natural habitat.\n\nThe excursion will continue with a boat trip to Tintoreras Islet, a small volcanic islet located just off the coast of Isabela. Its clear waters and rich marine environment make it an excellent snorkeling destination. During the activity, you may have the opportunity to observe sea lions, sea turtles, rays, penguins and colorful tropical fish, depending on wildlife activity and sea conditions.\n\nAfter the excursion, return by speedboat to Santa Cruz Island and Puerto Ayora.',
           es: 'Traslado al muelle para tomar la lancha rápida hacia Isla Isabela (2 a 2.5 horas de navegación).\n\nEn Puerto Villamil visitamos el Centro de Crianza de Tortugas Gigantes para conocer los programas de reproducción y conservación.\n\nLuego visitamos la Laguna de Flamingos para observar flamingos y aves marinas en los humedales costeros.\n\nPor la tarde, navegación al Islote Tintoreras, formación volcánica de aguas cristalinas ideal para snorkeling con lobos marinos, tortugas marinas, rayas, pingüinos de Galápagos y peces tropicales.\n\nRetorno en lancha rápida a Santa Cruz y Puerto Ayora.'
         },
+        image: '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
         accommodation: { en: 'Santa Cruz Island – Puerto Ayora', es: 'Isla Santa Cruz – Puerto Ayora' },
         meals: { en: 'Breakfast and lunch', es: 'Desayuno y almuerzo' },
         transportation: { en: 'Shared speedboat and private land transportation', es: 'Lancha rápida compartida y transporte terrestre privado' },
@@ -116,6 +121,7 @@ const multiDayTours: Tour[] = [
           en: 'After breakfast, we will begin the day\'s activities with a visit to La Lobería, a coastal area famous for its resident population of Galápagos sea lions. Here, you will have the opportunity to observe these playful animals in their natural environment.\n\nWe will then continue to Punta Estrada, a beautiful coastal area surrounded by rocky formations and clear waters. The area offers excellent opportunities for nature observation and marine activities.\n\nThe excursion will continue to Las Grietas, a spectacular natural formation consisting of a narrow volcanic canyon filled with crystal-clear turquoise water. This is one of the most popular snorkeling and swimming sites near Puerto Ayora.\n\nDuring the snorkeling activity, you can explore the underwater environment and observe a variety of colorful fish and marine life.\n\nAfter the visit, return to Puerto Ayora and enjoy the remainder of the day at leisure.',
           es: 'Visita matutina a La Lobería para observar la colonia residente de lobos marinos de Galápagos en la playa y en el agua.\n\nContinuamos a Punta Estrada, bahía costera de formaciones rocosas y aguas calmas para observación de aves e iguanas marinas.\n\nCaminata hacia Las Grietas, cañón volcánico con aguas cristalinas turquesas donde nadar y hacer snorkel entre paredes de roca de 15 metros.\n\nRetorno a Puerto Ayora y resto de la tarde libre para recorrer el pueblo o descansar.'
         },
+        image: '/images/tours/16-9/galapagos-las-grietas-16-9.jpg',
         accommodation: { en: 'Santa Cruz Island – Puerto Ayora', es: 'Isla Santa Cruz – Puerto Ayora' },
         meals: { en: 'Breakfast', es: 'Desayuno' },
         activity: { en: 'Guided excursion and snorkeling', es: 'Excursión guiada y snorkeling' }
@@ -127,6 +133,7 @@ const multiDayTours: Tour[] = [
           en: 'After breakfast, check out from the hotel and begin the transfer from Puerto Ayora to Baltra Airport.\n\nThe journey includes transportation across Santa Cruz Island and the crossing of the Itabaca Channel, followed by the airport shuttle to Seymour Airport.\n\nUpon arrival at the airport, assistance will be provided for your departure flight, marking the end of your Galápagos Islands experience.',
           es: 'Desayuno, check-out del hotel y traslado terrestre a través de Santa Cruz hacia el Canal de Itabaca.\n\nCruce en ferry y traslado en shuttle hacia el Aeropuerto Seymour de Baltra con asistencia para abordar el vuelo de retorno al continente.'
         },
+        image: '/images/tours/16-9/galapagos-baltra-island-16-9.jpg',
         meals: { en: 'Breakfast', es: 'Desayuno' },
         transportation: { en: 'Private land transportation and airport shuttle', es: 'Transporte terrestre privado y shuttle de aeropuerto' }
       }
@@ -161,15 +168,15 @@ const multiDayTours: Tour[] = [
     price: 1850,
     price3Star: 1850,
     price4Star: 2099,
-    imageUrl: '/images/tours/16-9/galapagos-lobo-marino-16-9.jpg',
-    mobileImage: '/images/tours/16-9/isabela-island-9-16.jpg',
-    desktopImage: '/images/tours/16-9/isabela-island-16-9.jpg',
+    imageUrl: '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
+    mobileImage: '/images/tours/9-16/galapagos-flamingos-9-16.jpg',
+    desktopImage: '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
     gallery: [
       '/images/tours/9-16/galapagos-iguana-9-16.jpg',
       '/images/tours/9-16/galapagos-loberia-9-16.jpg',
       '/images/tours/9-16/santa-fe-island-9-16.jpg',
       '/images/tours/9-16/galapagos-flamingos-9-16.jpg',
-      '/images/tours/9-16/galapagos-snorkeling-9-16.jpg'
+      '/images/tours/16-9/santa-fe-island-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 35,
@@ -299,16 +306,15 @@ const multiDayTours: Tour[] = [
     price: 1999,
     price3Star: 1999,
     price4Star: 2300,
-    imageUrl: '/images/tours/16-9/galapagos-baltra-island-16-9.jpg',
+    imageUrl: '/images/tours/16-9/galapagos-piquero-patas-azules-16-9.jpg',
     mobileImage: '/images/tours/9-16/galapagos-piquero-patas-azules-9-16.jpg',
     desktopImage: '/images/tours/16-9/galapagos-piquero-patas-azules-16-9.jpg',
     gallery: [
-      '/images/tours/9-16/galapagos-san-cristobal-9-16.jpg',
-      '/images/tours/9-16/galapagos-lake-el-junco-9-16.jpg',
-      '/images/tours/9-16/galapagos-loberia-9-16.jpg',
-      '/images/tours/9-16/galapagos-iguana-9-16.jpg',
+      '/images/tours/9-16/galapagos-piquero-patas-azules-9-16.jpg',
+      '/images/tours/16-9/galapagos-baltra-island-16-9.jpg',
       '/images/tours/9-16/tijeretas-hill-9-16.jpg',
-      '/images/tours/9-16/galapagos-lobos-de-mar-9-16.jpg'
+      '/images/tours/9-16/galapagos-lake-el-junco-9-16.jpg',
+      '/images/tours/16-9/galapagos-puerto-ayora-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 39,
@@ -442,16 +448,15 @@ const multiDayTours: Tour[] = [
     price: 1543,
     price3Star: 1543,
     price4Star: 1800,
-    imageUrl: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
-    mobileImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
-    desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+    imageUrl: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
+    mobileImage: '/images/tours/9-16/pailon-diablo-9-16.jpg',
+    desktopImage: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/quito-colonial-16-9.jpg',
-      '/images/tours/16-9/amazon-river-16-9.jpg',
-      '/images/tours/9-16/amazon-loro-9-16.jpg',
-      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
       '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
-      '/images/tours/16-9/quilotoa-16-9.jpg'
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/quilotoa-16-9.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+      '/images/tours/9-16/pailon-diablo-9-16.jpg'
     ],
     rating: 5,
     reviewsCount: 31,
@@ -612,15 +617,19 @@ const multiDayTours: Tour[] = [
     price3Star: 1307,
     price4Star: 1600,
     imageUrl: '/images/tours/16-9/amazon-cuyabeno-16-9.jpg',
-    mobileImage: '/images/tours/16-9/amazon-river-16-9.jpg',
-    desktopImage: '/images/tours/16-9/amazon-river-16-9.jpg',
+    mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+    desktopImage: '/images/tours/16-9/amazon-cuyabeno-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/quito-colonial-16-9.jpg',
-      '/images/tours/9-16/amazon-loro-9-16.jpg',
-      '/images/tours/9-16/amazon-loro-9-16.jpg',
-      '/images/tours/9-16/amazon-waterfall-9-16.jpg',
       '/images/tours/16-9/amazon-cuyabeno-16-9.jpg',
-      '/images/tours/16-9/amazon-river-16-9.jpg'
+      '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
+      '/images/tours/16-9/mitad-del-mundo-16-9.jpg',
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/amazon-river-16-9.jpg',
+      '/images/tours/16-9/puyo-yanacocha-16-9.jpg',
+      '/images/tours/16-9/quito-colonial-16-9.jpg',
+      '/images/tours/16-9/imbabura-16-9.jpg',
+      '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
+      '/images/tours/16-9/otavalo-peguche-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 26,
@@ -665,6 +674,7 @@ const multiDayTours: Tour[] = [
           en: 'Airport Transfer (IN): Welcome at Quito International Airport and private transfer to your hotel.',
           es: 'Recepción en el Aeropuerto Internacional de Quito y traslado privado al hotel.'
         },
+        image: '/images/tours/16-9/quito-colonial-16-9.jpg',
         accommodation: { en: 'Quito', es: 'Quito' }
       },
       {
@@ -674,6 +684,7 @@ const multiDayTours: Tour[] = [
           en: 'Quito was declared a UNESCO World Cultural Heritage Site in 1978 and is considered one of the most beautiful cities in the Americas.\n\nToday, we explore both the modern and historic areas of Quito. The historic center is renowned for its impressive churches, colonial architecture, and beautiful plazas.\n\nWe will visit the Cathedral, the Archbishop’s Palace, and the Presidential Palace, all located around the main square, known as Plaza Grande. We will also visit La Compañía de Jesús, one of Quito’s most spectacular churches, famous for its richly decorated interior covered in gold leaf, as well as San Francisco Square and Church.\n\nWe then continue to the Middle of the World (Mitad del Mundo), where we visit the Intiñan Museum, famous for its demonstrations and experiments related to the Equator. Here, you can experience the unique sensation of standing in the Northern and Southern Hemispheres at the same time.',
           es: 'Recorrido por las joyas coloniales de Quito: Catedral, Palacio de Carondelet, Iglesia de la Compañía de Jesús y Plaza San Francisco.\n\nVisita al Museo Intiñan en la Mitad del Mundo para experimentar los fenómenos físicos de la línea ecuatorial.'
         },
+        image: '/images/tours/16-9/mitad-del-mundo-16-9.jpg',
         accommodation: { en: 'Quito', es: 'Quito' },
         activity: { en: '5-hour guided tour', es: 'Tour guiado de 5 horas' },
         transportation: { en: 'Private transportation (4x4 vehicles or tourist buses)', es: 'Transporte privado' },
@@ -686,6 +697,7 @@ const multiDayTours: Tour[] = [
           en: 'We travel approximately two hours east of Quito along a historic route used by Spanish explorers in the 16th century in their search for gold and cinnamon. This expedition eventually led to the discovery of the Amazon River.\n\nAlong the way, we pass by the historic Guápulo Church and cross the Andes at approximately 4,100 meters (13,451 ft) above sea level. The route passes between two ecological reserves before descending toward the transition zone between the Andes and the Ecuadorian Amazon.\n\nWe stop at the famous Papallacta Hot Springs, where you can choose from several activities: relax in thermal pools with different temperatures while enjoying spectacular views of Antisana Volcano (5,704 m / 18,714 ft), enjoy some relaxing time at the spa, or explore the walking trails around the area.\n\nWe then continue our descent toward the Amazon rainforest.',
           es: 'Cruce de los Andes a 4,100 m y relax en las Termas de Papallacta con vista al Antisana. Descenso a la Amazonía hasta llegar a nuestro lodge en Tena.'
         },
+        image: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
         accommodation: { en: 'Tena Lodge', es: 'Tena Lodge' },
         activity: { en: '6-hour guided tour; descent from 4,000m to 500m; 1-hour hike', es: 'Tour de 6 horas y caminata de 1 hora' },
         transportation: { en: 'Private transportation (4x4 vehicles or tourist buses)', es: 'Transporte privado' },
@@ -698,9 +710,10 @@ const multiDayTours: Tour[] = [
           en: 'In the morning, we board a motorized canoe and travel downstream to visit an Amazon rainforest wildlife rescue center, where we will learn about local wildlife and conservation efforts.\n\nWe then have the opportunity to explore primary rainforest on foot, accompanied by a knowledgeable local guide. During the hike, we will discover the incredible biodiversity of the Amazon and learn about the rainforest ecosystem.\n\nWe will also visit a local Kichwa family and learn about their traditions, culture, and daily way of life.\n\nFinally, we visit a caiman lagoon, where we can observe these fascinating Amazonian reptiles in their natural environment.\n\nReturn to the lodge and overnight stay.',
           es: 'Canoa por el río amazónico, visita al centro de rescate de fauna, caminata por la selva primaria, encuentro cultural con una familia Kichwa y laguna de caimanes.'
         },
+        image: '/images/tours/16-9/amazon-river-16-9.jpg',
         accommodation: { en: 'Tena Lodge', es: 'Tena Lodge' },
         activity: { en: '6-hour guided tour + 1-hour motorized canoe ride', es: 'Tour de 6h + canoa de 1h' },
-        transportation: { en: 'Private transportation (4x4 vehicles or tourist buses)', es: 'Transporte privado' },
+        transportation: { en: 'Private transportation and motorized canoe', es: 'Transporte privado y canoa motorizada' },
         meals: { en: 'Breakfast, lunch, and dinner', es: 'Desayuno, almuerzo y cena' }
       },
       {
@@ -710,6 +723,7 @@ const multiDayTours: Tour[] = [
           en: 'In the morning, we visit Paikawe Reserve, where we have the opportunity to hike through primary rainforest and explore the lagoon by boat.\n\nDuring the visit, we can observe the impressive giant fish of the Amazon and discover the extraordinary biodiversity of this tropical environment.\n\nAfter the visit, we begin our return journey to Quito.',
           es: 'Visita a la Reserva Paikawe con caminata en selva y navegación en canoa para observar los peces gigantes del Amazonas (Paiche/Arapaima). Retorno a Quito.'
         },
+        image: '/images/tours/16-9/puyo-yanacocha-16-9.jpg',
         accommodation: { en: 'Quito', es: 'Quito' },
         activity: { en: '6-hour guided tour + 1-hour rainforest hike (500m alt.)', es: 'Tour de 6 horas y caminata de 1h' },
         transportation: { en: 'Private transportation (4x4 vehicles or tourist buses)', es: 'Transporte privado' },
@@ -722,6 +736,7 @@ const multiDayTours: Tour[] = [
           en: 'Enjoy a free day to relax, explore Quito independently, or discover more of the city’s cultural and historical attractions.',
           es: 'Día libre en Quito para recorrer sus museos, gastronomía o descansar.'
         },
+        image: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
         accommodation: { en: 'Quito', es: 'Quito' },
         meals: { en: 'Breakfast', es: 'Desayuno' }
       },
@@ -732,6 +747,7 @@ const multiDayTours: Tour[] = [
           en: 'Private transfer to the airport for your onward flight connections to the Galápagos Islands.\n\nEnd of the tour.',
           es: 'Traslado privado al aeropuerto para su vuelo de conexión o retorno internacional.'
         },
+        image: '/images/tours/16-9/imbabura-16-9.jpg',
         transportation: { en: 'Private transportation (4x4 vehicles or tourist buses)', es: 'Transporte privado' }
       }
     ]
@@ -766,13 +782,14 @@ const multiDayTours: Tour[] = [
     price3Star: 1102,
     price4Star: 1300,
     imageUrl: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-    mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
-    desktopImage: '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
+    mobileImage: '/images/tours/9-16/chimborazo-9-16.jpg',
+    desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
-      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
       '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-      '/images/tours/16-9/puyo-yanacocha-16-9.jpg'
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
+      '/images/tours/9-16/chimborazo-9-16.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9.3.jpg'
     ],
     rating: 5,
     reviewsCount: 19,
@@ -906,15 +923,15 @@ const multiDayTours: Tour[] = [
     price: 1512,
     price3Star: 1512,
     price4Star: 1799,
-    imageUrl: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
-    mobileImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+    imageUrl: '/images/tours/16-9/cuenca-colonial-16-9.jpg',
+    mobileImage: '/images/tours/9-16/cajas-national-park-9-16.jpg',
     desktopImage: '/images/tours/16-9/cuenca-colonial-16-9.jpg',
     gallery: [
+      '/images/tours/16-9/cuenca-colonial-16-9.jpg',
       '/images/tours/16-9/otavalo-peguche-16-9.jpg',
       '/images/tours/16-9/quito-colonial-16-9.jpg',
       '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
       '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-      '/images/tours/16-9/ruinas-de-ingapirca-16-9.jpg',
       '/images/tours/9-16/cajas-national-park-9-16.jpg',
       '/images/tours/9-16/guayaquil-9-16.jpg',
       '/images/tours/16-9/guayaquil-16-9.jpg'
@@ -1079,17 +1096,17 @@ const multiDayTours: Tour[] = [
     price: 2797,
     price3Star: 2797,
     price4Star: 2950,
-    imageUrl: '/images/tours/16-9/quito-colonial-16-9.jpg',
-    mobileImage: '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg',
-    desktopImage: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
+    imageUrl: '/images/tours/16-9/galapagos-tortuga-bay-16-9.jpg',
+    mobileImage: '/images/tours/9-16/galapagos-loberia-9-16.jpg',
+    desktopImage: '/images/tours/16-9/galapagos-tortuga-bay-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/quito-colonial-16-9.jpg',
+      '/images/tours/16-9/galapagos-tortuga-bay-16-9.jpg',
       '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
       '/images/tours/16-9/amazon-river-16-9.jpg',
       '/images/tours/9-16/galapagos-piquero-patas-azules-9-16.jpg',
       '/images/tours/9-16/galapagos-iguana-9-16.jpg',
-      '/images/tours/16-9/isabela-island-9-16.jpg',
-      '/images/tours/9-16/las-grietas-canyon-9-16.jpg',
+      '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
+      '/images/tours/9-16/galapagos-las-grietas-9-16.jpg',
       '/images/tours/9-16/santa-fe-island-9-16.jpg'
     ],
     rating: 5,
@@ -1266,7 +1283,7 @@ const multiDayTours: Tour[] = [
         title: { en: 'DAY 12 – QUITO | INTERNATIONAL DEPARTURE', es: 'DÍA 12 – QUITO | SALIDA INTERNACIONAL' },
         description: {
           en: 'After breakfast, check out from the hotel and meet your private driver for your transfer to Mariscal Sucre International Airport.\n\nAssistance will be provided for your departure flight and international connections.\n\nThis marks the end of your Ecuador and Galápagos Islands experience.',
-          es: 'Desayuno y traslado privado al Aeropuerto Mariscal Sucre de Quito para abordar su vuelo internacional. Fin de los servicios.'
+          es: 'Desayuno y traslado privado al Aeropuerto Mariscal Sucre de Quito para abordar su vuelo internacional de retorno. Fin de los servicios.'
         },
         meals: { en: 'Breakfast', es: 'Desayuno' },
         transportation: { en: 'Private airport transfer', es: 'Traslado privado al aeropuerto' }
@@ -1302,17 +1319,18 @@ const multiDayTours: Tour[] = [
     price: 2437,
     price3Star: 2437,
     price4Star: 2599,
-    imageUrl: '/images/tours/16-9/mitad-del-mundo-16-9.jpg',
-    mobileImage: '/images/tours/9-16/galapagos-flamingos-9-16.jpg',
-    desktopImage: '/images/tours/16-9/galapagos-flamingos-16-9.jpg',
+    imageUrl: '/images/tours/16-9/galapagos-snorkeling-16-9.jpg',
+    mobileImage: '/images/tours/9-16/galapagos-snorkeling-9-16.jpg',
+    desktopImage: '/images/tours/16-9/galapagos-snorkeling-16-9.jpg',
     gallery: [
+      '/images/tours/16-9/galapagos-snorkeling-16-9.jpg',
       '/images/tours/16-9/quito-colonial-16-9.jpg',
       '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
       '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
       '/images/tours/16-9/amazon-river-16-9.jpg',
       '/images/tours/9-16/galapagos-lobos-de-mar-9-16.jpg',
       '/images/tours/9-16/galapagos-flamingos-9-16.jpg',
-      '/images/tours/9-16/las-grietas-canyon-9-16.jpg',
+      '/images/tours/9-16/galapagos-las-grietas-9-16.jpg',
       '/images/tours/9-16/tijeretas-hill-9-16.jpg'
     ],
     rating: 5,
@@ -1512,14 +1530,12 @@ export const mockDestinations: Destination[] = [
     toursCount: 3,
     slug: 'galapagos'
   },
-  /* PERU_DISABLED: Combined Journeys destination temporarily disabled.
-     Re-enable by removing these comment delimiters when Peru tours are ready.
   {
     id: 'combined',
-    name: { en: 'Combined Journeys', es: 'Viajes Combinados', fr: 'Voyages Combinés', de: 'Kombinierte Reisen', it: 'Viaggi Combinati', pt: 'Viagens Combinadas', ja: 'コンビネーションツアー', zh: '全景组合探索' },
+    name: { en: 'Grand Combined Expeditions', es: 'Grandes Expediciones Combinadas', fr: 'Grandes Expéditions Combinées', de: 'Große Kombinations-Expeditionen', it: 'Grandi Spedizioni Combinate', pt: 'Grandes Expedições Combinadas', ja: 'グランド・コンビネーション探検', zh: '全景尊享组合探险' },
     subtitle: { en: 'Mainland Ecuador + Galápagos Islands', es: 'Ecuador Continental + Islas Galápagos', fr: 'Équateur Continental + Îles Galápagos', de: 'Festland Ecuador + Galapagos-Inseln', it: 'Ecuador Continentale + Isole Galapagos', pt: 'Equador Continental + Ilhas Galápagos', ja: 'エクアドル本土 ＋ ガラパゴス諸島', zh: '厄瓜多尔大陆 ＋ 加拉帕戈斯群岛' },
     description: {
-      en: 'The ultimate South American master journeys linking volcanic Andean trails, Amazon wonders and the pristine Galápagos islands.',
+      en: 'The ultimate master journeys linking volcanic Andean trails, Amazon wonders and the pristine Galápagos islands.',
       es: 'Grandes travesías integrales que unen lo mejor de los Andes, la Amazonía y los cruceros en las Islas Galápagos en un solo viaje.',
       zh: '精选全景路线，将安第斯山脉、亚马逊雨林与加拉帕戈斯群岛的奇迹完美融为一体。'
     },
@@ -1527,15 +1543,14 @@ export const mockDestinations: Destination[] = [
     toursCount: 2,
     slug: 'combined'
   },
-  */
   {
     id: 'full-day',
     name: { en: 'Day Excursions', es: 'Excursiones Full Day', fr: 'Excursions Full Day', de: 'Full-Day Tagesausflüge', it: 'Escursioni Full Day', pt: 'Passeios Full Day', ja: '日帰りツアー (Full Day)', zh: '单日全景游 (Full Day)' },
-    subtitle: { en: '1-Day Tours in Galapagos & Mainland', es: 'Tours de 1 Día en Galápagos y Continente', fr: 'Tours d\'une journée aux Galápagos et Continent', de: '1-Tages-Touren in Galapagos und Festland', it: 'Tour di 1 Giorno a Galapagos e Continente', pt: 'Tours de 1 Dia em Galápagos e Continente', ja: 'ガラパゴス＆本土 1日ツアー', zh: '加拉帕戈斯与大陆 1日精选游' },
+    subtitle: { en: '1-Day Tours in Mainland Ecuador', es: 'Tours de 1 Día en Ecuador Continental', fr: 'Tours d\'une journée en Équateur Continental', de: '1-Tages-Touren in Festland-Ecuador', it: 'Tour di 1 Giorno in Ecuador Continentale', pt: 'Tours de 1 Dia no Equador Continental', ja: 'エクアドル本土 1日ツアー', zh: '厄瓜多尔大陆 1日精选游' },
     description: {
-      en: 'Immersive 1-day adventures: volcanic craters, snorkel reefs, cloud forests, thermal springs and indigenous markets.',
-      es: 'Aventuras inmersivas de 1 día a cráteres volcánicos, arrecifes de snorkel, bosque nuboso, termas y mercados indígenas.',
-      zh: '全日游精选：赤道线、奥塔瓦洛集市、帕帕亚克塔温泉、明多云雾森林、科托帕希与基洛托阿。'
+      en: 'Immersive 1-day adventures: volcanic craters, Andean waterfalls, cloud forests, thermal springs and indigenous artisan markets.',
+      es: 'Aventuras inmersivas de 1 día a cráteres volcánicos, cascadas andinas, bosque nuboso, termas y mercados indígenas en Ecuador Continental.',
+      zh: '厄瓜多尔大陆全日游精选：赤道线、奥塔瓦洛集市、帕帕亚克塔温泉、明多云雾森林、科托帕希与基洛托阿。'
     },
     imageUrl: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
     toursCount: 7,

@@ -7,10 +7,13 @@ interface HeroActionsProps {
 }
 
 export function HeroActions({ exploreLabel, planLabel }: HeroActionsProps) {
+  {/* 🎨 AJUSTE POSICIÓN BOTONES HERO:
+      - En Celular: bottom-[55px] sm:bottom-[65px] (cambia 55px para subir o bajar los botones en móvil)
+      - En Escritorio: md:top-[calc(50%+148px)] md:left-[30px] lg:left-[60px] (cambia 148px para subir/bajar en desktop) */}
   return (
     <div
       id="hero-action-buttons"
-      className="absolute inset-x-0 bottom-[55px] sm:bottom-[65px] md:bottom-auto md:top-[calc(50%+148px)] md:inset-x-auto md:left-[30px] lg:left-[60px] z-30 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-2.5 sm:gap-3.5 px-4 pointer-events-auto"
+      className="absolute inset-x-0 bottom-[75px] sm:bottom-[80px] md:bottom-[65px] lg:bottom-[70px] xl:bottom-[75px] md:inset-x-auto md:left-[30px] lg:left-[60px] z-30 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-2.5 sm:gap-3.5 px-4 pointer-events-auto"
     >
       <button
         suppressHydrationWarning

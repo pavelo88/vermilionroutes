@@ -44,7 +44,7 @@ export class DatabaseService<T extends { id?: string } = any> {
       if (!docSnap.exists()) {
         return this.getFallbackById(id);
       }
-      return { id: docSnap.id, ...docSnap.data() } as T;
+      return this.sanitizeItem({ id: docSnap.id, ...docSnap.data() });
     } catch (error: any) {
       console.warn(`[DatabaseService:${this.collectionName}] Error fetching ID ${id}, using fallback:`, error);
       return this.getFallbackById(id);
@@ -64,7 +64,7 @@ export class DatabaseService<T extends { id?: string } = any> {
       if (querySnapshot.empty) {
         return this.getFallbackAll();
       }
-      return querySnapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as T);
+      return querySnapshot.docs.map((d) => this.sanitizeItem({ id: d.id, ...d.data() }));
     } catch (error: any) {
       console.warn(`[DatabaseService:${this.collectionName}] Error in getAll, using fallback:`, error);
       return this.getFallbackAll();
@@ -157,7 +157,7 @@ export class DatabaseService<T extends { id?: string } = any> {
           if (snapshot.empty) {
             onData(this.getFallbackAll());
           } else {
-            const items = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }) as T);
+            const items = snapshot.docs.map((d) => this.sanitizeItem({ id: d.id, ...d.data() }));
             onData(items);
           }
         },
@@ -173,6 +173,32 @@ export class DatabaseService<T extends { id?: string } = any> {
       if (onError) onError(err);
       return () => {};
     }
+  }
+
+  private sanitizeItem(item: any): T {
+    if (!item) return item;
+    if (this.collectionName === 'tours' && item.id) {
+      const canonical = mockTours.find((t) => t.id === item.id);
+      if (canonical) {
+        return {
+          ...item,
+          imageUrl: canonical.imageUrl,
+          desktopImage: canonical.desktopImage || canonical.imageUrl,
+          mobileImage: canonical.mobileImage || canonical.imageUrl,
+          gallery: canonical.gallery && canonical.gallery.length > 0 ? canonical.gallery : item.gallery,
+        } as T;
+      }
+    }
+    if (this.collectionName === 'destinations' && item.id) {
+      const canonical = mockDestinations.find((d) => d.id === item.id || d.slug === item.id);
+      if (canonical) {
+        return {
+          ...item,
+          imageUrl: canonical.imageUrl,
+        } as T;
+      }
+    }
+    return item as T;
   }
 
   private getFallbackAll(): T[] {
