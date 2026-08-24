@@ -32,7 +32,8 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     galapagosChapterTitle: "CHAPTER II: GALAPAGOS ISLANDS — MARINE EXPEDITION",
     andesChapterTitle: "CHAPTER I: ANDES & AMAZON REGION",
     conciergeTitle: "24/7 WHATSAPP CONCIERGE & CUSTOM BOOKING",
-    conciergeDesc: "Contact +593 994 048 458 to customize your dates, hotel upgrades, or private naturalist guides."
+    conciergeDesc: "Contact +593 994 048 458 to customize your dates, hotel upgrades, or private naturalist guides.",
+    gallerySectionTitle: "VISUAL APPENDIX — FEATURED DESTINATIONS & LANDMARKS"
   },
   es: {
     itineraryTitle: "Itinerario Oficial y Guía de Viaje 2026",
@@ -61,7 +62,8 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     galapagosChapterTitle: "CAPÍTULO II: ISLAS GALÁPAGOS — EXPEDICIÓN MARINA",
     andesChapterTitle: "CAPÍTULO I: REGIÓN ANDINA Y AMAZONÍA",
     conciergeTitle: "CONCIERGE 24/7 WHATSAPP Y RESERVAS PERSONALIZADAS",
-    conciergeDesc: "Escribe a +593 994 048 458 para personalizar fechas, mejorar hoteles o solicitar guías privados."
+    conciergeDesc: "Escribe a +593 994 048 458 para personalizar fechas, mejorar hoteles o solicitar guías privados.",
+    gallerySectionTitle: "ANEXO FOTOGRÁFICO — DESTINOS Y LUGARES DESTACADOS"
   },
   fr: {
     itineraryTitle: "Itinéraire Officiel & Guide de Voyage 2026",
@@ -90,7 +92,8 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     galapagosChapterTitle: "CHAPITRE II: ÎLES GALAPAGOS — EXPÉDITION MARINE",
     andesChapterTitle: "CHAPITRE I: RÉGION DES ANDES ET AMAZONIE",
     conciergeTitle: "CONCIERGE 24/7 WHATSAPP & RÉSERVATIONS SUR MESURE",
-    conciergeDesc: "Contactez le +593 994 048 458 pour personnaliser vos dates ou hébergements."
+    conciergeDesc: "Contactez le +593 994 048 458 pour personnaliser vos dates ou hébergements.",
+    gallerySectionTitle: "ANNEXE VISUELLE — DESTINATIONS ET SITES EMBLÉMATIQUES"
   },
   de: {
     itineraryTitle: "Offizieller Reiseplan & Reiseführer 2026",
@@ -119,7 +122,8 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     galapagosChapterTitle: "KAPITEL II: GALAPAGOS-INSELN — MEERESEXPEDITION",
     andesChapterTitle: "KAPITEL I: ANDEN & AMAZONAS-REGION",
     conciergeTitle: "24/7 WHATSAPP CONCIERGE & INDIVIDUELLE BUCHUNG",
-    conciergeDesc: "Schreiben Sie an +593 994 048 458 für maßgeschneiderte Daten und Hotels."
+    conciergeDesc: "Schreiben Sie an +593 994 048 458 für maßgeschneiderte Daten und Hotels.",
+    gallerySectionTitle: "BILDANHANG — AUSGEWÄHLTE REISEZIELE & HÖHEPUNKTE"
   },
   it: {
     itineraryTitle: "Itinerario Ufficiale e Guida 2026",
@@ -148,14 +152,15 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     galapagosChapterTitle: "CAPITOLO II: ISOLE GALAPAGOS — SPEDIZIONE MARINA",
     andesChapterTitle: "CAPITOLO I: REGIONE DELLE ANDE E AMMAZZONIA",
     conciergeTitle: "CONCIERGE 24/7 WHATSAPP E PRENOTAZIONI SU MISURA",
-    conciergeDesc: "Contatta +593 994 048 458 per personalizzare date, hotel o guide private."
+    conciergeDesc: "Contatta +593 994 048 458 per personalizzare date, hotel o guide private.",
+    gallerySectionTitle: "APPENDICE VISIVA — DESTINAZIONI E LUOGHI DI RILIEVO"
   },
   pt: {
     itineraryTitle: "Itinerário Oficial e Guia de Viagem 2026",
     duration: "Duração",
     destination: "Destino",
     category: "Categoria",
-    pricing: "Opções de Tarifa por Pessoa",
+    pricing: "Opções de Tarifa por Persona",
     hotel3star: "Hotéis 3* Conforto",
     hotel4star: "Hotéis 4* Luxo",
     fixedPrice: "Tarifa Oficial por Pessoa (Tour Privado)",
@@ -177,7 +182,8 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     galapagosChapterTitle: "CAPÍTULO II: ILHAS GALÁPAGOS — EXPEDIÇÃO MARÍTIMA",
     andesChapterTitle: "CAPÍTULO I: REGIÃO DOS ANDES E AMAZÔNIA",
     conciergeTitle: "CONCIERGE 24/7 WHATSAPP E RESERVAS PERSONALIZADAS",
-    conciergeDesc: "Fale com +593 994 048 458 para personalizar suas datas ou hotéis."
+    conciergeDesc: "Fale com +593 994 048 458 para personalizar suas datas ou hotéis.",
+    gallerySectionTitle: "ANEXO VISUAL — DESTINOS E LOCAIS EM DESTAQUE"
   },
   ja: {
     itineraryTitle: "公式旅程＆旅行ガイド 2026",
@@ -206,7 +212,8 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     galapagosChapterTitle: "第2章: ガラパゴス諸島 — 海洋探検",
     andesChapterTitle: "第1章: アンデス＆アマゾン地域",
     conciergeTitle: "24時間対応WHATSAPPコンシェルジュ＆カスタム予約",
-    conciergeDesc: "+593 994 048 458 まで日程や宿泊先のアップグレードをご相談ください。"
+    conciergeDesc: "+593 994 048 458 まで日程や宿泊先のアップグレードをご相談ください。",
+    gallerySectionTitle: "ビジュアル付録 — 注目の目的地＆名所ギャラリー"
   },
   zh: {
     itineraryTitle: "官方行程与旅行指南 2026",
@@ -235,7 +242,8 @@ const PDF_TRANSLATIONS: Record<string, Record<string, string>> = {
     galapagosChapterTitle: "第二章: 加拉帕戈斯群岛 — 海洋探险",
     andesChapterTitle: "第一章: 安第斯与亚马逊地区",
     conciergeTitle: "24/7 WHATSAPP 专属礼宾服务与私人定制",
-    conciergeDesc: "请联系 +593 994 048 458 定制您的出行日期、酒店升级或专属私人导游。"
+    conciergeDesc: "请联系 +593 994 048 458 定制您的出行日期、酒店升级或专属私人导游。",
+    gallerySectionTitle: "视觉附录 — 核心目的地与标志性景观画册"
   }
 };
 
@@ -467,6 +475,17 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
 
     const b64 = await loadImageAsBase64(imgUrl);
     dayImagesBase64.push(b64);
+  }
+
+  // Pre-load full tour gallery images for the visual appendix
+  const galleryImagesBase64: { url: string; b64: string | null }[] = [];
+  for (const gUrl of gallery) {
+    if (gUrl) {
+      const b64 = await loadImageAsBase64(gUrl);
+      if (b64) {
+        galleryImagesBase64.push({ url: gUrl, b64 });
+      }
+    }
   }
 
   // Draw Page 1 warm ivory paper background
@@ -1037,7 +1056,52 @@ export async function generateTourPDF(tour: Tour, locale: string = 'es'): Promis
     }
   }
 
-  // 7. CONCIERGE ASSISTANCE BADGE (NO RAW UNICODE EMOJIS)
+  // 7. VISUAL APPENDIX / GALLERY OF FEATURED DESTINATIONS & LANDMARKS
+  if (galleryImagesBase64.length > 0) {
+    checkPageBreak(65);
+    yPos += 5;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10.5);
+    doc.setTextColor(6, 78, 59);
+    doc.text((t.gallerySectionTitle || "ANEXO FOTOGRÁFICO — DESTINOS Y LUGARES DESTACADOS").toUpperCase(), marginX, yPos);
+    doc.setDrawColor(167, 243, 208);
+    doc.setLineWidth(0.8);
+    doc.line(marginX, yPos + 2, marginX + contentWidth, yPos + 2);
+    yPos += 8;
+
+    const colWidth = (contentWidth - 6) / 2; // 88mm
+    const colHeight = 50; // 50mm height
+
+    for (let gIdx = 0; gIdx < galleryImagesBase64.length; gIdx += 2) {
+      checkPageBreak(colHeight + 6);
+
+      const img1 = galleryImagesBase64[gIdx];
+      const img2 = galleryImagesBase64[gIdx + 1];
+
+      if (img1 && img1.b64) {
+        doc.setFillColor(241, 245, 249);
+        doc.roundedRect(marginX, yPos, colWidth, colHeight, 1.5, 1.5, 'F');
+        doc.addImage(img1.b64, 'JPEG', marginX, yPos, colWidth, colHeight);
+        doc.setDrawColor(203, 213, 225);
+        doc.setLineWidth(0.2);
+        doc.roundedRect(marginX, yPos, colWidth, colHeight, 1.5, 1.5, 'D');
+      }
+
+      if (img2 && img2.b64) {
+        const x2 = marginX + colWidth + 6;
+        doc.setFillColor(241, 245, 249);
+        doc.roundedRect(x2, yPos, colWidth, colHeight, 1.5, 1.5, 'F');
+        doc.addImage(img2.b64, 'JPEG', x2, yPos, colWidth, colHeight);
+        doc.setDrawColor(203, 213, 225);
+        doc.setLineWidth(0.2);
+        doc.roundedRect(x2, yPos, colWidth, colHeight, 1.5, 1.5, 'D');
+      }
+
+      yPos += colHeight + 5;
+    }
+  }
+
+  // 8. CONCIERGE ASSISTANCE BADGE (NO RAW UNICODE EMOJIS)
   checkPageBreak(28);
   yPos += 5;
   doc.setFillColor(236, 253, 245);

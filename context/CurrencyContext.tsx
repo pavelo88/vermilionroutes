@@ -54,7 +54,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 
   const formatPrice = (amountInUSD: number): string => {
     const converted = convertPrice(amountInUSD);
-    return `${currentCurrencyInfo.symbol}${converted.toLocaleString()} ${currency}`;
+    return `${currentCurrencyInfo.symbol}${converted.toLocaleString('en-US')} ${currency}`;
   };
 
   return (
@@ -79,7 +79,7 @@ export function useCurrency() {
     return {
       currency: 'USD' as CurrencyCode,
       setCurrency: () => {},
-      formatPrice: (amountInUSD: number) => `$${amountInUSD.toLocaleString()} USD`,
+      formatPrice: (amountInUSD: number) => `$${amountInUSD.toLocaleString('en-US')} USD`,
       convertPrice: (amountInUSD: number) => amountInUSD,
       currentCurrencyInfo: CURRENCIES.USD
     };

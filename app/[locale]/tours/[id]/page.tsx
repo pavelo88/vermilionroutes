@@ -34,10 +34,20 @@ interface TourDetailPageProps {
 import { mockTours } from '@/data/mock';
 import { getLocalizedText } from '@/utils/i18nHelper';
 
+// Pre-render all locale × tour combinations at build time so Firestore is
+// never called at request time in production (avoids timeout crashes).
+export const dynamicParams = false;
+
+const SUPPORTED_LOCALES = ['en', 'es', 'fr', 'de', 'it', 'pt', 'ja', 'zh'];
+
 export async function generateStaticParams() {
-  return mockTours.map((tour) => ({
-    id: tour.id,
-  }));
+  const params: { locale: string; id: string }[] = [];
+  for (const locale of SUPPORTED_LOCALES) {
+    for (const tour of mockTours) {
+      params.push({ locale, id: tour.id });
+    }
+  }
+  return params;
 }
 
 export async function generateMetadata({ params }: TourDetailPageProps): Promise<Metadata> {

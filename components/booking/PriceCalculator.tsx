@@ -58,24 +58,24 @@ export function PriceCalculator({ tour, pricing, date, onContinue, canContinue, 
         )}
       </div>
 
-      <div className="space-y-3 pt-6 border-t border-zinc-100 dark:border-zinc-800/80 mb-6">
+      <div className="space-y-3 pt-6 border-t border-zinc-100 dark:border-zinc-800/80 mb-6" suppressHydrationWarning>
         {pricing.adultsCount > 0 && (
           <div className="flex justify-between text-sm">
             <span className="text-zinc-500">Adultos ({pricing.adultsCount} x ${pricing.basePricePerAdult})</span>
-            <span className="font-medium text-zinc-900 dark:text-white">${pricing.adultsTotal.toLocaleString()}</span>
+            <span className="font-medium text-zinc-900 dark:text-white">${pricing.adultsTotal.toLocaleString('en-US')}</span>
           </div>
         )}
         
         {pricing.childrenCount > 0 && (
           <div className="flex justify-between text-sm">
             <span className="text-zinc-500">Niños ({pricing.childrenCount} x ${pricing.basePricePerChild})</span>
-            <span className="font-medium text-zinc-900 dark:text-white">${pricing.childrenTotal.toLocaleString()}</span>
+            <span className="font-medium text-zinc-900 dark:text-white">${pricing.childrenTotal.toLocaleString('en-US')}</span>
           </div>
         )}
 
         <div className="flex justify-between text-sm pt-2">
           <span className="text-zinc-900 dark:text-white font-medium">Subtotal</span>
-          <span className="font-medium text-zinc-900 dark:text-white">${pricing.subtotal.toLocaleString()}</span>
+          <span className="font-medium text-zinc-900 dark:text-white">${pricing.subtotal.toLocaleString('en-US')}</span>
         </div>
 
         {pricing.groupDiscountAmount > 0 && (
@@ -84,17 +84,17 @@ export function PriceCalculator({ tour, pricing, date, onContinue, canContinue, 
               <Ticket className="w-3.5 h-3.5" /> 
               Descuento Grupo ({(pricing.groupDiscountPercentage * 100).toFixed(0)}%)
             </span>
-            <span>-${pricing.groupDiscountAmount.toLocaleString()}</span>
+            <span>-${pricing.groupDiscountAmount.toLocaleString('en-US')}</span>
           </div>
         )}
       </div>
 
-      <div className="pt-6 border-t border-zinc-200 dark:border-zinc-800 flex items-end justify-between mb-8">
+      <div className="pt-6 border-t border-zinc-200 dark:border-zinc-800 flex items-end justify-between mb-8" suppressHydrationWarning>
         <div>
           <p className="text-xs text-zinc-500 font-medium uppercase tracking-wider mb-1">Total a Pagar</p>
           <div className="flex items-center gap-1">
             <span className="text-sm font-semibold text-zinc-400">USD</span>
-            <span className="text-3xl font-bold text-emerald-600">${pricing.total.toLocaleString()}</span>
+            <span className="text-3xl font-bold text-emerald-600">${pricing.total.toLocaleString('en-US')}</span>
           </div>
         </div>
       </div>

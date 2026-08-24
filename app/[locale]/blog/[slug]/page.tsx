@@ -278,8 +278,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
               <div className="text-right shrink-0">
                 <span className="text-xs text-zinc-400 block">{fromLabel}</span>
-                <span className="text-2xl font-extrabold text-emerald-400 font-serif">
-                  ${relatedTour.price.toLocaleString()} <span className="text-xs text-zinc-400 font-normal">USD</span>
+                <span className="text-2xl font-extrabold text-emerald-400 font-serif" suppressHydrationWarning>
+                  ${relatedTour.price.toLocaleString('en-US')} <span className="text-xs text-zinc-400 font-normal">USD</span>
                 </span>
               </div>
             </div>

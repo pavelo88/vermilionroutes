@@ -33,9 +33,11 @@ export const dailyTours: Tour[] = [
     mobileImage: '/images/tours/9-16/quito-centro-historico.jpg',
     desktopImage: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/mitad-del-mundo-16-9.jpg',
       '/images/tours/16-9/quito-colonial-16-9.jpg',
-      '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg'
+      '/images/tours/16-9/mitad-del-mundo-16-9.jpg',
+      '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/laguna-quilotoa-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 42,
@@ -123,14 +125,14 @@ export const dailyTours: Tour[] = [
     price3Star: 92,
     price4Star: 92,
     imageUrl: '/images/tours/16-9/otavalo-market-16-9.jpg',
-    mobileImage: '/images/tours/9-16/cajas-national-park-9-16.jpg',
+    mobileImage: '/images/tours/9-16/otavalo-market-9-16.jpg',
     desktopImage: '/images/tours/16-9/otavalo-market-16-9.jpg',
     gallery: [
+      '/images/tours/16-9/otavalo-market-16-9.jpg',
       '/images/tours/16-9/otavalo-peguche-16-9.jpg',
+      '/images/tours/16-9/taita-imbabura-16-9.jpg',
       '/images/tours/16-9/imbabura-16-9.jpg',
-      '/images/tours/16-9/otavalo-market-16-9.1.jpg',
-      '/images/tours/16-9/otavalo-market-16-9.2.jpg',
-      '/images/tours/16-9/taita-imbabura-16-9.jpg'
+      '/images/tours/16-9/quito-colonial-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 38,
@@ -192,14 +194,14 @@ export const dailyTours: Tour[] = [
   {
     id: 'papallacta-hot-springs',
     title: {
-      en: 'PAPALLACTA THERMAL HOT SPRINGS',
-      es: 'TERMAS DE PAPALLACTA Y ANDES ORIENTALES',
-      fr: 'SOURCES CHAUDES DE PAPALLACTA',
-      de: 'THERMALQUELLEN VON PAPALLACTA',
-      it: 'SORGENTI TERMICHE DI PAPALLACTA',
-      pt: 'TERMAS DE PAPALLACTA',
-      ja: 'パパジャクタ天然温泉＆アンデス絶景',
-      zh: '帕帕亚克塔高山火山地热温泉与安第斯生态一日游'
+      en: 'PAPALLACTA THERMAL SPRINGS & ANDEAN CLOUD FOREST',
+      es: 'TERMAS DE PAPALLACTA Y BOSQUE NUBLADO ANDINO',
+      fr: 'SOURCES THERMALES DE PAPALLACTA',
+      de: 'THERMEN VON PAPALLACTA & ANDEN-NEBELWALD',
+      it: 'TERME DI PAPALLACTA E FORESTA NEBBIA ANDINA',
+      pt: 'ÁGUAS TERMAIS DE PAPALLACTA',
+      ja: 'パパジャクタ天然温泉＆アンデス雲霧林',
+      zh: '帕帕亚克塔天然火山温泉与安第斯云雾森林一日疗愈游'
     },
     destination: 'Mainland Ecuador',
     duration: {
@@ -213,15 +215,17 @@ export const dailyTours: Tour[] = [
       zh: '1天 (全日游)'
     },
     durationDays: 1,
-    price: 108,
-    price3Star: 108,
-    price4Star: 108,
-    imageUrl: '/images/tours/16-9/puyo-yanacocha-16-9.jpg',
+    price: 85,
+    price3Star: 85,
+    price4Star: 85,
+    imageUrl: '/images/tours/16-9/amazon-river-16-9.jpg',
     mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
-    desktopImage: '/images/tours/16-9/puyo-yanacocha-16-9.jpg',
+    desktopImage: '/images/tours/16-9/amazon-river-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/puyo-yanacocha-16-9.jpg',
-      '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+      '/images/tours/16-9/amazon-river-16-9.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/amazon-cuyabeno-16-9.jpg',
       '/images/tours/16-9/pailon-del-diablo-16-9.jpg'
     ],
     rating: 5,
@@ -284,14 +288,14 @@ export const dailyTours: Tour[] = [
   {
     id: 'mindo-cloud-forest',
     title: {
-      en: 'MINDO CLOUD FOREST & ADVENTURE',
-      es: 'BOSQUE NUBLADO DE MINDO Y AVENTURA',
-      fr: 'FORÊT DE NUAGES DE MINDO ET AVENTURE',
-      de: 'NEBELWALD VON MINDO & ABENTEUER',
-      it: 'FORESTA NEBBIOA DI MINDO E AVVENTURA',
-      pt: 'FLORESTA NUBLADA DE MINDO E AVENTURA',
-      ja: 'ミンド雲霧林・ハチドリの楽園＆ジップライン',
-      zh: '明多热带云雾森林、蜂鸟圣地与高空索道探险一日游'
+      en: 'MINDO CLOUD FOREST, WATERFALLS & CHOCOLATE',
+      es: 'BOSQUE NUBOSO DE MINDO, CASCADAS Y CHOCOLATE',
+      fr: 'FORÊT DE NUAGES DE MINDO, CASCADES ET CHOCOLAT',
+      de: 'MINDO NEBELWALD, WASSERFÄLLE & SCHOKOLADE',
+      it: 'FORESTA NUVOLOSA DI MINDO, CASCATE E CIOCCOLATO',
+      pt: 'FLORESTA NUBLADA DE MINDO, CACHOEIRAS E CHOCOLATE',
+      ja: 'ミンド雲霧林・滝巡り＆生チョコレート体験',
+      zh: '明多生物多样性云雾森林、丛林瀑布与手工巧克一日游'
     },
     destination: 'Mainland Ecuador',
     duration: {
@@ -305,17 +309,18 @@ export const dailyTours: Tour[] = [
       zh: '1天 (全日游)'
     },
     durationDays: 1,
-    price: 117,
-    price3Star: 117,
-    price4Star: 117,
+    price: 95,
+    price3Star: 95,
+    price4Star: 95,
     imageUrl: '/images/tours/16-9/mindo-16-9.jpg',
-    mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+    mobileImage: '/images/tours/9-16/mindo-9-16.jpg',
     desktopImage: '/images/tours/16-9/mindo-16-9.jpg',
     gallery: [
       '/images/tours/16-9/mindo-16-9.jpg',
-      '/images/tours/9-16/amazon-waterfall-9-16.jpg',
-      '/images/tours/9-16/amazon-loro-9-16.jpg',
-      '/images/tours/16-9/pailon-del-diablo-16-9.jpg'
+      '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
+      '/images/tours/16-9/amazon-river-16-9.jpg',
+      '/images/tours/16-9/quito-colonial-16-9.jpg',
+      '/images/tours/16-9/mitad-del-mundo-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 45,
@@ -378,14 +383,14 @@ export const dailyTours: Tour[] = [
   {
     id: 'antisana-national-park',
     title: {
-      en: 'ANTISANA NATIONAL PARK & LA MICA LAGOON',
-      es: 'PARQUE NACIONAL ANTISANA Y LAGUNA LA MICA',
-      fr: 'PARC NATIONAL ANTISANA ET LAGUNE LA MICA',
-      de: 'ANTISANA-NATIONALPARK & LA MICA LAGUNE',
-      it: 'PARCO NAZIONALE ANTISANA E LAGUNA LA MICA',
-      pt: 'PARQUE NACIONAL ANTISANA E LAGUNA LA MICA',
-      ja: 'アンティサナ国立公園・コンドル観察＆ラ・ミカ湖',
-      zh: '安蒂萨纳国家公园、安第斯神鹰与米卡高山湖一日游'
+      en: 'ANTISANA ECOLOGICAL RESERVE & CONDOR SANCTUARY',
+      es: 'RESERVA ECOLÓGICA ANTISANA Y SANTUARIO DEL CÓNDOR',
+      fr: 'RÉSERVE ÉCOLOGIQUE D’ANTISANA ET CONDORS',
+      de: 'ÖKOLOGISCHES RESERVAT ANTISANA & KONDOR-SCHUTZGEBIET',
+      it: 'RISERVA ECOLOGICA ANTISANA E SANTUARIO DEL CONDOR',
+      pt: 'RESERVA ECOLÓGICA ANTISANA E SANTUÁRIO DO CÔNDOR',
+      ja: 'アンティサナ生態保護区＆コンドルの聖域',
+      zh: '安蒂萨纳火山生态保护区与安第斯神鹰圣境一日探秘'
     },
     destination: 'Mainland Ecuador',
     duration: {
@@ -399,16 +404,18 @@ export const dailyTours: Tour[] = [
       zh: '1天 (全日游)'
     },
     durationDays: 1,
-    price: 96,
-    price3Star: 96,
-    price4Star: 96,
+    price: 90,
+    price3Star: 90,
+    price4Star: 90,
     imageUrl: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
     mobileImage: '/images/tours/9-16/chimborazo-9-16.jpg',
     desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
     gallery: [
+      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
       '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
-      '/images/tours/9-16/cajas-national-park-9-16.jpg',
-      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg'
+      '/images/tours/16-9/laguna-quilotoa-16-9.jpg',
+      '/images/tours/16-9/quito-colonial-16-9.jpg',
+      '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 26,
@@ -469,14 +476,14 @@ export const dailyTours: Tour[] = [
   {
     id: 'cotopaxi-national-park',
     title: {
-      en: 'COTOPAXI NATIONAL PARK & VOLCANO',
-      es: 'PARQUE NACIONAL Y VOLCÁN COTOPAXI',
-      fr: 'PARC NATIONAL COTOPAXI ET VOLCAN',
-      de: 'COTOPAXI-NATIONALPARK & VULKAN',
-      it: 'PARCO NAZIONALE COTOPAXI E VULCANO',
-      pt: 'PARQUE NACIONAL COTOPAXI E VULCÃO',
-      ja: 'コトパクシ国立公園・活火山ハイキング＆避難小屋',
-      zh: '科托帕希国家公园活火山探险与避难所徒步一日游'
+      en: 'COTOPAXI NATIONAL PARK & LIMPIOPUNGO LAGOON',
+      es: 'PARQUE NACIONAL COTOPAXI Y LAGUNA DE LIMPIOPUNGO',
+      fr: 'PARC NATIONAL COTOPAXI ET LAGUNE DE LIMPIOPUNGO',
+      de: 'COTOPAXI-NATIONALPARK & LAGUNE LIMPIOPUNGO',
+      it: 'PARCO NAZIONALE COTOPAXI E LAGUNA DI LIMPIOPUNGO',
+      pt: 'PARQUE NACIONAL COTOPAXI E LAGOA DE LIMPIOPUNGO',
+      ja: 'コトパクシ国立公園＆リンピオフンゴ湖',
+      zh: '科托帕希国家公园活火山探险与林皮奥蓬戈高山泻湖一日游'
     },
     destination: 'Mainland Ecuador',
     duration: {
@@ -494,12 +501,14 @@ export const dailyTours: Tour[] = [
     price3Star: 96,
     price4Star: 96,
     imageUrl: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
-    mobileImage: '/images/tours/9-16/chimborazo-9-16.jpg',
+    mobileImage: '/images/tours/9-16/cotopaxi-9-16.jpg',
     desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
     gallery: [
       '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/laguna-quilotoa-16-9.jpg',
       '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-      '/images/tours/16-9/chimborazo-volcano-16-9.jpg'
+      '/images/tours/16-9/quito-colonial-16-9.jpg',
+      '/images/tours/16-9/mitad-del-mundo-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 52,
@@ -561,14 +570,14 @@ export const dailyTours: Tour[] = [
   {
     id: 'quilotoa-crater-lake',
     title: {
-      en: 'QUILOTOA CRATER LAKE, TIGUA & CUY FARM',
-      es: 'LAGUNA CRÁTER DEL QUILOTOA, TIGUA Y GRANJA DE CUYES',
-      fr: 'CRATÈRE DU QUILOTOA, TIGUA ET FERME DE CUY',
-      de: 'QUILOTOA KRATERSEE, TIGUA & MEERSCHWEINCHENFARM',
-      it: 'LAGUNA DEL QUILOTOA, TIGUA E FATTORIA DEI CUY',
-      pt: 'LAGUNA CRATERA DO QUILOTOA, TIGUA E FAZENDA DE CUYES',
-      ja: 'キロトア火山湖・ティグア絵画村＆クイ農場',
-      zh: '基洛托阿翡翠火山湖、蒂瓜纳伊夫艺术村与传统豚鼠农庄一日游'
+      en: 'QUILOTOA CRATER CRUISE & TOACHI CANYON',
+      es: 'LAGUNA DEL QUILOTOA Y CAÑÓN DEL TOACHI',
+      fr: 'CRATÈRE DU QUILOTOA ET CANYON DU TOACHI',
+      de: 'QUILOTOA-KRATERSEE & TOACHI-SCHLUCHT',
+      it: 'CRATERE DI QUILOTOA E CANYON DEL TOACHI',
+      pt: 'CRATERA DE QUILOTOA E CÂNION DO TOACHI',
+      ja: 'キロトア火山カルデラ湖＆トアチ渓谷',
+      zh: '基洛托阿翡翠火山湖与托阿奇大峡谷全景一日探索游'
     },
     destination: 'Mainland Ecuador',
     duration: {
@@ -582,17 +591,18 @@ export const dailyTours: Tour[] = [
       zh: '1天 (全日游)'
     },
     durationDays: 1,
-    price: 97,
-    price3Star: 97,
-    price4Star: 97,
-    imageUrl: '/images/tours/16-9/quilotoa-16-9.jpg',
+    price: 98,
+    price3Star: 98,
+    price4Star: 98,
+    imageUrl: '/images/tours/16-9/laguna-quilotoa-16-9.jpg',
     mobileImage: '/images/tours/9-16/quilotoa-9-16.jpg',
-    desktopImage: '/images/tours/16-9/quilotoa-16-9.jpg',
+    desktopImage: '/images/tours/16-9/laguna-quilotoa-16-9.jpg',
     gallery: [
-      '/images/tours/16-9/quilotoa-16-9.jpg',
-      '/images/tours/16-9/quilotoa-16-9.1.jpg',
-      '/images/tours/16-9/quilotoa-16-9.2.jpg',
-      '/images/tours/9-16/quilotoa-9-16.jpg'
+      '/images/tours/16-9/laguna-quilotoa-16-9.jpg',
+      '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+      '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
+      '/images/tours/16-9/quito-colonial-16-9.jpg'
     ],
     rating: 5,
     reviewsCount: 48,

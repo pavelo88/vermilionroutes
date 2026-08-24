@@ -225,8 +225,8 @@ export function SmartSearch({ onSearchSelect }: SmartSearchProps) {
                         <span className="text-[10px] font-bold uppercase text-emerald-700 tracking-wider truncate">
                           {tour.destination}
                         </span>
-                        <span className="text-xs font-serif font-bold text-zinc-900 shrink-0">
-                          ${(tour.priceFromUSD || tour.price).toLocaleString()} USD
+                        <span className="text-xs font-serif font-bold text-zinc-900 shrink-0" suppressHydrationWarning>
+                          ${(tour.priceFromUSD || tour.price).toLocaleString('en-US')} USD
                         </span>
                       </div>
                       <h4 className="text-xs font-bold text-zinc-900 group-hover:text-emerald-700 transition-colors truncate">

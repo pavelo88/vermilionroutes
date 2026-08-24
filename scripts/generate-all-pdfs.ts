@@ -183,6 +183,16 @@ function buildPDFForTour(tour: Tour, locale: string = 'es'): Uint8Array {
     dayImagesBase64.push(loadLocalImageAsBase64(imgUrl));
   }
 
+  const galleryImagesBase64: { url: string; b64: string | null }[] = [];
+  for (const gUrl of gallery) {
+    if (gUrl) {
+      const b64 = loadLocalImageAsBase64(gUrl);
+      if (b64) {
+        galleryImagesBase64.push({ url: gUrl, b64 });
+      }
+    }
+  }
+
   doc.setFillColor(250, 249, 246);
   doc.rect(0, 0, pageWidth, pageHeight, 'F');
   drawHeaderBand(doc, logoBase64, pageWidth, marginX);
@@ -688,6 +698,51 @@ function buildPDFForTour(tour: Tour, locale: string = 'es'): Uint8Array {
         doc.text(splitExc, marginX + 7, yPos + 3);
         yPos += itemHeight;
       });
+    }
+  }
+
+  // Visual Appendix / Gallery
+  if (galleryImagesBase64.length > 0) {
+    checkPageBreak(65);
+    yPos += 5;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10.5);
+    doc.setTextColor(6, 78, 59);
+    doc.text("ANEXO FOTOGRÁFICO — DESTINOS Y LUGARES DESTACADOS", marginX, yPos);
+    doc.setDrawColor(167, 243, 208);
+    doc.setLineWidth(0.8);
+    doc.line(marginX, yPos + 2, marginX + contentWidth, yPos + 2);
+    yPos += 8;
+
+    const colWidth = (contentWidth - 6) / 2; // 88mm
+    const colHeight = 50; // 50mm height
+
+    for (let gIdx = 0; gIdx < galleryImagesBase64.length; gIdx += 2) {
+      checkPageBreak(colHeight + 6);
+
+      const img1 = galleryImagesBase64[gIdx];
+      const img2 = galleryImagesBase64[gIdx + 1];
+
+      if (img1 && img1.b64) {
+        doc.setFillColor(241, 245, 249);
+        doc.roundedRect(marginX, yPos, colWidth, colHeight, 1.5, 1.5, 'F');
+        safeAddImage(doc, img1.b64, 'JPEG', marginX, yPos, colWidth, colHeight);
+        doc.setDrawColor(203, 213, 225);
+        doc.setLineWidth(0.2);
+        doc.roundedRect(marginX, yPos, colWidth, colHeight, 1.5, 1.5, 'D');
+      }
+
+      if (img2 && img2.b64) {
+        const x2 = marginX + colWidth + 6;
+        doc.setFillColor(241, 245, 249);
+        doc.roundedRect(x2, yPos, colWidth, colHeight, 1.5, 1.5, 'F');
+        safeAddImage(doc, img2.b64, 'JPEG', x2, yPos, colWidth, colHeight);
+        doc.setDrawColor(203, 213, 225);
+        doc.setLineWidth(0.2);
+        doc.roundedRect(x2, yPos, colWidth, colHeight, 1.5, 1.5, 'D');
+      }
+
+      yPos += colHeight + 5;
     }
   }
 

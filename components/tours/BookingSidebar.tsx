@@ -189,8 +189,8 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
         </div>
 
         <div className="flex items-baseline gap-1.5">
-          <span className="font-serif font-bold text-3xl sm:text-4xl text-zinc-900">
-            ${tour.price.toLocaleString()}
+          <span className="font-serif font-bold text-3xl sm:text-4xl text-zinc-900" suppressHydrationWarning>
+            ${tour.price.toLocaleString('en-US')}
           </span>
           <span className="text-xs text-zinc-500 font-normal">USD / per person</span>
         </div>

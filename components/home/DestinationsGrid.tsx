@@ -1,11 +1,43 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Compass, ArrowRight, Menu } from 'lucide-react';
 import { mockDestinations } from '@/data/mock';
 import { useTranslations, useLocale } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
+
+// Curated high-resolution image pools per destination category
+const DESTINATION_IMAGE_POOLS: Record<string, string[]> = {
+  ecuador: [
+    '/images/tours/16-9/cuenca-colonial-16-9.jpg',
+    '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
+    '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
+    '/images/tours/16-9/amazon-cuyabeno-16-9.jpg',
+    '/images/tours/16-9/guayaquil-16-9.jpg',
+  ],
+  galapagos: [
+    '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
+    '/images/tours/16-9/galapagos-snorkeling-16-9.jpg',
+    '/images/tours/16-9/santa-fe-island-16-9.jpg',
+    '/images/tours/16-9/galapagos-piquero-patas-azules-16-9.jpg',
+    '/images/tours/16-9/galapagos-las-grietas-16-9.jpg',
+  ],
+  combined: [
+    '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
+    '/images/tours/16-9/galapagos-piquero-patas-azules-16-9.1.jpg',
+    '/images/tours/16-9/galapagos-snorkeling-16-9.jpg',
+    '/images/tours/16-9/chimborazo-volcano-16-9.1.jpg',
+    '/images/tours/16-9/galapagos-tortuga-gigante-16-9.1.jpg',
+  ],
+  'full-day': [
+    '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
+    '/images/tours/16-9/laguna-quilotoa-16-9.jpg',
+    '/images/tours/16-9/otavalo-market-16-9.jpg',
+    '/images/tours/16-9/mindo-16-9.jpg',
+    '/images/tours/16-9/mitad-del-mundo-16-9.jpg',
+  ],
+};
 
 export function DestinationsGrid() {
   const destinations = mockDestinations;
@@ -15,6 +47,42 @@ export function DestinationsGrid() {
 
   const [activeDestId, setActiveDestId] = useState<string>('all');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Track active image index per destination card
+  const [cardImageIndices, setCardImageIndices] = useState<Record<string, number>>({
+    ecuador: 0,
+    galapagos: 0,
+    combined: 0,
+    'full-day': 0,
+  });
+
+  const stepRef = useRef<number>(0);
+
+  // Staggered interval: alternates one destination card every 2.4 seconds
+  useEffect(() => {
+    if (isHovered || !destinations || destinations.length === 0) return;
+
+    const interval = setInterval(() => {
+      if (document.hidden) return;
+
+      const cardOrder = ['ecuador', 'galapagos', 'combined', 'full-day'];
+      const targetCardId = cardOrder[stepRef.current % cardOrder.length];
+      stepRef.current += 1;
+
+      setCardImageIndices((prev) => {
+        const pool = DESTINATION_IMAGE_POOLS[targetCardId] || [];
+        if (pool.length === 0) return prev;
+        const nextIdx = ((prev[targetCardId] || 0) + 1) % pool.length;
+        return {
+          ...prev,
+          [targetCardId]: nextIdx,
+        };
+      });
+    }, 2400);
+
+    return () => clearInterval(interval);
+  }, [isHovered, destinations]);
 
   const handleDestinationClick = (destId: string) => {
     setActiveDestId(destId);
@@ -38,6 +106,8 @@ export function DestinationsGrid() {
     <section
       id="destinations"
       className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 sm:mb-8">
@@ -59,29 +129,47 @@ export function DestinationsGrid() {
         </div>
       </div>
 
-      {/* ── Visual Destinations 4-Grid Stage ── */}
+      {/* ── Visual Destinations 4-Grid Stage with Staggered Dynamic Images ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {destinations.map((dest, destIndex) => {
+          const pool = DESTINATION_IMAGE_POOLS[dest.id] || [dest.imageUrl];
+          const activeIndex = cardImageIndices[dest.id] ?? 0;
+
           return (
             <div
               key={dest.id}
               id={dest.id.toLowerCase()}
               onClick={() => handleDestinationClick(dest.id)}
-              className="group relative h-[420px] sm:h-[440px] md:h-[460px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-zinc-200/80 dark:border-zinc-800/80 hover:border-emerald-500/80 transition-all duration-500 flex flex-col justify-between p-5 sm:p-6 cursor-pointer hover:-translate-y-1"
+              className="group relative h-[420px] sm:h-[440px] md:h-[460px] rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-zinc-200/80 dark:border-zinc-800/80 hover:border-emerald-500/80 transition-all duration-500 flex flex-col justify-between p-5 sm:p-6 cursor-pointer hover:-translate-y-1 bg-zinc-950"
             >
-              {/* Background Image with Zoom on Hover */}
-              <Image
-                src={dest.imageUrl}
-                alt={getLocalizedText(dest.name, locale)}
-                fill
-                quality={90}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
-                referrerPolicy="no-referrer"
-              />
+              {/* Dynamic Layered Images with Seamless Crossfade & Subtle Ken Burns Zoom */}
+              {pool.map((imgSrc, imgIdx) => {
+                const isCurrent = imgIdx === activeIndex;
+                return (
+                  <div
+                    key={`${dest.id}-img-${imgIdx}-${imgSrc}`}
+                    className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+                      isCurrent
+                        ? 'opacity-100 scale-100 z-0 pointer-events-none'
+                        : 'opacity-0 scale-105 pointer-events-none -z-10'
+                    }`}
+                  >
+                    <Image
+                      src={imgSrc}
+                      alt={getLocalizedText(dest.name, locale)}
+                      fill
+                      quality={95}
+                      priority={destIndex < 2 && imgIdx === 0}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                );
+              })}
 
-              {/* Luxury Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/20" />
+              {/* Luxury Cinematic Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/20 z-[1] pointer-events-none" />
 
               {/* Top Badge Info */}
               <div className="relative z-10 flex items-center justify-between w-full">
@@ -89,9 +177,25 @@ export function DestinationsGrid() {
                   {dest.toursCount} {tTour('journeys')}
                 </span>
 
-                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-black/50 backdrop-blur-md text-white text-xs font-mono font-bold border border-white/20">
-                  0{destIndex + 1}
-                </span>
+                <div className="flex items-center gap-1.5">
+                  {/* Subtle dots showing image rotation progress */}
+                  <div className="flex items-center gap-1 bg-black/40 backdrop-blur-md px-2 py-1 rounded-full border border-white/10">
+                    {pool.map((_, dotIdx) => (
+                      <span
+                        key={`dot-${dotIdx}`}
+                        className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${
+                          dotIdx === activeIndex
+                            ? 'bg-emerald-400 w-3'
+                            : 'bg-white/40'
+                        }`}
+                      />
+                    ))}
+                  </div>
+
+                  <span className="flex items-center justify-center w-7 h-7 rounded-full bg-black/50 backdrop-blur-md text-white text-xs font-mono font-bold border border-white/20">
+                    0{destIndex + 1}
+                  </span>
+                </div>
               </div>
 
               {/* Bottom Content inside Card */}
@@ -196,3 +300,4 @@ export function DestinationsGrid() {
     </section>
   );
 }
+
