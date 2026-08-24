@@ -195,47 +195,53 @@ export function TourCarousel({ tours }: TourCarouselProps) {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Desktop Layout depending on count */}
-        {total === 1 ? (
-          <div className="hidden md:flex justify-center px-4 py-4">
-            <div className="w-full max-w-[380px] drop-shadow-2xl">
-              <TourCard tour={filteredTours[0]} className="h-[490px] ring-2 ring-emerald-500/30 ring-offset-4 ring-offset-transparent" />
-            </div>
-          </div>
-        ) : total === 2 ? (
-          <div className="hidden md:flex items-center justify-center gap-6 px-4 py-4">
-            {filteredTours.map((t) => (
-              <div key={t.id} className="w-[340px] shrink-0 drop-shadow-xl">
-                <TourCard tour={t} className="h-[480px]" />
+        {/* Desktop Layout 3D Spatial Coverflow */}
+        <div className="hidden md:block relative w-full h-[520px] perspective-[1200px]">
+          {filteredTours.map((tour, idx) => {
+            let diff = idx - currentIndex;
+            // Handle wrap-around for infinite carousel
+            if (diff > total / 2) diff -= total;
+            if (diff < -total / 2) diff += total;
+
+            // Only show up to 2 cards on each side
+            if (Math.abs(diff) > 2) return null;
+
+            const zIndex = 50 - Math.abs(diff);
+            const translateX = diff * 45; // percentage
+            const translateZ = Math.abs(diff) * -120; // pixels
+            const scale = 1 - Math.abs(diff) * 0.15;
+            const opacity = 1 - Math.abs(diff) * 0.35;
+            const rotateY = diff * -25; // degrees
+
+            const isCurrent = diff === 0;
+
+            return (
+              <div
+                key={tour.id}
+                onClick={() => !isCurrent && goTo(idx)}
+                className={`absolute top-0 left-1/2 -ml-[180px] lg:-ml-[200px] w-[360px] lg:w-[400px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                  !isCurrent ? 'cursor-pointer group' : ''
+                }`}
+                style={{
+                  zIndex,
+                  transform: `translateX(${translateX}%) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+                  opacity,
+                }}
+              >
+                <div className={`transition-transform duration-500 ${!isCurrent ? 'group-hover:scale-105 pointer-events-none' : ''}`}>
+                  <TourCard 
+                    tour={tour} 
+                    className={`h-[490px] ${isCurrent ? 'ring-2 ring-emerald-500/50 ring-offset-4 ring-offset-transparent drop-shadow-2xl pointer-events-auto' : 'drop-shadow-lg'}`} 
+                  />
+                  {/* Liquid Glass Overlay for non-active cards */}
+                  {!isCurrent && (
+                    <div className="absolute inset-0 bg-white/10 dark:bg-black/20 backdrop-blur-[2px] rounded-2xl transition-opacity duration-300 group-hover:opacity-0" />
+                  )}
+                </div>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="hidden md:flex items-stretch justify-center gap-6 px-20 py-4">
-            {/* Prev card — dimmed */}
-            <div
-              className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-[transform,opacity,color,background-color,border-color] duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
-              onClick={handlePrev}
-              style={{ transformOrigin: 'right center' }}
-            >
-              <TourCard tour={filteredTours[prevIdx]} className="h-[450px] pointer-events-none" />
-            </div>
-
-            {/* Active card — full focus */}
-            <div className="w-[320px] lg:w-[360px] xl:w-[380px] shrink-0 z-10 transition-[transform,opacity,color,background-color,border-color] duration-500 ease-out drop-shadow-2xl">
-              <TourCard tour={filteredTours[currentIndex]} className="h-[490px] ring-2 ring-emerald-500/30 ring-offset-4 ring-offset-transparent" />
-            </div>
-
-            {/* Next card — dimmed */}
-            <div
-              className="w-[280px] lg:w-[300px] xl:w-[320px] shrink-0 opacity-90 dark:opacity-70 scale-90 transition-[transform,opacity,color,background-color,border-color] duration-500 ease-out cursor-pointer hover:opacity-100 hover:scale-[0.92]"
-              onClick={handleNext}
-              style={{ transformOrigin: 'left center' }}
-            >
-              <TourCard tour={filteredTours[nextIdx]} className="h-[450px] pointer-events-none" />
-            </div>
-          </div>
-        )}
+            );
+          })}
+        </div>
 
         {/* Mobile: single card with CSS slide */}
         <div className="md:hidden relative w-full max-w-[340px] mx-auto h-[490px]">
