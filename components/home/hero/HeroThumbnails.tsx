@@ -31,7 +31,7 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
                 priority={idx <= 2}
                 quality={isMobile ? 75 : 90}
                 className="object-cover object-center md:object-[center_28%]"
-                sizes="100vw"
+                sizes="200px"
               />
 
               <div className="card-overlay absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none transition-opacity duration-300" />

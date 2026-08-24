@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import { BLOG_POSTS, BlogPost } from '@/data/blogData';
 import { mockTours } from '@/data/mock';
 import { getLocalizedText } from '@/utils/i18nHelper';
+import { LeadMagnetBanner } from '@/components/home/LeadMagnetBanner';
 import {
   Calendar,
   Clock,
@@ -303,6 +304,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
           </div>
         )}
+
+        {/* Lead Magnet: Free Packing Guide Download */}
+        <LeadMagnetBanner />
 
       </div>
     </div>

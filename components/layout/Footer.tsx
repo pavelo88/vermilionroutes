@@ -327,6 +327,9 @@ export function Footer() {
             <a href={`/${locale}/terms`} className="hover:text-white transition-colors underline underline-offset-4 decoration-emerald-600/60">
               {t.terms}
             </a>
+            <a href={`/${locale}/affiliates`} className="hover:text-white transition-colors underline underline-offset-4 decoration-emerald-600/60">
+              {locale === 'es' ? 'Programa de Afiliados' : 'Affiliate Program'}
+            </a>
           </div>
         </div>
       </div>
