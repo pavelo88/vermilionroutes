@@ -51,29 +51,7 @@ export function TourGallery({ images, title }: TourGalleryProps) {
   const currentImage = uniqueImages[selectedMainIndex] || uniqueImages[0];
   const previousImage = uniqueImages[prevMainIndex] || currentImage;
 
-  // Desktop side images: the next 3 images following selectedMainIndex
-  const sideImages = React.useMemo(() => {
-    const list: string[] = [];
-    if (uniqueImages.length <= 1) return list;
-    const count = Math.min(3, uniqueImages.length - 1);
-    for (let i = 1; i <= count; i++) {
-      const targetIndex = (selectedMainIndex + i) % uniqueImages.length;
-      list.push(uniqueImages[targetIndex]);
-    }
-    return list;
-  }, [selectedMainIndex, uniqueImages]);
 
-  // Mobile side images: the next 4 images following selectedMainIndex
-  const mobileSideImages = React.useMemo(() => {
-    const list: string[] = [];
-    if (uniqueImages.length <= 1) return list;
-    const count = Math.min(4, uniqueImages.length - 1);
-    for (let i = 1; i <= count; i++) {
-      const targetIndex = (selectedMainIndex + i) % uniqueImages.length;
-      list.push(uniqueImages[targetIndex]);
-    }
-    return list;
-  }, [selectedMainIndex, uniqueImages]);
 
   const handleSelectThumbnail = (targetIndex: number) => {
     if (targetIndex === selectedMainIndex) return;
@@ -94,7 +72,7 @@ export function TourGallery({ images, title }: TourGalleryProps) {
   };
 
   return (
-    <div 
+    <div
       className="space-y-2"
     >
       {/* Bento Grid Container */}
@@ -120,12 +98,10 @@ export function TourGallery({ images, title }: TourGalleryProps) {
 
           {/* Active Front Layer with Smooth Fade In */}
           <div
-            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-              isTransitioning ? 'opacity-0 animate-fade-in' : 'opacity-100'
-            }`}
+            key={currentImage}
+            className="absolute inset-0 animate-fade-in"
           >
             <Image
-              key={`main-${currentImage}`}
               src={currentImage}
               alt={`${title} - Main Gallery Photo`}
               fill
@@ -149,11 +125,10 @@ export function TourGallery({ images, title }: TourGalleryProps) {
                     e.stopPropagation();
                     handleSelectThumbnail(dotIdx);
                   }}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    dotIdx === selectedMainIndex
+                  className={`h-1.5 rounded-full transition-all duration-300 ${dotIdx === selectedMainIndex
                       ? 'w-5 bg-emerald-400 shadow-xs'
                       : 'w-1.5 bg-white/40 hover:bg-white/70'
-                  }`}
+                    }`}
                   aria-label={`Go to photo ${dotIdx + 1}`}
                 />
               ))}
@@ -172,79 +147,64 @@ export function TourGallery({ images, title }: TourGalleryProps) {
           </div>
         </div>
 
-        {/* Desktop Side Stacked Photos (3 images) */}
-        <div className="hidden md:grid grid-cols-1 gap-2">
-          {sideImages.map((img, idx) => {
-            const originalIndex = uniqueImages.indexOf(img);
-            const isSelected = originalIndex === selectedMainIndex;
+        {/* Desktop Side Shifting Photos (conveyor belt slider) */}
+        <div className="hidden md:block relative h-[420px] overflow-hidden rounded-2xl bg-zinc-950">
+          <div
+            className="flex flex-col gap-2 transition-transform duration-700 ease-in-out"
+            style={{ transform: `translateY(-${((selectedMainIndex + 1) % uniqueImages.length) * 142}px)` }}
+          >
+            {[...uniqueImages, ...uniqueImages].map((img, idx) => {
+              const originalIndex = idx % uniqueImages.length;
+              return (
+                <div
+                  key={`side-desktop-${idx}`}
+                  onClick={() => handleSelectThumbnail(originalIndex)}
+                  className="relative h-[134px] w-full shrink-0 group cursor-pointer overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-200/20 hover:border-emerald-500/50 transition-all duration-300"
+                >
+                  <Image
+                    src={img}
+                    alt={`${title} - Thumbnail ${idx}`}
+                    fill
+                    quality={95}
+                    sizes="33vw"
+                    className="object-cover group-hover:scale-110 transition-all duration-500 ease-out"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-black/25 group-hover:bg-black/0 transition-colors" />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
 
+      {/* Mobile Shifting Row of 4 thumbnails below main */}
+      <div className="md:hidden relative h-20 overflow-hidden rounded-2xl w-full">
+        <div
+          className="flex gap-2 transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${((selectedMainIndex + 1) % uniqueImages.length) * 82}px)` }}
+        >
+          {[...uniqueImages, ...uniqueImages].map((img, idx) => {
+            const originalIndex = idx % uniqueImages.length;
             return (
               <div
-                key={`side-desktop-${idx}-${img}`}
-                onClick={() => {
-                  if (originalIndex !== -1) handleSelectThumbnail(originalIndex);
-                }}
-                className={`relative h-[134px] group cursor-pointer overflow-hidden rounded-2xl bg-zinc-900 shadow-sm border transition-all duration-300 ${
-                  isSelected 
-                    ? 'ring-2 ring-emerald-500 border-transparent shadow-emerald-950/30' 
-                    : 'border-zinc-200/20 hover:border-emerald-500/50'
-                }`}
+                key={`side-mobile-${idx}`}
+                onClick={() => handleSelectThumbnail(originalIndex)}
+                className="relative h-20 w-[74px] shrink-0 group cursor-pointer overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-200/20"
               >
                 <Image
                   src={img}
-                  alt={`${title} - Photo ${idx + 2}`}
+                  alt={`${title} - Thumbnail ${idx}`}
                   fill
                   quality={95}
-                  sizes="33vw"
-                  className="object-cover group-hover:scale-110 transition-all duration-500 ease-out"
+                  sizes="25vw"
+                  className="object-cover"
                   referrerPolicy="no-referrer"
                 />
-                <div className={`absolute inset-0 transition-colors ${
-                  isSelected ? 'bg-emerald-900/10' : 'bg-black/25 group-hover:bg-black/0'
-                }`} />
-
-                <div className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 p-1.5 rounded-full text-white border border-white/20">
-                  <Maximize2 className="w-3.5 h-3.5" />
-                </div>
               </div>
             );
           })}
         </div>
-      </div>
-
-      {/* Mobile 2x2 Grid (4 small photos below main) */}
-      <div className="grid md:hidden grid-cols-2 gap-2">
-        {mobileSideImages.map((img, idx) => {
-          const originalIndex = uniqueImages.indexOf(img);
-          const isSelected = originalIndex === selectedMainIndex;
-
-          return (
-            <div
-              key={`side-mobile-${idx}-${img}`}
-              onClick={() => {
-                if (originalIndex !== -1) handleSelectThumbnail(originalIndex);
-              }}
-              className={`relative h-32 group cursor-pointer overflow-hidden rounded-2xl bg-zinc-900 shadow-sm border transition-all duration-300 ${
-                isSelected 
-                  ? 'ring-2 ring-emerald-500 border-transparent' 
-                  : 'border-zinc-200/20'
-              }`}
-            >
-              <Image
-                src={img}
-                alt={`${title} - Photo ${idx + 2}`}
-                fill
-                quality={95}
-                sizes="50vw"
-                className="object-cover group-hover:scale-110 transition-all duration-500 ease-out"
-                referrerPolicy="no-referrer"
-              />
-              <div className={`absolute inset-0 transition-colors ${
-                isSelected ? 'bg-emerald-900/10' : 'bg-black/25 group-hover:bg-black/0'
-              }`} />
-            </div>
-          );
-        })}
       </div>
 
       {/* Lightbox Modal */}

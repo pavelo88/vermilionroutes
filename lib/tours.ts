@@ -112,7 +112,7 @@ export function subscribeToursFromFirestore(
  * Fetch all tours from Firestore. If running on server or collection is empty, return mock data.
  */
 export async function getToursFromFirestore(): Promise<Tour[]> {
-  if (typeof window === 'undefined') {
+  if (!db) {
     return mockTours;
   }
   try {
@@ -151,7 +151,7 @@ export async function getToursFromFirestore(): Promise<Tour[]> {
  * Fetch a single tour by ID from Firestore.
  */
 export async function getTourByIdFromFirestore(id: string): Promise<Tour | null> {
-  if (typeof window === 'undefined') {
+  if (!db) {
     const fallback = mockTours.find((t) => t.id === id);
     return fallback || null;
   }

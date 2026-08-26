@@ -96,6 +96,7 @@ export interface Review {
 
 export interface BookingRequest {
   id?: string;
+  refCode?: string;
   tourId: string;
   tourTitle: string;
   customerName: string;
@@ -105,6 +106,13 @@ export interface BookingRequest {
   guestsCount?: string;
   destination?: string;
   message?: string;
+  amountPaid?: number;
+  paymentMethod?: 'card' | 'bank_wire' | 'paypal';
+  paymentStatus?: 'confirmed' | 'pending_verification';
+  transferRef?: string;
+  affiliateCode?: string;
+  discountApplied?: boolean;
+  receiptUrl?: string;
   status: 'pending' | 'contacted' | 'confirmed' | 'cancelled';
   createdAt: string;
 }

@@ -127,7 +127,7 @@ function checkRateLimit(ip: string, pathname: string): { allowed: boolean; limit
   return { allowed: true, limit, remaining: limit - record.timestamps.length, reset: Math.ceil(windowMs / 1000) };
 }
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // --------------------------------------------------------------------------

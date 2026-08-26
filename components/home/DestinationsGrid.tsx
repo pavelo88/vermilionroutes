@@ -7,35 +7,35 @@ import { mockDestinations } from '@/data/mock';
 import { useTranslations, useLocale } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
 
-// Curated high-resolution image pools per destination category
+// Curated high-resolution image pools per destination category (Vertical 9:16 aspect ratio)
 const DESTINATION_IMAGE_POOLS: Record<string, string[]> = {
   ecuador: [
-    '/images/tours/16-9/cuenca-colonial-16-9.jpg',
-    '/images/tours/16-9/pailon-del-diablo-16-9.jpg',
-    '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-    '/images/tours/16-9/amazon-cuyabeno-16-9.jpg',
-    '/images/tours/16-9/guayaquil-16-9.jpg',
+    '/images/tours/9-16/cajas-national-park-9-16.jpg',
+    '/images/tours/9-16/pailon-diablo-9-16.jpg',
+    '/images/tours/9-16/chimborazo-9-16.jpg',
+    '/images/tours/9-16/amazon-waterfall-9-16.jpg',
+    '/images/tours/9-16/cuenca-colonial-9-16.jpg',
   ],
   galapagos: [
-    '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
-    '/images/tours/16-9/galapagos-snorkeling-16-9.jpg',
-    '/images/tours/16-9/santa-fe-island-16-9.jpg',
-    '/images/tours/16-9/galapagos-piquero-patas-azules-16-9.jpg',
-    '/images/tours/16-9/galapagos-las-grietas-16-9.jpg',
+    '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg',
+    '/images/tours/9-16/galapagos-snorkeling-9-16.jpg',
+    '/images/tours/9-16/galapagos-loberia-9-16.jpg',
+    '/images/tours/9-16/galapagos-piquero-patas-azules-9-16.jpg',
+    '/images/tours/9-16/galapagos-las-grietas-9-16.jpg',
   ],
   combined: [
-    '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
-    '/images/tours/16-9/galapagos-piquero-patas-azules-16-9.1.jpg',
-    '/images/tours/16-9/galapagos-snorkeling-16-9.jpg',
-    '/images/tours/16-9/chimborazo-volcano-16-9.1.jpg',
-    '/images/tours/16-9/galapagos-tortuga-gigante-16-9.1.jpg',
+    '/images/tours/9-16/cotopaxi-9-16.jpg',
+    '/images/tours/9-16/galapagos-piquero-patas-azules-9-16.jpg',
+    '/images/tours/9-16/galapagos-snorkeling-9-16.jpg',
+    '/images/tours/9-16/chimborazo-9-16.jpg',
+    '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg',
   ],
   'full-day': [
-    '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
-    '/images/tours/16-9/laguna-quilotoa-16-9.jpg',
-    '/images/tours/16-9/otavalo-market-16-9.jpg',
-    '/images/tours/16-9/mindo-16-9.jpg',
-    '/images/tours/16-9/mitad-del-mundo-16-9.jpg',
+    '/images/tours/9-16/quito-centro-historico.jpg',
+    '/images/tours/9-16/quilotoa-9-16.jpg',
+    '/images/tours/9-16/otavalo-market-9-16.jpg',
+    '/images/tours/9-16/mindo-9-16.jpg',
+    '/images/tours/9-16/cotopaxi-9-16.jpg',
   ],
 };
 
@@ -158,7 +158,7 @@ export function DestinationsGrid() {
                       fill
                       quality={95}
                       priority={destIndex < 2 && imgIdx === 0}
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
                       referrerPolicy="no-referrer"
                     />
@@ -206,20 +206,9 @@ export function DestinationsGrid() {
                   {getLocalizedText(dest.subtitle, locale)}
                 </p>
 
-                <p className="text-xs text-zinc-200 line-clamp-2 leading-relaxed font-normal drop-shadow">
+                <p className="text-xs text-zinc-200 line-clamp-5 leading-relaxed font-normal drop-shadow">
                   {getLocalizedText(dest.description, locale)}
                 </p>
-
-                <div className="pt-2.5 flex items-center justify-between border-t border-white/10 mt-2">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-white group-hover:text-emerald-400 transition-colors">
-                    <span>{t('cta')}</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform duration-300" />
-                  </span>
-
-                  <span className="text-[11px] font-medium text-emerald-300/90 group-hover:text-emerald-300 transition-colors">
-                    {locale === 'es' ? 'Ver tours →' : locale === 'fr' ? 'Voir circuits →' : locale === 'de' ? 'Touren ansehen →' : locale === 'it' ? 'Vedi tour →' : locale === 'pt' ? 'Ver passeios →' : 'View tours →'}
-                  </span>
-                </div>
               </div>
             </div>
           );

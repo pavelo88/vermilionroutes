@@ -85,7 +85,7 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
         </div>
 
         {/* 🎨 TÍTULO DEL TOUR (Estilo Hero Card) */}
-        <h3 className="font-serif font-bold text-xl sm:text-2xl text-white leading-snug tracking-tight drop-shadow-md group-hover:text-emerald-300 transition-colors line-clamp-2">
+        <h3 className="font-serif font-bold text-base sm:text-lg text-white leading-tight tracking-tight drop-shadow-md group-hover:text-emerald-300 transition-colors line-clamp-2">
           {title}
         </h3>
 

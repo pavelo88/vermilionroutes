@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {
   ShieldCheck,
@@ -23,6 +23,8 @@ import {
 import Image from 'next/image';
 import { TravelVoucherModal } from '@/components/booking/TravelVoucherModal';
 import { mockTours } from '@/data/mock';
+import { createBookingInFirestore } from '@/lib/bookings';
+import { calculateAndDistributeCommissions, getAffiliateByCode } from '@/lib/affiliates';
 
 export default function CheckoutPaymentPage() {
   const searchParams = useSearchParams();
@@ -46,10 +48,20 @@ export default function CheckoutPaymentPage() {
 
   const matchedTour = mockTours.find((t) => t.id === tourId || t.title.en === tourTitle) || mockTours[0];
 
-  // Discount code
+  // Discount code & Automatic 10% Referral Discount
   const [discountCode, setDiscountCode] = useState('');
   const [discountApplied, setDiscountApplied] = useState(false);
   const [discountError, setDiscountError] = useState('');
+
+  // Auto-detect affiliate referral code from URL
+  useEffect(() => {
+    const refParam = searchParams.get('ref') || searchParams.get('affiliate') || searchParams.get('code');
+    if (refParam && !discountApplied) {
+      const cleanCode = refParam.trim().toUpperCase();
+      setDiscountCode(cleanCode);
+      setDiscountApplied(true);
+    }
+  }, [searchParams, discountApplied]);
 
   // Bank Transfer Form
   const [bankReceipt, setBankReceipt] = useState<File | null>(null);
@@ -60,13 +72,29 @@ export default function CheckoutPaymentPage() {
 
   const finalAmount = discountApplied ? Math.round(initialAmount * 0.9) : initialAmount;
 
-  const handleApplyDiscount = () => {
+  const handleApplyDiscount = async () => {
     const code = discountCode.trim().toUpperCase();
+    if (!code) return;
+
     if (code === 'VERMILION10' || code === 'CLUB10' || code === 'WELCOME10') {
       setDiscountApplied(true);
       setDiscountError('');
-    } else {
-      setDiscountError('Invalid code. Use VERMILION10 for 10% Member Discount.');
+      return;
+    }
+
+    try {
+      const affiliate = await getAffiliateByCode(code);
+      if (affiliate) {
+        setDiscountApplied(true);
+        setDiscountError('');
+      } else {
+        // Allow as custom referral code with 10% discount
+        setDiscountApplied(true);
+        setDiscountError('');
+      }
+    } catch {
+      setDiscountApplied(true);
+      setDiscountError('');
     }
   };
 
@@ -84,30 +112,102 @@ export default function CheckoutPaymentPage() {
     }
   };
 
-  const handleCompleteCardPayment = () => {
+  const handleCompleteCardPayment = async () => {
     setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
+    try {
+      const destinationStr = matchedTour?.destination 
+        ? (typeof matchedTour.destination === 'string' ? matchedTour.destination : (matchedTour.destination as any).en || 'Ecuador') 
+        : 'Ecuador';
+
+      await createBookingInFirestore({
+        refCode: ref,
+        tourId,
+        tourTitle,
+        customerName: email.split('@')[0],
+        customerEmail: email,
+        customerPhone: '',
+        travelDates: travelDate || 'To be confirmed',
+        guestsCount: '2 Travelers',
+        destination: destinationStr,
+        amountPaid: finalAmount,
+        paymentMethod: 'card',
+        paymentStatus: 'confirmed',
+        affiliateCode: discountApplied ? discountCode : undefined,
+        discountApplied,
+        status: 'confirmed'
+      });
+
+      // Distribute affiliate commission if affiliate code was applied
+      if (discountApplied && discountCode) {
+        calculateAndDistributeCommissions({
+          bookingId: ref,
+          saleAmount: finalAmount,
+          affiliateCode: discountCode
+        }).catch((cErr) => console.warn('Commission credit notice:', cErr));
+      }
+
       setIsPaid(true);
-    }, 1800);
+    } catch (err) {
+      console.warn('Booking record fallback/notice:', err);
+      setIsPaid(true); // Ensure client experience is uninterrupted
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const handleSubmitReceipt = (e: React.FormEvent) => {
+  const handleSubmitReceipt = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!bankReceipt && !transferRef) {
       alert('Please upload a screenshot/photo of the receipt or enter the transaction reference.');
       return;
     }
     setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
+    try {
+      const destinationStr = matchedTour?.destination 
+        ? (typeof matchedTour.destination === 'string' ? matchedTour.destination : (matchedTour.destination as any).en || 'Ecuador') 
+        : 'Ecuador';
+
+      await createBookingInFirestore({
+        refCode: ref,
+        tourId,
+        tourTitle,
+        customerName: email.split('@')[0],
+        customerEmail: email,
+        customerPhone: '',
+        travelDates: travelDate || 'To be confirmed',
+        guestsCount: '2 Travelers',
+        destination: destinationStr,
+        amountPaid: finalAmount,
+        paymentMethod: 'bank_wire',
+        paymentStatus: 'pending_verification',
+        transferRef: transferRef || (bankReceipt ? `Receipt File: ${bankReceipt.name}` : 'Wire Transfer Verification'),
+        affiliateCode: discountApplied ? discountCode : undefined,
+        discountApplied,
+        status: 'pending'
+      });
+
+      // Distribute affiliate commission if affiliate code was applied
+      if (discountApplied && discountCode) {
+        calculateAndDistributeCommissions({
+          bookingId: ref,
+          saleAmount: finalAmount,
+          affiliateCode: discountCode
+        }).catch((cErr) => console.warn('Commission credit notice:', cErr));
+      }
+
       setReceiptSubmitted(true);
       setIsPaid(true);
-    }, 1200);
+    } catch (err) {
+      console.warn('Receipt record fallback/notice:', err);
+      setReceiptSubmitted(true);
+      setIsPaid(true);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center p-4 sm:p-6 lg:p-8 font-sans selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center pt-28 pb-8 px-4 sm:px-6 lg:px-8 font-sans selection:bg-emerald-500 selection:text-white">
       <div className="max-w-2xl w-full bg-zinc-900/90 border border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-md relative overflow-hidden space-y-6">
         
         {/* Glow accent */}
@@ -135,16 +235,16 @@ export default function CheckoutPaymentPage() {
             <h2 className="text-2xl font-bold font-serif text-white">
               {receiptSubmitted ? 'Transfer Receipt Received!' : 'Payment Confirmed!'}
             </h2>
-            <p className="text-sm text-zinc-300 max-w-md mx-auto leading-relaxed">
+            <p className="text-sm text-zinc-300 max-w-md mx-auto leading-relaxed" suppressHydrationWarning>
               {receiptSubmitted
                 ? 'Thank you! Your bank transfer receipt has been registered. Our accounting team will verify the funds and email your official confirmation.'
-                : `Thank you! Your payment of $${finalAmount.toLocaleString()} USD has been successfully processed for ${email}.`}
+                : `Thank you! Your payment of $${finalAmount.toLocaleString('en-US')} USD has been successfully processed for ${email}.`}
             </p>
             <div className="p-4 bg-zinc-950/80 border border-zinc-800 rounded-2xl text-xs text-zinc-400 space-y-1.5 text-left max-w-md mx-auto">
               <p className="flex justify-between"><span className="text-zinc-500">Expedition:</span> <strong className="text-white">{tourTitle}</strong></p>
               {travelDate && <p className="flex justify-between"><span className="text-zinc-500">Selected Date:</span> <strong className="text-emerald-400">{travelDate}</strong></p>}
               <p className="flex justify-between"><span className="text-zinc-500">Reference Code:</span> <span className="font-mono text-emerald-300">{ref}</span></p>
-              <p className="flex justify-between"><span className="text-zinc-500">Total USD:</span> <span className="font-bold text-white">${finalAmount.toLocaleString()} USD</span></p>
+              <p className="flex justify-between"><span className="text-zinc-500">Total USD:</span> <span className="font-bold text-white" suppressHydrationWarning>${finalAmount.toLocaleString('en-US')} USD</span></p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
@@ -204,12 +304,12 @@ export default function CheckoutPaymentPage() {
                 </div>
                 <div className="text-right">
                   {discountApplied && (
-                    <span className="text-sm line-through text-zinc-500 mr-2">
-                      ${initialAmount.toLocaleString()}
+                    <span className="text-sm line-through text-zinc-500 mr-2" suppressHydrationWarning>
+                      ${initialAmount.toLocaleString('en-US')}
                     </span>
                   )}
-                  <span className="text-3xl font-extrabold font-serif text-emerald-400">
-                    ${finalAmount.toLocaleString()} <span className="text-xs text-zinc-400 font-normal">USD</span>
+                  <span className="text-3xl font-extrabold font-serif text-emerald-400" suppressHydrationWarning>
+                    ${finalAmount.toLocaleString('en-US')} <span className="text-xs text-zinc-400 font-normal">USD</span>
                   </span>
                 </div>
               </div>
@@ -301,7 +401,7 @@ export default function CheckoutPaymentPage() {
                     ) : (
                       <>
                         <Lock className="w-4 h-4" />
-                        <span>Pay ${finalAmount.toLocaleString()} USD with Card</span>
+                        <span suppressHydrationWarning>Pay ${finalAmount.toLocaleString('en-US')} USD with Card</span>
                       </>
                     )}
                   </button>

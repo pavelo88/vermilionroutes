@@ -21,15 +21,18 @@
 
 @layer base {
   :root {
-    --background: #F9F6F0; /* Warm elegant cream background */
-    --foreground: #141716;
-    --primary: #059669;
+    --background: #FBFBFA; /* Blanco Lino / Arena Suave Boutique */
+    --foreground: #1C1F1E; /* Gris Grafito Oscuro */
+    --primary: #C49B45;    /* Ocre Metálico / Oro Sol */
+    --card: #F1F3F2;       /* Gris Glaciar Claro */
   }
 
   .dark {
-    --background: #05140C; /* Subtle dark emerald green background */
-    --foreground: #FAFAFA;
-    --primary: #10B981;
+    --background: #1A2421; /* Verde Eucalipto Profundo Desaturado */
+    --foreground: #EAECEB; /* Blanco Hueso / Plata */
+    --primary: #D1A852;    /* Oro Metálico Nocturno */
+    --card: #232D2A;       /* Verde Eucalipto Compacto para tarjetas */
+    --basalt: #181B1A;     /* Gris Basalto Volcánico */
   }
 
   body {

@@ -34,9 +34,10 @@ interface TourDetailPageProps {
 import { mockTours } from '@/data/mock';
 import { getLocalizedText } from '@/utils/i18nHelper';
 
-// Pre-render all locale × tour combinations at build time so Firestore is
-// never called at request time in production (avoids timeout crashes).
-export const dynamicParams = false;
+// Allow dynamic params so new tours can be loaded, and revalidate every 60 seconds
+// to fetch fresh prices from Firestore.
+export const dynamicParams = true;
+export const revalidate = 60;
 
 const SUPPORTED_LOCALES = ['en', 'es', 'fr', 'de', 'it', 'pt', 'ja', 'zh'];
 

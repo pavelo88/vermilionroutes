@@ -198,10 +198,17 @@ export function AdminBookingsTable() {
                     )}
                     {b.guestsCount && (
                       <span className="flex items-center gap-1 text-[11px]">
-                        <Users className="w-3 h-3 text-zinc-500" />
+                        <Users className="w-3.5 h-3.5 text-zinc-500" />
                         {b.guestsCount}
                       </span>
                     )}
+                    {b.amountPaid ? (
+                      <div className="pt-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                        <span>Paid: ${b.amountPaid.toLocaleString('en-US')} USD</span>
+                        {b.refCode && <span className="block text-[10px] text-zinc-500 font-mono">Ref: {b.refCode}</span>}
+                        {b.affiliateCode && <span className="inline-block text-[10px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-1.5 py-0.5 rounded border border-amber-300 dark:border-amber-800 font-mono mt-0.5">Affiliate: {b.affiliateCode}</span>}
+                      </div>
+                    ) : null}
                   </td>
                   <td className="p-4">
                     <div className="space-y-1">

@@ -58,11 +58,11 @@ export function TravelVoucherModal({
   const duration = getLocalizedText(tour.duration, locale);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto font-sans">
-      <div className="relative w-full max-w-3xl bg-zinc-900 border border-emerald-900/60 rounded-3xl shadow-2xl overflow-hidden my-8 text-white">
+    <div className="fixed inset-0 z-50 flex items-start justify-center p-2 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto font-sans">
+      <div className="relative w-full max-w-3xl bg-zinc-900 border border-emerald-900/60 rounded-3xl shadow-2xl overflow-hidden my-6 sm:my-8 text-white">
         
-        {/* Top Actions Bar (Hidden during print) */}
-        <div className="flex items-center justify-between px-6 py-4 bg-zinc-950 border-b border-zinc-800 print:hidden">
+        {/* Top Actions Bar (Sticky & always visible) */}
+        <div className="sticky top-0 z-30 flex items-center justify-between px-6 py-4 bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800 print:hidden">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-5 h-5 text-emerald-400" />
             <span className="text-xs font-bold uppercase tracking-wider text-zinc-200">

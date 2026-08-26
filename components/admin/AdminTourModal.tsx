@@ -272,7 +272,7 @@ export function AdminTourModal({
                 </label>
                 <input
                   type="text"
-                  value={formData.category || ''}
+                  value={getValString(formData.category) || ''}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                   placeholder="Premium Expedition"
                   className="w-full p-2.5 glass-input rounded-xl focus:border-emerald-500 focus:outline-none"
@@ -340,7 +340,7 @@ export function AdminTourModal({
                 {/* URL Fallback Input */}
                 <div className="sm:col-span-5">
                   <input
-                    type="url"
+                    type="text"
                     placeholder="Or paste image URL..."
                     value={formData.imageUrl || ''}
                     onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}

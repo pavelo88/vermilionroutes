@@ -44,6 +44,7 @@ export async function createBookingInFirestore(
   }
 
   const payload: BookingRequest = {
+    refCode: bookingData.refCode || `VR-${Date.now().toString().slice(-6)}`,
     tourId: sanitizedTourId,
     tourTitle: sanitizedTourTitle,
     customerName: sanitizedName,
@@ -53,7 +54,14 @@ export async function createBookingInFirestore(
     guestsCount: sanitizedGuestsCount,
     destination: sanitizedDestination,
     message: sanitizedMessage,
-    status: 'pending',
+    amountPaid: bookingData.amountPaid,
+    paymentMethod: bookingData.paymentMethod,
+    paymentStatus: bookingData.paymentStatus || 'pending_verification',
+    transferRef: bookingData.transferRef,
+    affiliateCode: bookingData.affiliateCode,
+    discountApplied: bookingData.discountApplied,
+    receiptUrl: bookingData.receiptUrl,
+    status: bookingData.status || (bookingData.paymentStatus === 'confirmed' ? 'confirmed' : 'pending'),
     createdAt: new Date().toISOString()
   };
 

@@ -21,16 +21,16 @@ export function BrandLogo({
 
   // Primary brand colors
   const primaryTextColor = isDarkForced
-    ? '#FFFFFF'
+    ? '#EAECEB'
     : isLightForced
-    ? '#14281D'
-    : 'currentColor';
+    ? '#1C1F1E'
+    : undefined;
 
   const subTextColor = isDarkForced
-    ? '#34D399'
+    ? '#D1A852'
     : isLightForced
-    ? '#059669'
-    : 'currentColor';
+    ? '#C49B45'
+    : undefined;
 
   return (
     <div
@@ -80,19 +80,19 @@ export function BrandLogo({
       {variant !== 'icon-only' && (
         <div className="flex flex-col justify-center text-left leading-none">
           <span
-            className="font-serif font-black tracking-[0.18em] uppercase text-sm sm:text-base md:text-lg transition-colors"
-            style={{ color: primaryTextColor }}
+            className="font-serif font-black tracking-[0.18em] uppercase text-sm sm:text-base md:text-lg transition-colors text-[#1C1F1E] dark:text-[#EAECEB]"
+            style={primaryTextColor ? { color: primaryTextColor } : undefined}
           >
             VERMILION
           </span>
           <div className="flex items-center gap-1.5 mt-0.5">
             <span
-              className="font-sans font-bold tracking-[0.32em] uppercase text-[9px] sm:text-[10px] md:text-[11px]"
-              style={{ color: subTextColor }}
+              className="font-sans font-bold tracking-[0.32em] uppercase text-[9px] sm:text-[10px] md:text-[11px] text-[#C49B45] dark:text-[#D1A852]"
+              style={subTextColor ? { color: subTextColor } : undefined}
             >
               ROUTES
             </span>
-            <span className="w-1 h-1 rounded-full bg-emerald-500 shrink-0" />
+            <span className="w-1 h-1 rounded-full bg-[#C49B45] dark:bg-[#D1A852] shrink-0" />
             <span
               className="font-sans font-semibold tracking-[0.2em] uppercase text-[7px] sm:text-[8px] text-zinc-400 dark:text-zinc-500 hidden sm:inline"
             >

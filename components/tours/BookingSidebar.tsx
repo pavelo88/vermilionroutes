@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Tour } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { createBookingInFirestore } from '@/lib/bookings';
+import { TravelDatePicker } from '@/components/booking/TravelDatePicker';
 import { filterPhoneInput, isValidEmail, isValidPhone, sanitizeText } from '@/lib/validation';
 import { useLocale } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
@@ -42,6 +43,7 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
     travelers: '2 Travelers'
   });
 
+  const [showCalendar, setShowCalendar] = useState(false);
   const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string; submit?: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -298,17 +300,41 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
           </div>
 
           {/* Travel Date */}
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-700 flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Estimated Travel Date</span>
+          <div className="space-y-1 relative">
+            <label className="text-xs font-semibold text-zinc-700 flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Estimated Travel Date</span>
+              </span>
+              {formData.date && (
+                <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                  {formData.date}
+                </span>
+              )}
             </label>
-            <input
-              type="date"
-              value={formData.date}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-              className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
-            />
+            <button
+              type="button"
+              onClick={() => setShowCalendar(!showCalendar)}
+              className="w-full bg-zinc-50 border border-zinc-200 hover:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs text-left text-zinc-900 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer flex items-center justify-between transition-all"
+            >
+              <span className={formData.date ? 'font-medium text-zinc-900' : 'text-zinc-400'}>
+                {formData.date ? formData.date : 'Click to select travel date...'}
+              </span>
+              <Calendar className="w-4 h-4 text-emerald-600 shrink-0" />
+            </button>
+
+            {showCalendar && (
+              <div className="pt-2 animate-in fade-in zoom-in-95 duration-150">
+                <TravelDatePicker
+                  selectedDate={formData.date}
+                  onDateSelect={(d) => {
+                    setFormData((prev) => ({ ...prev, date: d }));
+                    setShowCalendar(false);
+                  }}
+                  durationDays={tour.durationDays || 1}
+                />
+              </div>
+            )}
           </div>
 
           {/* Travelers */}
@@ -348,7 +374,7 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
             ) : (
               <>
                 <Send className="w-4 h-4" />
-                <span>Secure Reservation ($500 Deposit)</span>
+                <span>{locale === 'es' ? 'Solicitar Reserva' : 'Secure Reservation'}</span>
               </>
             )}
           </Button>

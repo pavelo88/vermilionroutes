@@ -369,13 +369,13 @@ export function Navbar() {
                 )}
               </>
             )}
-            <button
-              onClick={() => setClubModalOpen(true)}
+            <Link
+              href={`/${locale}/affiliates`}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-xs font-bold shadow-sm transition-all hover:scale-105 cursor-pointer"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-              <span>10% OFF</span>
-            </button>
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span>{locale === 'es' ? 'Afiliados' : 'Affiliates'}</span>
+            </Link>
             <Button
               variant="primary"
               size="sm"
@@ -490,17 +490,14 @@ export function Navbar() {
             </nav>
 
             <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 flex flex-col gap-2.5">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setClubModalOpen(true);
-                }}
+              <Link
+                href={`/${locale}/affiliates`}
+                onClick={() => setMobileMenuOpen(false)}
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-sm font-bold shadow-md cursor-pointer"
               >
-                <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
-                <span>{locale === 'es' ? '10% OFF Club de Viajeros' : '10% OFF Travelers Club'}</span>
-              </button>
+                <Sparkles className="w-4 h-4 text-amber-300" />
+                <span>{locale === 'es' ? 'Portal de Afiliados' : 'Affiliates Portal'}</span>
+              </Link>
 
               <Button
                 variant="primary"

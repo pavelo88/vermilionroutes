@@ -2,180 +2,370 @@
 
 import React, { useState } from 'react';
 import { useLocale } from 'next-intl';
-import { Wallet, Globe, Headphones, Star, CheckCircle2, AlertCircle, ChevronRight, Users } from 'lucide-react';
-import { db } from '@/lib/firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import {
+  Wallet,
+  Globe,
+  Headphones,
+  Star,
+  CheckCircle2,
+  AlertCircle,
+  ChevronRight,
+  Users,
+  Copy,
+  Check,
+  Sparkles,
+  ShieldCheck,
+  Layers,
+  ArrowUpRight,
+  Percent,
+  Lock
+} from 'lucide-react';
+import { registerAffiliateInFirestore, AffiliateAccount } from '@/lib/affiliates';
 
-const TIERS = [
-  { id: 'explorer', nameEn: 'Explorer', nameEs: 'Explorador', commission: '5%', descEn: 'Perfect for independent agents and new referral partners.', descEs: 'Ideal para agentes independientes y nuevos socios referidores.', perks: ['Up to 3 referrals/month', 'Dedicated partner portal', 'Marketing materials'], perksEs: ['Hasta 3 referencias/mes', 'Portal de socio dedicado', 'Materiales de marketing'], color: 'bg-zinc-100 dark:bg-zinc-800' },
-  { id: 'pathfinder', nameEn: 'Pathfinder', nameEs: 'Explorador Pro', commission: '8%', descEn: 'For active curators generating consistent bookings.', descEs: 'Para curadores activos que generan reservas consistentes.', perks: ['4–10 referrals/month', 'Priority 24/7 support', 'Co-branded proposals', 'Monthly performance reports'], perksEs: ['4–10 referencias/mes', 'Soporte prioritario 24/7', 'Propuestas co-marcadas', 'Informes mensuales'], color: 'bg-emerald-950/10 dark:bg-emerald-950/40', featured: true },
-  { id: 'expedition', nameEn: 'Expedition Partner', nameEs: 'Socio de Expedicion', commission: '12%', descEn: 'Our elite tier for agencies and high-volume curators.', descEs: 'Nivel elite para agencias y curadores de alto volumen.', perks: ['10+ referrals/month', 'Dedicated account manager', 'White-label itineraries', 'Fam trips invitation'], perksEs: ['10+ referencias/mes', 'Gestor de cuenta dedicado', 'Itinerarios marca blanca', 'Invitacion a viajes FAM'], color: 'bg-zinc-100 dark:bg-zinc-800' },
+const UNILEVEL_DISPLAY = [
+  { level: 'Nivel 1 (Tú / Venta Directa)', levelEn: 'Level 1 (Direct Seller)', rate: '8.0%', descEs: 'Tu comisión por cada venta directa generada con tu enlace.', descEn: 'Direct commission earned on every customer booking.' },
+  { level: 'Nivel 2 (Tus Hijos / Afiliados Directos)', levelEn: 'Level 2 (Your Direct Recruits)', rate: '3.5%', descEs: 'Ganas de cada venta que hagan los afiliados que tú invitaste.', descEn: 'Earn on every sale made by your direct recruits.' },
+  { level: 'Nivel 3 (Nietos)', levelEn: 'Level 3 (Grandchildren)', rate: '2.0%', descEs: 'Comisión pasiva por las ventas de la 3era generación.', descEn: 'Passive commission from 3rd-generation referrals.' },
+  { level: 'Nivel 4 (Bisnietos)', levelEn: 'Level 4 (Great-Grandchildren)', rate: '1.0%', descEs: 'Crecimiento de red en profundidad garantizado.', descEn: 'Deep team volume compensation.' },
+  { level: 'Nivel 5 (Tataranietos)', levelEn: 'Level 5 (5th Generation)', rate: '0.5%', descEs: 'Máxima profundidad estándar del plan univel.', descEn: 'Maximum standard unilevel base tier.' },
 ];
 
-const BENEFITS = [
-  { icon: Wallet, en: 'Competitive Commission Structure', es: 'Estructura de Comisiones Competitiva' },
-  { icon: Globe, en: 'World-Class Destinations to Promote', es: 'Destinos de Talla Mundial que Promover' },
-  { icon: Headphones, en: 'Dedicated Partner Support Team', es: 'Equipo de Soporte Dedicado al Socio' },
-  { icon: Star, en: 'Exclusive FAM Trips for Top Partners', es: 'Viajes FAM Exclusivos para Top Socios' },
+const LEADERSHIP_TIERS = [
+  { rank: 'Plata (Silver)', override: '+1.0%', conditionEs: '5+ Ventas activas en tu equipo', conditionEn: '5+ Active team bookings' },
+  { rank: 'Oro (Gold)', override: '+2.0%', conditionEs: '15+ Ventas de equipo o $20,000 en volumen', conditionEn: '15+ Team sales or $20k volume' },
+  { rank: 'Diamante / Fundador', override: 'Hasta +5.0% Diferencial', conditionEs: 'Líderes que forman empresas de reclutamiento', conditionEn: 'Founding leaders building sales teams' }
 ];
 
 export default function AffiliatesPage() {
   const locale = useLocale();
   const isEs = locale === 'es';
 
-  const [form, setForm] = useState({ name: '', email: '', phone: '', website: '', type: '', message: '' });
+  // Form State
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
+    sponsorCode: ''
+  });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const [registeredAffiliate, setRegisteredAffiliate] = useState<AffiliateAccount | null>(null);
+  const [copied, setCopied] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.type) return;
+    if (!form.name || !form.email) return;
+
+    if (form.password.length < 8) {
+      setErrorMsg(isEs ? 'La contraseña debe tener al menos 8 caracteres.' : 'Password must be at least 8 characters.');
+      setStatus('error');
+      return;
+    }
+
     setStatus('loading');
+    setErrorMsg('');
+
     try {
-      await addDoc(collection(db, 'affiliate_applications'), {
-        ...form,
-        locale,
-        createdAt: new Date().toISOString(),
-        status: 'pending',
+      const account = await registerAffiliateInFirestore({
+        email: form.email,
+        name: form.name,
+        phone: form.phone,
+        sponsorCode: form.sponsorCode || undefined
       });
+      setRegisteredAffiliate(account);
       setStatus('success');
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      setErrorMsg(isEs ? 'Error al enviar. Por favor intentalo de nuevo.' : 'Error submitting. Please try again.');
+      setErrorMsg(err.message || (isEs ? 'Error al registrarte. Intenta de nuevo.' : 'Registration error. Please try again.'));
       setStatus('error');
     }
   };
 
+  const copyReferralLink = (code: string) => {
+    const link = `https://vermilionroutes.com/${locale}?ref=${code}`;
+    navigator.clipboard.writeText(link);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
   return (
-    <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#07130C] text-zinc-900 dark:text-zinc-100 pt-32 pb-20">
+    <div className="min-h-screen bg-[#FBFBFA] dark:bg-[#1A2421] text-[#1C1F1E] dark:text-[#EAECEB] pt-32 pb-24 font-sans selection:bg-[#C49B45] selection:text-white transition-colors duration-300">
 
-      {/* Hero */}
-      <section className="px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center space-y-6 pb-20">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
-          <Users className="w-3.5 h-3.5" />
-          <span>{isEs ? 'Programa de Afiliados y B2B' : 'Affiliate & B2B Program'}</span>
+      {/* Hero Section */}
+      <section className="px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center space-y-6 pb-16">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C49B45]/15 border border-[#C49B45]/30 text-[#C49B45] dark:text-[#D1A852] text-xs font-bold uppercase tracking-wider">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>{isEs ? 'Comisiones Transparentes • 5 Niveles • Tope 20%' : 'Transparent Multilevel • 5 Tiers • 20% Strict Cap'}</span>
         </div>
+
         <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white leading-tight">
-          {isEs ? 'Se un Curador de Experiencias Vermilion' : 'Become a Vermilion Routes Experience Curator'}
+          {isEs ? 'Programa de Afiliados & Red Multinivel Vermilion' : 'Vermilion Affiliate & Multilevel Network'}
         </h1>
-        <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-          {isEs ? 'Unete a nuestra red exclusiva de agencias, creadores de contenido y agentes independientes que recomiendan las expediciones mas extraordinarias de Ecuador y Galapagos.' : "Join our exclusive network of agencies, content creators, and independent agents who recommend Ecuador and Galapagos' most extraordinary expeditions."}
+
+        <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 max-w-3xl mx-auto leading-relaxed">
+          {isEs
+            ? 'Monetiza tu red promoviendo las expediciones más extraordinarias de Ecuador y Galápagos. Tus clientes reciben automáticamente un 10% de descuento y tú construyes un equipo de hasta 5 niveles con comisiones protegidas.'
+            : 'Monetize your network by promoting premier Galapagos & Ecuador expeditions. Your clients automatically receive a 10% discount, and you build a team up to 5 levels deep.'}
         </p>
-      </section>
 
-      {/* Benefits */}
-      <section className="px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pb-20">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {BENEFITS.map((b, i) => (
-            <div key={i} className="bg-white dark:bg-zinc-900/80 rounded-2xl p-6 border border-zinc-200/60 dark:border-zinc-800/60 shadow-sm text-center space-y-3">
-              <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-950/40 flex items-center justify-center mx-auto">
-                <b.icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-              </div>
-              <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{isEs ? b.es : b.en}</p>
-            </div>
-          ))}
+        {/* 10% Discount Badge Banner */}
+        <div className="inline-flex items-center gap-3 p-3.5 px-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs sm:text-sm font-semibold shadow-sm">
+          <Percent className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+          <span>
+            {isEs
+              ? 'Tus clientes obtienen automáticamente 10% OFF en cualquier tour al ingresar con tu enlace único.'
+              : 'Your clients automatically receive 10% OFF any expedition when using your referral link.'}
+          </span>
         </div>
       </section>
 
-      {/* Commission Tiers */}
+      {/* 5-Level Unilevel Plan Visualization */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pb-20">
-        <div className="text-center space-y-3 mb-10">
-          <h2 className="font-serif text-3xl font-bold text-zinc-900 dark:text-white">{isEs ? 'Niveles de Comision' : 'Commission Tiers'}</h2>
-          <p className="text-zinc-500 dark:text-zinc-400 text-sm">{isEs ? 'Elige el nivel que mejor se adapte a tu volumen de referidos.' : 'Choose the tier that best fits your referral volume.'}</p>
+        <div className="text-center space-y-2 mb-10">
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white">
+            {isEs ? 'Estructura de Comisiones Base (5 Niveles = 15%)' : 'Base 5-Level Payout (15% Subtotal)'}
+          </h2>
+          <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm">
+            {isEs ? 'Ganas no solo por lo que vendes tú, sino por las ventas de todo tu equipo hacia abajo.' : 'Earn from your direct sales and from your downline team members.'}
+          </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {TIERS.map((tier) => (
-            <div key={tier.id} className={`rounded-3xl p-8 border ${tier.featured ? 'border-emerald-400/50 dark:border-emerald-600/50 ring-2 ring-emerald-500/30' : 'border-zinc-200/60 dark:border-zinc-800/60'} ${tier.color} space-y-5 relative`}>
-              {tier.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-bold shadow">
-                  <Star className="w-3 h-3" /> {isEs ? 'Mas Popular' : 'Most Popular'}
-                </div>
-              )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+          {UNILEVEL_DISPLAY.map((tier, idx) => (
+            <div
+              key={idx}
+              className="bg-white dark:bg-[#232D2A] p-5 rounded-2xl border border-zinc-200/80 dark:border-white/5 shadow-sm space-y-3 flex flex-col justify-between"
+            >
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">{isEs ? tier.nameEs : tier.nameEn}</p>
-                <p className="font-serif text-4xl font-bold text-zinc-900 dark:text-white mt-1">{tier.commission} <span className="text-sm font-normal text-zinc-500">/ referral</span></p>
-                <p className="text-sm text-zinc-600 dark:text-zinc-400 mt-2">{isEs ? tier.descEs : tier.descEn}</p>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#C49B45] dark:text-[#D1A852] block">
+                  {isEs ? tier.level : tier.levelEn}
+                </span>
+                <p className="font-serif text-3xl font-bold text-zinc-900 dark:text-white mt-1">
+                  {tier.rate}
+                </p>
               </div>
-              <ul className="space-y-2">
-                {(isEs ? tier.perksEs : tier.perks).map((perk, i) => (
-                  <li key={i} className="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />{perk}
-                  </li>
-                ))}
-              </ul>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                {isEs ? tier.descEs : tier.descEn}
+              </p>
             </div>
           ))}
         </div>
+
+        {/* Leadership & Mathematical Cap Note */}
+        <div className="mt-6 p-6 rounded-3xl bg-[#F1F3F2] dark:bg-[#181B1A] border border-zinc-200/80 dark:border-white/5 space-y-4">
+          <div className="flex items-center gap-2 text-zinc-900 dark:text-white font-bold text-sm">
+            <ShieldCheck className="w-5 h-5 text-[#C49B45] dark:text-[#D1A852]" />
+            <span>{isEs ? 'Bono de Liderazgo Diferencial (5% Restante) & Garantía del Tope 20%' : 'Differential Leadership Bonus (Remaining 5%) & 20% Strict Cap'}</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            {LEADERSHIP_TIERS.map((lead, i) => (
+              <div key={i} className="p-3.5 rounded-xl bg-white dark:bg-[#232D2A] border border-zinc-200/60 dark:border-white/5 space-y-1">
+                <div className="flex justify-between font-bold text-zinc-900 dark:text-white">
+                  <span>{lead.rank}</span>
+                  <span className="text-[#C49B45] dark:text-[#D1A852]">{lead.override}</span>
+                </div>
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400">{isEs ? lead.conditionEs : lead.conditionEn}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed border-t border-zinc-200/60 dark:border-white/5 pt-3">
+            {isEs
+              ? '⚖️ Garantía Financiera Inquebrantable: La suma del Plan Univel (15%) + el Fondo de Liderazgo Diferencial (5%) está bloqueada al 20.00% exacto del valor del tour. La empresa jamás pierde rentabilidad y los líderes siempre cobran justamente.'
+              : '⚖️ Unbreakable Math Cap: Unilevel (15%) + Leadership Pool (5%) is strictly capped at 20.00% of the booking value. Total stability guaranteed.'}
+          </p>
+        </div>
       </section>
 
-      {/* Application Form */}
+      {/* Registration & Affiliate Dashboard Section */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
-        <div className="bg-white dark:bg-zinc-900/80 rounded-3xl border border-zinc-200/60 dark:border-zinc-800/60 shadow-lg p-8 sm:p-12">
-          {status === 'success' ? (
-            <div className="text-center space-y-4 py-8">
-              <CheckCircle2 className="w-14 h-14 text-emerald-600 mx-auto" />
-              <h3 className="font-serif text-2xl font-bold text-zinc-900 dark:text-white">{isEs ? 'Solicitud Recibida!' : 'Application Received!'}</h3>
-              <p className="text-zinc-600 dark:text-zinc-400 text-sm">{isEs ? 'Nuestro equipo revisara tu solicitud y te contactara en 48 horas.' : 'Our team will review your application and contact you within 48 hours.'}</p>
+        <div className="bg-white dark:bg-[#232D2A] rounded-3xl border border-zinc-200/80 dark:border-white/10 shadow-xl p-6 sm:p-10 space-y-6">
+          
+          {status === 'success' && registeredAffiliate ? (
+            <div className="text-center space-y-6 animate-fade-in py-4">
+              <div className="w-16 h-16 bg-[#C49B45]/15 text-[#C49B45] dark:text-[#D1A852] border border-[#C49B45]/30 rounded-full flex items-center justify-center mx-auto shadow-md">
+                <CheckCircle2 className="w-8 h-8" />
+              </div>
+
+              <div className="space-y-1">
+                <h3 className="font-serif text-2xl font-bold text-zinc-900 dark:text-white">
+                  {isEs ? `¡Bienvenido a la Red, ${registeredAffiliate.name}!` : `Welcome to the Network, ${registeredAffiliate.name}!`}
+                </h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  {isEs
+                    ? 'Tu cuenta de afiliado ha sido registrada exitosamente con tu correo electrónico.'
+                    : 'Your affiliate account is now active with your email address as your unique ID.'}
+                </p>
+              </div>
+
+              {/* Unique Code Box */}
+              <div className="p-5 bg-[#FBFBFA] dark:bg-[#181B1A] border border-zinc-200 dark:border-white/5 rounded-2xl space-y-3 text-left">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+                    {isEs ? 'Tu Código Único de Afiliado' : 'Your Unique Referral Code'}
+                  </span>
+                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                    10% Buyer Discount Active
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between bg-white dark:bg-[#232D2A] p-3 rounded-xl border border-zinc-200/80 dark:border-white/10">
+                  <span className="font-mono text-lg font-bold text-[#C49B45] dark:text-[#D1A852]">
+                    {registeredAffiliate.referralCode}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => copyReferralLink(registeredAffiliate.referralCode)}
+                    className="px-3 py-1.5 bg-[#C49B45] hover:bg-[#B38A34] text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                  >
+                    {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copied ? (isEs ? '¡Copiado!' : 'Copied!') : (isEs ? 'Copiar Enlace' : 'Copy Link')}</span>
+                  </button>
+                </div>
+
+                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 font-mono break-all">
+                  Link: https://vermilionroutes.com/{locale}?ref={registeredAffiliate.referralCode}
+                </p>
+              </div>
+
+              {/* Stats Preview Card */}
+              <div className="grid grid-cols-3 gap-3 text-center">
+                <div className="p-3 bg-[#F1F3F2] dark:bg-[#181B1A] rounded-xl border border-zinc-200/60 dark:border-white/5">
+                  <span className="text-[10px] uppercase font-bold text-zinc-400 block">{isEs ? 'Balance Ganado' : 'Total Earnings'}</span>
+                  <p className="text-lg font-bold font-serif text-emerald-600 dark:text-emerald-400">$0.00</p>
+                </div>
+                <div className="p-3 bg-[#F1F3F2] dark:bg-[#181B1A] rounded-xl border border-zinc-200/60 dark:border-white/5">
+                  <span className="text-[10px] uppercase font-bold text-zinc-400 block">{isEs ? 'Ventas de Red' : 'Team Sales'}</span>
+                  <p className="text-lg font-bold font-serif text-zinc-900 dark:text-white">0</p>
+                </div>
+                <div className="p-3 bg-[#F1F3F2] dark:bg-[#181B1A] rounded-xl border border-zinc-200/60 dark:border-white/5">
+                  <span className="text-[10px] uppercase font-bold text-zinc-400 block">{isEs ? 'Tu Rango' : 'Your Rank'}</span>
+                  <p className="text-lg font-bold font-serif text-[#C49B45] dark:text-[#D1A852]">Standard</p>
+                </div>
+              </div>
             </div>
           ) : (
             <>
-              <div className="text-center space-y-2 mb-8">
-                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white">{isEs ? 'Solicitar Acceso al Programa' : 'Apply to the Program'}</h2>
-                <p className="text-zinc-500 dark:text-zinc-400 text-sm">{isEs ? 'Completa el formulario y te contactaremos en 48 horas.' : 'Fill out the form and we will contact you within 48 hours.'}</p>
+              <div className="text-center space-y-1.5">
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white">
+                  {isEs ? 'Regístrate como Afiliado' : 'Register as an Affiliate Partner'}
+                </h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  {isEs
+                    ? 'Tu correo será tu identificador único. Recibirás tu código personal inmediatamente.'
+                    : 'Your email address is your unique partner ID. Instant referral code generation.'}
+                </p>
               </div>
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? 'Nombre Completo *' : 'Full Name *'}</label>
-                    <input name="name" value={form.name} onChange={handleChange} required placeholder={isEs ? 'Tu nombre completo' : 'Your full name'} className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+
+              <form onSubmit={handleRegister} className="space-y-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                    {isEs ? 'Nombre Completo *' : 'Full Name *'}
+                  </label>
+                  <input
+                    name="name"
+                    required
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder={isEs ? 'Tu Nombre Completo' : 'Your Full Name'}
+                    className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#C49B45]"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                      {isEs ? 'Correo Electrónico (Tu ID Único) *' : 'Email Address (Your Unique ID) *'}
+                    </label>
+                    <input
+                      name="email"
+                      type="email"
+                      required
+                      value={form.email}
+                      onChange={handleChange}
+                      placeholder="email@ejemplo.com"
+                      className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#C49B45]"
+                    />
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? 'Correo Electronico *' : 'Email Address *'}</label>
-                    <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="email@ejemplo.com" className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                      {isEs ? 'Contraseña Segura (Mínimo 8 caracteres) *' : 'Secure Password (Min 8 chars) *'}
+                    </label>
+                    <input
+                      name="password"
+                      type="password"
+                      required
+                      value={form.password}
+                      onChange={handleChange}
+                      placeholder="••••••••"
+                      className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#C49B45]"
+                    />
                   </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">WhatsApp / {isEs ? 'Telefono' : 'Phone'}</label>
-                    <input name="phone" value={form.phone} onChange={handleChange} placeholder="+1 555 000 0000" className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+                      {isEs ? 'WhatsApp / Teléfono' : 'Phone / WhatsApp'}
+                    </label>
+                    <input
+                      name="phone"
+                      value={form.phone}
+                      onChange={handleChange}
+                      placeholder="+593 99 000 0000"
+                      className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#C49B45]"
+                    />
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Website / Instagram</label>
-                    <input name="website" value={form.website} onChange={handleChange} placeholder="https://tuagencia.com" className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 flex items-center justify-between">
+                      <span>{isEs ? 'Código de Patrocinador (Opcional)' : 'Sponsor Code (Optional)'}</span>
+                      <span className="text-[10px] text-zinc-400">{isEs ? 'Si alguien te invitó' : 'If invited'}</span>
+                    </label>
+                    <input
+                      name="sponsorCode"
+                      value={form.sponsorCode}
+                      onChange={handleChange}
+                      placeholder="e.g. PABLO2026"
+                      className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#C49B45] uppercase"
+                    />
                   </div>
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? 'Tipo de Socio *' : 'Partner Type *'}</label>
-                  <select name="type" value={form.type} onChange={handleChange} required className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    <option value="">{isEs ? 'Selecciona una opcion' : 'Select an option'}</option>
-                    <option value="agency">{isEs ? 'Agencia de Viajes' : 'Travel Agency'}</option>
-                    <option value="content_creator">{isEs ? 'Creador de Contenido / Influencer' : 'Content Creator / Influencer'}</option>
-                    <option value="freelance">{isEs ? 'Agente Independiente' : 'Freelance Agent'}</option>
-                    <option value="other">{isEs ? 'Otro' : 'Other'}</option>
-                  </select>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? 'Cuentanos sobre ti' : 'Tell Us About Yourself'}</label>
-                  <textarea name="message" value={form.message} onChange={handleChange} rows={4} placeholder={isEs ? 'Describe tu audiencia, mercado o forma de trabajo...' : 'Describe your audience, market, or how you work...'} className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none" />
-                </div>
-                {status === 'error' && (
-                  <div className="flex items-center gap-2 text-rose-600 text-xs">
-                    <AlertCircle className="w-4 h-4 shrink-0" /><span>{errorMsg}</span>
+
+                {errorMsg && (
+                  <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-400 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{errorMsg}</span>
                   </div>
                 )}
-                <button type="submit" disabled={status === 'loading'} className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-sm transition-all hover:scale-[1.02] shadow-lg">
-                  {status === 'loading' ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <ChevronRight className="w-4 h-4" />}
-                  {isEs ? 'Enviar Solicitud' : 'Submit Application'}
+
+                <button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="w-full py-4 bg-[#C49B45] hover:bg-[#B38A34] text-white font-bold uppercase tracking-widest text-xs rounded-2xl transition-all shadow-md shadow-amber-900/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                >
+                  {status === 'loading' ? (
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4" />
+                      <span>{isEs ? 'Crear Mi Cuenta y Generar Código' : 'Create Account & Generate Code'}</span>
+                    </>
+                  )}
                 </button>
               </form>
             </>
           )}
         </div>
       </section>
+
     </div>
   );
 }
