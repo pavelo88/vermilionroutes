@@ -18,35 +18,34 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
         return (
           <div key={`card-wrap-${idx}`}>
             <div
-              className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden ${
-                idx === 0
-                  ? 'w-full h-full inset-0 z-10 opacity-100'
-                  : 'w-[180px] h-[260px] opacity-0'
-              }`}
+              className={`card card-${idx} absolute top-0 left-0 shadow-2xl overflow-hidden ${idx === 0
+                ? 'w-full h-full inset-0 z-10 opacity-100'
+                : 'w-[180px] h-[260px] opacity-0'
+                }`}
             >
-            {/* 📱 FOTO VERTICAL 9:16 PARA CELULARES */}
-            {slide.mobileImage && (
+              {/* 📱 FOTO VERTICAL 9:16 PARA CELULARES */}
+              {slide.mobileImage && (
+                <Image
+                  src={slide.mobileImage}
+                  alt={getLocalizedText(slide.place, locale) || 'Vermilion Routes'}
+                  fill
+                  priority={idx <= 2}
+                  quality={95}
+                  className="object-cover object-center md:hidden"
+                  sizes="30vw"
+                />
+              )}
+
+              {/* 💻 FOTO HORIZONTAL 16:9 PARA PANTALLAS GRANDES */}
               <Image
-                src={slide.mobileImage}
+                src={slide.desktopImage || slide.image || slide.imageUrl || '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'}
                 alt={getLocalizedText(slide.place, locale) || 'Vermilion Routes'}
                 fill
                 priority={idx <= 2}
                 quality={95}
-                className="object-cover object-center md:hidden"
-                sizes="100vw"
+                className={`object-cover object-center md:object-[center_28%] ${slide.mobileImage ? 'hidden md:block' : 'block'}`}
+                sizes="60vw"
               />
-            )}
-
-            {/* 💻 FOTO HORIZONTAL 16:9 PARA PANTALLAS GRANDES */}
-            <Image
-              src={slide.desktopImage || slide.image || slide.imageUrl || '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'}
-              alt={getLocalizedText(slide.place, locale) || 'Vermilion Routes'}
-              fill
-              priority={idx <= 2}
-              quality={95}
-              className={`object-cover object-center md:object-[center_28%] ${slide.mobileImage ? 'hidden md:block' : 'block'}`}
-              sizes="100vw"
-            />
 
               <div className="card-overlay absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none transition-opacity duration-300" />
 

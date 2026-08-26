@@ -83,14 +83,20 @@ According to UNESCO records, more than **45 endemic bird species, 42 reptiles, 1
 * **Tortuga Bay Beach:** World-renowned white coral sand beach and prime nesting sanctuary for black sea turtles, featuring calm lagoons ideal for kayaking and observing marine iguanas and white-tip reef sharks.
 * **Las Grietas:** A crystal-clear emerald volcanic fissure where ocean tides mix with subterranean freshwater, creating a world-class snorkeling pool.
 
+![Giant Tortoises Roaming Freely in the Highlands of Santa Cruz](/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg)
+
 #### 2. Isabela Island & Los Túneles
 * The largest island of the archipelago, home to 5 active shield volcanoes.
 * **Tintoreras Islets:** Turquoise lava channels where reef sharks, Galapagos penguins, blue-footed boobies, and sea lions congregate.
 * **La Galapaguera:** The National Park giant tortoise breeding and research center.
 
+![Emerald Waters of Las Grietas Volcanic Fissure](/images/tours/16-9/galapagos-las-grietas-16-9.jpg)
+
 #### 3. San Cristóbal & Kicker Rock (León Dormido)
 * **La Lobería Beach:** Expansive coral bay populated by friendly sea lion colonies and marine iguanas.
 * **Kicker Rock:** A monolithic 140-meter volcanic tuff remnant offering world-famous deep-water snorkeling alongside hammerhead sharks, eagle rays, and sea turtles.
+
+![Volcanic Landscapes and Marine Life of the Galapagos Islands](/images/tours/16-9/galapagos-isabela-island-16-9.jpg)
       `,
       es: `
 ## El Laboratorio Viviente de la Evolución
@@ -119,14 +125,20 @@ De acuerdo con la UNESCO, más de **45 especies de aves endémicas, 42 reptiles,
 * **Tortuga Bay:** Playa paradisíaca de arena blanca y aguas turquesas, sitio vital de anidación de la tortuga marina negra, con pozas mansas ideales para snorkel junto a iguanas marinas y tintoreras.
 * **Las Grietas:** Cañón volcánico natural de aguas cristalinas donde se mezcla agua dulce subterránea y agua de mar, perfecto para nadar rodeado de peces loro y peces ángel.
 
+![Tortugas Gigantes en las Tierras Altas de Santa Cruz](/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg)
+
 #### 2. Isla Isabela y Tintoreras
 * La isla más extensa del archipiélago, con cinco volcanes activos.
 * **Islote Tintoreras:** Canales de lava turquesa donde reposan tiburones punta blanca de arrecife, pingüinos de Galápagos y piqueros de patas azules.
 * **Centro de Crianza La Galapaguera:** Observatorio científico del Parque Nacional para la preservación de las diversas especies de tortugas terrestres de Isabela.
 
+![Cañón Volcánico Natural de Las Grietas en Galápagos](/images/tours/16-9/galapagos-las-grietas-16-9.jpg)
+
 #### 3. San Cristóbal y León Dormido (Kicker Rock)
 * **Playa La Lobería:** Bahía de arena coralina habitada por extensas colonias de lobos marinos.
 * **León Dormido:** Formación rocosa vertical de 140 metros de altura en medio del océano, considerado uno de los mejores puntos de buceo y snorkel del mundo para avistar tiburones martillo, rayas águila y tortugas marinas.
+
+![Paisajes Volcánicos y Playas de Galápagos](/images/tours/16-9/galapagos-isabela-island-16-9.jpg)
       `
     }
   },
@@ -173,19 +185,32 @@ This route was famously named by the German naturalist and geographer **Alexande
 ### Iconic Volcanic Summits Along the Corridor:
 
 #### 1. Chimborazo Volcano (20,564 ft / 6,268 m)
+
 The highest summit in Ecuador and the **closest point on Earth to the Sun** (furthest from Earth's center due to the equatorial bulge). Located within the *Chimborazo Fauna Production Reserve*, its glacier slopes are home to wild herds of vicuñas, Andean wolves, and rare paramo flora.
 
+![Chimborazo Volcano: Closest Point on Earth to the Sun](/images/tours/16-9/chimborazo-volcano-16-9.1.jpg)
+
 #### 2. Cotopaxi Volcano (19,347 ft / 5,897 m)
+
 The highest active volcano in the world and an emblem of Ecuador. Snow and glacial ice crown its classic symmetrical cone. The hike to the **José Rivas Refuge (15,958 ft / 4,864 m)** and the loop trail around **Limpiopungo Lake** provide dramatic views of wild horses, caracara birds, and mirror-like reflections.
 
+![Cotopaxi Volcano and High-Altitude Andean Paramo](/images/tours/16-9/cotopaxi-volcano-16-9.jpg)
+
 #### 3. Quilotoa Crater Lake (12,841 ft / 3,914 m)
+
 A breathtaking emerald-turquoise volcanic caldera formed by a massive eruption 800 years ago. Hikers can trek along the rim or descend into the crater to kayak on mineral-rich waters surrounded by sheer 400-meter cliffs.
 
+![Quilotoa Crater Lake: Emerald Volcanic Caldera](/images/tours/16-9/laguna-quilotoa-16-9.jpg)
+
 #### 4. Antisana Volcano & La Mica Lagoon (18,713 ft / 5,704 m)
+
 Home to the largest glacier mass in Ecuador, fed by moisture rising from the Amazon. A premier high-altitude reserve for spotting the endangered Andean Condor in flight.
 
 #### 5. Tungurahua Volcano & Baños de Agua Santa (16,479 ft / 5,023 m)
+
 Known ancestrally as the *"Throat of Fire"*, Tungurahua towers over the lush cloud forest gateway to the Amazon. The nearby Route of the Waterfalls features the thunderous **Pailón del Diablo** and relaxing thermal hot springs.
+
+![Pailón del Diablo Waterfall along the Route of the Waterfalls in Baños](/images/tours/16-9/pailon-del-diablo-16-9.jpg)
       `,
       es: `
 ## Descubriendo la Legendaria Ruta de Humboldt
@@ -199,19 +224,32 @@ Bautizada por el célebre geógrafo alemán **Alexander von Humboldt en el siglo
 ### Cumbres Emblemáticas de la Cordillera:
 
 #### 1. Volcán Chimborazo (6.268 msnm)
+
 La montaña más alta del Ecuador y el **punto más cercano de la Tierra al Sol** (el más alejado del centro del planeta debido al ensanchamiento ecuatorial). Protegido dentro de la *Reserva de Producción de Fauna Chimborazo*, en sus faldas pastan manadas de vicuñas silvestres entre pajonales y bosques de polylepis.
 
+![Volcán Chimborazo: La Cumbre Más Cercana al Sol (6.268 msnm)](/images/tours/16-9/chimborazo-volcano-16-9.1.jpg)
+
 #### 2. Volcán Cotopaxi (5.897 msnm)
+
 Uno de los volcanes activos más altos y hermosos del planeta por su cono casi perfecto. La caminata hacia el **Refugio José Rivas (4.864 msnm)** y el sendero alrededor de la **Laguna de Limpiopungo** ofrecen vistas de caballos salvajes, gaviotas andinas y cóndores.
 
+![Volcán Cotopaxi y Páramo Andino de Limpiopungo](/images/tours/16-9/cotopaxi-volcano-16-9.jpg)
+
 #### 3. Laguna del Quilotoa (3.914 msnm)
+
 Un impresionante cráter volcánico de aguas verde esmeralda y turquesa formado tras una colosal erupción hace 800 años. Es posible descender hasta la orilla para navegar en kayak y recorrer los miradores de la caldera.
 
+![Laguna del Quilotoa: Cráter Volcánico Esmeralda a 3.914 msnm](/images/tours/16-9/laguna-quilotoa-16-9.jpg)
+
 #### 4. Volcán Antisana y Laguna La Mica (5.704 msnm)
+
 Posee el glaciar más voluminoso del país, alimentado por la humedad de la cuenca amazónica. Es el principal santuario del Cóndor Andino en Ecuador.
 
 #### 5. Volcán Tungurahua y Baños de Agua Santa (5.023 msnm)
+
 Conocido ancestralmente como la *"Garganta de Fuego"*, este coloso vigila la transición hacia la selva amazónica. En sus faldas se encuentra la famosa Ruta de las Cascadas con el imponente **Pailón del Diablo** y balnearios de aguas termales volcánicas.
+
+![Cascada Pailón del Diablo en la Ruta de las Cascadas de Baños](/images/tours/16-9/pailon-del-diablo-16-9.jpg)
       `
     }
   },
@@ -263,11 +301,15 @@ Considered the crowning jewel of the Spanish-American Baroque style. Its volcani
 #### 2. Plaza and Convent of San Francisco
 The largest religious architectural complex in Latin America, occupying nearly two full city blocks. It houses more than **3,500 pieces of colonial art** from the celebrated *Quito School of Art (Escuela Quiteña)*.
 
+![Historic Plaza and Church of San Francisco in Quito's UNESCO Center](/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg)
+
 #### 3. Basílica del Voto Nacional
 The largest Neo-Gothic basilica in the Americas. Its towers rise to 377 feet (115 m), featuring stone gargoyles carved into the shapes of native Ecuadorian fauna, including Galapagos tortoises, iguanas, armadillos, and condors.
 
 #### 4. The Middle of the World (Ciudad Mitad del Mundo)
 Stand with one foot in the Northern Hemisphere and one foot in the Southern Hemisphere at latitude 0°0'0". Experience genuine equatorial physics demonstrations at the Intiñan Solar Museum.
+
+![Colonial Architecture and UNESCO Heritage Landscapes](/images/tours/16-9/cuenca-colonial-16-9.jpg)
       `,
       es: `
 ## El Primer Patrimonio Cultural de la Humanidad por la UNESCO
@@ -286,11 +328,15 @@ La obra cumbre del barroco americano. Su fachada exterior de piedra volcánica t
 #### 2. Plaza y Convento de San Francisco
 El conjunto religioso más grande de América Latina, con una superficie de más de 3 hectáreas. Alberga más de **3.500 obras de arte colonial** de la prestigiosa Escuela Quiteña.
 
+![Plaza e Iglesia Colonial de San Francisco en el Centro Histórico de Quito](/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg)
+
 #### 3. Basílica del Voto Nacional
 El templo neogótico más imponente de América. Sus torres de más de 115 metros de altura permiten admirar vistas panorámicas de la ciudad y de los volcanes andinos. Sus gárgolas representan animales endémicos del Ecuador como tortugas gigantes, iguanas, pumas y cóndores.
 
 #### 4. Complejo Ciudad Mitad del Mundo
 Ubicado a 0°0'0" de latitud, donde se midió la redondez de la Tierra durante la Misión Geodésica Francesa del siglo XVIII. Aquí es posible pararse simultáneamente en ambos hemisferios y experimentar los efectos gravitacionales del ecuador solar.
+
+![Arquitectura Colonial Patrimonio de la Humanidad por la UNESCO](/images/tours/16-9/cuenca-colonial-16-9.jpg)
       `
     }
   },

@@ -105,8 +105,8 @@ export function HomeBlogSection() {
                 src={post.imageUrl}
                 alt={getLocalizedText(post.title, locale)}
                 fill
-                quality={90}
-                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={95}
+                sizes="(max-width: 768px) 85vw, (max-width: 1200px) 33vw, 400px"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-md border border-white/15 text-[10px] uppercase tracking-wider font-semibold text-emerald-300">
@@ -167,7 +167,7 @@ export function HomeBlogSection() {
                   src={vid.thumb}
                   alt={getLocalizedText(vid.title, locale)}
                   fill
-                  sizes="(max-width: 640px) 100vw, 25vw"
+                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">

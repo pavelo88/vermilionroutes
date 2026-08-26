@@ -49,12 +49,14 @@ export function TourItinerary({ itinerary }: TourItineraryProps) {
       {/* Header with quick actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-stone-200 dark:border-stone-800">
         <div className="space-y-1">
-          <h3 className="font-serif font-bold text-2xl text-stone-900 dark:text-stone-100 flex items-center gap-2.5">
+          <h2 className="font-serif font-bold text-2xl text-stone-900 dark:text-stone-100 flex items-center gap-2.5">
             <Calendar className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-            <span>Detailed Day-by-Day Expedition Itinerary</span>
-          </h3>
+            <span>{locale === 'es' ? 'Itinerario Detallado Día a Día' : 'Detailed Day-by-Day Expedition Itinerary'}</span>
+          </h2>
           <p className="text-xs text-stone-500 dark:text-stone-400">
-            Explore verbatim daily activities, transport logistics, and naturalist-guided visits.
+            {locale === 'es'
+              ? 'Explora las actividades diarias, logística de transporte y visitas guiadas con naturalistas.'
+              : 'Explore verbatim daily activities, transport logistics, and naturalist-guided visits.'}
           </p>
         </div>
 
@@ -119,9 +121,9 @@ export function TourItinerary({ itinerary }: TourItineraryProps) {
 
                   {/* Title */}
                   <div className="space-y-1">
-                    <h4 className="font-semibold text-stone-900 dark:text-stone-100 text-sm sm:text-base leading-snug group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+                    <h3 className="font-semibold text-stone-900 dark:text-stone-100 text-sm sm:text-base leading-snug group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                       {dayTitle}
-                    </h4>
+                    </h3>
                     {dayMeals && (
                       <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded-md border border-emerald-200/50 dark:border-emerald-800/40">
                         <Utensils className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />

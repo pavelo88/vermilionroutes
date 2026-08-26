@@ -191,7 +191,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             alt={getLocalizedText(post.title, locale)}
             fill
             priority
-            sizes="(max-width: 1024px) 100vw, 896px"
+            quality={95}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 896px"
             className="object-cover"
           />
         </div>
@@ -201,6 +202,34 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {contentText.split('\n\n').map((paragraph, idx) => {
             const trimmed = paragraph.trim();
             if (!trimmed) return null;
+
+            {/* Inline Markdown Image: ![caption](/path/to/image.jpg) */}
+            if (trimmed.startsWith('![') && trimmed.includes('](')) {
+              const match = trimmed.match(/!\[(.*?)\]\((.*?)\)/);
+              if (match) {
+                const alt = match[1];
+                const src = match[2];
+                return (
+                  <figure key={idx} className="my-8 rounded-3xl overflow-hidden shadow-xl border border-zinc-200 dark:border-zinc-800">
+                    <div className="relative h-64 sm:h-80 md:h-[400px] w-full">
+                      <Image
+                        src={src}
+                        alt={alt}
+                        fill
+                        quality={95}
+                        sizes="(max-width: 768px) 100vw, 850px"
+                        className="object-cover"
+                      />
+                    </div>
+                    {alt && (
+                      <figcaption className="text-center text-xs text-zinc-500 dark:text-zinc-400 py-3 px-4 bg-zinc-50 dark:bg-zinc-900/90 border-t border-zinc-100 dark:border-zinc-800 font-medium">
+                        {alt}
+                      </figcaption>
+                    )}
+                  </figure>
+                );
+              }
+            }
 
             if (trimmed.startsWith('## ')) {
               return (
@@ -217,10 +246,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               );
             }
             if (trimmed.startsWith('#### ')) {
+              const lines = trimmed.split('\n');
+              const headingText = lines[0].replace('#### ', '').trim();
+              const restText = lines.slice(1).join('\n').trim();
+
               return (
-                <h4 key={idx} className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white pt-3 pb-1 border-l-4 border-emerald-600 pl-3">
-                  {trimmed.replace('#### ', '')}
-                </h4>
+                <div key={idx} className="space-y-3 pt-3">
+                  <h4 className="text-base sm:text-lg font-bold text-zinc-900 dark:text-white pt-2 pb-1 border-l-4 border-emerald-600 pl-3">
+                    {headingText}
+                  </h4>
+                  {restText && (
+                    <p
+                      className="text-zinc-600 dark:text-zinc-300 font-normal leading-relaxed pl-3.5"
+                      dangerouslySetInnerHTML={{
+                        __html: restText
+                          .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-zinc-900 dark:text-white">$1</strong>')
+                          .replace(/\*(.*?)\*/g, '<em class="italic text-zinc-800 dark:text-zinc-200">$1</em>')
+                      }}
+                    />
+                  )}
+                </div>
               );
             }
             if (trimmed.startsWith('* ')) {
@@ -228,21 +273,45 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               return (
                 <ul key={idx} className="space-y-2 list-disc list-inside pl-2 text-zinc-700 dark:text-zinc-300">
                   {items.map((it, iIdx) => (
-                    <li key={iIdx} dangerouslySetInnerHTML={{ __html: it.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-zinc-900 dark:text-white">$1</strong>') }} />
+                    <li
+                      key={iIdx}
+                      dangerouslySetInnerHTML={{
+                        __html: it
+                          .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-zinc-900 dark:text-white">$1</strong>')
+                          .replace(/\*(.*?)\*/g, '<em class="italic text-zinc-800 dark:text-zinc-200">$1</em>')
+                      }}
+                    />
                   ))}
                 </ul>
               );
             }
             if (/^\d+\.\s/.test(trimmed)) {
               return (
-                <div key={idx} className="space-y-2 pl-2 text-zinc-700 dark:text-zinc-300" dangerouslySetInnerHTML={{ __html: trimmed.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-zinc-900 dark:text-white">$1</strong>').replace(/\n/g, '<br />') }} />
+                <div
+                  key={idx}
+                  className="space-y-2 pl-2 text-zinc-700 dark:text-zinc-300"
+                  dangerouslySetInnerHTML={{
+                    __html: trimmed
+                      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-zinc-900 dark:text-white">$1</strong>')
+                      .replace(/\*(.*?)\*/g, '<em class="italic text-zinc-800 dark:text-zinc-200">$1</em>')
+                      .replace(/\n/g, '<br />')
+                  }}
+                />
               );
             }
             if (trimmed.startsWith('---')) {
               return <hr key={idx} className="border-zinc-200 dark:border-zinc-800 my-6" />;
             }
             return (
-              <p key={idx} className="leading-relaxed" dangerouslySetInnerHTML={{ __html: trimmed.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-zinc-900 dark:text-white">$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>') }} />
+              <p
+                key={idx}
+                className="leading-relaxed font-normal text-zinc-600 dark:text-zinc-300"
+                dangerouslySetInnerHTML={{
+                  __html: trimmed
+                    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-zinc-900 dark:text-white">$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em class="italic text-zinc-800 dark:text-zinc-200">$1</em>')
+                }}
+              />
             );
           })}
         </div>

@@ -80,6 +80,8 @@ export default function BlogIndexPage() {
                   src={featuredPost.imageUrl}
                   alt={getLocalizedText(featuredPost.title, locale)}
                   fill
+                  quality={95}
+                  priority
                   sizes="(max-width: 1024px) 100vw, 60vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -171,6 +173,7 @@ export default function BlogIndexPage() {
                   src={post.imageUrl}
                   alt={getLocalizedText(post.title, locale)}
                   fill
+                  quality={95}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
