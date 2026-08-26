@@ -169,9 +169,9 @@ export function CombinedExperienceSection() {
             </div>
           </div>
 
-          {/* RIGHT SIDE: TripAdvisor Reviews 2x2 Grid Stage (4 Compact Cards) */}
+          {/* RIGHT SIDE: TripAdvisor Reviews (1 Card Carousel on Mobile, 2x2 Grid on Desktop) */}
           <div 
-            className="flex-1 overflow-hidden"
+            className="flex-1 overflow-hidden flex flex-col justify-between"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onTouchStart={handleTouchStart}
@@ -186,44 +186,46 @@ export function CombinedExperienceSection() {
                 return (
                   <div
                     key={`${rev.id}-${currentIndex}-${offset}`}
-                    className="bg-white dark:bg-zinc-900/90 backdrop-blur-xl p-4 sm:p-4.5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-2 relative group animate-fade-in"
+                    className={`bg-white dark:bg-zinc-900/90 backdrop-blur-xl p-5 sm:p-4.5 rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-xs hover:shadow-md transition-all duration-300 flex-col justify-between space-y-3 relative group animate-fade-in ${
+                      offset > 0 ? 'hidden sm:flex' : 'flex'
+                    }`}
                   >
                     <Quote className="w-5 h-5 text-emerald-100 dark:text-emerald-950/80 absolute top-3.5 right-3.5 pointer-events-none group-hover:text-emerald-200 transition-colors" />
 
-                    <div className="space-y-1.5 relative z-10 flex-1">
+                    <div className="space-y-2 relative z-10 flex-1">
                       <div className="flex items-center justify-between">
                         <div className="flex gap-0.5">
                           {[...Array(rev.rating)].map((_, i) => (
-                            <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                            <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                           ))}
                         </div>
                         <a 
                           href={tripAdvisorUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+                          className="flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
                         >
                           <TripAdvisorSvg className="w-3 h-3" />
                           <span>TripAdvisor ↗</span>
                         </a>
                       </div>
                       
-                      <h4 className="font-serif text-xs sm:text-sm font-bold text-zinc-900 dark:text-white leading-snug line-clamp-1">
+                      <h4 className="font-serif text-sm sm:text-sm font-bold text-zinc-900 dark:text-white leading-snug line-clamp-1">
                         "{rev.title}"
                       </h4>
                       
-                      <p className="text-zinc-600 dark:text-zinc-400 text-[11px] sm:text-xs leading-relaxed italic line-clamp-3">
+                      <p className="text-zinc-600 dark:text-zinc-400 text-xs sm:text-xs leading-relaxed italic line-clamp-4">
                         "{rev.comment}"
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2.5 relative z-10 pt-2 border-t border-zinc-100 dark:border-zinc-800/60 mt-auto shrink-0">
-                      <div className="w-7 h-7 rounded-full bg-emerald-600/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold text-[10px] flex items-center justify-center shrink-0 border border-emerald-500/20">
+                    <div className="flex items-center gap-2.5 relative z-10 pt-2.5 border-t border-zinc-100 dark:border-zinc-800/60 mt-auto shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-emerald-600/10 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center justify-center shrink-0 border border-emerald-500/20">
                         {rev.author.charAt(0)}
                       </div>
                       <div>
                         <div className="font-bold text-xs text-zinc-900 dark:text-white leading-tight">{rev.author}</div>
-                        <div className="text-[9px] text-zinc-500 uppercase tracking-wider font-medium">
+                        <div className="text-[10px] text-zinc-500 uppercase tracking-wider font-medium">
                           {rev.location}
                         </div>
                       </div>
@@ -231,6 +233,49 @@ export function CombinedExperienceSection() {
                   </div>
                 );
               })}
+            </div>
+
+            {/* Mobile Carousel Controls: 1 review at a time with indicator & navigation */}
+            <div className="flex sm:hidden items-center justify-between pt-3 px-1">
+              <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                {currentIndex + 1} / {total}
+              </span>
+              <div className="flex items-center gap-1">
+                {reviews.map((_, dotIdx) => (
+                  <button
+                    key={dotIdx}
+                    onClick={() => setCurrentIndex(dotIdx)}
+                    aria-label={`Go to review ${dotIdx + 1}`}
+                    className="p-1 -m-0.5 flex items-center justify-center cursor-pointer min-w-[18px] min-h-[18px]"
+                  >
+                    <span
+                      className={`h-1.5 rounded-full transition-all duration-300 block ${
+                        dotIdx === currentIndex
+                          ? 'w-4 bg-emerald-600 dark:bg-emerald-400'
+                          : 'w-1.5 bg-zinc-300 dark:bg-zinc-700'
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handlePrev}
+                  aria-label="Previous review"
+                  className="p-2 rounded-xl bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                  suppressHydrationWarning
+                >
+                  <ChevronLeft className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  aria-label="Next review"
+                  className="p-2 rounded-xl bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                  suppressHydrationWarning
+                >
+                  <ChevronRight className="w-4 h-4 text-zinc-700 dark:text-zinc-300" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
