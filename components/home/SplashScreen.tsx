@@ -68,15 +68,24 @@ export function SplashScreen() {
   return (
     <div
       id="splash-screen"
-      className="fixed inset-0 z-[1000] w-full h-[100svh] bg-zinc-950 overflow-hidden flex items-center justify-center pointer-events-auto"
+      onClick={() => (window as any).skipSplash?.()}
+      className="absolute inset-0 z-[50] w-full h-full bg-zinc-950 overflow-hidden flex items-center justify-center pointer-events-auto cursor-pointer"
+      style={{
+        backgroundImage: "url('/intro-hero-bg.webp')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
     >
-      {/* Background Image with Slow Cinematic Zoom */}
+      {/* Background Image with Instant Eager Load (150KB ultra-crisp responsive WebP) */}
       <Image
         id="splash-bg-image"
-        src="/splash-4-worlds.png"
+        src="/intro-hero-bg.webp"
         alt="Vermilion Routes Welcome"
         fill
         priority
+        loading="eager"
+        fetchPriority="high"
+        unoptimized
         className="object-cover scale-[1.03] transition-transform duration-[5000ms] ease-out"
       />
 
@@ -87,12 +96,12 @@ export function SplashScreen() {
       />
 
       {/* Overlay Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 max-w-3xl mx-auto">
+      <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 max-w-3xl mx-auto pt-16 sm:pt-20 md:pt-16">
 
         {/* Top VIP Trust Badge */}
         <div
           id="splash-top-badge"
-          className="mb-4 sm:mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-semibold shadow-2xl animate-fade-in"
+          className="mb-2.5 sm:mb-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-amber-400/40 text-amber-300 text-xs sm:text-sm font-semibold shadow-2xl animate-fade-in"
         >
           <div className="flex items-center gap-0.5 text-amber-400">
             {[...Array(5)].map((_, i) => (
@@ -104,8 +113,8 @@ export function SplashScreen() {
         </div>
 
         {/* "ALL YOU NEED IS" Colorful Vibrant Typo */}
-        <div id="splash-text-content" className="flex flex-col items-center justify-center mb-4 sm:mb-6">
-          <div className="flex gap-3 sm:gap-5 md:gap-6 font-oswald font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+        <div id="splash-text-content" className="flex flex-col items-center justify-center mb-2.5 sm:mb-3">
+          <div className="flex gap-2.5 sm:gap-4 md:gap-5 font-oswald font-black text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
             {/* ALL */}
             <div className="flex">
               <span style={{ color: '#FDB913' }}>A</span>
@@ -136,7 +145,7 @@ export function SplashScreen() {
         {/* Logo Card with Glassmorphism & Subtle Glow */}
         <div
           id="splash-glass-card"
-          className="relative w-[280px] h-[105px] sm:w-[380px] sm:h-[135px] md:w-[480px] md:h-[160px] mb-6 sm:mb-8 bg-gradient-to-r from-emerald-950/40 via-cyan-900/30 to-emerald-950/40 backdrop-blur-lg rounded-full p-4 sm:p-5 border border-white/30 shadow-[0_12px_40px_rgba(0,0,0,0.7)] flex items-center justify-center transition-all"
+          className="relative w-[260px] h-[95px] sm:w-[350px] sm:h-[120px] md:w-[440px] md:h-[145px] mb-3 sm:mb-4 bg-gradient-to-r from-emerald-950/40 via-cyan-900/30 to-emerald-950/40 backdrop-blur-lg rounded-full p-3 sm:p-4 border border-white/30 shadow-[0_12px_40px_rgba(0,0,0,0.7)] flex items-center justify-center transition-all"
         >
           <div className="relative w-full h-full flex items-center justify-center">
             <Image
@@ -150,7 +159,7 @@ export function SplashScreen() {
         </div>
 
         {/* Middle Impact Headline */}
-        <div id="splash-headline" className="mb-4 space-y-1">
+        <div id="splash-headline" className="mb-3 space-y-0.5">
           <p className="text-sm sm:text-base md:text-lg font-serif font-bold text-white tracking-wide drop-shadow-md">
             {text.headline}
           </p>

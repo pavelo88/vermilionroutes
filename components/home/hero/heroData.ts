@@ -35,7 +35,7 @@ export const HERO_SLIDES_DATA: SlideData[] = [
     },
     image: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
     desktopImage: '/images/tours/16-9/quito-iglesia-de-san-francisco-16-9.jpg',
-    mobileImage: '/images/tours/16-9/quito-colonial-16-9.jpg'
+    mobileImage: '/images/tours/9-16/quito-centro-historico.jpg'
   },
   {
     place: { en: 'Tungurahua - Baños', es: 'Tungurahua - Baños', fr: 'Tungurahua - Baños', de: 'Tungurahua - Baños', it: 'Tungurahua - Baños', pt: 'Tungurahua - Baños', ja: 'トゥングラワ - バニョス', zh: '通古拉瓦 - 巴尼奥斯' },
@@ -71,7 +71,7 @@ export const HERO_SLIDES_DATA: SlideData[] = [
     },
     image: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
     desktopImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg',
-    mobileImage: '/images/tours/16-9/cotopaxi-volcano-16-9.jpg'
+    mobileImage: '/images/tours/9-16/cotopaxi-9-16.jpg'
   },
   {
     place: { en: 'Cotopaxi - Quilotoa', es: 'Cotopaxi - Quilotoa', fr: 'Cotopaxi - Quilotoa', de: 'Cotopaxi - Quilotoa', it: 'Cotopaxi - Quilotoa', pt: 'Cotopaxi - Quilotoa', ja: 'キロトア - アンデス', zh: '基洛托阿 - 火山湖' },

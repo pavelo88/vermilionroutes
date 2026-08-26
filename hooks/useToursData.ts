@@ -13,6 +13,12 @@ export function useToursData() {
   const [isUsingFallback, setIsUsingFallback] = useState<boolean>(false);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && !window.location.pathname.includes('/admin')) {
+      setTours(mockTours);
+      setLoading(false);
+      return;
+    }
+
     let isSubscribed = true;
     setLoading(true);
 

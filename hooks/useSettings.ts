@@ -1,9 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { db, storage, auth } from '@/lib/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { defaultSettings } from '@/lib/seed';
 
 let cachedSettingsPromise: Promise<typeof defaultSettings> | null = null;
@@ -32,6 +29,8 @@ export function useSettings() {
     async function loadSettings() {
       try {
         if (!cachedSettingsPromise) {
+          const { db } = await import('@/lib/firebase');
+          const { doc, getDoc } = await import('firebase/firestore');
           const docRef = doc(db, 'settings', 'general');
           cachedSettingsPromise = getDoc(docRef).then(docSnap => {
             return docSnap.exists() ? (docSnap.data() as typeof defaultSettings) : defaultSettings;
@@ -52,7 +51,8 @@ export function useSettings() {
   }, []);
 
   const saveSettings = useCallback(async (newSettings: typeof defaultSettings) => {
-    // ✅ W-06 FIX: Verificar autenticación antes de intentar escribir en Firestore
+    const { auth, db } = await import('@/lib/firebase');
+    const { doc, setDoc } = await import('firebase/firestore');
     const currentUser = auth.currentUser;
     if (!currentUser) {
       const authError = 'You must be logged in as an admin to save settings.';
@@ -77,6 +77,8 @@ export function useSettings() {
 
   const uploadImage = useCallback(async (file: File, folder: string = 'settings'): Promise<string> => {
     try {
+      const { storage } = await import('@/lib/firebase');
+      const { ref, uploadBytes, getDownloadURL } = await import('firebase/storage');
       const uniqueName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
       const storageRef = ref(storage, `uploads/${folder}/${uniqueName}`);
       const snapshot = await uploadBytes(storageRef, file);

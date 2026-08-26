@@ -22,7 +22,12 @@ import { useSettings } from '@/hooks/useSettings';
 import Image from 'next/image';
 
 import { getLocalizedText } from '@/utils/i18nHelper';
-import { AffiliateClubModal } from '@/components/auth/AffiliateClubModal';
+import dynamic from 'next/dynamic';
+
+const AffiliateClubModal = dynamic(
+  () => import('@/components/auth/AffiliateClubModal').then((m) => m.AffiliateClubModal),
+  { ssr: false }
+);
 import { useCurrency, CURRENCIES, CurrencyCode } from '@/context/CurrencyContext';
 import { BrandLogo } from '@/components/ui/BrandLogo';
 
@@ -483,10 +488,12 @@ export function Navbar() {
         )}
       </header>
 
-      <AffiliateClubModal
-        isOpen={clubModalOpen}
-        onClose={() => setClubModalOpen(false)}
-      />
+      {clubModalOpen && (
+        <AffiliateClubModal
+          isOpen={clubModalOpen}
+          onClose={() => setClubModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

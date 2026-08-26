@@ -10,6 +10,12 @@ export function useDestinationsData() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && !window.location.pathname.includes('/admin')) {
+      setDestinations(mockDestinations);
+      setLoading(false);
+      return;
+    }
+
     const validIds = new Set(['ecuador', 'galapagos', 'combined', 'full-day']);
     const order = ['ecuador', 'galapagos', 'combined', 'full-day'];
 

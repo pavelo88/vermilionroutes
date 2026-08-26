@@ -240,22 +240,16 @@ export function CombinedExperienceSection() {
               <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
                 {currentIndex + 1} / {total}
               </span>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5 py-1">
                 {reviews.map((_, dotIdx) => (
-                  <button
+                  <span
                     key={dotIdx}
-                    onClick={() => setCurrentIndex(dotIdx)}
-                    aria-label={`Go to review ${dotIdx + 1}`}
-                    className="p-1 -m-0.5 flex items-center justify-center cursor-pointer min-w-[18px] min-h-[18px]"
-                  >
-                    <span
-                      className={`h-1.5 rounded-full transition-all duration-300 block ${
-                        dotIdx === currentIndex
-                          ? 'w-4 bg-emerald-600 dark:bg-emerald-400'
-                          : 'w-1.5 bg-zinc-300 dark:bg-zinc-700'
-                      }`}
-                    />
-                  </button>
+                    className={`h-1.5 rounded-full transition-all duration-300 block ${
+                      dotIdx === currentIndex
+                        ? 'w-4 bg-emerald-600 dark:bg-emerald-400'
+                        : 'w-1.5 bg-zinc-300 dark:bg-zinc-700'
+                    }`}
+                  />
                 ))}
               </div>
               <div className="flex items-center gap-2">

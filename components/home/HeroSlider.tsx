@@ -36,7 +36,7 @@ export function HeroSlider() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const [showSplash, setShowSplash] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
   const locale = useLocale();
   const t = useTranslations('hero');
@@ -98,13 +98,12 @@ export function HeroSlider() {
   }
 
   return (
-    <>
+    <div
+      ref={containerRef}
+      className="relative w-full h-[100svh] lg:h-[94svh] min-h-[580px] sm:min-h-[620px] md:min-h-[650px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0"
+    >
+      {/* ── HERO A: SLIDER 0 (Bienvenida fija de entrada, 4 segundos) ── */}
       {showSplash && <SplashScreen />}
-
-      <div
-        ref={containerRef}
-        className="relative w-full h-[100svh] lg:h-[94svh] min-h-[580px] sm:min-h-[620px] md:min-h-[650px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0"
-      >
         {/* Top Indicator */}
         <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
 
@@ -120,6 +119,5 @@ export function HeroSlider() {
         {/* 4. Navigation & Pagination HUD */}
         <HeroPagination totalSlides={slidesData.length} />
       </div>
-    </>
   );
 }

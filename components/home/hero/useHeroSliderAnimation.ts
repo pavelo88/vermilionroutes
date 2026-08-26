@@ -121,11 +121,11 @@ export function useHeroSliderAnimation({
             });
             set(getCardContent(i), { opacity: 0 });
           });
-          set(detailsActive, { opacity: 0, zIndex: 22, x: 0, y: 30 });
+          set(detailsActive, { opacity: 1, zIndex: 22, x: 0, y: 0 });
         } else {
           set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", zIndex: 20, opacity: 1 });
           set(getCardContent(active), { opacity: 0 });
-          set(detailsActive, { opacity: 0, zIndex: 22, x: -200 });
+          set(detailsActive, { opacity: 1, zIndex: 22, x: 0, y: 0 });
 
           rest.forEach((i, index) => {
             set(getCard(i), { x: offsetLeft + 400 + index * (cardWidth + gap), y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, opacity: 1 });
@@ -165,7 +165,6 @@ export function useHeroSliderAnimation({
         }
 
         window.addEventListener("resize", onResize);
-        startLoop();
       }
 
       function animate(target: string, duration: number, properties: any) {
@@ -186,7 +185,7 @@ export function useHeroSliderAnimation({
           }
         });
 
-        loopTimeline.to(container.querySelectorAll(".indicator"), { x: 0, duration: 4.5, ease: "none" })
+        loopTimeline.to(container.querySelectorAll(".indicator"), { x: 0, duration: 5.0, ease: "none" })
           .to(container.querySelectorAll(".indicator"), { x: window.innerWidth, duration: 0.5, ease: "none" });
       }
 
@@ -392,14 +391,49 @@ export function useHeroSliderAnimation({
       init();
       const isBot = typeof window !== 'undefined' && /Lighthouse|bot|crawler|spider/i.test(navigator.userAgent);
         
+      let splashDone = false;
+      const finishSplash = () => {
+        if (splashDone) return;
+        splashDone = true;
+
+        gsap.to("#splash-top-badge, #splash-headline, #splash-subtext, #splash-text-content", {
+          opacity: 0,
+          y: -15,
+          duration: 0.5,
+          ease: "power2.inOut"
+        });
+
+        gsap.to("#splash-glass-card", {
+          opacity: 0,
+          scale: 1.05,
+          duration: 0.6,
+          ease: "power2.out"
+        });
+
+        gsap.to("#splash-screen", {
+          opacity: 0,
+          ease: "power2.inOut",
+          duration: 0.8,
+          delay: 0.2,
+          onComplete: () => {
+            setShowSplash(false);
+            setTimeout(() => {
+              if (!isCancelled) startLoop();
+            }, 300);
+          }
+        });
+      };
+
+      (window as any).skipSplash = finishSplash;
+
       if (showSplash && !isBot) {
-        // Splash Screen duration: 3.8s fixed impact time
+        // Slide 0: 4.5s impact time before starting smooth cinematic transition
         gsap.to("#splash-top-badge, #splash-headline, #splash-subtext", {
           opacity: 0,
           y: -15,
           duration: 0.8,
           ease: "power2.inOut",
-          delay: 3.2
+          delay: 3.8
         });
 
         gsap.to("#splash-text-content", {
@@ -407,33 +441,26 @@ export function useHeroSliderAnimation({
           y: -20,
           duration: 0.8,
           ease: "power2.inOut",
-          delay: 3.3
+          delay: 3.9
         });
 
         gsap.to("#splash-glass-card", {
           opacity: 0,
           scale: 1.08,
-          filter: "blur(10px)",
-          duration: 1.2,
+          duration: 1.0,
           ease: "power2.out",
-          delay: 3.4
+          delay: 4.0
         });
 
-        gsap.to(container.querySelectorAll(getCard(order[0])), { scale: 1.05, duration: 6.5, ease: "none", delay: 3.5 });
+        gsap.to(container.querySelectorAll(getCard(order[0])), { scale: 1.05, duration: 6.5, ease: "none", delay: 4.0 });
 
         gsap.to("#splash-screen", {
           opacity: 0,
           ease: "power2.inOut",
-          duration: 1.2,
-          delay: 3.6,
+          duration: 1.0,
+          delay: 4.2,
           onComplete: () => {
-            setShowSplash(false);
-            if (typeof window !== 'undefined') {
-              sessionStorage.setItem('vermilion_splash_shown', 'true');
-            }
-            setTimeout(() => {
-              if (!isCancelled) startLoop();
-            }, 200);
+            finishSplash();
           }
         });
       } else {

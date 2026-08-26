@@ -158,7 +158,7 @@ export function DestinationsGrid() {
                       fill
                       quality={95}
                       priority={destIndex < 2 && imgIdx === 0}
-                      sizes="(max-width: 640px) 320px, (max-width: 1024px) 50vw, 25vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
                       referrerPolicy="no-referrer"
                     />
