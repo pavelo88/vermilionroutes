@@ -180,7 +180,7 @@ export function HomeBlogSection() {
                 <h4 className="font-sans font-bold text-xs text-zinc-100 group-hover:text-emerald-400 transition-colors line-clamp-2 leading-snug">
                   {getLocalizedText(vid.title, locale)}
                 </h4>
-                <p className="text-[11px] text-zinc-400 line-clamp-2">
+                <p className="text-[11px] text-zinc-300 line-clamp-2">
                   {getLocalizedText(vid.desc, locale)}
                 </p>
               </div>

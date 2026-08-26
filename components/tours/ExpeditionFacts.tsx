@@ -87,9 +87,9 @@ export function ExpeditionFacts({ tourId, destination, duration, className = '' 
     <div className={`bg-stone-50 dark:bg-stone-900/60 rounded-2xl p-5 border border-stone-200/80 dark:border-stone-800 shadow-sm ${className}`}>
       <div className="flex items-center gap-2 mb-4 pb-3 border-b border-stone-200 dark:border-stone-800">
         <Compass className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-        <h4 className="font-serif text-xs font-bold uppercase tracking-widest text-stone-800 dark:text-stone-200">
+        <h3 className="font-serif text-xs font-bold uppercase tracking-widest text-stone-800 dark:text-stone-200">
           {getText(labels.title)}
-        </h4>
+        </h3>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">

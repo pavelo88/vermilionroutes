@@ -45,7 +45,7 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
         alt={title || 'Tour Expedition'}
         fill
         quality={95}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        sizes="(max-width: 640px) 340px, (max-width: 1024px) 50vw, 340px"
         className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
         referrerPolicy="no-referrer"
       />
@@ -105,7 +105,7 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-600 group-hover:bg-emerald-500 text-white text-xs font-bold shadow-lg shadow-emerald-950/50 transition-all group-hover:scale-105">
+          <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-700 group-hover:bg-emerald-600 text-white text-xs font-bold shadow-lg shadow-emerald-950/50 transition-all group-hover:scale-105">
             <span>{t('card.view') || 'View Details'}</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </div>

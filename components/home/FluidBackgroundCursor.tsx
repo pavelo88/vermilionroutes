@@ -18,6 +18,7 @@ export default function FluidBackgroundCursor() {
   const trailCanvasRef = useRef<HTMLCanvasElement>(null);
   const [mounted, setMounted] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(true);
+  const [loadWebGL, setLoadWebGL] = useState(false);
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
 
@@ -28,6 +29,16 @@ export default function FluidBackgroundCursor() {
       window.innerWidth < 768;
     setIsTouchDevice(isTouch);
     setMounted(true);
+
+    if (!isTouch) {
+      if ('requestIdleCallback' in window) {
+        const id = (window as any).requestIdleCallback(() => setLoadWebGL(true), { timeout: 2500 });
+        return () => (window as any).cancelIdleCallback?.(id);
+      } else {
+        const timer = setTimeout(() => setLoadWebGL(true), 1500);
+        return () => clearTimeout(timer);
+      }
+    }
   }, []);
 
   // ── Fairy Dust Flight Trail ──
@@ -212,10 +223,12 @@ export default function FluidBackgroundCursor() {
         />
       </div>
 
-      {/* WebGL Background — Lazy loaded on desktop */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <WebGLCanvas isDark={isDark} />
-      </div>
+      {/* WebGL Background — Lazy loaded on desktop idle */}
+      {loadWebGL && (
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <WebGLCanvas isDark={isDark} />
+        </div>
+      )}
     </div>
   );
 }

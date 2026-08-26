@@ -89,7 +89,7 @@ export function TourGallery({ images, title }: TourGalleryProps) {
               alt={`${title} - Previous Photo`}
               fill
               quality={95}
-              sizes="(max-width: 768px) 100vw, 66vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 850px"
               className="object-cover"
               priority
               referrerPolicy="no-referrer"
@@ -106,7 +106,7 @@ export function TourGallery({ images, title }: TourGalleryProps) {
               alt={`${title} - Main Gallery Photo`}
               fill
               quality={95}
-              sizes="(max-width: 768px) 100vw, 66vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 70vw, 850px"
               className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               priority
               referrerPolicy="no-referrer"
@@ -117,7 +117,7 @@ export function TourGallery({ images, title }: TourGalleryProps) {
 
           {/* Progress Indicators for slideshow */}
           {uniqueImages.length > 1 && (
-            <div className="absolute top-4 left-4 flex items-center gap-1.5 z-10 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+            <div className="absolute top-4 left-4 flex items-center gap-2 z-10 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/15">
               {uniqueImages.map((_, dotIdx) => (
                 <button
                   key={`dot-${dotIdx}`}
@@ -125,7 +125,7 @@ export function TourGallery({ images, title }: TourGalleryProps) {
                     e.stopPropagation();
                     handleSelectThumbnail(dotIdx);
                   }}
-                  className="p-2 -m-1 flex items-center justify-center cursor-pointer min-w-[24px] min-h-[24px]"
+                  className="p-1 flex items-center justify-center cursor-pointer min-w-[28px] min-h-[28px]"
                   aria-label={`Go to photo ${dotIdx + 1}`}
                 >
                   <span
