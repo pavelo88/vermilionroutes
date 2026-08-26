@@ -174,22 +174,6 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={`${inter.variable} ${playfair.variable} ${oswald.variable} scroll-smooth`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
-        <link
-          rel="preload"
-          as="image"
-          href="/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg"
-          media="(min-width: 768px)"
-          // @ts-ignore
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg"
-          media="(max-width: 767px)"
-          // @ts-ignore
-          fetchPriority="high"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}

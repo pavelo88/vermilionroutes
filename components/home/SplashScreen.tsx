@@ -76,7 +76,7 @@ export function SplashScreen() {
         backgroundPosition: 'center',
       }}
     >
-      {/* Background Image with Instant Eager Load (150KB ultra-crisp responsive WebP) */}
+      {/* Background Image with Instant Eager Load */}
       <Image
         id="splash-bg-image"
         src="/intro-hero-bg.webp"
@@ -85,7 +85,8 @@ export function SplashScreen() {
         priority
         loading="eager"
         fetchPriority="high"
-        unoptimized
+        quality={85}
+        sizes="100vw"
         className="object-cover scale-[1.03] transition-transform duration-[5000ms] ease-out"
       />
 

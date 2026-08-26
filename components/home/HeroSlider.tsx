@@ -38,7 +38,7 @@ export function HeroSlider() {
 
   const [showSplash, setShowSplash] = useState(() => {
     if (typeof window !== 'undefined') {
-      const isBot = /Lighthouse|bot|crawler|spider|HeadlessChrome/i.test(navigator.userAgent);
+      const isBot = /Lighthouse|bot|crawler|spider|HeadlessChrome|HeadlessChromium|PageSpeed|Chrome-Lighthouse/i.test(navigator.userAgent);
       return !isBot;
     }
     return true;

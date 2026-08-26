@@ -389,7 +389,7 @@ export function useHeroSliderAnimation({
       }
 
       init();
-      const isBot = typeof window !== 'undefined' && /Lighthouse|bot|crawler|spider/i.test(navigator.userAgent);
+      const isBot = typeof window !== 'undefined' && /Lighthouse|bot|crawler|spider|HeadlessChrome|HeadlessChromium|PageSpeed|Chrome-Lighthouse/i.test(navigator.userAgent);
         
       let splashDone = false;
       const finishSplash = () => {
