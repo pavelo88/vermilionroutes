@@ -270,7 +270,7 @@ export function TourCarousel({ tours }: TourCarouselProps) {
                 key={`${tour.id}-${idx}`}
                 className={`absolute top-0 left-0 w-full h-full transform transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${cls}`}
               >
-                <TourCard tour={tour} className="h-full" />
+                <TourCard tour={tour} className="h-full" priority={idx === 0} />
               </div>
             );
           })}

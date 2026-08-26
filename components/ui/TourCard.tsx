@@ -12,9 +12,10 @@ import { getLocalizedText } from '@/utils/i18nHelper';
 interface TourCardProps {
   tour: Tour;
   className?: string;
+  priority?: boolean;
 }
 
-export function TourCard({ tour, className = '' }: TourCardProps) {
+export function TourCard({ tour, className = '', priority = false }: TourCardProps) {
   const locale = useLocale();
   const t = useTranslations('tours');
 
@@ -39,13 +40,14 @@ export function TourCard({ tour, className = '' }: TourCardProps) {
       className={`group relative block w-full h-full min-h-[460px] md:min-h-[500px] rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-1.5 border border-zinc-200/60 dark:border-zinc-800/80 select-none ${className}`}
       suppressHydrationWarning
     >
-      {/* 🖼️ FOTO PRINCIPAL DE FONDO (Aspecto 9:16 vertical nativo de máxima nitidez) */}
+      {/* 🖼️ FOTO PRINCIPAL DE FONDO (Optimizada a tamaño de tarjeta, súper liviana) */}
       <Image
         src={tour.mobileImage || tour.imageUrl || tour.desktopImage || '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg'}
         alt={title || 'Tour Expedition'}
         fill
-        quality={95}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        priority={priority}
+        quality={80}
+        sizes="(max-width: 640px) 340px, (max-width: 1024px) 360px, 340px"
         className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
         referrerPolicy="no-referrer"
       />

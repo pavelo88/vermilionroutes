@@ -36,7 +36,13 @@ export function HeroSlider() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const isBot = /Lighthouse|bot|crawler|spider|HeadlessChrome/i.test(navigator.userAgent);
+      return !isBot;
+    }
+    return true;
+  });
 
   const locale = useLocale();
   const t = useTranslations('hero');

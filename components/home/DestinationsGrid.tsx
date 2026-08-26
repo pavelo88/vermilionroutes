@@ -156,9 +156,9 @@ export function DestinationsGrid() {
                       src={imgSrc}
                       alt={getLocalizedText(dest.name, locale)}
                       fill
-                      quality={95}
+                      quality={80}
                       priority={destIndex < 2 && imgIdx === 0}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      sizes="(max-width: 640px) 340px, (max-width: 1024px) 360px, 320px"
                       className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
                       referrerPolicy="no-referrer"
                     />
