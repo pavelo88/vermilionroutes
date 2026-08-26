@@ -125,12 +125,17 @@ export function TourGallery({ images, title }: TourGalleryProps) {
                     e.stopPropagation();
                     handleSelectThumbnail(dotIdx);
                   }}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${dotIdx === selectedMainIndex
-                      ? 'w-5 bg-emerald-400 shadow-xs'
-                      : 'w-1.5 bg-white/40 hover:bg-white/70'
-                    }`}
+                  className="p-2 -m-1 flex items-center justify-center cursor-pointer min-w-[24px] min-h-[24px]"
                   aria-label={`Go to photo ${dotIdx + 1}`}
-                />
+                >
+                  <span
+                    className={`h-1.5 rounded-full transition-all duration-300 block ${
+                      dotIdx === selectedMainIndex
+                        ? 'w-5 bg-emerald-400 shadow-xs'
+                        : 'w-1.5 bg-white/40 hover:bg-white/70'
+                    }`}
+                  />
+                </button>
               ))}
             </div>
           )}

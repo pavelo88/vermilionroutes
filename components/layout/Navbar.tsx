@@ -315,7 +315,8 @@ export function Navbar() {
                     </div>
                   </div>
                 </div>
-                {/* Currency Switcher */}
+                {/* Currency Switcher (Temporarily commented out) */}
+                {/* 
                 <div className="relative">
                   <button
                     suppressHydrationWarning
@@ -359,6 +360,7 @@ export function Navbar() {
                     />
                   )}
                 </div>
+                */}
 
                 {/* Backdrop to close menu when clicking outside */}
                 {langOpen && (
@@ -369,21 +371,6 @@ export function Navbar() {
                 )}
               </>
             )}
-            <Link
-              href={`/${locale}/affiliates`}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-xs font-bold shadow-sm transition-all hover:scale-105 cursor-pointer"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-              <span>{locale === 'es' ? 'Afiliados' : 'Affiliates'}</span>
-            </Link>
-            <Button
-              variant="primary"
-              size="sm"
-              className="shadow-md shadow-emerald-600/15"
-              onClick={(e) => handleAnchorClick(e, `/${locale}#contact`)}
-            >
-              Request a Quote
-            </Button>
           </div>
 
           {/* Mobile Actions */}
@@ -406,7 +393,8 @@ export function Navbar() {
                   >
                     <img
                       src={LOCALES.find((l) => l.code === locale)?.flagUrl || 'https://flagcdn.com/es.svg'}
-                      alt={locale}
+                      alt=""
+                      aria-hidden="true"
                       className="w-4 h-3 object-cover rounded-xs shadow-xs"
                     />
                     <span className="font-bold uppercase">{locale}</span>
@@ -490,22 +478,6 @@ export function Navbar() {
             </nav>
 
             <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 flex flex-col gap-2.5">
-              <Link
-                href={`/${locale}/affiliates`}
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-sm font-bold shadow-md cursor-pointer"
-              >
-                <Sparkles className="w-4 h-4 text-amber-300" />
-                <span>{locale === 'es' ? 'Portal de Afiliados' : 'Affiliates Portal'}</span>
-              </Link>
-
-              <Button
-                variant="primary"
-                className="w-full"
-                onClick={(e) => handleAnchorClick(e, `/${locale}#contact`)}
-              >
-                {locale === 'es' ? 'Solicitar Cotización Personalizada' : 'Request Custom Itinerary'}
-              </Button>
             </div>
           </div>
         )}

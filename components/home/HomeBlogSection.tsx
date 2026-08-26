@@ -65,7 +65,7 @@ export function HomeBlogSection() {
 
   return (
     <section className="py-12 md:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-zinc-200/80 dark:border-zinc-800/80 space-y-12">
-      
+
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div className="space-y-2 max-w-2xl">
@@ -93,12 +93,12 @@ export function HomeBlogSection() {
       </div>
 
       {/* 3 Featured Blog Articles Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="flex md:grid md:grid-cols-3 gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0">
         {featuredPosts.map((post) => (
           <Link
             key={post.id}
             href={`/${locale}/blog/${post.slug}`}
-            className="group bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-emerald-500/60 rounded-3xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+            className="group bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:border-emerald-500/60 rounded-3xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-[85vw] sm:w-[320px] md:w-auto shrink-0 snap-center"
           >
             <div className="relative h-48 sm:h-52 w-full overflow-hidden">
               <Image
@@ -154,13 +154,13 @@ export function HomeBlogSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {VIDEO_GUIDES.map((vid) => (
+          {VIDEO_GUIDES.map((vid, idx) => (
             <a
               key={vid.id}
               href={`https://www.youtube.com/watch?v=${vid.id}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 hover:border-emerald-500 transition-all flex flex-col shadow-lg"
+              className={`group relative rounded-2xl overflow-hidden bg-zinc-950 border border-zinc-800 hover:border-emerald-500 transition-all flex-col shadow-lg ${idx >= 2 ? 'hidden sm:flex' : 'flex'}`}
             >
               <div className="relative h-36 w-full overflow-hidden">
                 <Image
@@ -186,6 +186,18 @@ export function HomeBlogSection() {
               </div>
             </a>
           ))}
+        </div>
+
+        <div className="sm:hidden pt-2 flex justify-center border-t border-zinc-800">
+          <a
+            href="https://www.youtube.com/@VermilionSouthAmericanRoutes"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-emerald-600/50 bg-emerald-950/40 text-emerald-400 text-xs font-bold uppercase tracking-wider transition-all shadow-md active:scale-95"
+          >
+            <span>{locale === 'es' ? 'Ver galería completa' : 'Watch all videos'}</span>
+            <Play className="w-3.5 h-3.5" />
+          </a>
         </div>
       </div>
 

@@ -19,7 +19,7 @@ const BOOKINGS_COLLECTION = 'bookings';
  * Creates a new booking in Firestore after sanitizing fields.
  */
 export async function createBookingInFirestore(
-  bookingData: Omit<BookingRequest, 'id' | 'status' | 'createdAt'>
+  bookingData: Omit<BookingRequest, 'id' | 'status' | 'createdAt'> & { status?: BookingRequest['status'] }
 ): Promise<string> {
   const sanitizedName = sanitizeText(bookingData.customerName);
   const sanitizedEmail = sanitizeText(bookingData.customerEmail);

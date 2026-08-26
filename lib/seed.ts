@@ -134,16 +134,58 @@ export const defaultSettings = {
   },
   faq: [
     {
-      question: { en: "Is a cruise or land-based tour better for the Galapagos?", es: "¿Es mejor un crucero o un tour terrestre para Galápagos?", fr: "Est-il préférable de faire une croisière ou un circuit terrestre aux Galápagos?", de: "Ist eine Kreuzfahrt oder eine Landtour für Galapagos besser?", it: "È meglio una crociera o un tour via terra per le Galapagos?", pt: "Um cruzeiro ou um passeio terrestre é melhor para Galápagos?", ja: "ガラパゴスにはクルーズと陸上ツアーのどちらが良いですか？", zh: "加拉帕戈斯群岛是游轮还是陆地游更好？" },
-      answer: { en: "Cruises are ideal for visiting remote, uninhabited islands that are inaccessible in a day. Land-based tours are more flexible, perfect for multi-generational families, and less prone to seasickness.", es: "Los cruceros son ideales para visitar islas remotas. Los tours terrestres son más flexibles, perfectos para familias y menos propensos al mareo.", fr: "Les croisières sont idéales pour visiter des îles éloignées. Les circuits terrestres sont plus flexibles et parfaits pour les familles.", de: "Kreuzfahrten sind ideal für abgelegene Inseln. Landtouren sind flexibler und perfekt für Familien.", it: "Le crociere sono ideali per le isole remote. I tour via terra sono più flessibili e perfetti per le familias.", pt: "Cruzeiros são ideais para ilhas remotas. Os passeios terrestres são mais flexíveis e perfeitos para famílias.", ja: "クルーズは離島を訪れるのに最適です。陸上ツアーはより柔軟で家族向けです。", zh: "游轮非常适合游览偏远岛屿。陆地游更灵活，非常适合家庭。" }
+      question: { 
+        en: "What level of exclusivity and personalization can I expect?", 
+        es: "¿Qué nivel de exclusividad y personalización puedo esperar?", 
+        fr: "Quel niveau d'exclusivité et de personnalisation puis-je attendre?", 
+        de: "Welches Maß an Exklusivität und Personalisierung kann ich erwarten?", 
+        it: "Quale livello di esclusività e personalizzazione posso aspettarmi?", 
+        pt: "Que nível de exclusividade e personalização posso esperar?" 
+      },
+      answer: { 
+        en: "Every Vermilion Routes journey is entirely bespoke. We limit our guest intake to ensure our dedicated concierges can craft meticulously tailored itineraries. From private yacht charters in the Galapagos to hand-picked luxury eco-lodges, every detail is curated to your exact preferences.", 
+        es: "Cada viaje con Vermilion Routes es completamente a medida. Limitamos nuestro volumen de huéspedes para garantizar un servicio de concierge dedicado. Desde yates privados en Galápagos hasta eco-lodges de lujo seleccionados a mano, cada detalle se ajusta a sus preferencias exactas.", 
+        fr: "Chaque voyage avec Vermilion Routes est entièrement sur mesure. Nous limitons notre accueil pour garantir un service dédié. Des yachts privés aux Galápagos aux éco-lodges de luxe, chaque détail est adapté à vos préférences.", 
+        de: "Jede Reise mit Vermilion Routes ist komplett maßgeschneidert. Wir begrenzen unsere Gästezahl, um einen engagierten Concierge-Service zu gewährleisten.", 
+        it: "Ogni viaggio con Vermilion Routes è completamente su misura. Limitiamo il numero di ospiti per garantire un servizio concierge dedicato.", 
+        pt: "Cada viagem com a Vermilion Routes é totalmente sob medida. Limitamos nosso volume de hóspedes para garantir um serviço de concierge dedicado." 
+      }
     },
     {
-      question: { en: "When is the best time to book a luxury Galapagos expedition?", es: "¿Cuándo es el mejor momento para reservar una expedición de lujo a Galápagos?", fr: "Quel est le meilleur moment para réserver une expédition de luxe aux Galápagos?", de: "Wann ist die beste Zeit, um eine Galapagos-Luxusexpedition zu buchen?", it: "Qual è il momento migliore per prenotare una spedizione di lusso alle Galapagos?", pt: "Quando é a melhor época para reservar uma expedição de luxo para Galápagos?", ja: "ガラパゴスの豪華探検を予約するのに最適な時期はいつですか？", zh: "预订加拉帕戈斯群岛豪华探险的最佳时间是什么时候？" },
-      answer: { en: "The Galapagos is a year-round destination. However, due to the limited capacity of premium boutique boats (usually 12–16 guests), we highly recommend booking at least 8 to 12 months in advance, especially for holiday seasons and peak wildlife migration periods.", es: "Galápagos es un destino para todo el año. Sin embargo, recomendamos reservar con 8-12 meses de anticipación debido a la capacidad limitada.", fr: "Les Galápagos se visitent toute l'année. Nous recommandons de réserver 8 à 12 mois à l'avance.", de: "Galapagos ist ein ganzjähriges Reiseziel. Wir empfehlen eine Buchung 8-12 Monate im Voraus.", it: "Le Galapagos sono una destinazione per tutto l'anno. Consigliamo di prenotare 8-12 mesi in anticipo.", pt: "Galápagos é um destino para o ano todo. Recomendamos reservar com 8-12 meses de antecedência.", ja: "ガラパゴスは一年中楽しめますが、8〜12ヶ月前の予約をお勧めします。", zh: "加拉帕戈斯群岛是一个全年皆宜的目的地。我们建议提前 8-12 个月预订。" }
+      question: { 
+        en: "Are your Galapagos expeditions guided by certified naturalists?", 
+        es: "¿Sus expediciones en Galápagos están guiadas por naturalistas certificados?", 
+        fr: "Vos expéditions aux Galápagos sont-elles guidées par des naturalistes certifiés?", 
+        de: "Werden Ihre Galapagos-Expeditionen von zertifizierten Naturforschern geführt?", 
+        it: "Le vostre spedizioni alle Galapagos sono guidate da naturalisti certificati?", 
+        pt: "Suas expedições em Galápagos são guiadas por naturalistas certificados?" 
+      },
+      answer: { 
+        en: "Absolutely. We exclusively partner with Level 3 Certified Naturalist Guides—the highest tier recognized by the Galapagos National Park. Their profound expertise in evolutionary biology and local ecosystems ensures a truly transformative and educational wildlife experience.", 
+        es: "Absolutamente. Nos asociamos exclusivamente con Guías Naturalistas Certificados de Nivel 3, el rango más alto reconocido por el Parque Nacional Galápagos. Su profunda experiencia en biología evolutiva garantiza una inmersión transformadora en la vida silvestre.", 
+        fr: "Absolument. Nous travaillons exclusivement avec des guides naturalistes certifiés de niveau 3, le plus haut niveau reconnu par le parc national des Galápagos.", 
+        de: "Absolut. Wir arbeiten ausschließlich mit zertifizierten Naturführern der Stufe 3 zusammen, der höchsten vom Galapagos-Nationalpark anerkannten Stufe.", 
+        it: "Assolutamente. Collaboriamo esclusivamente con Guide Naturalistiche Certificate di Livello 3, il livello più alto riconosciuto dal Parco Nazionale delle Galapagos.", 
+        pt: "Absolutamente. Fazemos parceria exclusivamente com Guias Naturalistas Certificados de Nível 3, o nível mais alto reconhecido pelo Parque Nacional de Galápagos." 
+      }
     },
     {
-      question: { en: "What is included in a Vermilion Routes tailor-made journey?", es: "¿Qué está incluido en un viaje a medida de Vermilion Routes?", fr: "Qu'est-ce qui est inclus dans un voyage sur mesure Vermilion Routes?", de: "Was ist in einer maßgeschneiderten Reise von Vermilion Routes enthalten?", it: "Cosa è incluido in un viaggio su misura Vermilion Routes?", pt: "O que está incluído em uma viagem sob medida da Vermilion Routes?", ja: "Vermilion Routesのオーダーメイドの旅には何が含まれていますか？", zh: "Vermilion Routes 定制之旅包括什么？" },
-      answer: { en: "Our bespoke journeys include all domestic flights, premium accommodations, expert private bilingual guides, private VIP ground transportation, most meals, and a dedicated 24/7 concierge specialist available via WhatsApp during your entire trip.", es: "Incluye vuelos domésticos, alojamiento premium, guías privados, transporte VIP, comidas y un concierge 24/7 por WhatsApp.", fr: "Comprend les vols intérieurs, l'hébergement premium, les guides privés, le transport VIP, les repas et un concierge 24/7.", de: "Beinhaltet Inlandsflüge, Premium-Unterkünfte, private Reiseleiter, VIP-Transport, Mahlzeiten und 24/7 Concierge.", it: "Include voli nazionali, alloggi premium, guide private, trasporto VIP, pasti e concierge 24/7.", pt: "Inclui voos domésticos, acomodação premium, guias privados, transporte VIP, refeições e concierge 24/7.", ja: "国内線、高級宿泊施設、プライベートガイド、VIP送迎、食事、24時間対応のコンシェルジュが含まれます。", zh: "包括国内航班、高级住宿、私人导游、VIP 交通、餐饮和全天候礼宾服务。" }
+      question: { 
+        en: "How do you handle internal logistics and transfers in Ecuador?", 
+        es: "¿Cómo manejan la logística interna y los traslados en Ecuador?", 
+        fr: "Comment gérez-vous la logistique interne et les transferts en Équateur?", 
+        de: "Wie handhaben Sie die interne Logistik und Transfers in Ecuador?", 
+        it: "Come gestite la logistica interna e i trasferimenti in Ecuador?", 
+        pt: "Como vocês lidam com a logística interna e os traslados no Equador?" 
+      },
+      answer: { 
+        en: "We provide end-to-end seamless logistics. From the moment you land in Quito or Guayaquil, our private VIP transport and bilingual hosts take over. All domestic flights, private transfers, and inter-island navigations are orchestrated meticulously so you simply relax and enjoy.", 
+        es: "Proporcionamos logística integral sin fricciones. Desde su aterrizaje en Quito o Guayaquil, nuestro transporte VIP privado y anfitriones bilingües toman el control. Todos los vuelos nacionales, traslados y navegaciones se orquestan meticulosamente para que usted solo se relaje y disfrute.", 
+        fr: "Nous fournissons une logistique fluide de bout en bout. Dès votre atterrissage, nos transports VIP privés et nos hôtes bilingues prennent le relais. Tous les vols et transferts sont méticuleusement orchestrés.", 
+        de: "Wir bieten eine nahtlose End-to-End-Logistik. Ab Ihrer Landung übernehmen unsere privaten VIP-Transfers und zweisprachigen Gastgeber.", 
+        it: "Forniamo una logistica senza interruzioni da un capo all'altro. Dal momento in cui atterri, i nostri trasporti VIP privati e i padroni di casa bilingui prendono il sopravvento.", 
+        pt: "Fornecemos logística contínua de ponta a ponta. Desde o momento em que você pousa, nosso transporte VIP privado e anfitriões bilíngues assumem o controle." 
+      }
     }
   ],
   footer: {

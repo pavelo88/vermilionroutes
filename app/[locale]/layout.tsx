@@ -6,6 +6,7 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { CurrencyProvider } from '@/context/CurrencyContext';
 import '../globals.css';
+import Script from 'next/script';
 import { Navbar } from '@/components/layout/Navbar';
 import { ConditionalFooter } from '@/components/layout/ConditionalFooter';
 import { ConciergeWidget } from '@/components/ui/ConciergeWidget';
@@ -157,7 +158,7 @@ export default async function RootLayout({
     areaServed: ['Galapagos Islands', 'Ecuador', 'Mainland Ecuador', 'Amazon Rainforest', 'Andes Mountains'],
     aggregateRating: {
       '@type': 'AggregateRating',
-      ratingValue: '4.9',
+      ratingValue: '5.0',
       reviewCount: '51',
       bestRating: '5',
       worstRating: '1',
@@ -195,6 +196,15 @@ export default async function RootLayout({
         />
       </head>
       <body className="paper-bg text-zinc-900 dark:text-zinc-50 font-sans antialiased selection:bg-emerald-600 selection:text-white flex flex-col min-h-screen" suppressHydrationWarning>
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-D8ZNLYMCB0" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-D8ZNLYMCB0');
+          `}
+        </Script>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <CurrencyProvider>
             <NextIntlClientProvider messages={messages} locale={locale}>

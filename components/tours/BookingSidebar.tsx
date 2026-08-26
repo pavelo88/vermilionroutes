@@ -339,11 +339,13 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
 
           {/* Travelers */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-700 flex items-center gap-1.5">
+            <label htmlFor="travelers-select" className="text-xs font-semibold text-zinc-700 flex items-center gap-1.5">
               <Users className="w-3.5 h-3.5 text-emerald-600" />
               <span>Number of Travelers</span>
             </label>
             <select
+              id="travelers-select"
+              aria-label="Number of Travelers"
               value={formData.travelers}
               onChange={(e) => setFormData({ ...formData, travelers: e.target.value })}
               className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"

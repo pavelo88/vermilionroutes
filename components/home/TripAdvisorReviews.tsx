@@ -72,7 +72,7 @@ export function TripAdvisorReviews({
           title="Ver perfil oficial en TripAdvisor"
         >
           <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-serif font-bold text-xl shadow-md shadow-emerald-600/30 group-hover:scale-105 transition-transform">
-            4.9
+            5.0
           </div>
           <div>
             <div className="flex items-center gap-1 text-emerald-600">
@@ -81,7 +81,7 @@ export function TripAdvisorReviews({
               ))}
             </div>
             <p className="text-xs font-bold text-zinc-900 dark:text-white mt-1 flex items-center gap-1">
-              TripAdvisor Verified Rating (4.9 / 5.0)
+              TripAdvisor Verified Rating (5.0 / 5.0)
               <ExternalLink className="w-3 h-3 text-zinc-400 group-hover:text-emerald-600 transition-colors" />
             </p>
             <p className="text-[11px] text-zinc-500">51 Reviews • #85 of 678 in Quito</p>
@@ -150,7 +150,7 @@ export function TripAdvisorReviews({
             return (
               <div
                 key={rev.id}
-                className="bg-white dark:bg-zinc-900/90 backdrop-blur-xl p-7 rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm transition-all duration-300 flex flex-col justify-between space-y-6 relative group w-full shrink-0 snap-center"
+                className="bg-white dark:bg-zinc-900/90 backdrop-blur-xl p-7 rounded-3xl border border-zinc-200/80 dark:border-zinc-800/80 shadow-sm transition-all duration-300 flex flex-col justify-between space-y-6 relative group w-full md:w-[calc(50%-12px)] shrink-0 snap-center"
               >
                 <Quote className="w-10 h-10 text-emerald-100 absolute top-6 right-6 pointer-events-none group-hover:text-emerald-200 transition-colors" />
 
