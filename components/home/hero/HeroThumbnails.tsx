@@ -29,7 +29,7 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
                   src={slide.mobileImage}
                   alt={getLocalizedText(slide.place, locale) || 'Vermilion Routes'}
                   fill
-                  priority={idx <= 2}
+                  priority={idx === 0}
                   quality={95}
                   className="object-cover object-center md:hidden"
                   sizes="30vw"
@@ -41,7 +41,7 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
                 src={slide.desktopImage || slide.image || slide.imageUrl || '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'}
                 alt={getLocalizedText(slide.place, locale) || 'Vermilion Routes'}
                 fill
-                priority={idx <= 2}
+                priority={idx === 0}
                 quality={95}
                 className={`object-cover object-center md:object-[center_28%] ${slide.mobileImage ? 'hidden md:block' : 'block'}`}
                 sizes="60vw"

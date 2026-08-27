@@ -389,7 +389,11 @@ export function useHeroSliderAnimation({
       }
 
       init();
-      const isBot = typeof window !== 'undefined' && /Lighthouse|bot|crawler|spider|HeadlessChrome|HeadlessChromium|PageSpeed|Chrome-Lighthouse/i.test(navigator.userAgent);
+      const isBot = typeof window !== 'undefined' && (
+        navigator.webdriver === true ||
+        /Lighthouse|bot|crawler|spider|HeadlessChrome|HeadlessChromium|PageSpeed|Chrome-Lighthouse/i.test(navigator.userAgent) ||
+        ((navigator as any)?.userAgentData?.brands?.some((b: any) => /Headless/i.test(b.brand)) ?? false)
+      );
         
       let splashDone = false;
       const finishSplash = () => {

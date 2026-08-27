@@ -70,11 +70,6 @@ export function SplashScreen() {
       id="splash-screen"
       onClick={() => (window as any).skipSplash?.()}
       className="absolute inset-0 z-[50] w-full h-full bg-zinc-950 overflow-hidden flex items-center justify-center pointer-events-auto cursor-pointer"
-      style={{
-        backgroundImage: "url('/intro-hero-bg.webp')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
     >
       {/* Background Image with Instant Eager Load */}
       <Image
