@@ -2,14 +2,15 @@ import { useEffect, RefObject } from 'react';
 import gsap from 'gsap';
 import { SlideData } from '@/types';
 import { getLocalizedText } from '@/utils/i18nHelper';
+import { getStandardTemplateHTML } from './HeroDetails';
 
 interface UseHeroSliderParams {
   containerRef: RefObject<HTMLDivElement | null>;
   isReady: boolean;
   slidesData: SlideData[];
   locale: string;
-  showSplash: boolean;
-  setShowSplash: (val: boolean) => void;
+  showSplash?: boolean;
+  setShowSplash?: (val: boolean) => void;
 }
 
 export function useHeroSliderAnimation({
@@ -198,6 +199,43 @@ export function useHeroSliderAnimation({
         }
       };
 
+      const TORTUGAS_ORIGINAL = {
+        image: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
+        desktopImage: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
+        mobileImage: '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg'
+      };
+
+      let splashDone = false;
+
+      function restoreSlideZero() {
+        // 1. Sobreescribe slidesData[0] devolviéndole las rutas de las fotos de fondo originales de Tortugas
+        if (slidesData[0]) {
+          slidesData[0].isWelcome = false;
+          slidesData[0].image = TORTUGAS_ORIGINAL.image;
+          slidesData[0].desktopImage = TORTUGAS_ORIGINAL.desktopImage;
+          slidesData[0].mobileImage = TORTUGAS_ORIGINAL.mobileImage;
+        }
+
+        // 2. Modifica el DOM (img.src y img.srcset) de la Tarjeta 0 para inyectar esas imágenes de Tortugas
+        const card0 = container.querySelector('.card-0');
+        if (card0) {
+          const imgs = card0.querySelectorAll('img');
+          imgs.forEach((img) => {
+            const isMobileImg = img.classList.contains('md:hidden') || img.getAttribute('sizes') === '30vw';
+            const newSrc = isMobileImg ? TORTUGAS_ORIGINAL.mobileImage : TORTUGAS_ORIGINAL.desktopImage;
+            img.src = newSrc;
+            img.srcset = '';
+            img.removeAttribute('srcset');
+          });
+        }
+
+        // 3. Reemplaza el innerHTML del contenedor de texto de la Tarjeta 0, borrando el HTML de Bienvenida y pegándole la estructura HTML del molde estándar de los textos.
+        const detailsEvenEl = container.querySelector('#details-even');
+        if (detailsEvenEl) {
+          detailsEvenEl.innerHTML = getStandardTemplateHTML(slidesData[0], locale);
+        }
+      }
+
       function step(dir: 'next' | 'prev' | 'jump' = 'next') {
         return new Promise<void>((resolve) => {
           if (isCancelled) { resolve(); return; }
@@ -236,7 +274,17 @@ export function useHeroSliderAnimation({
             counterEl.textContent = `${currentNum} / ${totalNum}`;
           }
 
-          gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });
+          gsap.to(container.querySelectorAll(detailsInactive), {
+            opacity: 0,
+            duration: 0.3,
+            ease,
+            onComplete: () => {
+              if (!splashDone) {
+                splashDone = true;
+                restoreSlideZero();
+              }
+            }
+          });
 
           const [active, ...rest] = order;
           const isMobile = (container.clientWidth || window.innerWidth) < 768;
@@ -370,87 +418,10 @@ export function useHeroSliderAnimation({
         /Lighthouse|bot|crawler|spider|HeadlessChrome|HeadlessChromium|PageSpeed|Chrome-Lighthouse/i.test(navigator.userAgent) ||
         ((navigator as any)?.userAgentData?.brands?.some((b: any) => /Headless/i.test(b.brand)) ?? false)
       );
-        
-      let splashDone = false;
-      const finishSplash = () => {
-        if (splashDone) return;
-        splashDone = true;
 
-        gsap.to("#splash-top-badge, #splash-headline, #splash-subtext, #splash-text-content", {
-          opacity: 0,
-          y: -15,
-          duration: 0.5,
-          ease: "power2.inOut"
-        });
-
-        gsap.to("#splash-glass-card", {
-          opacity: 0,
-          scale: 1.05,
-          duration: 0.6,
-          ease: "power2.out"
-        });
-
-        gsap.to("#splash-screen", {
-          zIndex: 0,
-          opacity: 0.15,
-          pointerEvents: "none",
-          duration: 0.8,
-          delay: 0.2,
-          onComplete: () => {
-            init();
-            setTimeout(() => {
-              if (!isCancelled && !isBot) startLoop();
-            }, 300);
-          }
-        });
-      };
-
-      (window as any).skipSplash = finishSplash;
-
-      if (showSplash && !isBot) {
-        // Slide 0: 4.5s impact time before smooth cinematic transition to card foreground
-        gsap.to("#splash-top-badge, #splash-headline, #splash-subtext", {
-          opacity: 0,
-          y: -15,
-          duration: 0.8,
-          ease: "power2.inOut",
-          delay: 3.8
-        });
-
-        gsap.to("#splash-text-content", {
-          opacity: 0,
-          y: -20,
-          duration: 0.8,
-          ease: "power2.inOut",
-          delay: 3.9
-        });
-
-        gsap.to("#splash-glass-card", {
-          opacity: 0,
-          scale: 1.08,
-          duration: 1.0,
-          ease: "power2.out",
-          delay: 4.0
-        });
-
-        gsap.to(container.querySelectorAll(getCard(order[0])), { scale: 1.05, duration: 6.5, ease: "none", delay: 4.0 });
-
-        gsap.to("#splash-screen", {
-          zIndex: 0,
-          opacity: 0.15,
-          pointerEvents: "none",
-          ease: "power2.inOut",
-          duration: 1.0,
-          delay: 4.2,
-          onComplete: () => {
-            finishSplash();
-          }
-        });
-      } else {
-        set("#splash-screen", { zIndex: 0, opacity: 0.15, pointerEvents: "none" });
-        set("#splash-top-badge, #splash-headline, #splash-subtext, #splash-glass-card", { opacity: 0 });
-        init();
-        // Static Slide 0 layout for bots: zero forced reflows, zero loops, zero blocking time
+      init();
+      if (!isBot) {
+        startLoop();
       }
     });
 

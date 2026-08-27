@@ -13,11 +13,11 @@ export const HERO_SLIDES_DATA: SlideData[] = [
       it: 'Osserva antiche tartarughe giganti in libertà negli altipiani di Santa Cruz ed esplora maestosi crateri gemelli circondati da foreste di Scalesia.',
       pt: 'Observe tartarugas gigantes centenárias em seu habitat natural nas terras altas de Santa Cruz e explore majestosas crateras vulcânicas gêmeas.',
       ja: 'サンタクルス島の高地で自由に歩き回る古代の巨大ゾウガメを観察し、スカレシアの森に囲まれた壮大な双子の火口を探索しましょう。',
-      zh: '在圣克鲁斯岛高地观察在自然栖息地自由漫步的古老巨型陆龟，并探索被斯卡莱西亚森林环绕的壮观双子火山口。'
     },
-    image: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
-    desktopImage: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
-    mobileImage: '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg'
+    isWelcome: true,
+    image: '/intro-hero-bg.webp',
+    desktopImage: '/intro-hero-bg.webp',
+    mobileImage: '/splash-4-worlds.webp'
   },
   {
     place: { en: 'Pichincha - Quito', es: 'Pichincha - Quito', fr: 'Pichincha - Quito', de: 'Pichincha - Quito', it: 'Pichincha - Quito', pt: 'Pichincha - Quito', ja: 'ピチンチャ - キト', zh: '皮钦查 - 基多' },

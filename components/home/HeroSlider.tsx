@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSettings } from '@/hooks/useSettings';
 import { useTranslations, useLocale } from 'next-intl';
-import { SplashScreen } from './SplashScreen';
 import { HERO_SLIDES_DATA } from './hero/heroData';
 import { HeroDetails } from './hero/HeroDetails';
 import { HeroActions } from './hero/HeroActions';
@@ -33,27 +32,8 @@ export function HeroSlider() {
       window.scrollTo(0, 0);
     }
 
-    // Direct detection for automated audits (Lighthouse, Chromium Headless)
-    const isBot = navigator.webdriver === true ||
-      /Lighthouse|bot|crawler|spider|HeadlessChrome|HeadlessChromium|PageSpeed|Chrome-Lighthouse/i.test(navigator.userAgent) ||
-      ((navigator as any)?.userAgentData?.brands?.some((b: any) => /Headless/i.test(b.brand)) ?? false);
-
-    if (isBot) {
-      setShowSplash(false);
-    }
-
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const [showSplash, setShowSplash] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const isBot = navigator.webdriver === true ||
-        /Lighthouse|bot|crawler|spider|HeadlessChrome|HeadlessChromium|PageSpeed|Chrome-Lighthouse/i.test(navigator.userAgent) ||
-        ((navigator as any)?.userAgentData?.brands?.some((b: any) => /Headless/i.test(b.brand)) ?? false);
-      return !isBot;
-    }
-    return true;
-  });
 
   const locale = useLocale();
   const t = useTranslations('hero');
@@ -105,24 +85,16 @@ export function HeroSlider() {
     containerRef,
     isReady,
     slidesData,
-    locale,
-    showSplash,
-    setShowSplash
+    locale
   });
-
-  if (!isReady) {
-    return <SplashScreen />;
-  }
 
   return (
     <div
       ref={containerRef}
       className="relative w-full h-[100svh] lg:h-[94svh] min-h-[580px] sm:min-h-[620px] md:min-h-[650px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0"
     >
-      {/* ── HERO A: SLIDER 0 (Bienvenida fija de entrada, capa base permanente con H1) ── */}
-      <SplashScreen />
-        {/* Top Indicator */}
-        <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
+      {/* Top Indicator */}
+      <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
 
         {/* 1. Destination Details Panel */}
         <HeroDetails initialData={initialData} locale={locale} />
