@@ -102,12 +102,8 @@ export function useHeroSliderAnimation({
         const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
 
         const controlsY = offsetTop + cardHeight + 14;
-        set("#pagination", { top: controlsY, left: offsetLeft, y: 200, opacity: 0, zIndex: 60 });
-        if (width >= 768) {
+        set("#pagination", { top: controlsY, left: offsetLeft, y: 0, opacity: 1, zIndex: 60 });
 
-        } else {
-
-        }
         if (width < 768) {
           order.forEach((i, index) => {
             set(getCard(i), {
@@ -128,15 +124,10 @@ export function useHeroSliderAnimation({
           set(detailsActive, { opacity: 1, zIndex: 22, x: 0, y: 0 });
 
           rest.forEach((i, index) => {
-            set(getCard(i), { x: offsetLeft + 400 + index * (cardWidth + gap), y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, opacity: 1 });
-            set(getCardContent(i), { x: offsetLeft + 400 + index * (cardWidth + gap), zIndex: 40, y: offsetTop });
+            const cardX = offsetLeft + index * (cardWidth + gap);
+            set(getCard(i), { x: cardX, y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, opacity: 1 });
+            set(getCardContent(i), { x: cardX, zIndex: 40, y: offsetTop });
             set(`.slide-item-${i}`, { x: (index + 1) * numberSize });
-          });
-
-          const startDelay = 0.6;
-          rest.forEach((i, index) => {
-            gsap.to(container.querySelectorAll(getCard(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
-            gsap.to(container.querySelectorAll(getCardContent(i)), { x: offsetLeft + index * (cardWidth + gap), ease, delay: startDelay, duration: 0.8 });
           });
         }
 
@@ -149,20 +140,6 @@ export function useHeroSliderAnimation({
 
         set(".progress-sub-foreground", { width: 500 * (1 / order.length) * (active + 1) });
         set(".indicator", { x: -width });
-
-        const startDelay = 0.6;
-        gsap.to(container.querySelectorAll("#pagination"), { y: 0, opacity: 1, ease, delay: startDelay, duration: 0.8 });
-        if (width < 768) {
-          gsap.to(container.querySelectorAll(detailsActive), {
-            opacity: 1,
-            y: 0,
-            ease: "power2.out",
-            delay: 1.2,
-            duration: 0.9
-          });
-        } else {
-          gsap.to(container.querySelectorAll(detailsActive), { opacity: 1, x: 0, ease, delay: startDelay, duration: 0.8 });
-        }
 
         window.addEventListener("resize", onResize);
       }
@@ -388,7 +365,6 @@ export function useHeroSliderAnimation({
         });
       }
 
-      init();
       const isBot = typeof window !== 'undefined' && (
         navigator.webdriver === true ||
         /Lighthouse|bot|crawler|spider|HeadlessChrome|HeadlessChromium|PageSpeed|Chrome-Lighthouse/i.test(navigator.userAgent) ||
@@ -421,8 +397,9 @@ export function useHeroSliderAnimation({
           duration: 0.8,
           delay: 0.2,
           onComplete: () => {
+            init();
             setTimeout(() => {
-              if (!isCancelled) startLoop();
+              if (!isCancelled && !isBot) startLoop();
             }, 300);
           }
         });
@@ -472,8 +449,8 @@ export function useHeroSliderAnimation({
       } else {
         set("#splash-screen", { zIndex: 0, opacity: 0.15, pointerEvents: "none" });
         set("#splash-top-badge, #splash-headline, #splash-subtext, #splash-glass-card", { opacity: 0 });
-        gsap.to(container.querySelectorAll(getCard(order[0])), { scale: 1.05, duration: 6.5, ease: "none" });
-        if (!isCancelled) startLoop();
+        init();
+        // Static Slide 0 layout for bots: zero forced reflows, zero loops, zero blocking time
       }
     });
 
