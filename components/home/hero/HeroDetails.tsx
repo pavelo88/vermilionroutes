@@ -184,6 +184,8 @@ export function HeroDetails({ initialData, locale }: HeroDetailsProps) {
                       src="/logo_inicio.png"
                       alt="Vermilion Routes"
                       fill
+                      sizes="(max-width: 640px) 230px, (max-width: 768px) 290px, 340px"
+                      quality={85}
                       className="object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.85)]"
                       priority
                     />

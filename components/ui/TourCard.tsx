@@ -62,7 +62,7 @@ export function TourCard({ tour, className = '', priority = false }: TourCardPro
           <span>{destination}</span>
         </span>
         {tour.isPopular && (
-          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-800 text-white shadow-sm border border-emerald-500/30">
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-900 text-white shadow-sm border border-emerald-500/40">
             <Sparkles className="w-3 h-3 text-emerald-300" />
             <span>Best Seller</span>
           </span>
@@ -108,7 +108,7 @@ export function TourCard({ tour, className = '', priority = false }: TourCardPro
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-800 hover:bg-emerald-700 text-white text-xs font-bold shadow-lg shadow-emerald-950/50 transition-all group-hover:scale-105 border border-emerald-600/40">
+          <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-bold shadow-lg shadow-emerald-950/60 transition-all group-hover:scale-105 border border-emerald-500/40">
             <span>{t('card.view') || 'View Details'}</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </div>
