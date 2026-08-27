@@ -103,7 +103,14 @@ export function useHeroSliderAnimation({
         const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
 
         const controlsY = offsetTop + cardHeight + 14;
-        set("#pagination", { top: controlsY, left: offsetLeft, y: 0, opacity: 1, zIndex: 60 });
+        set("#pagination", { top: controlsY, left: offsetLeft, y: 15, opacity: 0, zIndex: 60 });
+        gsap.to(container.querySelectorAll("#pagination"), {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 0.65,
+          ease: "power2.out"
+        });
 
         if (width < 768) {
           order.forEach((i, index) => {
@@ -126,9 +133,27 @@ export function useHeroSliderAnimation({
 
           rest.forEach((i, index) => {
             const cardX = offsetLeft + index * (cardWidth + gap);
-            set(getCard(i), { x: cardX, y: offsetTop, width: cardWidth, height: cardHeight, zIndex: 30, borderRadius: 12, opacity: 1 });
-            set(getCardContent(i), { x: cardX, zIndex: 40, y: offsetTop });
+            set(getCard(i), {
+              x: cardX,
+              y: offsetTop + 35,
+              width: cardWidth,
+              height: cardHeight,
+              zIndex: 30,
+              borderRadius: 12,
+              opacity: 0,
+              scale: 0.94
+            });
+            set(getCardContent(i), { x: cardX, zIndex: 40, y: offsetTop + 35, opacity: 0 });
             set(`.slide-item-${i}`, { x: (index + 1) * numberSize });
+
+            gsap.to(container.querySelectorAll(getCard(i)), {
+              opacity: 1,
+              y: offsetTop,
+              scale: 1,
+              duration: 0.85,
+              delay: 0.35 + index * 0.15,
+              ease: "power3.out"
+            });
           });
         }
 
@@ -149,10 +174,15 @@ export function useHeroSliderAnimation({
         return new Promise((resolve) => gsap.to(container.querySelectorAll(target), { ...properties, duration, onComplete: resolve }));
       }
 
+      let isFirstSlide = true;
+
       function startLoop() {
         if (isCancelled) return;
         if (loopTimeline) loopTimeline.kill();
         set(".indicator", { x: -window.innerWidth });
+
+        const duration = isFirstSlide ? 7.5 : 5.5;
+        isFirstSlide = false;
 
         loopTimeline = gsap.timeline({
           onComplete: () => {
@@ -163,7 +193,7 @@ export function useHeroSliderAnimation({
           }
         });
 
-        loopTimeline.to(container.querySelectorAll(".indicator"), { x: 0, duration: 5.0, ease: "none" })
+        loopTimeline.to(container.querySelectorAll(".indicator"), { x: 0, duration, ease: "none" })
           .to(container.querySelectorAll(".indicator"), { x: window.innerWidth, duration: 0.5, ease: "none" });
       }
 
@@ -416,7 +446,8 @@ export function useHeroSliderAnimation({
       const isBot = typeof window !== 'undefined' && (
         navigator.webdriver === true ||
         /Lighthouse|bot|crawler|spider|HeadlessChrome|HeadlessChromium|PageSpeed|Chrome-Lighthouse/i.test(navigator.userAgent) ||
-        ((navigator as any)?.userAgentData?.brands?.some((b: any) => /Headless/i.test(b.brand)) ?? false)
+        ((navigator as any)?.userAgentData?.brands?.some((b: any) => /Headless|Lighthouse/i.test(b.brand)) ?? false) ||
+        (window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false)
       );
 
       init();

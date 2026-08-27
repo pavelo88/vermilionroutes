@@ -51,6 +51,17 @@ export function ConciergeWidget() {
     zh: (title) => `您好！看到您对**${title}**行程感兴趣。我很乐意为您提供具体的行程细节、排期及定制报价。请问您计划什么时候出行？`,
   };
 
+  const TOOLTIP_TEXT: Record<string, string> = {
+    es: '¡Chatea con nosotros! WhatsApp & Asistente',
+    en: 'Chat with us! WhatsApp & Concierge',
+    fr: 'Discutez avec nous ! WhatsApp & Concierge',
+    de: 'Chatten Sie mit uns! WhatsApp & Assistent',
+    it: 'Chatta con noi! WhatsApp & Assistente',
+    pt: 'Converse conosco! WhatsApp e Assistente',
+    ja: 'チャットでお問い合わせ！WhatsApp & AI',
+    zh: '在线咨询！WhatsApp 与专属顾问',
+  };
+
   const defaultGreeting = GREETINGS_BY_LOCALE[locale] || GREETINGS_BY_LOCALE.en;
 
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -227,7 +238,7 @@ export function ConciergeWidget() {
               <button
                 suppressHydrationWarning
                 onClick={() => setIsOpenMenu(false)}
-                className="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-zinc-800 transition-colors"
+                className="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-zinc-800 transition-colors cursor-pointer"
                 aria-label="Close menu"
               >
                 <X className="w-4 h-4" />
@@ -242,7 +253,7 @@ export function ConciergeWidget() {
                   setIsOpenMenu(false);
                   setIsOpenChat(true);
                 }}
-                className="w-full text-left p-3 rounded-xl bg-gradient-to-r from-amber-950/40 to-zinc-800/60 hover:from-amber-900/50 hover:to-zinc-800 border border-amber-500/30 hover:border-amber-400/60 transition-all duration-200 group flex items-start gap-3"
+                className="w-full text-left p-3 rounded-xl bg-gradient-to-r from-amber-950/40 to-zinc-800/60 hover:from-amber-900/50 hover:to-zinc-800 border border-amber-500/30 hover:border-amber-400/60 transition-all duration-200 group flex items-start gap-3 cursor-pointer"
               >
                 <div className="p-2.5 rounded-xl bg-amber-500 text-zinc-950 font-bold group-hover:scale-105 transition-transform shadow-lg shadow-amber-500/20 mt-0.5">
                   <Bot className="w-5 h-5" />
@@ -266,7 +277,7 @@ export function ConciergeWidget() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsOpenMenu(false)}
-                className="w-full text-left p-3 rounded-xl bg-zinc-800/50 hover:bg-emerald-950/40 border border-zinc-700/60 hover:border-emerald-500/40 transition-all duration-200 group flex items-start gap-3"
+                className="w-full text-left p-3 rounded-xl bg-zinc-800/50 hover:bg-emerald-950/40 border border-zinc-700/60 hover:border-emerald-500/40 transition-all duration-200 group flex items-start gap-3 cursor-pointer"
               >
                 <div className="p-2.5 rounded-xl bg-emerald-500 text-white font-bold group-hover:scale-105 transition-transform shadow-lg shadow-emerald-500/20 mt-0.5">
                   <MessageCircle className="w-5 h-5" />
@@ -294,27 +305,36 @@ export function ConciergeWidget() {
           </div>
         )}
 
-        {/* TRIGGER BUTTON */}
+        {/* TRIGGER BUTTON WITH HOVER TOOLTIP & POINTER */}
         {!isOpenChat && (
           <button
             suppressHydrationWarning
             onClick={() => setIsOpenMenu(!isOpenMenu)}
-            className="relative flex items-center justify-center w-14 h-14 bg-gradient-to-tr from-amber-600 to-emerald-600 hover:from-amber-500 hover:to-emerald-500 text-white rounded-full shadow-2xl shadow-amber-900/40 hover:scale-105 active:scale-95 transition-all duration-300 group border-2 border-white/20"
+            className="relative flex items-center justify-center w-14 h-14 bg-gradient-to-tr from-amber-600 to-emerald-600 hover:from-amber-500 hover:to-emerald-500 text-white rounded-full shadow-2xl shadow-amber-900/40 hover:shadow-emerald-500/50 hover:scale-110 active:scale-95 transition-all duration-300 group border-2 border-white/30 cursor-pointer"
             aria-label="Open Concierge Assistant Menu"
           >
+            {/* Tooltip on hover */}
+            <div className="absolute right-[68px] top-1/2 -translate-y-1/2 bg-zinc-950/95 backdrop-blur-md text-white text-xs font-semibold px-3.5 py-2 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none shadow-2xl border border-amber-500/40 flex items-center gap-2 translate-x-2 group-hover:translate-x-0 z-50">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              <span className="text-zinc-100 font-medium tracking-wide">
+                {TOOLTIP_TEXT[locale] || TOOLTIP_TEXT.en}
+              </span>
+              <span className="absolute -right-1 top-1/2 -translate-y-1/2 w-2 h-2 bg-zinc-950 border-t border-r border-amber-500/40 rotate-45" />
+            </div>
+
             {/* Pulsing Aura */}
-            <span className="absolute inset-0 rounded-full bg-amber-500 animate-ping opacity-25 group-hover:opacity-40" />
+            <span className="absolute inset-0 rounded-full bg-amber-500 animate-ping opacity-25 group-hover:opacity-45" />
             
             <div className="relative z-10 flex items-center justify-center">
               {isOpenMenu ? (
                 <X className="w-6 h-6 stroke-[2.5]" />
               ) : (
-                <Bot className="w-7 h-7 stroke-[2.2] animate-bounce-short" />
+                <Bot className="w-7 h-7 stroke-[2.2] animate-bounce-short group-hover:scale-110 transition-transform" />
               )}
             </div>
 
             {/* Notification Badge */}
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-zinc-950 rounded-full" />
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-zinc-950 rounded-full animate-pulse" />
           </button>
         )}
       </div>

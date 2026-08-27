@@ -12,49 +12,49 @@ const SPLASH_TEXTS: Record<string, {
   worlds: [string, string, string, string];
 }> = {
   es: {
-    rating: '5.0 Excelencia en TripAdvisor & Google',
+    rating: '5.0 Excelencia en TripAdvisor',
     headline: 'Los Mejores Tours Privados y a Medida de Ecuador & Galápagos',
     subheadline: 'Guías Nativos Certificados • Expediciones Exclusivas',
     worlds: ['Galápagos', 'Andes', 'Amazonas', 'Pacífico']
   },
   en: {
-    rating: '5.0 Rating Excellence on TripAdvisor & Google',
+    rating: '5.0 Rating Excellence on TripAdvisor',
     headline: 'The Best Private & Tailor-Made Tours in Ecuador & Galapagos',
     subheadline: 'Certified Native Guides • Exclusive Expeditions',
     worlds: ['Galapagos', 'Andes', 'Amazon', 'Pacific']
   },
   fr: {
-    rating: '5.0 Excellence sur TripAdvisor & Google',
+    rating: '5.0 Excellence sur TripAdvisor',
     headline: 'Les Meilleurs Circuits Privés & Sur Mesure en Équateur et Galapagos',
     subheadline: 'Guides Locaux Certifiés • Expéditions Exclusives',
     worlds: ['Galapagos', 'Andes', 'Amazonie', 'Pacifique']
   },
   de: {
-    rating: '5.0 Spitzenbewertung auf TripAdvisor & Google',
+    rating: '5.0 Spitzenbewertung auf TripAdvisor',
     headline: 'Die besten privaten & maßgeschneiderten Touren in Ecuador & Galapagos',
     subheadline: 'Zertifizierte einheimische Guides • Exklusive Expeditionen',
     worlds: ['Galapagos', 'Anden', 'Amazonas', 'Pazifik']
   },
   it: {
-    rating: '5.0 Eccellenza su TripAdvisor & Google',
+    rating: '5.0 Eccellenza su TripAdvisor',
     headline: 'I Migliori Tour Privati e su Misura in Ecuador e Galapagos',
     subheadline: 'Guide Locali Certificate • Spedizioni Esclusive',
     worlds: ['Galapagos', 'Ande', 'Amazzonia', 'Pacifico']
   },
   pt: {
-    rating: '5.0 Excelência no TripAdvisor & Google',
+    rating: '5.0 Excelência no TripAdvisor',
     headline: 'Os Melhores Passeios Privados e Sob Medida no Equador e Galápagos',
     subheadline: 'Guias Nativos Certificados • Expedições Exclusivas',
     worlds: ['Galápagos', 'Andes', 'Amazonas', 'Pacífico']
   },
   ja: {
-    rating: 'TripAdvisor & Googleで5.0評価の卓越性',
+    rating: 'TripAdvisor で5.0評価の卓越性',
     headline: 'エクアドル＆ガラパゴス最高のプライベート＆オーダーメイドツアー',
     subheadline: '認定ネイティブガイド • 特別なプライベート探検',
     worlds: ['ガラパゴス', 'アンデス', 'アマゾン', '太平洋']
   },
   zh: {
-    rating: 'TripAdvisor与Google获5.0满分卓越好评',
+    rating: 'TripAdvisor 获5.0满分卓越好评',
     headline: '厄瓜多尔与加拉帕戈斯顶级私人定制旅行',
     subheadline: '专业持证本地向导 • 专属尊贵探险',
     worlds: ['加拉帕戈斯', '安第斯', '亚马逊', '太平洋']
