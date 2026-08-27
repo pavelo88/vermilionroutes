@@ -48,18 +48,18 @@ export function HeroDetails({ initialData, locale }: HeroDetailsProps) {
               </div>
             </div>
 
-            {/* Line 1 (title) */}
+            {/* Line 1 (title - h2 tour slide title) */}
             <div className="h-auto md:min-h-[50px] lg:min-h-[60px] mt-1 flex flex-col items-center md:items-start">
-              <h1 className="title-1 font-oswald font-extrabold text-[40px] sm:text-[46px] md:text-4xl lg:text-5xl xl:text-[64px] uppercase leading-[0.95] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap m-0 p-0">
+              <h2 className="title-1 font-oswald font-extrabold text-[40px] sm:text-[46px] md:text-4xl lg:text-5xl xl:text-[64px] uppercase leading-[0.95] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap m-0 p-0">
                 <span className="notranslate">{getLocalizedText(initialData.title, locale)}</span>
-              </h1>
+              </h2>
             </div>
 
-            {/* Line 2 (title2) */}
+            {/* Line 2 (title2 - h3 tour slide subtitle) */}
             <div className="h-auto md:min-h-[50px] lg:min-h-[60px] mt-1 flex flex-col items-center md:items-start">
-              <h2 className="title-2 font-oswald font-extrabold text-[40px] sm:text-[46px] md:text-4xl lg:text-5xl xl:text-[64px] uppercase leading-[0.95] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap m-0 p-0">
+              <h3 className="title-2 font-oswald font-extrabold text-[40px] sm:text-[46px] md:text-4xl lg:text-5xl xl:text-[64px] uppercase leading-[0.95] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap m-0 p-0">
                 <span className="notranslate">{getLocalizedText(initialData.title2, locale)}</span>
-              </h2>
+              </h3>
             </div>
 
             <div className="h-auto mt-3 md:mt-4 flex flex-col items-center md:items-start w-full max-w-lg">

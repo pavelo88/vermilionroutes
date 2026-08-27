@@ -119,8 +119,8 @@ export function HeroSlider() {
       ref={containerRef}
       className="relative w-full h-[100svh] lg:h-[94svh] min-h-[580px] sm:min-h-[620px] md:min-h-[650px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0"
     >
-      {/* ── HERO A: SLIDER 0 (Bienvenida fija de entrada, 4 segundos) ── */}
-      {showSplash && <SplashScreen />}
+      {/* ── HERO A: SLIDER 0 (Bienvenida fija de entrada, capa base permanente con H1) ── */}
+      <SplashScreen />
         {/* Top Indicator */}
         <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />
 

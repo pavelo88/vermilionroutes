@@ -415,12 +415,12 @@ export function useHeroSliderAnimation({
         });
 
         gsap.to("#splash-screen", {
-          opacity: 0,
-          ease: "power2.inOut",
+          zIndex: 0,
+          opacity: 0.15,
+          pointerEvents: "none",
           duration: 0.8,
           delay: 0.2,
           onComplete: () => {
-            setShowSplash(false);
             setTimeout(() => {
               if (!isCancelled) startLoop();
             }, 300);
@@ -431,7 +431,7 @@ export function useHeroSliderAnimation({
       (window as any).skipSplash = finishSplash;
 
       if (showSplash && !isBot) {
-        // Slide 0: 4.5s impact time before starting smooth cinematic transition
+        // Slide 0: 4.5s impact time before smooth cinematic transition to card foreground
         gsap.to("#splash-top-badge, #splash-headline, #splash-subtext", {
           opacity: 0,
           y: -15,
@@ -459,7 +459,9 @@ export function useHeroSliderAnimation({
         gsap.to(container.querySelectorAll(getCard(order[0])), { scale: 1.05, duration: 6.5, ease: "none", delay: 4.0 });
 
         gsap.to("#splash-screen", {
-          opacity: 0,
+          zIndex: 0,
+          opacity: 0.15,
+          pointerEvents: "none",
           ease: "power2.inOut",
           duration: 1.0,
           delay: 4.2,
@@ -468,6 +470,8 @@ export function useHeroSliderAnimation({
           }
         });
       } else {
+        set("#splash-screen", { zIndex: 0, opacity: 0.15, pointerEvents: "none" });
+        set("#splash-top-badge, #splash-headline, #splash-subtext, #splash-glass-card", { opacity: 0 });
         gsap.to(container.querySelectorAll(getCard(order[0])), { scale: 1.05, duration: 6.5, ease: "none" });
         if (!isCancelled) startLoop();
       }

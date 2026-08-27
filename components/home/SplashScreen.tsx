@@ -69,7 +69,7 @@ export function SplashScreen() {
     <div
       id="splash-screen"
       onClick={() => (window as any).skipSplash?.()}
-      className="absolute inset-0 z-[50] w-full h-full bg-zinc-950 overflow-hidden flex items-center justify-center pointer-events-auto cursor-pointer"
+      className="absolute inset-0 z-[40] w-full h-full bg-zinc-950 overflow-hidden flex items-center justify-center pointer-events-auto cursor-pointer"
     >
       {/* Background Image with Instant Eager Load */}
       <Image
@@ -108,35 +108,36 @@ export function SplashScreen() {
           <span className="tracking-wide">{text.rating}</span>
         </div>
 
-        {/* "ALL YOU NEED IS" Colorful Vibrant Typo */}
-        <div id="splash-text-content" className="flex flex-col items-center justify-center mb-2.5 sm:mb-3">
-          <div className="flex gap-2.5 sm:gap-4 md:gap-5 font-oswald font-black text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+        {/* "ALL YOU NEED IS" Colorful Vibrant Typo - Primary H1 for Landing Page */}
+        <h1 id="splash-text-content" className="flex flex-col items-center justify-center mb-2.5 sm:mb-3">
+          <span className="flex gap-2.5 sm:gap-4 md:gap-5 font-oswald font-black text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
             {/* ALL */}
-            <div className="flex">
+            <span className="flex">
               <span style={{ color: '#FDB913' }}>A</span>
               <span style={{ color: '#F58220' }}>L</span>
               <span style={{ color: '#F05A28' }}>L</span>
-            </div>
+            </span>
             {/* YOU */}
-            <div className="flex">
+            <span className="flex">
               <span style={{ color: '#EF4136' }}>Y</span>
               <span style={{ color: '#ED1C24' }}>O</span>
               <span style={{ color: '#E6007E' }}>U</span>
-            </div>
+            </span>
             {/* NEED */}
-            <div className="flex">
+            <span className="flex">
               <span style={{ color: '#D21B7E' }}>N</span>
               <span style={{ color: '#B12285' }}>E</span>
               <span style={{ color: '#9C27B0' }}>E</span>
               <span style={{ color: '#673AB7' }}>D</span>
-            </div>
+            </span>
             {/* IS */}
-            <div className="flex">
+            <span className="flex">
               <span style={{ color: '#3F51B5' }}>I</span>
               <span style={{ color: '#2196F3' }}>S</span>
-            </div>
-          </div>
-        </div>
+            </span>
+          </span>
+          <span className="sr-only">Vermilion Routes — {text.headline}</span>
+        </h1>
 
         {/* Logo Card with Glassmorphism & Subtle Glow */}
         <div
