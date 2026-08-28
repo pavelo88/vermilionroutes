@@ -6,7 +6,12 @@ import { getToursFromFirestore, getTourByIdFromFirestore } from '@/lib/tours';
 import { TourGallery } from '@/components/tours/TourGallery';
 import { TourItinerary } from '@/components/tours/TourItinerary';
 import { BookingSidebar } from '@/components/tours/BookingSidebar';
-import { TripAdvisorReviews } from '@/components/home/TripAdvisorReviews';
+import dynamic from 'next/dynamic';
+const TripAdvisorReviews = dynamic(
+  () => import('@/components/home/TripAdvisorReviews').then(mod => mod.TripAdvisorReviews),
+  { loading: () => <div className="h-[400px] bg-zinc-100 dark:bg-zinc-900 animate-pulse rounded-2xl" /> }
+);
+
 import { Button } from '@/components/ui/Button';
 import { ExpeditionFacts } from '@/components/tours/ExpeditionFacts';
 import { DownloadPDFButton } from '@/components/tours/DownloadPDFButton';

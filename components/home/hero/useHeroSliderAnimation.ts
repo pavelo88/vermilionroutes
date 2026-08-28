@@ -164,7 +164,7 @@ export function useHeroSliderAnimation({
         set(`${detailsInactive} .desc`, { y: 50 });
         set(`${detailsInactive} .cta`, { y: 60 });
 
-        set(".progress-sub-foreground", { width: 500 * (1 / order.length) * (active + 1) });
+        set(".progress-sub-foreground", { scaleX: (1 / order.length) * (active + 1) });
         set(".indicator", { x: -width });
 
         window.addEventListener("resize", onResize);
@@ -347,7 +347,7 @@ export function useHeroSliderAnimation({
             order.forEach((itemIdx, idx) => {
               gsap.to(container.querySelectorAll(`.slide-item-${itemIdx}`), { x: idx * numberSize, ease, duration: 0.8 });
             });
-            gsap.to(container.querySelectorAll(".progress-sub-foreground"), { width: 500 * (1 / order.length) * (active + 1), ease, duration: 0.8 });
+            gsap.to(container.querySelectorAll(".progress-sub-foreground"), { scaleX: (1 / order.length) * (active + 1), ease, duration: 0.8 });
             return;
           }
 
@@ -409,7 +409,7 @@ export function useHeroSliderAnimation({
             gsap.to(container.querySelectorAll(`.slide-item-${itemIdx}`), { x: idx * numberSize, ease, duration: 0.8 });
           });
 
-          gsap.to(container.querySelectorAll(".progress-sub-foreground"), { width: 500 * (1 / order.length) * (active + 1), ease, duration: 0.8 });
+          gsap.to(container.querySelectorAll(".progress-sub-foreground"), { scaleX: (1 / order.length) * (active + 1), ease, duration: 0.8 });
 
           rest.forEach((i, index) => {
             if (i === prevActive && dir === 'next') return;

@@ -188,6 +188,8 @@ export function HeroDetails({ initialData, locale }: HeroDetailsProps) {
                       quality={85}
                       className="object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.85)]"
                       priority
+                      fetchPriority="high"
+                      loading="eager"
                     />
                   </div>
                 </div>

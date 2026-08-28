@@ -29,7 +29,7 @@ export function HeroPagination({ totalSlides }: HeroPaginationProps) {
 
       <div className="w-[300px] md:w-[400px] lg:w-[500px] h-[42px] flex items-center">
         <div className="w-full h-[3px] bg-white/20 relative rounded-full overflow-hidden">
-          <div className="progress-sub-foreground absolute top-0 left-0 h-full bg-white rounded-full" />
+          <div className="progress-sub-foreground absolute top-0 left-0 h-full w-full bg-white rounded-full origin-left" />
         </div>
       </div>
 

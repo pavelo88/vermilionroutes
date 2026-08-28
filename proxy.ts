@@ -129,6 +129,17 @@ function checkRateLimit(ip: string, pathname: string): { allowed: boolean; limit
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const host = req.headers.get('host') || '';
+  const hostname = host.split(':')[0].toLowerCase();
+
+  // --------------------------------------------------------------------------
+  // PASO 0: Subdominio Embassy (embassy.vermilionroutes.com)
+  // --------------------------------------------------------------------------
+  if (hostname === 'embassy.vermilionroutes.com') {
+    const url = req.nextUrl.clone();
+    url.pathname = `/(embassy)${url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
 
   // --------------------------------------------------------------------------
   // PASO 1: Interceptación y Rate Limiting / Autorización en API Routes (/api/*)

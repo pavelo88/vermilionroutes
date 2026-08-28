@@ -23,29 +23,30 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
                 : 'w-[180px] h-[260px] opacity-0'
                 }`}
             >
-              {/* 📱 FOTO VERTICAL 9:16 PARA CELULARES */}
               {slide.mobileImage && (
                 <Image
                   src={slide.mobileImage}
                   alt={getLocalizedText(slide.place, locale) || 'Vermilion Routes'}
                   fill
                   priority={idx === 0}
+                  fetchPriority={idx === 0 ? "high" : "auto"}
                   quality={95}
                   className="object-cover object-center md:hidden"
-                  sizes="30vw"
+                  sizes={idx === 0 ? "100vw" : "30vw"}
                 />
               )}
 
               {/* 💻 FOTO HORIZONTAL 16:9 PARA PANTALLAS GRANDES */}
-              <Image
-                src={slide.desktopImage || slide.image || slide.imageUrl || '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'}
-                alt={getLocalizedText(slide.place, locale) || 'Vermilion Routes'}
-                fill
-                priority={idx === 0}
-                quality={95}
-                className={`object-cover object-center md:object-[center_28%] ${slide.mobileImage ? 'hidden md:block' : 'block'}`}
-                sizes="60vw"
-              />
+                <Image
+                  src={slide.desktopImage || slide.image || slide.imageUrl || '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'}
+                  alt={getLocalizedText(slide.place, locale) || 'Vermilion Routes'}
+                  fill
+                  priority={idx === 0}
+                  fetchPriority={idx === 0 ? "high" : "auto"}
+                  quality={95}
+                  className={`object-cover object-center md:object-[center_28%] ${slide.mobileImage ? 'hidden md:block' : 'block'}`}
+                  sizes={idx === 0 ? "100vw" : "60vw"}
+                />
 
               <div className="card-overlay absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none transition-opacity duration-300" />
 
