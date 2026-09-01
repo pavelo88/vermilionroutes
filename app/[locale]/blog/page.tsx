@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { BLOG_POSTS } from '@/data/blogData';
 import { getLocalizedText } from '@/utils/i18nHelper';
@@ -22,8 +23,15 @@ import {
 
 export default function BlogIndexPage() {
   const locale = useLocale();
+  const searchParams = useSearchParams();
+  const affiliateId = searchParams.get('ref');
+
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error' | ''; text: string }>({ type: '', text: '' });
 
   const categories = [
     { id: 'All', label: locale === 'es' ? 'Todos los Artículos' : 'All Articles' },
@@ -51,21 +59,25 @@ export default function BlogIndexPage() {
 
   const featuredPost = BLOG_POSTS.find((p) => p.featured) || BLOG_POSTS[0];
 
+  const gridPosts = filteredPosts
+    .filter((post) => post.id !== featuredPost.id)
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+
   return (
-    <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#07130C] text-zinc-900 dark:text-zinc-100 pt-32 sm:pt-36 pb-20 px-4 sm:px-6 lg:px-8 font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-300">
-      <div className="max-w-7xl mx-auto space-y-12">
-        
+    <div className="relative min-h-screen bg-[#FAF8F5] dark:bg-[#07130C] text-zinc-900 dark:text-zinc-100 -mt-20 sm:-mt-24 md:-mt-28 lg:-mt-[120px] pt-[146px] pb-20 px-4 sm:px-6 lg:px-8 font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-300">
+      <div className="max-w-7xl mx-auto space-y-8">
+
         {/* Hero Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider shadow-sm">
-            <BookOpen className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 text-[10px] sm:text-xs font-bold uppercase tracking-wider shadow-sm">
+            <BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>{locale === 'es' ? 'Guías y Artículos de Viaje Vermilion' : 'Vermilion Travel Insights & Guides'}</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif text-zinc-900 dark:text-white tracking-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-zinc-900 dark:text-white tracking-tight">
             {locale === 'es' ? 'Expediciones, Naturaleza y Cultura' : 'Journeys, Nature & Expert Guides'}
           </h1>
           <p className="text-zinc-600 dark:text-zinc-300 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-            {locale === 'es' 
+            {locale === 'es'
               ? 'Artículos editoriales, guías de expedición, calendarios de fauna y consejos de expertos para explorar Ecuador y las Islas Galápagos.'
               : 'Curated articles, expedition guides, wildlife calendars, and insider tips to explore Ecuador and the Galapagos Islands.'}
           </p>
@@ -73,9 +85,9 @@ export default function BlogIndexPage() {
 
         {/* Featured Hero Article */}
         {featuredPost && (
-          <div className="relative rounded-3xl overflow-hidden border border-zinc-200 dark:border-emerald-900/40 bg-white dark:bg-zinc-900/90 shadow-xl group">
+          <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-zinc-200 dark:border-emerald-900/40 bg-white dark:bg-zinc-900/90 shadow-lg group">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-center">
-              <div className="lg:col-span-7 relative h-72 sm:h-96 lg:h-[440px] overflow-hidden">
+              <div className="lg:col-span-7 relative h-56 sm:h-64 lg:h-[320px] overflow-hidden">
                 <Image
                   src={featuredPost.imageUrl}
                   alt={getLocalizedText(featuredPost.title, locale)}
@@ -87,16 +99,16 @@ export default function BlogIndexPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent lg:hidden" />
               </div>
-              <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 space-y-4">
-                <div className="flex items-center gap-3 text-xs">
-                  <span className="px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/60 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-bold uppercase tracking-wider">
+              <div className="lg:col-span-5 p-5 sm:p-6 lg:p-8 space-y-3">
+                <div className="flex items-center gap-3 text-[10px] sm:text-xs">
+                  <span className="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/60 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 font-bold uppercase tracking-wider">
                     {getLocalizedText(featuredPost.category, locale)}
                   </span>
                   <span className="flex items-center gap-1 text-zinc-500 dark:text-zinc-400">
                     <Clock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> {featuredPost.readTime}
                   </span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold font-serif text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors leading-tight">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-serif text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors leading-tight">
                   <Link href={`/${locale}/blog/${featuredPost.slug}`}>
                     {getLocalizedText(featuredPost.title, locale)}
                   </Link>
@@ -136,11 +148,10 @@ export default function BlogIndexPage() {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
-                    selectedCategory === cat.id
-                      ? 'bg-emerald-600 text-white shadow-md'
-                      : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:border-zinc-300 dark:hover:border-zinc-700'
-                  }`}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${selectedCategory === cat.id
+                    ? 'bg-emerald-600 text-white shadow-md'
+                    : 'bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:border-zinc-300 dark:hover:border-zinc-700'
+                    }`}
                 >
                   {cat.label}
                 </button>
@@ -163,7 +174,7 @@ export default function BlogIndexPage() {
 
         {/* Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPosts.map((post) => (
+          {gridPosts.map((post) => (
             <article
               key={post.id}
               className="bg-white dark:bg-zinc-900/90 border border-zinc-200/90 dark:border-zinc-800/80 hover:border-emerald-500 dark:hover:border-emerald-600 rounded-3xl overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
@@ -243,18 +254,61 @@ export default function BlogIndexPage() {
             </p>
           </div>
 
-          <form onSubmit={(e) => e.preventDefault()} className="max-w-md mx-auto flex gap-2">
-            <input
-              type="email"
-              placeholder={locale === 'es' ? 'Ingresa tu correo electrónico' : 'Enter your email address'}
-              className="flex-1 px-4 py-3 bg-zinc-950/80 border border-zinc-700 rounded-xl text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-emerald-400"
-            />
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (!email) return;
+              setLoading(true);
+              setStatusMessage({ type: '', text: '' });
+              try {
+                const res = await fetch('/api/leads/newsletter', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email, affiliateId })
+                });
+                
+                const data = await res.json();
+                
+                if (res.ok) {
+                  setStatusMessage({ 
+                    type: 'success', 
+                    text: locale === 'es' ? '¡Gracias! Revisa tu bandeja de entrada para confirmar tu suscripción.' : 'Thank you! Please check your inbox to confirm your subscription.' 
+                  });
+                  setEmail('');
+                } else {
+                  setStatusMessage({ type: 'error', text: data.error || 'Error' });
+                }
+              } catch (err) {
+                setStatusMessage({ type: 'error', text: 'Error de conexión' });
+              } finally {
+                setLoading(false);
+              }
+            }}
+            className="max-w-md mx-auto flex flex-col sm:flex-row gap-3"
+          >
+            <div className="flex-1 w-full flex flex-col gap-2">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={loading}
+                placeholder={locale === 'es' ? 'Ingresa tu correo electrónico' : 'Enter your email address'}
+                className="w-full px-4 py-3 bg-zinc-950/80 border border-zinc-700 rounded-xl text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-emerald-400 disabled:opacity-50"
+              />
+              {statusMessage.text && (
+                <span className={`text-[10px] sm:text-xs font-semibold px-2 ${statusMessage.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {statusMessage.text}
+                </span>
+              )}
+            </div>
             <button
               type="submit"
-              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer flex items-center gap-1.5"
+              disabled={loading}
+              className="w-full sm:w-auto h-fit px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <span>{locale === 'es' ? 'Suscribirme' : 'Subscribe'}</span>
-              <Send className="w-3.5 h-3.5" />
+              <span>{loading ? (locale === 'es' ? 'Enviando...' : 'Sending...') : (locale === 'es' ? 'Suscribirme' : 'Subscribe')}</span>
+              {!loading && <Send className="w-3.5 h-3.5" />}
             </button>
           </form>
         </div>

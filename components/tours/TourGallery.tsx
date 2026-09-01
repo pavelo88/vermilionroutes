@@ -117,7 +117,7 @@ export function TourGallery({ images, title }: TourGalleryProps) {
 
           {/* Progress Indicators for slideshow */}
           {uniqueImages.length > 1 && (
-            <div className="absolute top-4 left-4 flex items-center gap-2 z-10 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/15">
+            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/15">
               {uniqueImages.map((_, dotIdx) => (
                 <button
                   key={`dot-${dotIdx}`}
@@ -130,7 +130,7 @@ export function TourGallery({ images, title }: TourGalleryProps) {
                 >
                   <span
                     className={`h-1.5 rounded-full transition-all duration-300 block ${dotIdx === selectedMainIndex
-                      ? 'w-5 bg-emerald-400 shadow-xs'
+                      ? 'w-5 bg-amber-400 shadow-xs'
                       : 'w-1.5 bg-white/40 hover:bg-white/70'
                       }`}
                   />
@@ -140,9 +140,9 @@ export function TourGallery({ images, title }: TourGalleryProps) {
           )}
 
           {/* View Gallery Badge */}
-          <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-2 rounded-full text-white text-xs font-semibold border border-white/20 shadow-lg z-10">
-            <Camera className="w-3.5 h-3.5 text-emerald-400" />
-            <span>View Gallery ({uniqueImages.length} photos)</span>
+          <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-black/70 hover:bg-black/80 backdrop-blur-md px-4 py-2.5 rounded-full text-white text-xs font-bold border border-white/20 shadow-lg z-10 transition-colors">
+            <Camera className="w-4 h-4 text-emerald-400" />
+            <span>+ View more photos</span>
           </div>
 
           {/* Maximize Icon */}

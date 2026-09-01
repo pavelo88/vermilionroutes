@@ -35,6 +35,70 @@
     --basalt: #181B1A;     /* Gris Basalto Volcánico */
   }
 
+  /* Light Mode Luxury */
+  .theme-luxury {
+    --background: #FAFAF5 !important; /* Champagne/Ivory Light */
+    --foreground: #111111 !important;
+    --primary: #B8860B !important; 
+    --card: #FFFFFF !important;
+    --basalt: #2D2D2D !important;
+    
+    /* Make the entire page use the Luxury Serif font */
+    --font-inter: var(--font-playfair) !important;
+    --font-sans: var(--font-playfair) !important;
+
+    /* Override Emerald with Gold */
+    --color-emerald-50: #fbf9f2 !important;
+    --color-emerald-100: #f4ecce !important;
+    --color-emerald-200: #eadb9d !important;
+    --color-emerald-300: #dec668 !important;
+    --color-emerald-400: #d2b036 !important;
+    --color-emerald-500: #c19a27 !important;
+    --color-emerald-600: #a77c1d !important;
+    --color-emerald-700: #855b1b !important;
+    --color-emerald-800: #714a1e !important;
+    --color-emerald-900: #603e1e !important;
+    --color-emerald-950: #37200e !important;
+
+    /* Override Zinc background levels */
+    --color-zinc-50: #FCFBF7 !important;
+    --color-zinc-100: #F3F0E6 !important;
+    --color-zinc-900: #111111 !important;
+    --color-zinc-950: #050505 !important;
+  }
+
+  /* Dark Mode Luxury */
+  .dark .theme-luxury, .theme-luxury.dark {
+    --background: #050505 !important; /* Obsidian Black */
+    --foreground: #FFFFF0 !important; /* Ivory Text */
+    --primary: #D4AF37 !important; /* Bright Gold */
+    --card: #0A0A0A !important;
+    --basalt: #000000 !important;
+
+    /* Make the entire page use the Luxury Serif font */
+    --font-inter: var(--font-playfair) !important;
+    --font-sans: var(--font-playfair) !important;
+    
+    /* Emerald -> Dark Gold (Preserving lightness scale for contrast) */
+    --color-emerald-50: #fcfbf5 !important;
+    --color-emerald-100: #f8f3dc !important;
+    --color-emerald-200: #eedda1 !important;
+    --color-emerald-300: #e3c460 !important;
+    --color-emerald-400: #d8aa28 !important;
+    --color-emerald-500: #D4AF37 !important;
+    --color-emerald-600: #B8860B !important;
+    --color-emerald-700: #936607 !important;
+    --color-emerald-800: #78520d !important;
+    --color-emerald-900: #654411 !important;
+    --color-emerald-950: #3c2606 !important;
+
+    /* Zinc -> Dark Theme overrides */
+    --color-zinc-50: #fafafa !important;
+    --color-zinc-100: #f4f4f5 !important;
+    --color-zinc-900: #18181b !important;
+    --color-zinc-950: #09090b !important;
+  }
+
   body {
     background-color: var(--background);
     color: var(--foreground);

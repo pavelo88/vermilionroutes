@@ -44,7 +44,7 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
                   priority={idx === 0}
                   fetchPriority={idx === 0 ? "high" : "auto"}
                   quality={95}
-                  className={`object-cover object-center md:object-[center_28%] ${slide.mobileImage ? 'hidden md:block' : 'block'}`}
+                  className={`object-cover object-top ${slide.mobileImage ? 'hidden md:block' : 'block'}`}
                   sizes={idx === 0 ? "100vw" : "60vw"}
                 />
 
@@ -54,7 +54,20 @@ export function HeroThumbnails({ slidesData, locale, isMobile }: HeroThumbnailsP
                 type="button"
                 aria-label={`View ${getLocalizedText(slide.place, locale) || 'slide'} ${idx + 1}`}
                 className="absolute inset-0 cursor-pointer z-10"
-                onClick={() => (window as any).jumpToSlide?.(idx)}
+                onClick={() => {
+                  const placeName = (getLocalizedText(slide.place, 'en') || '').toLowerCase();
+                  let destSlug = 'continental';
+                  if (placeName.includes('galapagos')) destSlug = 'galapagos';
+                  if (placeName.includes('amazon')) destSlug = 'amazon';
+                  
+                  // Si tiene window.__activeSlideIdx y somos el slide activo (o el index 0 si no se ha seteado)
+                  const currentActive = (window as any).__activeSlideIdx ?? 0;
+                  if (idx === currentActive || ((window as any).jumpToSlide === undefined && idx === 0)) {
+                     window.location.href = `/${locale}/tours#${destSlug}`;
+                  } else {
+                     (window as any).jumpToSlide?.(idx);
+                  }
+                }}
               />
             </div>
 

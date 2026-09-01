@@ -1,0 +1,179 @@
+'use client';
+
+import { useState } from 'react';
+import { useLocale } from 'next-intl';
+import { Copy, Check, ExternalLink, LinkIcon, Globe, Map, CalendarCheck, Compass } from 'lucide-react';
+import { mockTours } from '@/data/mock';
+
+const TOURS_LIST = mockTours
+  .filter(t => (t.durationDays ?? 0) > 1)
+  .map(t => ({
+    id: t.id,
+    label: typeof t.title === 'string' ? t.title : (t.title as any)?.en || t.id,
+    labelEs: typeof t.title === 'string' ? t.title : (t.title as any)?.es || t.id,
+  }))
+  .slice(0, 9); // top 9 multi-day tours
+
+type LinkType = 'home' | 'tours' | 'booking' | 'tour';
+
+interface LinkGeneratorProps {
+  username: string;
+}
+
+export function LinkGenerator({ username }: LinkGeneratorProps) {
+  const locale = useLocale();
+  const isEs = locale === 'es';
+  const BASE = 'https://vermilionroutes.com';
+
+  const [linkType, setLinkType] = useState<LinkType>('booking');
+  const [selectedTour, setSelectedTour] = useState(TOURS_LIST[0]?.id || '');
+  const [copied, setCopied] = useState(false);
+
+  const generatedUrl = (() => {
+    switch (linkType) {
+      case 'home':    return `${BASE}/${locale}?vid=${username}`;
+      case 'tours':   return `${BASE}/${locale}/tours?vid=${username}`;
+      case 'booking': return `${BASE}/${locale}/booking?vid=${username}`;
+      case 'tour':    return `${BASE}/${locale}/booking?tourId=${selectedTour}&vid=${username}`;
+    }
+  })();
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(generatedUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  const TYPE_OPTIONS: { id: LinkType; labelEs: string; labelEn: string; icon: React.ComponentType<{ className?: string }>; desc: string; descEs: string }[] = [
+    {
+      id: 'booking',
+      icon: CalendarCheck,
+      labelEs: 'Reserva Directa',
+      labelEn: 'Direct Booking',
+      desc: 'Best conversion rate. Opens the booking wizard directly.',
+      descEs: 'Máxima conversión. Abre el cotizador directamente.',
+    },
+    {
+      id: 'tours',
+      icon: Map,
+      labelEs: 'Catálogo de Tours',
+      labelEn: 'Tours Catalog',
+      desc: 'Great for inspiration. Shows the full magazine-style tour catalog.',
+      descEs: 'Ideal para inspirar. Muestra la revista de expediciones.',
+    },
+    {
+      id: 'tour',
+      icon: Compass,
+      labelEs: 'Tour Específico',
+      labelEn: 'Specific Tour',
+      desc: 'Best for warm leads. Opens booking with your chosen tour pre-selected.',
+      descEs: 'Para leads calientes. El tour queda pre-seleccionado en el cotizador.',
+    },
+    {
+      id: 'home',
+      icon: Globe,
+      labelEs: 'Página Principal',
+      labelEn: 'Homepage',
+      desc: 'Cookie saved for 30 days. Great for social media bios.',
+      descEs: 'Cookie de 30 días. Perfecto para bios y redes sociales.',
+    },
+  ];
+
+  const selected = TYPE_OPTIONS.find(o => o.id === linkType)!;
+
+  return (
+    <div className="bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-white/5 rounded-[24px] p-6 sm:p-8 space-y-6">
+      <div>
+        <h2 className="text-lg font-serif font-light text-zinc-900 dark:text-white flex items-center gap-2">
+          <LinkIcon className="w-5 h-5 text-amber-500" />
+          {isEs ? 'Generador de Enlace Inteligente' : 'Smart Link Generator'}
+        </h2>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+          {isEs
+            ? 'Crea el enlace perfecto para cada situación. Tu ID queda guardado en la cookie del cliente por 30 días.'
+            : 'Create the perfect link for every situation. Your ID is stored in the client\'s cookie for 30 days.'}
+        </p>
+      </div>
+
+      {/* ── Step 1: Type Selection ── */}
+      <div className="space-y-2">
+        <p className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          {isEs ? '1. Elige el destino del enlace' : '1. Choose link destination'}
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          {TYPE_OPTIONS.map(opt => {
+            const Icon = opt.icon;
+            const isActive = linkType === opt.id;
+            return (
+              <button
+                key={opt.id}
+                onClick={() => setLinkType(opt.id)}
+                className={`flex items-center gap-3 px-4 py-3 rounded-2xl border text-left text-xs font-semibold transition-all cursor-pointer ${
+                  isActive
+                    ? 'bg-amber-500 border-amber-400 text-black shadow-md shadow-amber-500/20'
+                    : 'bg-zinc-50 dark:bg-zinc-800/60 border-zinc-200/80 dark:border-white/5 text-zinc-700 dark:text-zinc-300 hover:border-amber-400/50'
+                }`}
+              >
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-black' : 'text-amber-500'}`} />
+                <span>{isEs ? opt.labelEs : opt.labelEn}</span>
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-[11px] text-zinc-500 dark:text-zinc-400 pl-1">
+          {isEs ? selected.descEs : selected.desc}
+        </p>
+      </div>
+
+      {/* ── Step 2: Tour selector (only if 'tour') ── */}
+      {linkType === 'tour' && (
+        <div className="space-y-2">
+          <p className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            {isEs ? '2. Selecciona el tour' : '2. Select the tour'}
+          </p>
+          <select
+            value={selectedTour}
+            onChange={e => setSelectedTour(e.target.value)}
+            className="w-full bg-zinc-50 dark:bg-zinc-800/60 border border-zinc-200/80 dark:border-white/10 rounded-xl px-4 py-3 text-xs text-zinc-900 dark:text-white outline-none focus:border-amber-500/60 transition-colors cursor-pointer"
+          >
+            {TOURS_LIST.map(t => (
+              <option key={t.id} value={t.id}>
+                {isEs ? t.labelEs : t.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      {/* ── Generated Link ── */}
+      <div className="space-y-3">
+        <p className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          {isEs ? 'Tu enlace generado' : 'Your generated link'}
+        </p>
+
+        <div className="bg-zinc-950 dark:bg-black rounded-2xl p-4 border border-zinc-800 dark:border-white/10">
+          <p className="font-mono text-xs text-emerald-400 break-all leading-relaxed">{generatedUrl}</p>
+        </div>
+
+        <div className="flex gap-2">
+          <button
+            onClick={handleCopy}
+            className="flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-md shadow-amber-500/20"
+          >
+            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+            <span>{copied ? (isEs ? '¡Copiado!' : 'Copied!') : (isEs ? 'Copiar Enlace' : 'Copy Link')}</span>
+          </button>
+          <a
+            href={generatedUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="p-3 rounded-xl border border-zinc-300 dark:border-white/10 text-zinc-500 hover:text-zinc-900 dark:hover:text-white transition-colors"
+            title={isEs ? 'Probar enlace' : 'Test link'}
+          >
+            <ExternalLink className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}

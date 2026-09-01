@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
     const messages: ChatMessage[] = body.messages || [];
     const provider: string | undefined = body.provider;
     const locale: string = body.locale || 'en';
+    const sessionId: string = body.sessionId || 'anonymous_session';
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json(
@@ -23,6 +24,24 @@ export async function POST(req: NextRequest) {
 
     // Generate AI Concierge reply using selected/configured AI provider
     const conciergeResponse = await generateConciergeReply(messages, provider, locale);
+    
+    const finalMessages = [
+      ...messages,
+      { role: 'assistant', content: conciergeResponse.message, providerUsed: conciergeResponse.providerUsed }
+    ];
+
+    try {
+      const { db } = await import('@/lib/firebase');
+      const { doc, setDoc, serverTimestamp } = await import('firebase/firestore');
+      await setDoc(doc(db, 'chat_sessions', sessionId), {
+        sessionId,
+        locale,
+        messages: finalMessages,
+        lastUpdated: serverTimestamp()
+      }, { merge: true });
+    } catch (err) {
+      console.warn('Failed to save chat to Firebase:', err);
+    }
 
     let leadSubmitted = false;
     let leadId: string | undefined = undefined;

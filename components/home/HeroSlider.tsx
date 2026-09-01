@@ -13,12 +13,7 @@ import { useHeroSliderAnimation } from './hero/useHeroSliderAnimation';
 export function HeroSlider() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(true);
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth < 768;
-    }
-    return false;
-  });
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -91,7 +86,7 @@ export function HeroSlider() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[100svh] lg:h-[94svh] min-h-[580px] sm:min-h-[620px] md:min-h-[650px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0"
+      className="relative w-full h-[100svh] min-h-[580px] sm:min-h-[620px] md:min-h-[650px] overflow-hidden bg-zinc-950 text-white font-sans select-none z-0 animate-in fade-in duration-[1500ms]"
     >
       {/* Top Indicator */}
       <div className="indicator fixed top-0 left-0 right-0 h-[3px] bg-white z-[60]" />

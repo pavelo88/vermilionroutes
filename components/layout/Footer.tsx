@@ -95,7 +95,7 @@ export function Footer() {
   const t = TRANSLATIONS[locale] || TRANSLATIONS['en'];
 
   return (
-    <footer className="bg-gradient-to-b from-emerald-950 via-[#032118] to-[#021812] text-zinc-100 pt-16 pb-8 border-t border-emerald-900/80">
+    <footer className="bg-gradient-to-b from-emerald-950 via-[#032118] to-[#021812] dark:from-black dark:via-zinc-950 dark:to-black text-zinc-100 pt-16 pb-8 border-t border-emerald-900/80 dark:border-zinc-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-emerald-900/60">
@@ -177,27 +177,27 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm text-zinc-300">
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
+                <a href={`/${locale}/tours#galapagos`} className="hover:text-white transition-colors">
                   {t.galapagos}
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
+                <a href={`/${locale}/tours#continental`} className="hover:text-white transition-colors">
                   {t.ecuador}
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
+                <a href={`/${locale}/tours#diarios`} className="hover:text-white transition-colors">
                   {t.fullDay}
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
+                <a href={`/${locale}/tours#continental`} className="hover:text-white transition-colors">
                   {t.amazon}
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
+                <a href={`/${locale}/tours#continental`} className="hover:text-white transition-colors">
                   {t.volcanoes}
                 </a>
               </li>
@@ -211,12 +211,12 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm text-zinc-300">
               <li>
-                <a href={`/${locale}#experience`} className="hover:text-white transition-colors">
+                <a href={`/${locale}/about`} className="hover:text-white transition-colors">
                   {t.about}
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#tours`} className="hover:text-white transition-colors">
+                <a href={`/${locale}/tours`} className="hover:text-white transition-colors">
                   {t.packages}
                 </a>
               </li>
@@ -226,7 +226,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href={`/${locale}#contact`} className="hover:text-white transition-colors">
+                <a href={`/${locale}/contact`} className="hover:text-white transition-colors">
                   {t.contact}
                 </a>
               </li>
@@ -253,12 +253,21 @@ export function Footer() {
                   aria-label={t.emailPlaceholder || "Email"}
                   placeholder={t.emailPlaceholder}
                   suppressHydrationWarning
-                  className="w-full bg-emerald-950/80 border border-emerald-800/80 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
+                  className="w-full bg-emerald-950/80 dark:bg-zinc-900/80 border border-emerald-800/80 dark:border-zinc-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-emerald-400 dark:focus:border-amber-400 focus:ring-1 focus:ring-emerald-400 dark:focus:ring-amber-400"
                 />
               </div>
-              <Button variant="primary" size="sm" className="w-full text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold tracking-wider cursor-pointer" suppressHydrationWarning>
-                <Send className="w-3.5 h-3.5 mr-1" /> {t.subscribeBtn}
-              </Button>
+              <button 
+                type="submit"
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-emerald-600 hover:to-teal-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-900/30 transition-all duration-300 hover:scale-105 active:scale-95 group"
+                suppressHydrationWarning
+                onClick={(e) => {
+                  e.preventDefault();
+                  alert(locale === 'es' ? '¡Gracias! Has sido registrado como Cliente Premium. Pronto recibirás nuestras mejores ofertas.' : 'Thank you! You have been registered as a Premium Client. You will receive our best offers soon.');
+                }}
+              >
+                <Send className="w-3.5 h-3.5 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                <span>{t.subscribeBtn}</span>
+              </button>
             </form>
 
             <div className="pt-2 space-y-2 text-xs text-zinc-200">
@@ -291,7 +300,7 @@ export function Footer() {
               </p>
             </div>
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="px-3 py-1.5 rounded-xl bg-emerald-900/40 border border-emerald-800/60 text-xs font-semibold text-emerald-300">
+              <span className="px-3 py-1.5 rounded-xl bg-emerald-900/40 dark:bg-zinc-900/50 border border-emerald-800/60 dark:border-zinc-800 text-xs font-semibold text-emerald-300 dark:text-amber-400">
                 SSL Secured
               </span>
             </div>
@@ -299,20 +308,20 @@ export function Footer() {
         </div>
 
         {/* Guarantees & Badges */}
-        <div className="py-8 flex flex-wrap justify-between items-center gap-4 border-b border-emerald-900/60 text-xs text-zinc-200">
-          <div className="flex flex-col gap-1 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
+        <div className="py-8 flex flex-wrap justify-between items-center gap-4 border-b border-emerald-900/60 dark:border-zinc-900 text-xs text-zinc-200">
+          <div className="flex flex-col gap-1 bg-emerald-900/40 dark:bg-zinc-900/50 border border-emerald-800/60 dark:border-zinc-800 px-4 py-2.5 rounded-2xl">
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <ShieldCheck className="w-4 h-4 text-emerald-400 dark:text-amber-400" />
               <span className="text-white font-medium">{t.licensed}</span>
             </div>
-            <span className="text-[10px] text-emerald-400/80 font-mono">Reg. No: 1793215456001 • Ministerio de Turismo EC</span>
+            <span className="text-[10px] text-emerald-400/80 dark:text-zinc-500 font-mono">Reg. No: 1793215456001 • Ministerio de Turismo EC</span>
           </div>
-          <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
-            <Award className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2 bg-emerald-900/40 dark:bg-zinc-900/50 border border-emerald-800/60 dark:border-zinc-800 px-4 py-2.5 rounded-2xl">
+            <Award className="w-4 h-4 text-emerald-400 dark:text-amber-400" />
             <span className="text-white font-medium">{t.support}</span>
           </div>
-          <div className="flex items-center gap-2 bg-emerald-900/40 border border-emerald-800/60 px-4 py-2.5 rounded-2xl">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2 bg-emerald-900/40 dark:bg-zinc-900/50 border border-emerald-800/60 dark:border-zinc-800 px-4 py-2.5 rounded-2xl">
+            <Sparkles className="w-4 h-4 text-emerald-400 dark:text-amber-400" />
             <span className="text-white font-medium">{t.secure}</span>
           </div>
         </div>

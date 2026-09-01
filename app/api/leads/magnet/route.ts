@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/firebase';
 import { addDoc, collection } from 'firebase/firestore';
+import { sendLeadMagnetEmail } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,13 +17,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
     }
 
-    await addDoc(collection(db, 'leads'), {
-      email: email.trim().toLowerCase(),
-      locale: locale || 'en',
-      source: 'lead_magnet',
-      createdAt: new Date().toISOString(),
-      downloaded: false,
-    });
+    if (db) {
+      try {
+        await addDoc(collection(db, 'leads'), {
+          email: email.trim().toLowerCase(),
+          locale: locale || 'en',
+          source: 'lead_magnet',
+          createdAt: new Date().toISOString(),
+          downloaded: false,
+        });
+      } catch (dbErr) {
+        console.warn('Firestore lead save notice:', dbErr);
+      }
+    }
+
+    // Send actual guide email via SMTP
+    await sendLeadMagnetEmail(email.trim().toLowerCase(), locale || 'es');
 
     return NextResponse.json({ success: true });
   } catch (err: any) {

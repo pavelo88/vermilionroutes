@@ -6,8 +6,10 @@ import { Button } from '@/components/ui/Button';
 import { createBookingInFirestore } from '@/lib/bookings';
 import { TravelDatePicker } from '@/components/booking/TravelDatePicker';
 import { filterPhoneInput, isValidEmail, isValidPhone, sanitizeText } from '@/lib/validation';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
+import { useLuxury } from '@/components/providers/LuxuryThemeProvider';
+import { getStoredAffiliateRef } from '@/components/affiliates/AffiliateTracker';
 import {
   Star,
   Clock,
@@ -31,368 +33,114 @@ interface BookingSidebarProps {
 
 export function BookingSidebar({ tour }: BookingSidebarProps) {
   const locale = useLocale();
+  const t = useTranslations('tours');
   const tourTitle = getLocalizedText(tour.title, locale);
   const tourDuration = getLocalizedText(tour.duration, locale);
   const tourDestination = getLocalizedText(tour.destination, locale);
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    date: '',
-    travelers: '2 Travelers'
-  });
+  const [hotelClass, setHotelClass] = useState<'premium' | 'luxury'>('premium');
+  const { setLuxuryMode } = useLuxury();
 
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string; submit?: string }>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const filtered = filterPhoneInput(e.target.value);
-    setFormData((prev) => ({ ...prev, phone: filtered }));
-    if (errors.phone) {
-      setErrors((prev) => ({ ...prev, phone: undefined }));
-    }
+  const handleClassChange = (type: 'premium' | 'luxury') => {
+    setHotelClass(type);
+    setLuxuryMode(type === 'luxury');
   };
 
-  const validateForm = (): boolean => {
-    const newErrors: { name?: string; email?: string; phone?: string } = {};
+  const displayPrice = hotelClass === 'luxury' && tour.price4Star ? tour.price4Star : (tour.price3Star || tour.price || 1000);
 
-    const cleanName = sanitizeText(formData.name);
-    if (!cleanName || cleanName.length < 2) {
-      newErrors.name = 'Please enter your full name (at least 2 characters).';
-    }
 
-    if (!isValidEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address (e.g. name@domain.com).';
-    }
 
-    if (formData.phone && !isValidPhone(formData.phone)) {
-      newErrors.phone = 'Please enter a valid phone number with 7-15 digits (e.g. +1 555 0192).';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleRequestQuote = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    setIsSubmitting(true);
-    setErrors({});
-
-    try {
-      const res = await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          tourId: tour.id,
-          tourTitle: tour.title,
-          customerName: formData.name,
-          customerEmail: formData.email,
-          customerPhone: formData.phone,
-          travelDates: formData.date || 'Flexible',
-          guestsCount: formData.travelers,
-          destination: tour.destination
-        })
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Failed to submit quote request.');
-      }
-
-      setSubmitted(true);
-    } catch (err: any) {
-      console.warn('API /api/leads submission failed, falling back to direct Firestore:', err);
-      try {
-        await createBookingInFirestore({
-          tourId: tour.id,
-          tourTitle: tour.title,
-          customerName: formData.name,
-          customerEmail: formData.email,
-          customerPhone: formData.phone,
-          travelDates: formData.date || 'Flexible',
-          guestsCount: formData.travelers,
-          destination: tour.destination
-        });
-        setSubmitted(true);
-      } catch (fallbackErr: any) {
-        console.error('Booking submission error:', fallbackErr);
-        setErrors({ submit: fallbackErr.message || 'Failed to submit quote request. Please try again.' });
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleCheckout = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-
-    setIsSubmitting(true);
-    setErrors({});
-
-    const tourTitleStr = typeof tour.title === 'string' ? tour.title : (tour.title?.en || tour.title?.es || 'Expedition');
-
-    try {
-      const res = await fetch('/api/checkout/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          tourId: tour.id,
-          tourTitle: tourTitleStr,
-          clientEmail: formData.email,
-          customerName: formData.name,
-          customerPhone: formData.phone,
-          travelDates: formData.date || 'Flexible',
-          guestsCount: formData.travelers,
-          amount: tour.price || 500,
-          customLinkId: 'direct-web'
-        })
-      });
-
-      const data = await res.json();
-      if (!res.ok || data.error) {
-        throw new Error(data.error || 'Failed to initialize checkout session.');
-      }
-
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    } catch (err: any) {
-      console.error('Checkout error:', err);
-      setErrors({ submit: err.message || 'Failed to proceed to checkout. Please try again.' });
-      setIsSubmitting(false);
-    }
-  };
 
   const tourTitleStr = tourTitle;
   const tourDurationStr = tourDuration;
   const whatsappMessage = encodeURIComponent(
-    `Hello Vermilion Routes! I am interested in the tour "${tourTitleStr}" (${tourDurationStr}) for ${formData.travelers}. Could you please send me a custom quote and departure availability?`
+    `Hello Vermilion Routes! I am interested in the tour "${tourTitleStr}" (${tourDurationStr}). Could you please send me a custom quote and departure availability?`
   );
 
   return (
-    <div className="bg-white/95 backdrop-blur-xl rounded-3xl border border-zinc-200/90 shadow-2xl p-6 sm:p-7 space-y-6 sticky top-28">
-      {/* Top Price Header */}
-      <div className="space-y-2 pb-5 border-b border-zinc-100">
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] uppercase font-bold tracking-wider text-zinc-400">
-            Starting Price
-          </span>
-          <div className="flex items-center gap-1 bg-amber-50 text-amber-900 border border-amber-200/60 px-2.5 py-0.5 rounded-full text-xs font-semibold">
-            <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-            <span>{tour.rating}</span>
-            {tour.reviewsCount && <span className="text-zinc-500">({tour.reviewsCount})</span>}
-          </div>
-        </div>
-
-        <div className="flex items-baseline gap-1.5">
-          <span className="font-serif font-bold text-3xl sm:text-4xl text-zinc-900" suppressHydrationWarning>
-            ${tour.price.toLocaleString('en-US')}
-          </span>
-          <span className="text-xs text-zinc-500 font-normal">USD / per person</span>
-        </div>
-
-        <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-semibold pt-1">
-          <Clock className="w-3.5 h-3.5" />
-          <span>Duration: {tourDuration}</span>
-        </div>
-      </div>
-
-      {submitted ? (
-        <div className="p-5 bg-emerald-50 rounded-2xl border border-emerald-200 text-center space-y-3 animate-in fade-in duration-200">
-          <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
-          <h4 className="font-serif font-bold text-zinc-900 text-lg">
-            Quote Request Submitted!
-          </h4>
-          <p className="text-xs text-zinc-600 leading-relaxed">
-            Thank you, <span className="font-semibold text-zinc-900">{formData.name}</span>. A travel specialist for {tourDestination} will prepare your customized itinerary and contact you shortly.
-          </p>
-          <button
-            onClick={() => {
-              setSubmitted(false);
-              setFormData({ name: '', email: '', phone: '', date: '', travelers: '2 Travelers' });
-            }}
-            className="text-xs text-emerald-700 underline font-semibold cursor-pointer pt-1 hover:text-emerald-800"
-          >
-            Submit another request
-          </button>
-        </div>
-      ) : (
-        <form onSubmit={tour.isUpcoming ? handleRequestQuote : handleCheckout} className="space-y-4">
-          {errors.submit && (
-            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
-              <span>{errors.submit}</span>
+    <>
+      <div className="bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl rounded-3xl border border-zinc-200/90 dark:border-zinc-800/90 shadow-2xl p-6 sm:p-7 space-y-6">
+        {/* Top Price Header */}
+        <div className="space-y-4 pb-5 border-b border-zinc-100 dark:border-zinc-800">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] uppercase font-bold tracking-wider text-zinc-400">
+              Starting Price
+            </span>
+            <div className="flex items-center gap-1 bg-amber-50 text-amber-900 border border-amber-200/60 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+              <span>{tour.rating}</span>
+              {tour.reviewsCount && <span className="text-zinc-500">({tour.reviewsCount})</span>}
             </div>
-          )}
-
-          {/* Name Input */}
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-700 flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Your Full Name *</span>
-            </label>
-            <input
-              type="text"
-              required
-              placeholder="e.g. Lord Byron"
-              value={formData.name}
-              onChange={(e) => {
-                setFormData({ ...formData, name: e.target.value });
-                if (errors.name) setErrors((prev) => ({ ...prev, name: undefined }));
-              }}
-              className={`w-full bg-zinc-50 border rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:outline-none transition-colors ${
-                errors.name
-                  ? 'border-rose-400 bg-rose-50/40 focus:border-rose-500'
-                  : 'border-zinc-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
-              }`}
-            />
-            {errors.name && <p className="text-[11px] text-rose-600 font-medium">{errors.name}</p>}
           </div>
 
-          {/* Email Input */}
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-700 flex items-center gap-1.5">
-              <Mail className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Email Address *</span>
-            </label>
-            <input
-              type="email"
-              required
-              placeholder="byron@example.com"
-              value={formData.email}
-              onChange={(e) => {
-                setFormData({ ...formData, email: e.target.value });
-                if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
-              }}
-              className={`w-full bg-zinc-50 border rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:outline-none transition-colors ${
-                errors.email
-                  ? 'border-rose-400 bg-rose-50/40 focus:border-rose-500'
-                  : 'border-zinc-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
-              }`}
-            />
-            {errors.email && <p className="text-[11px] text-rose-600 font-medium">{errors.email}</p>}
+          <div className="flex items-baseline gap-1.5">
+            <span className="font-serif font-bold text-3xl sm:text-4xl text-zinc-900 dark:text-zinc-50 transition-all duration-300" suppressHydrationWarning>
+              ${displayPrice.toLocaleString('en-US')}
+            </span>
+            <span className="text-xs text-zinc-500 dark:text-zinc-400 font-normal">USD / per person</span>
           </div>
 
-          {/* Phone Input */}
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-700 flex items-center gap-1.5">
-              <Phone className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Phone / WhatsApp</span>
-            </label>
-            <input
-              type="tel"
-              placeholder="+1 (555) 019-2831"
-              value={formData.phone}
-              onChange={handlePhoneChange}
-              className={`w-full bg-zinc-50 border rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:outline-none transition-colors ${
-                errors.phone
-                  ? 'border-rose-400 bg-rose-50/40 focus:border-rose-500'
-                  : 'border-zinc-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
+          {/* Hotel Class Toggle */}
+          <div className="bg-zinc-100/80 dark:bg-zinc-900/80 p-1 rounded-xl flex items-center relative overflow-hidden mt-2 z-10">
+            <div
+              className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200/50 dark:border-zinc-700/50 transition-all duration-300 ease-out z-0 ${
+                hotelClass === 'premium' ? 'left-1' : 'left-[calc(50%+4px)] bg-gradient-to-r from-amber-100 to-amber-50 dark:from-amber-900/40 dark:to-amber-800/20 border-amber-200/60 dark:border-amber-700/50 shadow-amber-900/5'
               }`}
             />
-            {errors.phone && <p className="text-[11px] text-rose-600 font-medium">{errors.phone}</p>}
-          </div>
-
-          {/* Travel Date */}
-          <div className="space-y-1 relative">
-            <label className="text-xs font-semibold text-zinc-700 flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Estimated Travel Date</span>
-              </span>
-              {formData.date && (
-                <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                  {formData.date}
-                </span>
-              )}
-            </label>
             <button
               type="button"
-              onClick={() => setShowCalendar(!showCalendar)}
-              className="w-full bg-zinc-50 border border-zinc-200 hover:border-emerald-500 rounded-xl px-3.5 py-2.5 text-xs text-left text-zinc-900 focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer flex items-center justify-between transition-all"
+              onClick={() => handleClassChange('premium')}
+              className={`relative z-10 w-1/2 py-2 text-xs font-bold transition-colors uppercase cursor-pointer ${
+                hotelClass === 'premium' ? 'text-zinc-900 dark:text-white' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200'
+              }`}
             >
-              <span className={formData.date ? 'font-medium text-zinc-900' : 'text-zinc-400'}>
-                {formData.date ? formData.date : 'Click to select travel date...'}
-              </span>
-              <Calendar className="w-4 h-4 text-emerald-600 shrink-0" />
+              {t('premium')}
             </button>
-
-            {showCalendar && (
-              <div className="pt-2 animate-in fade-in zoom-in-95 duration-150">
-                <TravelDatePicker
-                  selectedDate={formData.date}
-                  onDateSelect={(d) => {
-                    setFormData((prev) => ({ ...prev, date: d }));
-                    setShowCalendar(false);
-                  }}
-                  durationDays={tour.durationDays || 1}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Travelers */}
-          <div className="space-y-1">
-            <label htmlFor="travelers-select" className="text-xs font-semibold text-zinc-700 flex items-center gap-1.5">
-              <Users className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Number of Travelers</span>
-            </label>
-            <select
-              id="travelers-select"
-              aria-label="Number of Travelers"
-              value={formData.travelers}
-              onChange={(e) => setFormData({ ...formData, travelers: e.target.value })}
-              className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-3.5 py-2.5 text-xs text-zinc-900 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+            <button
+              type="button"
+              onClick={() => handleClassChange('luxury')}
+              className={`relative z-10 w-1/2 py-2 transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                hotelClass === 'luxury' 
+                ? 'font-serif italic text-[16px] tracking-wider drop-shadow-sm text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 dark:from-amber-200 dark:via-amber-300 dark:to-amber-100 font-bold' 
+                : 'text-xs font-bold uppercase text-zinc-500 dark:text-zinc-400 hover:text-amber-700 dark:hover:text-amber-300'
+              }`}
+              style={hotelClass === 'luxury' ? { WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' } : {}}
             >
-              <option value="1 Traveler">1 Traveler (Solo Journey)</option>
-              <option value="2 Travelers">2 Travelers (Couple / Duo)</option>
-              <option value="3-5 Travelers">3 - 5 Travelers (Family / Friends)</option>
-              <option value="6+ Travelers">6+ Travelers (Private Group)</option>
-            </select>
+              <Sparkles className={`w-3.5 h-3.5 shrink-0 ${hotelClass === 'luxury' ? 'text-amber-500 dark:text-amber-300' : 'hidden'}`} />
+              {t('luxury')}
+            </button>
           </div>
 
-          <Button
-            variant="primary"
-            size="md"
-            disabled={isSubmitting}
-            className="w-full gap-2 shadow-lg shadow-emerald-600/20 py-3 text-sm cursor-pointer"
-          >
-            {isSubmitting ? (
-              <span className="flex items-center gap-2">
-                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                <span>Processing...</span>
-              </span>
-            ) : tour.isUpcoming ? (
-              <>
-                <Send className="w-4 h-4" />
-                <span>Join Waitlist / Request Info</span>
-              </>
-            ) : (
-              <>
-                <Send className="w-4 h-4" />
-                <span>{locale === 'es' ? 'Solicitar Reserva' : 'Secure Reservation'}</span>
-              </>
-            )}
-          </Button>
+          <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-semibold pt-2">
+            <Clock className="w-3.5 h-3.5" />
+            <span>Duration: {tourDuration}</span>
+          </div>
+        </div>
 
-          {/* Quick WhatsApp Inquiry */}
-          <a
-            href={`https://wa.me/593994048458?text=${whatsappMessage}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-2xl bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition-colors text-xs font-bold"
-          >
-            <MessageCircle className="w-4 h-4 text-emerald-600" />
-            <span>Instant WhatsApp Inquiry</span>
-          </a>
-        </form>
-      )}
+      <div className="space-y-4">
+        <Button
+          variant="primary"
+          size="md"
+          onClick={() => {
+            window.location.href = `/${locale}/booking?addTour=${tour.id}`;
+          }}
+          className="w-full gap-2 shadow-lg shadow-emerald-600/20 py-3 text-sm cursor-pointer"
+        >
+          <Sparkles className="w-4 h-4" />
+          <span>{locale === 'es' ? 'Añadir a mi Expedición' : 'Add to Expedition'}</span>
+        </Button>
+
+        {/* Quick WhatsApp Inquiry */}
+        <a
+          href={`https://wa.me/593994048458?text=${whatsappMessage}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-2xl bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition-colors text-xs font-bold"
+        >
+          <MessageCircle className="w-4 h-4 text-emerald-600" />
+          <span>Instant WhatsApp Inquiry</span>
+        </a>
+      </div>
 
       {/* Trust Badges */}
       <div className="pt-4 border-t border-zinc-100 space-y-2.5 text-xs text-zinc-600">
@@ -477,5 +225,24 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
         </p>
       </a>
     </div>
+
+    {/* Mobile Sticky Bottom Bar (Visible only on small screens when sidebar is out of view) */}
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] bg-white/95 backdrop-blur-xl border-t border-zinc-200 p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] flex items-center justify-between">
+      <div className="flex flex-col">
+        <span className="text-[10px] uppercase font-bold text-zinc-500">From</span>
+        <span className="font-serif font-bold text-xl text-zinc-900">${displayPrice.toLocaleString('en-US')}</span>
+      </div>
+      <a
+        href="#booking-form"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById('booking-form')?.scrollIntoView({ behavior: 'smooth' });
+        }}
+        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-emerald-600/20 text-sm transition-transform active:scale-95"
+      >
+        Check Availability
+      </a>
+    </div>
+    </>
   );
 }

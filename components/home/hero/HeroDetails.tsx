@@ -99,20 +99,20 @@ export function getStandardTemplateHTML(slide: SlideData, locale: string): strin
     </div>
 
     <div class="h-auto md:min-h-[50px] lg:min-h-[60px] mt-1 flex flex-col items-center text-center md:items-start md:text-left">
-      <h2 class="title-1 font-oswald font-extrabold text-[36px] sm:text-[46px] md:text-4xl lg:text-5xl xl:text-[64px] uppercase leading-[0.95] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap m-0 p-0 text-center md:text-left">
+      <h2 class="title-1 font-oswald font-extrabold text-[36px] sm:text-[46px] md:text-4xl lg:text-5xl xl:text-[64px] uppercase leading-[0.95] tracking-tight whitespace-normal md:whitespace-nowrap m-0 p-0 text-center md:text-left text-white" style="text-shadow: 0px 2px 4px rgba(0,0,0,0.8), 0px 0px 2px rgba(0,0,0,0.6);">
         <span class="notranslate">${title}</span>
       </h2>
     </div>
 
     <div class="h-auto md:min-h-[50px] lg:min-h-[60px] mt-1 flex flex-col items-center text-center md:items-start md:text-left">
-      <h3 class="title-2 font-oswald font-extrabold text-[36px] sm:text-[46px] md:text-4xl lg:text-5xl xl:text-[64px] uppercase leading-[0.95] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] whitespace-normal md:whitespace-nowrap m-0 p-0 text-center md:text-left">
+      <h3 class="title-2 font-oswald font-extrabold text-[36px] sm:text-[46px] md:text-4xl lg:text-5xl xl:text-[64px] uppercase leading-[0.95] tracking-tight text-white whitespace-normal md:whitespace-nowrap m-0 p-0 text-center md:text-left" style="text-shadow: 0px 2px 4px rgba(0,0,0,0.8), 0px 0px 2px rgba(0,0,0,0.6);">
         <span class="notranslate">${title2}</span>
       </h3>
     </div>
 
     <div class="h-auto mt-3 md:mt-4 flex flex-col items-center text-center md:items-start md:text-left w-full max-w-lg mx-auto md:mx-0">
       <div class="desc flex flex-col items-center text-center md:items-start md:text-left w-full">
-        <p class="hero-desc-text text-[17px] sm:text-[19px] lg:text-[20px] text-white/95 leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] font-medium text-center md:text-left mx-auto md:mx-0">
+        <p class="hero-desc-text text-[17px] sm:text-[19px] lg:text-[20px] text-white/95 leading-relaxed font-medium text-center md:text-left mx-auto md:mx-0" style="text-shadow: 0px 1px 3px rgba(0,0,0,0.8);">
           ${desc}
         </p>
       </div>

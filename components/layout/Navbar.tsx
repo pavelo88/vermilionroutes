@@ -178,10 +178,10 @@ export function Navbar() {
         Main Sticky Header 
       */}
       <header
-        className={`transition-all duration-300 backdrop-blur-md border-b border-white/20 dark:border-zinc-800/30 ${isScrolled ? 'pt-2.5 pb-2 sm:py-1 shadow-sm bg-[#F9F6F0]/50 dark:bg-[#05140C]/75' : 'pt-3 pb-2.5 sm:py-1.5 bg-[#F9F6F0]/35 dark:bg-[#05140C]/55'
+        className={`transition-all duration-300 backdrop-blur-md border-b border-white/20 dark:border-zinc-800/30 ${isScrolled ? 'pt-2.5 shadow-sm bg-[#F9F6F0]/50 dark:bg-[#05140C]/75' : 'pt-3 bg-[#F9F6F0]/35 dark:bg-[#05140C]/55'
           }`}
       >
-        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex items-center justify-between pb-2 sm:pb-1.5">
           {/* Logo */}
           <Link href={`/${locale}`} aria-label="Vermilion Routes Inicio" className="flex items-center gap-3 relative z-10 group notranslate">
             <div className="relative w-[165px] h-[40px] sm:w-[180px] sm:h-[45px] md:w-[220px] md:h-[55px] shrink-0">
@@ -199,6 +199,7 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1 font-sans">
             {navLinks.map((link) => {
+              const isActive = (pathname === link.href) || (link.href !== `/${locale}` && pathname.startsWith(link.href));
               if (link.hasDropdown) {
                 return (
                   <div
@@ -210,7 +211,11 @@ export function Navbar() {
                     <a
                       href={link.href}
                       onClick={(e) => handleAnchorClick(e, link.href)}
-                      className="flex items-center gap-1 px-3 py-2 text-[11px] uppercase tracking-widest font-bold text-zinc-800 dark:text-zinc-200 hover:text-emerald-600 rounded-xl hover:bg-zinc-100/70 dark:hover:bg-zinc-800/50 transition-colors"
+                      className={`flex items-center gap-1 px-3 py-2 text-[11px] uppercase tracking-widest font-bold rounded-xl transition-colors ${
+                        isActive 
+                          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
+                          : 'text-zinc-800 dark:text-zinc-200 hover:text-emerald-600 hover:bg-zinc-100/70 dark:hover:bg-zinc-800/50'
+                      }`}
                     >
                       {link.name}
                       <ChevronDown
@@ -251,7 +256,11 @@ export function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleAnchorClick(e, link.href)}
-                  className="px-3 py-2 text-[11px] uppercase tracking-widest font-bold text-zinc-800 dark:text-zinc-200 hover:text-emerald-600 rounded-xl hover:bg-zinc-100/70 dark:hover:bg-zinc-800/50 transition-colors"
+                  className={`px-3 py-2 text-[11px] uppercase tracking-widest font-bold rounded-xl transition-colors ${
+                    isActive 
+                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
+                      : 'text-zinc-800 dark:text-zinc-200 hover:text-emerald-600 hover:bg-zinc-100/70 dark:hover:bg-zinc-800/50'
+                  }`}
                 >
                   {link.name}
                 </a>
@@ -262,7 +271,7 @@ export function Navbar() {
           {/* Action CTAs */}
           <div className="hidden md:flex items-center gap-3">
             {mounted && (
-              <>
+              <div className="flex items-center gap-3 animate-in fade-in duration-700">
                 <button
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                   suppressHydrationWarning
@@ -374,14 +383,14 @@ export function Navbar() {
                     onClick={() => { setLangOpen(false); setShowGTranslate(false); }}
                   />
                 )}
-              </>
+              </div>
             )}
           </div>
 
           {/* Mobile Actions */}
           <div className="flex md:hidden items-center gap-2">
             {mounted && (
-              <>
+              <div className="flex items-center gap-2 animate-in fade-in duration-700">
                 <button
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                   suppressHydrationWarning
@@ -437,7 +446,7 @@ export function Navbar() {
                     </div>
                   </div>
                 </div>
-              </>
+              </div>
             )}
             <button
               suppressHydrationWarning
@@ -455,12 +464,18 @@ export function Navbar() {
           <div className="md:hidden border-b border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-xl px-4 pt-3 pb-6 mt-2 space-y-3 shadow-xl">
 
             <nav className="flex flex-col gap-1">
-              {navLinks.map((link) => (
+              {navLinks.map((link) => {
+                const isActive = (pathname === link.href) || (link.href !== `/${locale}` && pathname.startsWith(link.href));
+                return (
                 <div key={link.name}>
                   <a
                     href={link.href}
                     onClick={(e) => handleAnchorClick(e, link.href)}
-                    className="block px-4 py-2.5 rounded-xl text-base font-medium text-zinc-800 dark:text-zinc-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
+                    className={`block px-4 py-2.5 rounded-xl text-base font-medium transition-colors ${
+                      isActive
+                        ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                        : 'text-zinc-800 dark:text-zinc-200 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:text-emerald-700 dark:hover:text-emerald-400'
+                    }`}
                   >
                     {link.name}
                   </a>
@@ -479,13 +494,15 @@ export function Navbar() {
                     </div>
                   )}
                 </div>
-              ))}
+                );
+              })}
             </nav>
 
             <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 flex flex-col gap-2.5">
             </div>
           </div>
         )}
+        <div id="tour-subnav-portal"></div>
       </header>
 
       {clubModalOpen && (

@@ -135,10 +135,13 @@ export function proxy(req: NextRequest) {
   // --------------------------------------------------------------------------
   // PASO 0: Subdominio Embassy (embassy.vermilionroutes.com)
   // --------------------------------------------------------------------------
-  if (hostname === 'embassy.vermilionroutes.com') {
-    const url = req.nextUrl.clone();
-    url.pathname = `/(embassy)${url.pathname}`;
-    return NextResponse.rewrite(url);
+  if (pathname.includes('/dashboard') || pathname.includes('/network')) {
+    if (hostname !== 'embassy.vermilionroutes.com' && hostname !== 'localhost') {
+      const url = req.nextUrl.clone();
+      url.pathname = '/';
+      return NextResponse.redirect(url);
+    }
+    // Dejamos que caiga al intlMiddleware
   }
 
   // --------------------------------------------------------------------------
@@ -202,6 +205,7 @@ export function proxy(req: NextRequest) {
   // --------------------------------------------------------------------------
   // PASO 3: Procesamiento de Rutas Públicas e Internacionalización (i18n)
   // --------------------------------------------------------------------------
+  // (Las rutas /dashboard y /network ya fueron manejadas en el PASO 0 y retornaron Next)
   return intlMiddleware(req);
 }
 

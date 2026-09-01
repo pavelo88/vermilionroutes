@@ -361,10 +361,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   : 'Experience this destination in complete comfort with customized private transport, VIP airport assistance, and 24/7 concierge.'}
               </p>
 
-              <div className="flex gap-3 w-full sm:w-auto">
+              <div className="flex flex-wrap gap-3 w-full sm:w-auto">
+                <Link
+                  href={`/${locale}/tours/${relatedTour.id}`}
+                  className="flex-1 sm:flex-initial px-5 py-3 border-2 border-emerald-400/40 bg-emerald-950/60 hover:bg-emerald-900/80 hover:border-emerald-400 text-emerald-300 hover:text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5"
+                >
+                  <span>{locale === 'es' ? 'Ver Itinerario' : 'View Itinerary'}</span>
+                  <span>→</span>
+                </Link>
                 <Link
                   href={`/${locale}/booking?tourId=${relatedTour.id}`}
-                  className="flex-1 sm:flex-initial px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+                  className="flex-1 sm:flex-initial px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-emerald-950/60 flex items-center justify-center gap-2"
                 >
                   <span>{bookLabel}</span>
                   <ArrowRight className="w-4 h-4" />

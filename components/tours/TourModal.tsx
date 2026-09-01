@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, MapPin, Clock, Star, Check, ShieldCheck, MessageCircle, ChevronLeft, ChevronRight, Download, Sparkles, Calendar } from 'lucide-react';
 import { Tour } from '@/types';
 import { Button } from '@/components/ui/Button';
+import { DownloadPDFButton } from './DownloadPDFButton';
 import { useSettings } from '@/hooks/useSettings';
 import { useLocale, useTranslations } from 'next-intl';
 import { getLocalizedText } from '@/utils/i18nHelper';
@@ -95,26 +96,6 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
     onClose();
     const titleText = getLocalizedText(tour.title, locale);
     window.dispatchEvent(new CustomEvent('open-tour-chat', { detail: { tourTitle: titleText } }));
-  };
-
-  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
-
-  const handleDownloadPDF = async () => {
-    if (!tour || isGeneratingPDF) return;
-    setIsGeneratingPDF(true);
-    try {
-      if (tour.durationDays === 1 || tour.id.startsWith('daily-') || tour.id.includes('city-middle') || tour.id.includes('otavalo') || tour.id.includes('papallacta') || tour.id.includes('mindo') || tour.id.includes('antisana') || tour.id.includes('cotopaxi') || tour.id.includes('quilotoa')) {
-        const { generateDailyTourPDF } = await import('@/lib/dailyTourPdfGenerator');
-        await generateDailyTourPDF(tour, locale);
-      } else {
-        const { generateTourPDF } = await import('@/lib/pdfGenerator');
-        await generateTourPDF(tour, locale);
-      }
-    } catch (err) {
-      console.error('Error generating PDF:', err);
-    } finally {
-      setIsGeneratingPDF(false);
-    }
   };
 
   const price3Star = tour.price3Star || tour.price;
@@ -302,15 +283,12 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                       </div>
 
                       <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                        <Button 
-                          variant="outline" 
-                          className="gap-2 px-4 py-2 text-xs font-bold border-emerald-600 bg-white/90 dark:bg-zinc-800 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 dark:hover:text-white transition-all w-full sm:w-auto justify-center shadow-sm disabled:opacity-50"
-                          onClick={handleDownloadPDF}
-                          disabled={isGeneratingPDF}
-                        >
-                          <Download className={`w-4 h-4 ${isGeneratingPDF ? 'animate-bounce' : ''}`} />
-                          {isGeneratingPDF ? '...' : downloadText}
-                        </Button>
+                        <DownloadPDFButton 
+                          tour={tour!} 
+                          variant="outline"
+                          size="md"
+                          className="px-4 py-2 text-xs font-bold w-full sm:w-auto"
+                        />
 
                         {!showBookingOptions ? (
                           <Button 
@@ -334,7 +312,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
                               variant="outline" 
                               className="gap-1.5 px-3 py-2 text-xs w-full sm:w-auto justify-center border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100"
                               onClick={() => {
-                                window.location.href = `/booking?tourId=${tour.id}`;
+                                window.location.href = `/${locale}/tours/${tour.id}`;
                               }}
                             >
                               <Calendar className="w-3.5 h-3.5" />

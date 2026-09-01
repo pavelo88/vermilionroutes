@@ -42,6 +42,11 @@ const AdminBookingsTable = dynamic(
   }
 );
 
+const AdminNewsletterTable = dynamic(
+  () => import('./AdminNewsletterTable').then((mod) => mod.AdminNewsletterTable),
+  { ssr: false }
+);
+
 const AdminTourModal = dynamic(
   () => import('./AdminTourModal').then((mod) => mod.AdminTourModal),
   { ssr: false }
@@ -58,7 +63,7 @@ export function AdminDashboard({ user, onSignOut }: AdminDashboardProps) {
   const { tours, loading: toursLoading, saveTour, deleteTour, seedDatabase } = useToursData();
   const { pendingCount, bookings } = useBookingsData();
 
-  const [activeTab, setActiveTab] = useState<'tours' | 'bookings' | 'settings' | 'links'>('tours');
+  const [activeTab, setActiveTab] = useState<'tours' | 'bookings' | 'settings' | 'links' | 'leads'>('tours');
   const [seedSuccessMsg, setSeedSuccessMsg] = useState('');
   const [isReseeding, setIsReseeding] = useState(false);
 
@@ -123,7 +128,15 @@ export function AdminDashboard({ user, onSignOut }: AdminDashboardProps) {
     <div className="min-h-screen p-4 sm:p-8 space-y-8 relative">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Top Header Bar */}
-        <AdminHeader user={user} onSignOut={onSignOut} />
+        <AdminHeader 
+          user={user} 
+          onSignOut={onSignOut} 
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          toursCount={tours.length}
+          bookingsCount={bookings.length}
+          pendingCount={pendingCount}
+        />
 
         {/* Banner Notice */}
         {seedSuccessMsg && (
@@ -145,61 +158,7 @@ export function AdminDashboard({ user, onSignOut }: AdminDashboardProps) {
           isReseeding={isReseeding}
         />
 
-        {/* View Selection Tabs */}
-        <div className="flex items-center gap-3 border-b border-zinc-800 pb-2">
-          <button
-            onClick={() => setActiveTab('tours')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-semibold text-xs transition-all cursor-pointer ${
-              activeTab === 'tours'
-                ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/40'
-                : 'bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800'
-            }`}
-          >
-            <Database className="w-4 h-4" />
-            <span>Tour Packages ({tours.length})</span>
-          </button>
 
-          <button
-            onClick={() => setActiveTab('bookings')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-semibold text-xs transition-all cursor-pointer relative ${
-              activeTab === 'bookings'
-                ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/40'
-                : 'bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800'
-            }`}
-          >
-            <Inbox className="w-4 h-4" />
-            <span>Incoming Bookings ({bookings.length})</span>
-            {pendingCount > 0 && (
-              <span className="ml-1 text-[10px] bg-amber-500 text-zinc-950 px-2 py-0.5 rounded-full font-bold animate-pulse">
-                {pendingCount} new
-              </span>
-            )}
-          </button>
-
-          <button
-            onClick={() => setActiveTab('settings')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-semibold text-xs transition-all cursor-pointer relative ${
-              activeTab === 'settings'
-                ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/40'
-                : 'bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800'
-            }`}
-          >
-            <Layers className="w-4 h-4" />
-            <span>Site CMS Settings</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('links')}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl font-semibold text-xs transition-all cursor-pointer relative ${
-              activeTab === 'links'
-                ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/40'
-                : 'bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800'
-            }`}
-          >
-            <LinkIcon className="w-4 h-4" />
-            <span>Payment Links</span>
-          </button>
-        </div>
 
         {/* Dynamic Table Section */}
         {activeTab === 'tours' ? (
@@ -214,6 +173,8 @@ export function AdminDashboard({ user, onSignOut }: AdminDashboardProps) {
           <AdminBookingsTable />
         ) : activeTab === 'links' ? (
           <AdminPaymentLinks tours={tours} />
+        ) : activeTab === 'leads' ? (
+          <AdminNewsletterTable />
         ) : (
           <AdminSettingsPanel />
         )}

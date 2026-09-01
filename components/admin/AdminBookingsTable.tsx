@@ -24,11 +24,12 @@ export function AdminBookingsTable() {
   const [statusFilter, setStatusFilter] = useState<string>('all');
 
   const filteredBookings = bookings.filter((b) => {
+    const searchLower = searchTerm.toLowerCase();
     const matchesSearch =
-      b.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      b.customerEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      b.tourTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      b.customerPhone.toLowerCase().includes(searchTerm.toLowerCase());
+      (b.customerName || '').toLowerCase().includes(searchLower) ||
+      (b.customerEmail || '').toLowerCase().includes(searchLower) ||
+      (b.tourTitle || '').toLowerCase().includes(searchLower) ||
+      (b.customerPhone || '').toLowerCase().includes(searchLower);
 
     const matchesStatus = statusFilter === 'all' || b.status === statusFilter;
     return matchesSearch && matchesStatus;

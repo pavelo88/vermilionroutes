@@ -8,6 +8,7 @@ import { FeaturedTours } from '@/components/home/FeaturedTours';
 import { HomeBlogSection } from '@/components/home/HomeBlogSection';
 import { AlsoAskedFaq } from '@/components/home/AlsoAskedFaq';
 import { ContactSection } from '@/components/home/ContactSection';
+import AffiliateRegistration from '@/components/home/AffiliateRegistration';
 
 const FluidBackgroundCursor = dynamic(
   () => import('@/components/home/FluidBackgroundCursor'),
@@ -18,7 +19,7 @@ const FluidBackgroundCursor = dynamic(
 
 export default function Home() {
   return (
-    <div className="space-y-8 pb-12 relative">
+    <div className="space-y-8 pb-12 relative -mt-20 sm:-mt-24 md:-mt-28 lg:-mt-[120px]">
       {/* Dynamic Fluid WebGL Shader Background & Custom Mouse Cursor */}
       <FluidBackgroundCursor />
 
@@ -42,6 +43,9 @@ export default function Home() {
 
       {/* 6. Frequently Asked Questions (Direct SSR - 0.00 CLS) */}
       <AlsoAskedFaq />
+
+      {/* Join the Team / Affiliate Program */}
+      <AffiliateRegistration />
 
       {/* 7. Contact & Tailor-Made Quotation Form (Direct SSR - 0.00 CLS) */}
       <ContactSection />

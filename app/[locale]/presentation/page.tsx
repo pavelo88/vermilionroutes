@@ -1,0 +1,989 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { auth } from '@/lib/firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+} from 'firebase/auth';
+import {
+  Calculator,
+  DollarSign,
+  Users,
+  Award,
+  Link as LinkIcon,
+  Info,
+  Star,
+  ArrowRight,
+  Shield,
+  Sparkles,
+  Lock,
+  Percent,
+  TrendingUp,
+  LogIn,
+  UserPlus,
+  X,
+  Eye,
+  EyeOff,
+  AtSign,
+  User,
+  CreditCard,
+  Phone,
+  Mail,
+  AlertCircle,
+  CheckCircle2,
+} from 'lucide-react';
+import {
+  registerAffiliateInFirestore,
+  isUsernameAvailable,
+  getAffiliateByUsername,
+  getAffiliateByEmail,
+  AffiliateAccount,
+} from '@/lib/affiliates';
+import ForcePasswordChangeModal from '@/components/auth/ForcePasswordChangeModal';
+
+export default function PresentationPage() {
+  const router = useRouter();
+  const locale = useLocale();
+  const searchParams = useSearchParams();
+  const refParam = searchParams.get('vid') || searchParams.get('ref') || '';
+  const loginParam = searchParams.get('login') === 'true';
+  const isEs = locale === 'es';
+
+  // Modals state
+  const [authModalOpen, setAuthModalOpen] = useState(loginParam);
+  const [modalTab, setModalTab] = useState<'register' | 'login'>(loginParam ? 'login' : 'register');
+
+  // Simulator Sliders State
+  const [tourPrice, setTourPrice] = useState(5000);
+  const [personalSales, setPersonalSales] = useState(2);
+  const [recruits, setRecruits] = useState(2);
+  const [recruitSales, setRecruitSales] = useState(1);
+
+  // 1. Direct Sales Volume & Commission (10% Infinite)
+  const personalVolume = tourPrice * personalSales;
+  const directCommission = personalVolume * 0.10;
+
+  // 2. Team Sales Volume & Leadership Bonus (3% on direct recruits)
+  const networkVolume = tourPrice * recruitSales * recruits;
+  const leadershipBonus = networkVolume * 0.03;
+
+  // 3. Global Pool Shares (6% total: 2% per pool in multiples of targets)
+  const totalVolume = personalVolume + networkVolume;
+  const pool1Shares = Math.floor(totalVolume / 3000);  // Every $3,000 = 1 share in Pool 1 (2%)
+  const pool2Shares = Math.floor(totalVolume / 7000);  // Every $7,000 = 1 share in Pool 2 (2%)
+  const pool3Shares = Math.floor(totalVolume / 15000); // Every $15,000 = 1 share in Pool 3 (2%)
+
+  // Estimated share values based on company average volume
+  const pool1Value = 60;
+  const pool2Value = 140;
+  const pool3Value = 450;
+  const globalBonus = (pool1Shares * pool1Value) + (pool2Shares * pool2Value) + (pool3Shares * pool3Value);
+
+  // 4. Grand Total Monthly Estimated
+  const totalEarnings = directCommission + leadershipBonus + globalBonus;
+
+  // ── AUTH FORMS STATE ───────────────────────────────────────────────────────
+  const [loginIdentifier, setLoginIdentifier] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+
+  const [registerForm, setRegisterForm] = useState({
+    name: '',
+    username: '',
+    email: '',
+    cedula: '',
+    phone: '',
+    sponsorUsername: refParam,
+  });
+
+  const [usernameStatus, setUsernameStatus] = useState<'idle' | 'checking' | 'available' | 'taken'>('idle');
+  const [authStatus, setAuthStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [authError, setAuthError] = useState('');
+  const [authSuccess, setAuthSuccess] = useState('');
+
+  // Force password change modal state
+  const [showForcePasswordModal, setShowForcePasswordModal] = useState(false);
+  const [activeAffiliateId, setActiveAffiliateId] = useState('');
+
+  useEffect(() => {
+    if (refParam) {
+      setRegisterForm(prev => ({ ...prev, sponsorUsername: refParam }));
+    }
+  }, [refParam]);
+
+  const handleRegisterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const clean = name === 'username' ? value.toLowerCase().replace(/\s/g, '') : value;
+    setRegisterForm(prev => ({ ...prev, [name]: clean }));
+  };
+
+  let usernameTimer: ReturnType<typeof setTimeout>;
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.toLowerCase().replace(/\s/g, '');
+    setRegisterForm(prev => ({ ...prev, username: val }));
+    clearTimeout(usernameTimer);
+    if (val.length < 3) { setUsernameStatus('idle'); return; }
+    setUsernameStatus('checking');
+    usernameTimer = setTimeout(async () => {
+      const available = await isUsernameAvailable(val);
+      setUsernameStatus(available ? 'available' : 'taken');
+    }, 400);
+  };
+
+  // ── HANDLE LOGIN ───────────────────────────────────────────────────────────
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!loginIdentifier || !loginPassword) {
+      setAuthError(isEs ? 'Ingresa tu usuario/correo y contraseña.' : 'Please enter your username/email and password.');
+      setAuthStatus('error');
+      return;
+    }
+
+    setAuthStatus('loading');
+    setAuthError('');
+
+    try {
+      let targetEmail = loginIdentifier.trim().toLowerCase();
+      let foundAffiliate: AffiliateAccount | null = null;
+
+      if (!targetEmail.includes('@')) {
+        foundAffiliate = await getAffiliateByUsername(targetEmail);
+        if (!foundAffiliate || !foundAffiliate.email) {
+          throw new Error(isEs ? `No encontramos ningún usuario @${targetEmail}` : `User @${targetEmail} not found`);
+        }
+        targetEmail = foundAffiliate.email;
+      } else {
+        foundAffiliate = await getAffiliateByEmail(targetEmail);
+      }
+
+      if (auth) {
+        await signInWithEmailAndPassword(auth, targetEmail, loginPassword.trim());
+      }
+
+      if (foundAffiliate && foundAffiliate.forcePasswordChange) {
+        setActiveAffiliateId(foundAffiliate.id);
+        setAuthModalOpen(false);
+        setShowForcePasswordModal(true);
+        setAuthStatus('idle');
+        return;
+      }
+
+      setAuthStatus('success');
+      router.push(`/${locale}/affiliates/dashboard`);
+    } catch (err: any) {
+      console.error(err);
+      setAuthStatus('error');
+      if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        setAuthError(isEs ? 'Contraseña o cédula incorrecta. Si es tu 1er ingreso, usa tu cédula.' : 'Incorrect credentials.');
+      } else if (err.code === 'auth/user-not-found') {
+        setAuthError(isEs ? 'No existe una cuenta con ese correo.' : 'Account not found.');
+      } else {
+        setAuthError(err.message || (isEs ? 'Error al iniciar sesión.' : 'Error signing in.'));
+      }
+    }
+  };
+
+  // ── HANDLE REGISTER (SIN PASSWORD - CÉDULA ES CLAVE TEMPORAL) ──────────────
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!registerForm.name || !registerForm.username || !registerForm.email || !registerForm.cedula) {
+      setAuthError(isEs ? 'Completa todos los campos obligatorios.' : 'Fill all required fields.');
+      setAuthStatus('error');
+      return;
+    }
+    if (registerForm.username.length < 3) {
+      setAuthError(isEs ? 'El usuario debe tener al menos 3 caracteres.' : 'Username min 3 chars.');
+      setAuthStatus('error');
+      return;
+    }
+    if (usernameStatus === 'taken') {
+      setAuthError(isEs ? 'Ese usuario ya está en uso. Elige otro.' : 'Username taken.');
+      setAuthStatus('error');
+      return;
+    }
+    if (registerForm.cedula.trim().length < 6) {
+      setAuthError(isEs ? 'La cédula/pasaporte debe tener al menos 6 caracteres.' : 'ID min 6 chars.');
+      setAuthStatus('error');
+      return;
+    }
+
+    setAuthStatus('loading');
+    setAuthError('');
+    setAuthSuccess('');
+
+    try {
+      let authUid = '';
+
+      if (auth) {
+        try {
+          const userCred = await createUserWithEmailAndPassword(
+            auth,
+            registerForm.email.trim().toLowerCase(),
+            registerForm.cedula.trim()
+          );
+          authUid = userCred.user.uid;
+          
+          try {
+            await sendEmailVerification(userCred.user);
+            await signOut(auth);
+          } catch (mailErr) {
+            console.warn('Verification email notice:', mailErr);
+            await signOut(auth).catch(() => {});
+          }
+        } catch (authErr: any) {
+          if (authErr.code === 'auth/email-already-in-use') {
+            console.warn('Email already in Firebase Auth, proceeding to sync Firestore doc');
+          } else {
+            throw authErr;
+          }
+        }
+      }
+
+      const newAff = await registerAffiliateInFirestore({
+        username: registerForm.username,
+        email: registerForm.email,
+        cedula: registerForm.cedula,
+        name: registerForm.name,
+        phone: registerForm.phone,
+        sponsorUsername: registerForm.sponsorUsername || undefined,
+        authUid,
+      });
+
+      setAuthStatus('success');
+      setAuthSuccess(
+        isEs
+          ? `¡Cuenta creada exitosamente! Tu contraseña temporal de primer ingreso es tu cédula (${registerForm.cedula}).`
+          : `Account created! Your temporary password is your ID (${registerForm.cedula}).`
+      );
+
+      // Open force password definition modal
+      setActiveAffiliateId(newAff.id);
+      setTimeout(() => {
+        setAuthModalOpen(false);
+        setShowForcePasswordModal(true);
+      }, 1000);
+    } catch (err: any) {
+      console.error(err);
+      setAuthError(err.message || (isEs ? 'Error al registrarte.' : 'Registration error.'));
+      setAuthStatus('error');
+    }
+  };
+
+  const usernameIndicator = () => {
+    if (registerForm.username.length < 3) return null;
+    if (usernameStatus === 'checking') return <span className="text-[10px] text-zinc-400">Verificando...</span>;
+    if (usernameStatus === 'available') return <span className="text-[10px] text-emerald-400">✓ Disponible</span>;
+    if (usernameStatus === 'taken') return <span className="text-[10px] text-rose-400">✗ Ya en uso</span>;
+    return null;
+  };
+
+  return (
+    <div className="min-h-screen bg-stone-950 text-zinc-100 font-sans selection:bg-amber-500/30 selection:text-amber-200">
+      
+      {/* Force Password Change Modal */}
+      <ForcePasswordChangeModal
+        isOpen={showForcePasswordModal}
+        affiliateId={activeAffiliateId}
+        onSuccess={() => {
+          setShowForcePasswordModal(false);
+          router.push(`/${locale}/affiliates/dashboard`);
+        }}
+      />
+
+      {/* ── MODAL DE AUTENTICACIÓN (REGISTRO & LOGIN) ─────────────────────── */}
+      {authModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+          <div className="w-full max-w-lg bg-zinc-950 border border-white/10 rounded-[32px] p-6 sm:p-10 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            
+            <button
+              onClick={() => setAuthModalOpen(false)}
+              className="absolute top-6 right-6 p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Toggle Tabs */}
+            <div className="grid grid-cols-2 p-1 bg-zinc-900 rounded-2xl border border-white/5 mb-6">
+              <button
+                type="button"
+                onClick={() => { setModalTab('register'); setAuthError(''); setAuthStatus('idle'); }}
+                className={`py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  modalTab === 'register'
+                    ? 'bg-amber-500 text-black shadow-lg shadow-amber-900/20'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                <UserPlus className="w-4 h-4" />
+                <span>{isEs ? 'Quiero ser Embajador' : 'Register'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => { setModalTab('login'); setAuthError(''); setAuthStatus('idle'); }}
+                className={`py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                  modalTab === 'login'
+                    ? 'bg-amber-500 text-black shadow-lg shadow-amber-900/20'
+                    : 'text-zinc-400 hover:text-white'
+                }`}
+              >
+                <LogIn className="w-4 h-4" />
+                <span>{isEs ? 'Acceder a mi Cuenta' : 'Sign In'}</span>
+              </button>
+            </div>
+
+            {/* ── REGISTER FORM ───────────────────────────────────────────── */}
+            {modalTab === 'register' ? (
+              <form onSubmit={handleRegister} className="space-y-4">
+                <div className="text-center space-y-1 mb-4">
+                  <h3 className="font-serif text-2xl font-light text-white">
+                    {isEs ? 'Únete como Embajador' : 'Become an Ambassador'}
+                  </h3>
+                  <p className="text-xs text-zinc-400">
+                    {isEs ? 'Sin contraseña inicial. Tu cédula será tu clave temporal de 1er ingreso.' : 'Your ID will be your temporary password.'}
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-400 flex items-center gap-1.5">
+                    <User className="w-3 h-3 text-amber-500" />
+                    {isEs ? 'Nombre Completo *' : 'Full Name *'}
+                  </label>
+                  <input
+                    name="name"
+                    required
+                    value={registerForm.name}
+                    onChange={handleRegisterChange}
+                    placeholder="ej: Pablo Fabricio García Flores"
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-400 flex items-center justify-between">
+                    <span className="flex items-center gap-1.5">
+                      <AtSign className="w-3 h-3 text-amber-500" />
+                      {isEs ? 'Tu Usuario Único * (enlace público)' : 'Your Unique Username *'}
+                    </span>
+                    {usernameIndicator()}
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm font-mono">@</span>
+                    <input
+                      name="username"
+                      required
+                      value={registerForm.username}
+                      onChange={handleUsernameChange}
+                      placeholder="pablo.g"
+                      className={`w-full pl-8 pr-4 py-3 rounded-xl border bg-zinc-900/60 text-sm text-white font-mono placeholder:text-zinc-600 focus:outline-none focus:ring-1 transition-colors
+                        ${usernameStatus === 'available' ? 'border-emerald-500/50 focus:ring-emerald-500/30' :
+                          usernameStatus === 'taken' ? 'border-rose-500/50 focus:ring-rose-500/30' :
+                          'border-white/10 focus:border-amber-500/50 focus:ring-amber-500/30'}`}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-zinc-400">
+                      {isEs ? 'Correo Electrónico *' : 'Email Address *'}
+                    </label>
+                    <input
+                      name="email"
+                      type="email"
+                      required
+                      value={registerForm.email}
+                      onChange={handleRegisterChange}
+                      placeholder="email@ejemplo.com"
+                      className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-zinc-400">
+                      {isEs ? 'Cédula / Pasaporte *' : 'ID / Passport *'}
+                    </label>
+                    <input
+                      name="cedula"
+                      required
+                      value={registerForm.cedula}
+                      onChange={handleRegisterChange}
+                      placeholder="1721790721"
+                      className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-zinc-400">
+                      {isEs ? 'WhatsApp / Teléfono' : 'Phone'}
+                    </label>
+                    <input
+                      name="phone"
+                      value={registerForm.phone}
+                      onChange={handleRegisterChange}
+                      placeholder="+593 98 399 2549"
+                      className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-zinc-400">
+                      {isEs ? 'Patrocinador' : 'Sponsor'}
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-xs font-mono">@</span>
+                      <input
+                        name="sponsorUsername"
+                        value={registerForm.sponsorUsername}
+                        onChange={handleRegisterChange}
+                        placeholder="pablo.g"
+                        className="w-full pl-7 pr-3 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white font-mono placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-blue-950/30 border border-blue-900/40 text-blue-300 text-[11px] flex items-start gap-2">
+                  <Mail className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                  <p>Te enviaremos un correo de confirmación. Tu clave temporal de primer ingreso es tu cédula.</p>
+                </div>
+
+                {authError && (
+                  <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-900/50 text-rose-400 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{authError}</span>
+                  </div>
+                )}
+
+                {authSuccess && (
+                  <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-900/50 text-emerald-400 text-xs flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                    <span>{authSuccess}</span>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={authStatus === 'loading' || usernameStatus === 'taken'}
+                  className="w-full py-3.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-bold uppercase tracking-wider text-xs rounded-xl transition-all shadow-md mt-4 cursor-pointer"
+                >
+                  {authStatus === 'loading' ? (
+                    <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin inline-block" />
+                  ) : (
+                    <span>Crear Mi Cuenta Ahora</span>
+                  )}
+                </button>
+              </form>
+            ) : (
+              /* ── LOGIN FORM ─────────────────────────────────────────────── */
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="text-center space-y-1 mb-4">
+                  <h3 className="font-serif text-2xl font-light text-white">
+                    {isEs ? 'Acceso a Embajadores' : 'Ambassador Sign In'}
+                  </h3>
+                  <p className="text-xs text-zinc-400">
+                    {isEs ? 'Ingresa con tu usuario (@pablo.g) o correo registrado' : 'Use your username or email'}
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-400 flex items-center gap-1.5">
+                    <AtSign className="w-3.5 h-3.5 text-amber-500" />
+                    {isEs ? 'Usuario o Correo *' : 'Username or Email *'}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={loginIdentifier}
+                    onChange={(e) => setLoginIdentifier(e.target.value)}
+                    placeholder="pablo.g o email@ejemplo.com"
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-400 flex items-center justify-between">
+                    <span>{isEs ? 'Contraseña o Cédula *' : 'Password or ID *'}</span>
+                    <span className="text-[10px] text-zinc-500">{isEs ? '(Cédula en tu 1er ingreso)' : '(ID on 1st login)'}</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showLoginPassword ? 'text' : 'password'}
+                      required
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className="w-full px-4 py-3 pr-10 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowLoginPassword(!showLoginPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
+                    >
+                      {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                {authError && (
+                  <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-900/50 text-rose-400 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{authError}</span>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={authStatus === 'loading'}
+                  className="w-full py-3.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-bold uppercase tracking-wider text-xs rounded-xl transition-all shadow-md mt-6 cursor-pointer"
+                >
+                  {authStatus === 'loading' ? (
+                    <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin inline-block" />
+                  ) : (
+                    <span>Entrar a Mi Panel</span>
+                  )}
+                </button>
+              </form>
+            )}
+
+          </div>
+        </div>
+      )}
+
+      {/* ── HERO SECTION ─────────────────────────────────────────────────── */}
+      <header className="relative overflow-hidden bg-gradient-to-b from-stone-900 via-stone-950 to-stone-950 border-b border-white/5 pt-12 pb-16">
+        <div className="max-w-5xl mx-auto px-6 text-center relative z-10 space-y-6">
+          
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider">
+            <Star className="w-3.5 h-3.5 fill-amber-400" /> El Club de Embajadores High-Ticket
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-light tracking-tight text-white leading-tight">
+            Monetiza tu influencia con <br />
+            <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600">
+              Vermilion Routes
+            </span>
+          </h1>
+
+          <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+            El modelo más justo, transparente e inquebrantable de la industria turística. Comparte tu código, regala un <strong>10% de descuento automático</strong> a tus clientes en tours de lujo y conviértete en accionista del Fondo Global de la empresa.
+          </p>
+
+          {/* 2 Action Buttons in Hero */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <button
+              onClick={() => { setModalTab('register'); setAuthModalOpen(true); }}
+              className="inline-flex items-center gap-2.5 px-8 py-4 bg-amber-500 hover:bg-amber-600 text-black font-bold uppercase tracking-wider text-xs rounded-2xl transition-all shadow-xl shadow-amber-900/30 hover:scale-[1.02] cursor-pointer"
+            >
+              <UserPlus className="w-4 h-4" />
+              <span>Quiero ser Embajador</span>
+            </button>
+
+            <button
+              onClick={() => { setModalTab('login'); setAuthModalOpen(true); }}
+              className="inline-flex items-center gap-2.5 px-8 py-4 bg-zinc-900 hover:bg-zinc-800 border border-white/15 text-white font-bold uppercase tracking-wider text-xs rounded-2xl transition-all hover:scale-[1.02] cursor-pointer"
+            >
+              <LogIn className="w-4 h-4 text-amber-400" />
+              <span>Acceder a mi Cuenta</span>
+            </button>
+          </div>
+
+        </div>
+      </header>
+
+      {/* ── HOW IT WORKS (3 PASOS) ───────────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-6 py-16">
+        <div className="text-center space-y-2 mb-12">
+          <h2 className="font-serif text-3xl font-light text-white">Cómo Funciona el Ecosistema</h2>
+          <p className="text-xs text-zinc-400">Tres pilares que blindan tu rentabilidad y la de tus clientes.</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-zinc-900/60 border border-white/5 p-6 rounded-3xl hover:border-amber-500/20 transition-all flex flex-col justify-between">
+            <div>
+              <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center mb-4">
+                <LinkIcon className="text-amber-400 w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">1. Comparte tu Enlace</h3>
+              <p className="text-zinc-400 text-xs leading-relaxed">
+                Obtienes un enlace único (ej. <code className="text-amber-400 font-mono">?ref=pablo.g</code>). Publícalo en redes sociales o compártelo directamente con clientes interesados en expediciones privadas.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-zinc-900/60 border border-white/5 p-6 rounded-3xl hover:border-amber-500/20 transition-all flex flex-col justify-between">
+            <div>
+              <div className="w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center mb-4">
+                <DollarSign className="text-emerald-400 w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">2. Descuento Inmediato</h3>
+              <p className="text-zinc-400 text-xs leading-relaxed">
+                Tu cliente recibe un <strong>10% de descuento automático</strong> en el checkout. La venta es irresistible porque estás entregando un ahorro de cientos de dólares en tours de alto valor.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-zinc-900/60 border border-white/5 p-6 rounded-3xl hover:border-amber-500/20 transition-all flex flex-col justify-between">
+            <div>
+              <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex items-center justify-center mb-4">
+                <Award className="text-blue-400 w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">3. Comisiones & Acciones</h3>
+              <p className="text-zinc-400 text-xs leading-relaxed">
+                Cobras el <strong>10% en efectivo</strong> de cada venta directa. Además, acumulas <strong>Acciones</strong> en el Fondo Global de la empresa por cada $3,000, $7,000 y $15,000 facturados.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SIMULATOR SECTION ─────────────────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-6 py-12">
+        <div className="bg-zinc-900/40 border border-white/10 rounded-[36px] p-6 md:p-10 shadow-2xl backdrop-blur-xl">
+          
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+              <Calculator className="w-6 h-6" />
+            </div>
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-serif font-light text-white">Simulador de Negocio Real</h2>
+              <p className="text-xs text-zinc-400">Proyecta tus ingresos mensuales con la fórmula matemática exacta.</p>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            
+            {/* CONTROLES */}
+            <div className="space-y-6">
+              
+              <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
+                <div className="flex justify-between items-center text-xs">
+                  <label className="font-semibold text-zinc-300">Precio promedio del Tour (USD)</label>
+                  <span className="text-amber-400 font-bold font-mono text-sm">${tourPrice.toLocaleString()} USD</span>
+                </div>
+                <input 
+                  type="range" min="1000" max="15000" step="500" 
+                  value={tourPrice} onChange={(e) => setTourPrice(Number(e.target.value))}
+                  className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                />
+                <p className="text-[10px] text-zinc-500">Expediciones Ecuador & Galápagos High-Ticket</p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
+                <div className="flex justify-between items-center text-xs">
+                  <label className="font-semibold text-zinc-300">Tus ventas directas al mes</label>
+                  <span className="text-emerald-400 font-bold font-mono text-sm">{personalSales} {personalSales === 1 ? 'Tour' : 'Tours'}</span>
+                </div>
+                <input 
+                  type="range" min="0" max="10" step="1" 
+                  value={personalSales} onChange={(e) => setPersonalSales(Number(e.target.value))}
+                  className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                />
+              </div>
+
+              <div className="pt-4 border-t border-white/5 space-y-4">
+                <h4 className="text-xs uppercase tracking-wider font-bold text-zinc-400 flex items-center gap-2">
+                  <Users className="w-3.5 h-3.5 text-blue-400" /> Crecimiento de Equipo (Opcional)
+                </h4>
+                
+                <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
+                  <div className="flex justify-between items-center text-xs">
+                    <label className="font-semibold text-zinc-300">Personas invitadas (Hijos)</label>
+                    <span className="text-blue-400 font-bold font-mono text-sm">{recruits} Socios</span>
+                  </div>
+                  <input 
+                    type="range" min="0" max="20" step="1" 
+                    value={recruits} onChange={(e) => setRecruits(Number(e.target.value))}
+                    className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                  />
+                </div>
+
+                <div className={`p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2 transition-opacity duration-300 ${recruits > 0 ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
+                  <div className="flex justify-between items-center text-xs">
+                    <label className="font-semibold text-zinc-300">Promedio de ventas de cada socio</label>
+                    <span className="text-blue-400 font-bold font-mono text-sm">{recruitSales} Tours c/u</span>
+                  </div>
+                  <input 
+                    type="range" min="0" max="5" step="1" 
+                    value={recruitSales} onChange={(e) => setRecruitSales(Number(e.target.value))}
+                    className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            {/* RESULTADOS */}
+            <div className="bg-black/70 border border-white/10 rounded-3xl p-6 flex flex-col justify-between">
+              <div>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-400 mb-6 text-center">
+                  Proyección Mensual Estimada
+                </h3>
+                
+                <div className="space-y-3">
+                  
+                  <div className="flex justify-between items-center p-3.5 bg-zinc-900/60 border border-white/5 rounded-2xl">
+                    <div className="flex items-center gap-2.5">
+                      <DollarSign className="w-4 h-4 text-emerald-400" />
+                      <span className="text-xs text-zinc-300">Venta Directa (10% Infinito)</span>
+                    </div>
+                    <span className="font-bold font-mono text-emerald-400 text-sm">${directCommission.toLocaleString()}</span>
+                  </div>
+
+                  <div className={`flex justify-between items-center p-3.5 bg-zinc-900/60 border border-white/5 rounded-2xl ${leadershipBonus > 0 ? '' : 'opacity-50'}`}>
+                    <div className="flex items-center gap-2.5">
+                      <Users className="w-4 h-4 text-blue-400" />
+                      <span className="text-xs text-zinc-300">Liderazgo Red (3% de socios)</span>
+                    </div>
+                    <span className="font-bold font-mono text-blue-400 text-sm">${leadershipBonus.toLocaleString()}</span>
+                  </div>
+
+                  <div className="flex justify-between items-center p-3.5 bg-zinc-900/60 border border-white/5 rounded-2xl">
+                    <div className="flex items-center gap-2.5">
+                      <Award className="w-4 h-4 text-amber-400" />
+                      <div>
+                        <span className="text-xs text-zinc-300 block">Fondo Global (Acciones 6%)</span>
+                        <span className="text-[10px] text-zinc-500 font-mono">
+                          P1 ($3k): {pool1Shares} acc. | P2 ($7k): {pool2Shares} acc. | P3 ($15k): {pool3Shares} acc.
+                        </span>
+                      </div>
+                    </div>
+                    <span className="font-bold font-mono text-amber-400 text-sm">${globalBonus.toLocaleString()}</span>
+                  </div>
+
+                  <div className="pt-3 border-t border-white/5 flex justify-between items-center text-xs text-zinc-400">
+                    <span>Volumen Total Facturado</span>
+                    <span className="font-mono text-white font-bold">${totalVolume.toLocaleString()} USD</span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div className="mt-6 p-6 bg-gradient-to-br from-amber-950/40 via-stone-900 to-black border border-amber-500/30 rounded-2xl text-center space-y-3">
+                <p className="text-amber-200 text-xs font-semibold uppercase tracking-wider">Tu Ingreso Total Estimado</p>
+                <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">${totalEarnings.toLocaleString()} <span className="text-sm font-light text-zinc-400">USD/mes</span></h2>
+                
+                <div className="flex flex-col sm:flex-row gap-2 mt-4">
+                  <button
+                    onClick={() => { setModalTab('register'); setAuthModalOpen(true); }}
+                    className="flex-1 bg-amber-500 hover:bg-amber-600 text-black font-bold uppercase tracking-wider text-xs py-3.5 px-4 rounded-xl transition-all flex justify-center items-center gap-2 cursor-pointer shadow-lg shadow-amber-950/50"
+                  >
+                    <span>Quiero ser Embajador</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+
+                  <button
+                    onClick={() => { setModalTab('login'); setAuthModalOpen(true); }}
+                    className="bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-white font-bold uppercase tracking-wider text-xs py-3.5 px-4 rounded-xl transition-all cursor-pointer"
+                  >
+                    <span>Acceder</span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── EJEMPLO MATEMÁTICO REAL DE LAS PISCINAS ──────────────────────── */}
+      <section className="max-w-5xl mx-auto px-6 py-8">
+        <div className="p-8 rounded-[32px] bg-amber-500/5 border border-amber-500/20 space-y-6">
+          <div className="flex items-center gap-3">
+            <TrendingUp className="w-6 h-6 text-amber-400" />
+            <div>
+              <h3 className="font-serif text-xl font-bold text-white">
+                Ejemplo Real: ¿Cómo se calculan y pagan las Piscinas Globales?
+              </h3>
+              <p className="text-xs text-zinc-400">
+                La empresa destina exactamente el 2% de sus ventas globales para cada piscina. Quien más vende, más acciones acumula.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div className="p-5 rounded-2xl bg-black/50 border border-white/5 space-y-2">
+              <span className="text-amber-400 font-bold uppercase tracking-wider block">Paso 1: Emisión de Acciones</span>
+              <p className="text-zinc-300">
+                • <strong>Persona A</strong> vende <strong>$6,000 USD</strong> = Recibe <strong>2 Acciones</strong> ($6,000 / $3,000 = 2).<br />
+                • <strong>Persona B</strong> vende <strong>$3,000 USD</strong> = Recibe <strong>1 Acción</strong> ($3,000 / $3,000 = 1).<br />
+                • <strong>Total de Acciones emitidas</strong> = 3 acciones.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-black/50 border border-white/5 space-y-2">
+              <span className="text-emerald-400 font-bold uppercase tracking-wider block">Paso 2: Valor de cada Acción</span>
+              <p className="text-zinc-300">
+                • <strong>Total Ventas Globales</strong> = $9,000 USD.<br />
+                • <strong>Fondo del 2% (Piscina 1)</strong> = <strong>$180 USD</strong>.<br />
+                • <strong>Valor por Acción</strong> = $180 / 3 acciones = <strong>$60 USD por acción</strong>.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-black/50 border border-white/5 space-y-2">
+              <span className="text-blue-400 font-bold uppercase tracking-wider block">Paso 3: Reparto Exacto al Centavo</span>
+              <p className="text-zinc-300">
+                • <strong>Persona A</strong> cobra: 2 × $60 = <strong>$120 USD</strong>.<br />
+                • <strong>Persona B</strong> cobra: 1 × $60 = <strong>$60 USD</strong>.<br />
+                • <strong>Total pagado</strong> = <strong>$180 USD</strong> (Exacto, cero sobregiro financiero).
+              </p>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-xl bg-black/60 border border-white/10 text-xs text-zinc-300 flex items-start gap-3">
+            <Shield className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+            <p className="leading-relaxed">
+              <strong>🛡️ Blindaje Financiero & Regla de Excedente:</strong> Si en un mes nadie califica a una piscina (ej. nadie alcanzó los $15,000 para la Piscina 3), o si quedan comisiones no reclamadas en la red, <strong>el 100% de ese valor no cobrado pasa automáticamente a Pablo (`pablo.g` - Usuario Raíz / Fundador)</strong>. ¡La empresa jamás gasta ni un centavo más del presupuesto!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PLAN DE COMPENSACIÓN DETALLADO ─────────────────────────────────── */}
+      <section className="max-w-5xl mx-auto px-6 py-12 space-y-12">
+        
+        <div className="text-center space-y-3">
+          <span className="text-xs font-bold uppercase tracking-widest text-amber-400">Ecosistema High-Ticket Inquebrantable</span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-light text-white">Plan de Compensación Oficial</h2>
+          <p className="text-xs text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+            Transparencia total. Un modelo diseñado para premiar a los verdaderos constructores, eliminando estructuras piramidales ficticias.
+          </p>
+        </div>
+
+        {/* Repartición Base & 10-3-2 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <div className="p-6 rounded-3xl bg-zinc-900/40 border border-white/5 space-y-4">
+            <div className="flex items-center gap-3">
+              <Percent className="w-5 h-5 text-amber-400" />
+              <h3 className="font-serif text-lg font-bold text-white">1. Repartición de Capital</h3>
+            </div>
+            <ul className="space-y-2.5 text-xs text-zinc-400">
+              <li className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
+                <span><strong>80% Fondo Operativo:</strong> Intocable. Cubre proveedores de lujo, logística y utilidad neta garantizada de Vermilion Routes.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
+                <span><strong>20% Ganancia de Red:</strong> Es el pastel comisionable destinado a pagar a vendedores y líderes.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+                <span><strong>10% Descuento Cliente:</strong> Todo cliente que compra con tu enlace (?ref=usuario) recibe 10% OFF automático.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="p-6 rounded-3xl bg-zinc-900/40 border border-white/5 space-y-4">
+            <div className="flex items-center gap-3">
+              <Shield className="w-5 h-5 text-amber-400" />
+              <h3 className="font-serif text-lg font-bold text-white">2. Regla "10-3-2 Limitada"</h3>
+            </div>
+            <ul className="space-y-2.5 text-xs text-zinc-400">
+              <li className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+                <span><strong>Vendedor (Nivel 0 - 10%):</strong> Infinito. Cobras el 10% de absolutamente todas tus ventas.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                <span><strong>Padre (Nivel 1 - 3%):</strong> Cobras sobre los primeros $10,000 USD que venda ese hijo específico.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0" />
+                <span><strong>Abuelo (Nivel 2 - 2%):</strong> Cobras sobre el 1er $1,000 incondicional, y hasta $5,000 si estás Activo ($1,000 VP cada 60 días).</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        {/* Compresión Inversa & Fondo Global */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <div className="p-6 rounded-3xl bg-zinc-900/40 border border-white/5 space-y-4">
+            <div className="flex items-center gap-3">
+              <Sparkles className="w-5 h-5 text-amber-400" />
+              <h3 className="font-serif text-lg font-bold text-white">3. Compresión Inversa (Orfandad)</h3>
+            </div>
+            <p className="text-xs text-zinc-400 leading-relaxed">
+              El dinero del esfuerzo se queda en quien trabaja. Si el Padre o Abuelo no existen, están inactivos o superaron sus topes, <strong>la comisión no cobrada baja y la absorbe el Vendedor</strong>. Un vendedor sin líderes activos arriba absorbe todo y cobra el <strong>15% íntegro</strong> de sus ventas.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-3xl bg-zinc-900/40 border border-white/5 space-y-4">
+            <div className="flex items-center gap-3">
+              <Award className="w-5 h-5 text-amber-400" />
+              <h3 className="font-serif text-lg font-bold text-white">4. Fondo Global (6% Profit-Sharing)</h3>
+            </div>
+            <div className="space-y-2 text-xs text-zinc-400">
+              <div className="flex justify-between border-b border-white/5 pb-1">
+                <span>Piscina 1 (Negocio - 2%)</span>
+                <span className="font-mono text-white">Cada $3,000 USD = 1 Acción</span>
+              </div>
+              <div className="flex justify-between border-b border-white/5 pb-1">
+                <span>Piscina 2 (Líder - 2%)</span>
+                <span className="font-mono text-white">Cada $7,000 USD = 1 Acción</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Piscina 3 (Premium - 2%)</span>
+                <span className="font-mono text-white">Cada $15,000 USD = 1 Acción</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Candados de Seguridad */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-zinc-900/30 border border-white/5 space-y-4">
+          <h3 className="font-serif text-lg font-bold text-white flex items-center gap-2">
+            <Lock className="w-5 h-5 text-amber-500" /> Candados de Seguridad y Antifraude
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-zinc-400">
+            <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-1">
+              <p className="font-bold text-white">Regla del 50%</p>
+              <p>Ninguna rama puede aportar más del 50% de la meta requerida para calificar a las piscinas.</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-1">
+              <p className="font-bold text-white">Comisiones Diferidas</p>
+              <p>El saldo pasa a disponible cuando el turista inicia su viaje, protegiendo ante cancelaciones.</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-1">
+              <p className="font-bold text-white">Excedentes a Pablo</p>
+              <p>Cualquier fondo no calificado o comisión no reclamada fluye al usuario raíz (<code className="text-amber-400">pablo.g</code>).</p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      {/* ── FOOTER ────────────────────────────────────────────────────────── */}
+      <footer className="max-w-5xl mx-auto px-6 pb-20">
+        <div className="p-8 rounded-3xl bg-gradient-to-r from-stone-900 to-black border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+          <div>
+            <h4 className="font-serif text-2xl font-bold text-white">¿Listo para unirte al club?</h4>
+            <p className="text-xs text-zinc-400 mt-1">Regístrate gratis o accede a tu panel de control de embajador.</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => { setModalTab('register'); setAuthModalOpen(true); }}
+              className="px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-black font-bold uppercase tracking-wider text-xs rounded-xl transition-all shadow-md cursor-pointer"
+            >
+              Crear Cuenta Gratis
+            </button>
+            <button
+              onClick={() => { setModalTab('login'); setAuthModalOpen(true); }}
+              className="px-6 py-3.5 bg-zinc-900 hover:bg-zinc-800 border border-white/15 text-white font-bold uppercase tracking-wider text-xs rounded-xl transition-all cursor-pointer"
+            >
+              Acceder
+            </button>
+          </div>
+        </div>
+      </footer>
+      
+    </div>
+  );
+}

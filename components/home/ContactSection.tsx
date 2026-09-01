@@ -327,11 +327,10 @@ export function ContactSection() {
                 />
               </div>
 
-              <Button
-                variant="primary"
-                size="lg"
+              <button
+                type="submit"
                 disabled={isSubmitting}
-                className="w-full gap-2 shadow-md cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-emerald-600 hover:to-teal-500 text-white font-bold text-xs sm:text-sm uppercase tracking-wider shadow-lg shadow-emerald-900/30 transition-all duration-300 hover:scale-[1.02] active:scale-95 group disabled:opacity-50 cursor-pointer border-none"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">
@@ -340,11 +339,11 @@ export function ContactSection() {
                   </span>
                 ) : (
                   <>
-                    <Send className="w-4 h-4" />
+                    <Send className="w-4 h-4 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
                     <span>{t('send')}</span>
                   </>
                 )}
-              </Button>
+              </button>
             </form>
           )}
         </div>

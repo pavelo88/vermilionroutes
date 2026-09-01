@@ -1,8 +1,10 @@
-import { useEffect, RefObject } from 'react';
+import { useEffect, useLayoutEffect, RefObject } from 'react';
 import gsap from 'gsap';
 import { SlideData } from '@/types';
 import { getLocalizedText } from '@/utils/i18nHelper';
 import { getStandardTemplateHTML } from './HeroDetails';
+
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 interface UseHeroSliderParams {
   containerRef: RefObject<HTMLDivElement | null>;
@@ -13,16 +15,11 @@ interface UseHeroSliderParams {
   setShowSplash?: (val: boolean) => void;
 }
 
-export function useHeroSliderAnimation({
-  containerRef,
-  isReady,
-  slidesData,
-  locale,
-  showSplash,
-  setShowSplash
-}: UseHeroSliderParams) {
-  useEffect(() => {
-    if (!isReady) return;
+export function useHeroSliderAnimation(params: UseHeroSliderParams) {
+  const { containerRef, isReady, slidesData, locale, showSplash, setShowSplash } = params;
+
+  useIsomorphicLayoutEffect(() => {
+    if (!containerRef.current || !isReady) return;
 
     let order = slidesData.map((_, i) => i);
     let detailsEven = true;
@@ -39,6 +36,7 @@ export function useHeroSliderAnimation({
     let isCancelled = false;
     let loopTimeline: any = null;
     let onResizeHandler: any = null;
+    let hasMutated = false;
 
     gsap.config({ nullTargetWarn: false });
     if (!containerRef.current) return;
@@ -68,6 +66,7 @@ export function useHeroSliderAnimation({
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
+        (window as any).__activeSlideIdx = active;
         set(getCard(active), { x: 0, y: 0, width: "100vw", height: "100%", borderRadius: 0, scale: 1.05, opacity: 1 });
         set(getCardContent(active), { opacity: 0 });
 
@@ -99,18 +98,18 @@ export function useHeroSliderAnimation({
         offsetLeft = Math.max(width - 830, 650);
 
         const [active, ...rest] = order;
+        (window as any).__activeSlideIdx = active;
         const detailsActive = detailsEven ? "#details-even" : "#details-odd";
         const detailsInactive = detailsEven ? "#details-odd" : "#details-even";
 
         const controlsY = offsetTop + cardHeight + 14;
-        set("#pagination", { top: controlsY, left: offsetLeft, y: 15, opacity: 0, zIndex: 60 });
-        gsap.to(container.querySelectorAll("#pagination"), {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          delay: 0.65,
-          ease: "power2.out"
-        });
+        set("#pagination", { top: controlsY, left: offsetLeft, y: 0, opacity: 1, zIndex: 60 });
+        
+        set(`${detailsActive} .text`, { y: 0 });
+        set(`${detailsActive} .title-1`, { y: 0 });
+        set(`${detailsActive} .title-2`, { y: 0 });
+        set(`${detailsActive} .desc`, { y: 0 });
+        set(`${detailsActive} .cta`, { y: 0 });
 
         if (width < 768) {
           order.forEach((i, index) => {
@@ -135,25 +134,16 @@ export function useHeroSliderAnimation({
             const cardX = offsetLeft + index * (cardWidth + gap);
             set(getCard(i), {
               x: cardX,
-              y: offsetTop + 35,
+              y: offsetTop,
               width: cardWidth,
               height: cardHeight,
               zIndex: 30,
               borderRadius: 12,
-              opacity: 0,
-              scale: 0.94
-            });
-            set(getCardContent(i), { x: cardX, zIndex: 40, y: offsetTop + 35, opacity: 0 });
-            set(`.slide-item-${i}`, { x: (index + 1) * numberSize });
-
-            gsap.to(container.querySelectorAll(getCard(i)), {
               opacity: 1,
-              y: offsetTop,
-              scale: 1,
-              duration: 0.85,
-              delay: 0.35 + index * 0.15,
-              ease: "power3.out"
+              scale: 1
             });
+            set(getCardContent(i), { x: cardX, zIndex: 40, y: offsetTop, opacity: 1 });
+            set(`.slide-item-${i}`, { x: (index + 1) * numberSize });
           });
         }
 
@@ -197,8 +187,32 @@ export function useHeroSliderAnimation({
           .to(container.querySelectorAll(".indicator"), { x: window.innerWidth, duration: 0.5, ease: "none" });
       }
 
+      const playSlideSound = () => {
+        try {
+          const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+          if (!AudioCtx) return;
+          const audioCtx = new AudioCtx();
+          const osc = audioCtx.createOscillator();
+          const gainNode = audioCtx.createGain();
+          
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.15);
+          
+          gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+          
+          osc.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+          
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.15);
+        } catch (e) {}
+      };
+
       (window as any).triggerNextSlide = () => {
         if (!transitioning) {
+          playSlideSound();
           if (loopTimeline) loopTimeline.kill();
           step('next').then(() => {
             if (!isCancelled) startLoop();
@@ -208,6 +222,7 @@ export function useHeroSliderAnimation({
 
       (window as any).triggerPrevSlide = () => {
         if (!transitioning) {
+          playSlideSound();
           if (loopTimeline) loopTimeline.kill();
           step('prev').then(() => {
             if (!isCancelled) startLoop();
@@ -218,6 +233,7 @@ export function useHeroSliderAnimation({
       (window as any).jumpToSlide = (targetIdx: number) => {
         if (transitioning) return;
         if (order[0] === targetIdx) return;
+        playSlideSound();
         if (loopTimeline) loopTimeline.kill();
 
         const currentPos = order.indexOf(targetIdx);
@@ -238,13 +254,8 @@ export function useHeroSliderAnimation({
       let splashDone = false;
 
       function restoreSlideZero() {
-        // 1. Sobreescribe slidesData[0] devolviéndole las rutas de las fotos de fondo originales de Tortugas
-        if (slidesData[0]) {
-          slidesData[0].isWelcome = false;
-          slidesData[0].image = TORTUGAS_ORIGINAL.image;
-          slidesData[0].desktopImage = TORTUGAS_ORIGINAL.desktopImage;
-          slidesData[0].mobileImage = TORTUGAS_ORIGINAL.mobileImage;
-        }
+        // We do NOT mutate slidesData[0] (the source of truth) per architectural rules.
+        // The DOM is mutated strictly via Vanilla JS in the steps below.
 
         // 2. Modifica el DOM (img.src y img.srcset) de la Tarjeta 0 para inyectar esas imágenes de Tortugas
         const card0 = container.querySelector('.card-0');
@@ -304,6 +315,8 @@ export function useHeroSliderAnimation({
             counterEl.textContent = `${currentNum} / ${totalNum}`;
           }
 
+          const [active, ...rest] = order;
+
           gsap.to(container.querySelectorAll(detailsInactive), {
             opacity: 0,
             duration: 0.3,
@@ -315,8 +328,8 @@ export function useHeroSliderAnimation({
               }
             }
           });
+          gsap.to(container.querySelectorAll(detailsInactive), { opacity: 0, duration: 0.3, ease });
 
-          const [active, ...rest] = order;
           const isMobile = (container.clientWidth || window.innerWidth) < 768;
 
           if (isMobile) {
@@ -348,7 +361,39 @@ export function useHeroSliderAnimation({
               gsap.to(container.querySelectorAll(`.slide-item-${itemIdx}`), { x: idx * numberSize, ease, duration: 0.8 });
             });
             gsap.to(container.querySelectorAll(".progress-sub-foreground"), { scaleX: (1 / order.length) * (active + 1), ease, duration: 0.8 });
-            return;
+          }
+
+          // DOM Mutation "en las sombras"
+          if (prevActive === 0 && !hasMutated) {
+            hasMutated = true;
+            if (setShowSplash) setShowSplash(false);
+            
+            // We do NOT mutate the React props/array here per rules. 
+            // We only mutate the native DOM to bypass React.
+            
+            // Update the images natively in the DOM
+            const imgEls = container.querySelectorAll(getCard(0) + " img");
+            imgEls.forEach((el) => {
+              const img = el as HTMLImageElement;
+              if (img.src) img.src = TORTUGAS_ORIGINAL.desktopImage || TORTUGAS_ORIGINAL.image;
+              if (img.srcset) img.srcset = '';
+            });
+
+            // Update the card thumbnail text
+            const cContent = container.querySelector(getCardContent(0));
+            if (cContent) {
+              const newHtml = `
+                <div class="absolute bottom-4 left-4 right-4 text-left">
+                  <span class="block text-xs font-oswald font-semibold tracking-wider uppercase leading-tight drop-shadow-md notranslate text-white">
+                    ${getLocalizedText(TORTUGAS_ORIGINAL.title, locale)}
+                  </span>
+                  <p class="text-sm font-oswald font-bold tracking-wide uppercase text-emerald-300 drop-shadow notranslate mt-0.5">
+                    ${getLocalizedText(TORTUGAS_ORIGINAL.title2, locale)}
+                  </p>
+                </div>
+              `;
+              cContent.innerHTML = newHtml;
+            }
           }
 
           // Desktop GSAP Carousel Animation

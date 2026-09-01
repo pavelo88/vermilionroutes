@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Calendar, Sparkles, Check } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar, Check } from 'lucide-react';
 
 interface TravelDatePickerProps {
   selectedDate: string;
@@ -16,11 +16,11 @@ export function TravelDatePicker({ selectedDate, onDateSelect, durationDays = 1 
   });
 
   const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
   ];
 
-  const daysOfWeek = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  const daysOfWeek = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'];
 
   const prevMonth = () => {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
@@ -64,12 +64,12 @@ export function TravelDatePicker({ selectedDate, onDateSelect, durationDays = 1 
   const returnDateStr = returnDateObj ? formatDateYMD(returnDateObj) : '';
 
   return (
-    <div className="bg-zinc-950/80 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4 font-sans">
+    <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4 font-sans">
       {/* Month Selector */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-emerald-500" />
-          <h4 className="text-sm font-bold text-zinc-900 dark:text-white">
+          <Calendar className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+          <h4 className="text-sm font-bold text-black dark:text-white">
             {monthNames[month]} {year}
           </h4>
         </div>
@@ -77,14 +77,16 @@ export function TravelDatePicker({ selectedDate, onDateSelect, durationDays = 1 
           <button
             type="button"
             onClick={prevMonth}
-            className="w-7 h-7 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all cursor-pointer"
+            className="w-8 h-8 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-all cursor-pointer"
+            aria-label="Mes anterior"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             type="button"
             onClick={nextMonth}
-            className="w-7 h-7 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all cursor-pointer"
+            className="w-8 h-8 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-all cursor-pointer"
+            aria-label="Mes siguiente"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -92,7 +94,7 @@ export function TravelDatePicker({ selectedDate, onDateSelect, durationDays = 1 
       </div>
 
       {/* Weekday headers */}
-      <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">
+      <div className="grid grid-cols-7 gap-1 text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
         {daysOfWeek.map((dw) => (
           <div key={dw} className="py-1">
             {dw}
@@ -101,10 +103,10 @@ export function TravelDatePicker({ selectedDate, onDateSelect, durationDays = 1 
       </div>
 
       {/* Calendar Grid */}
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 gap-1.5">
         {days.map((dateObj, idx) => {
           if (!dateObj) {
-            return <div key={`empty-${idx}`} className="h-8 sm:h-9" />;
+            return <div key={`empty-${idx}`} className="h-9 sm:h-10" />;
           }
 
           const isPast = dateObj < today;
@@ -123,14 +125,14 @@ export function TravelDatePicker({ selectedDate, onDateSelect, durationDays = 1 
               type="button"
               disabled={isPast}
               onClick={() => onDateSelect(dateStr)}
-              className={`h-8 sm:h-9 rounded-xl text-xs font-semibold flex items-center justify-center transition-all cursor-pointer relative ${
+              className={`h-9 sm:h-10 rounded-xl text-xs font-semibold flex items-center justify-center transition-all cursor-pointer relative ${
                 isPast
-                  ? 'text-zinc-600 dark:text-zinc-700 opacity-40 cursor-not-allowed'
+                  ? 'text-zinc-400 dark:text-zinc-600 opacity-50 cursor-not-allowed'
                   : isSelected
-                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-900/50 scale-105 z-10'
+                  ? 'bg-emerald-600 text-white font-bold shadow-md shadow-emerald-600/30 scale-105 z-10'
                   : isInRange
-                  ? 'bg-emerald-500/20 text-emerald-300 dark:text-emerald-200 border border-emerald-500/30'
-                  : 'text-zinc-800 dark:text-zinc-200 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 hover:text-emerald-600'
+                  ? 'bg-emerald-500/20 text-emerald-800 dark:text-emerald-200 font-bold border border-emerald-500/30'
+                  : 'text-black dark:text-zinc-100 hover:bg-emerald-100 dark:hover:bg-zinc-800 hover:text-emerald-700 dark:hover:text-emerald-400'
               }`}
             >
               <span>{dateObj.getDate()}</span>
@@ -141,20 +143,20 @@ export function TravelDatePicker({ selectedDate, onDateSelect, durationDays = 1 
 
       {/* Selected Itinerary Dates Summary */}
       {selectedDate && (
-        <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800/80 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-zinc-600 dark:text-zinc-300">
+        <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800/80 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-zinc-700 dark:text-zinc-300">
           <div className="space-y-0.5">
-            <span className="text-[10px] uppercase font-bold text-emerald-500 tracking-wider block">
-              Confirmed Travel Window:
+            <span className="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-400 tracking-wider block">
+              Fechas Seleccionadas:
             </span>
             <p className="font-medium text-zinc-900 dark:text-white">
-              <strong>Departure:</strong> {selectedDate}
+              <strong>Salida:</strong> {selectedDate}
               {durationDays > 1 && (
-                <> &bull; <strong>Return:</strong> {returnDateStr} ({durationDays} Days / {durationDays - 1} Nights)</>
+                <> &bull; <strong>Retorno:</strong> {returnDateStr} ({durationDays} Días / {durationDays - 1} Noches)</>
               )}
             </p>
           </div>
-          <span className="inline-flex items-center gap-1 text-emerald-500 font-semibold text-[11px] bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full shrink-0">
-            <Check className="w-3 h-3" /> Date Guaranteed
+          <span className="inline-flex items-center gap-1 text-emerald-700 dark:text-emerald-400 font-semibold text-[11px] bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full shrink-0">
+            <Check className="w-3.5 h-3.5" /> Salida Garantizada
           </span>
         </div>
       )}

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Tour } from '@/types';
 import { Download, FileText, Loader2, Check } from 'lucide-react';
 import { useLocale } from 'next-intl';
+import { LeadCaptureModal } from './LeadCaptureModal';
 
 interface DownloadPDFButtonProps {
   tour: Tour;
@@ -20,13 +21,20 @@ export function DownloadPDFButton({
 }: DownloadPDFButtonProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDownloaded, setIsDownloaded] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const locale = useLocale();
 
-  const handleDownload = async (e: React.MouseEvent) => {
+  const handleDownloadClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (!tour || isGenerating) return;
+    
+    // Instead of generating right away, show the lead capture modal
+    setShowModal(true);
+  };
 
+  const handleLeadSuccess = async () => {
+    setShowModal(false);
     setIsGenerating(true);
     try {
       if (
@@ -83,30 +91,40 @@ export function DownloadPDFButton({
   }[variant];
 
   return (
-    <button
-      type="button"
-      onClick={handleDownload}
-      disabled={isGenerating}
-      className={`${baseStyles} ${sizeStyles} ${variantStyles} ${className}`}
-      aria-label="Download Tour PDF Brochure"
-    >
-      {isGenerating ? (
-        <>
-          <Loader2 className="w-4 h-4 animate-spin text-emerald-600 dark:text-emerald-400" />
-          <span>Generating PDF...</span>
-        </>
-      ) : isDownloaded ? (
-        <>
-          <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-          <span>Downloaded!</span>
-        </>
-      ) : (
-        <>
-          <FileText className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-          <span>{label}</span>
-          <Download className="w-3.5 h-3.5 opacity-70" />
-        </>
-      )}
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={handleDownloadClick}
+        disabled={isGenerating}
+        className={`${baseStyles} ${sizeStyles} ${variantStyles} ${className}`}
+        aria-label="Download Tour PDF Brochure"
+      >
+        {isGenerating ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin text-emerald-600 dark:text-emerald-400" />
+            <span>Generating PDF...</span>
+          </>
+        ) : isDownloaded ? (
+          <>
+            <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <span>Downloaded!</span>
+          </>
+        ) : (
+          <>
+            <FileText className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <span>{label}</span>
+            <Download className="w-3.5 h-3.5 opacity-70" />
+          </>
+        )}
+      </button>
+
+      <LeadCaptureModal 
+        isOpen={showModal} 
+        onClose={() => setShowModal(false)} 
+        onSuccess={handleLeadSuccess}
+        tour={tour}
+        locale={locale}
+      />
+    </>
   );
 }

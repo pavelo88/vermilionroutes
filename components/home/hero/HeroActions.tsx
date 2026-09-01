@@ -17,24 +17,24 @@ export function HeroActions({ exploreLabel, planLabel }: HeroActionsProps) {
     >
       <button
         suppressHydrationWarning
-        className="w-[270px] sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center justify-center gap-2 shadow-xl shadow-emerald-950/60 active:scale-95 cursor-pointer text-center shrink-0"
+        className="w-[270px] sm:w-auto px-6 py-4 bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-emerald-600 hover:to-teal-500 text-white font-bold uppercase tracking-wider text-xs md:text-sm rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/30 hover:scale-[1.02] active:scale-95 cursor-pointer text-center shrink-0 group border-none"
         onClick={() => {
           const el = document.getElementById('destinations');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }}
       >
         <span>{exploreLabel}</span>
-        <ArrowRight className="w-4 h-4 transition-transform" />
+        <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
       </button>
 
       <button
         suppressHydrationWarning
-        className="w-[270px] sm:w-auto px-6 py-3 bg-black/60 hover:bg-black/80 text-white font-bold uppercase tracking-widest text-xs md:text-sm rounded-full transition-all flex items-center justify-center gap-2 border border-white/30 active:scale-95 cursor-pointer backdrop-blur-md shadow-xl text-center shrink-0"
+        className="w-[270px] sm:w-auto px-6 py-4 bg-black/60 hover:bg-black/80 text-white font-bold uppercase tracking-wider text-xs md:text-sm rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 border border-emerald-500/30 hover:border-emerald-500/60 active:scale-95 cursor-pointer backdrop-blur-md shadow-lg text-center shrink-0 group"
         onClick={() => {
           window.dispatchEvent(new CustomEvent('open-concierge-chat'));
         }}
       >
-        <MessageCircle className="w-4 h-4 text-emerald-400" />
+        <MessageCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
         <span>{planLabel}</span>
       </button>
     </div>

@@ -1,68 +1,134 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useLocale } from 'next-intl';
+import { auth } from '@/lib/firebase';
 import {
-  Wallet,
-  Globe,
-  Headphones,
-  Star,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendEmailVerification,
+  onAuthStateChanged,
+} from 'firebase/auth';
+import {
   CheckCircle2,
   AlertCircle,
-  ChevronRight,
-  Users,
-  Copy,
-  Check,
   Sparkles,
   ShieldCheck,
-  Layers,
-  ArrowUpRight,
   Percent,
-  Lock
+  Eye,
+  EyeOff,
+  AtSign,
+  User,
+  Phone,
+  Users,
+  LogIn,
+  UserPlus,
+  Mail,
+  ArrowRight,
+  TrendingUp,
+  Award,
 } from 'lucide-react';
-import { registerAffiliateInFirestore, AffiliateAccount } from '@/lib/affiliates';
-
-const UNILEVEL_DISPLAY = [
-  { level: 'Nivel 1 (Tú / Venta Directa)', levelEn: 'Level 1 (Direct Seller)', rate: '8.0%', descEs: 'Tu comisión por cada venta directa generada con tu enlace.', descEn: 'Direct commission earned on every customer booking.' },
-  { level: 'Nivel 2 (Tus Hijos / Afiliados Directos)', levelEn: 'Level 2 (Your Direct Recruits)', rate: '3.5%', descEs: 'Ganas de cada venta que hagan los afiliados que tú invitaste.', descEn: 'Earn on every sale made by your direct recruits.' },
-  { level: 'Nivel 3 (Nietos)', levelEn: 'Level 3 (Grandchildren)', rate: '2.0%', descEs: 'Comisión pasiva por las ventas de la 3era generación.', descEn: 'Passive commission from 3rd-generation referrals.' },
-  { level: 'Nivel 4 (Bisnietos)', levelEn: 'Level 4 (Great-Grandchildren)', rate: '1.0%', descEs: 'Crecimiento de red en profundidad garantizado.', descEn: 'Deep team volume compensation.' },
-  { level: 'Nivel 5 (Tataranietos)', levelEn: 'Level 5 (5th Generation)', rate: '0.5%', descEs: 'Máxima profundidad estándar del plan univel.', descEn: 'Maximum standard unilevel base tier.' },
-];
-
-const LEADERSHIP_TIERS = [
-  { rank: 'Plata (Silver)', override: '+1.0%', conditionEs: '5+ Ventas activas en tu equipo', conditionEn: '5+ Active team bookings' },
-  { rank: 'Oro (Gold)', override: '+2.0%', conditionEs: '15+ Ventas de equipo o $20,000 en volumen', conditionEn: '15+ Team sales or $20k volume' },
-  { rank: 'Diamante / Fundador', override: 'Hasta +5.0% Diferencial', conditionEs: 'Líderes que forman empresas de reclutamiento', conditionEn: 'Founding leaders building sales teams' }
-];
+import {
+  registerAffiliateInFirestore,
+  isUsernameAvailable,
+  getAffiliateByUsername,
+  getAffiliateByEmail,
+  AffiliateAccount,
+  RATES,
+} from '@/lib/affiliates';
+import ForcePasswordChangeModal from '@/components/auth/ForcePasswordChangeModal';
 
 export default function AffiliatesPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const locale = useLocale();
   const isEs = locale === 'es';
 
-  // Form State
+  // Sponsor referral capture from URL (?vid=pablo.g, with legacy ?ref= support)
+  const refFromUrl = searchParams.get('vid') || searchParams.get('ref') || '';
+
+  // Auth mode: 'register' | 'login'
+  const [authMode, setAuthMode] = useState<'register' | 'login'>('register');
+
+  // Login form state
+  const [loginIdentifier, setLoginIdentifier] = useState('');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+
+  // Register form state
   const [form, setForm] = useState({
     name: '',
+    username: '',
     email: '',
+    cedula: '',
     phone: '',
-    password: '',
-    sponsorCode: ''
+    sponsorUsername: refFromUrl,
   });
+
+  const [usernameStatus, setUsernameStatus] = useState<'idle' | 'checking' | 'available' | 'taken'>('idle');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
-  const [registeredAffiliate, setRegisteredAffiliate] = useState<AffiliateAccount | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [successMsg, setSuccessMsg] = useState('');
+
+  // Force password change modal state
+  const [showForcePasswordModal, setShowForcePasswordModal] = useState(false);
+  const [activeAffiliateId, setActiveAffiliateId] = useState('');
+
+  useEffect(() => {
+    if (refFromUrl) {
+      setForm(prev => ({ ...prev, sponsorUsername: refFromUrl }));
+    }
+  }, [refFromUrl]);
+
+  // Session detection on mount
+  useEffect(() => {
+    if (!auth) return;
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user && user.email) {
+        try {
+          const aff = await getAffiliateByEmail(user.email);
+          if (aff) {
+            if (aff.forcePasswordChange) {
+              setActiveAffiliateId(aff.id);
+              setShowForcePasswordModal(true);
+            } else {
+              router.replace(`/${locale}/affiliates/dashboard`);
+            }
+          }
+        } catch {
+          // ignore
+        }
+      }
+    });
+    return () => unsubscribe();
+  }, [locale, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    const clean = name === 'username' ? value.toLowerCase().replace(/\s/g, '') : value;
+    setForm(prev => ({ ...prev, [name]: clean }));
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name || !form.email) return;
+  // Real-time username availability check
+  let usernameTimer: ReturnType<typeof setTimeout>;
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.toLowerCase().replace(/\s/g, '');
+    setForm(prev => ({ ...prev, username: val }));
+    clearTimeout(usernameTimer);
+    if (val.length < 3) { setUsernameStatus('idle'); return; }
+    setUsernameStatus('checking');
+    usernameTimer = setTimeout(async () => {
+      const available = await isUsernameAvailable(val);
+      setUsernameStatus(available ? 'available' : 'taken');
+    }, 400);
+  };
 
-    if (form.password.length < 8) {
-      setErrorMsg(isEs ? 'La contraseña debe tener al menos 8 caracteres.' : 'Password must be at least 8 characters.');
+  // ── HANDLE LOGIN ────────────────────────────────────────────────────────────
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!loginIdentifier || !loginPassword) {
+      setErrorMsg(isEs ? 'Ingresa tu usuario/correo y contraseña.' : 'Please enter your username/email and password.');
       setStatus('error');
       return;
     }
@@ -71,14 +137,122 @@ export default function AffiliatesPage() {
     setErrorMsg('');
 
     try {
-      const account = await registerAffiliateInFirestore({
+      let targetEmail = loginIdentifier.trim().toLowerCase();
+      let foundAffiliate: AffiliateAccount | null = null;
+
+      // If it's a username (no @), look up their email in Firestore
+      if (!targetEmail.includes('@')) {
+        foundAffiliate = await getAffiliateByUsername(targetEmail);
+        if (!foundAffiliate || !foundAffiliate.email) {
+          throw new Error(isEs ? `No encontramos ningún usuario @${targetEmail}` : `User @${targetEmail} not found`);
+        }
+        targetEmail = foundAffiliate.email;
+      } else {
+        foundAffiliate = await getAffiliateByEmail(targetEmail);
+      }
+
+      // Authenticate with Firebase Auth
+      if (auth) {
+        await signInWithEmailAndPassword(auth, targetEmail, loginPassword.trim());
+      }
+
+      // Check if force password change is needed
+      if (foundAffiliate && foundAffiliate.forcePasswordChange) {
+        setActiveAffiliateId(foundAffiliate.id);
+        setShowForcePasswordModal(true);
+        setStatus('idle');
+        return;
+      }
+
+      setStatus('success');
+      router.push(`/${locale}/affiliates/dashboard`);
+    } catch (err: any) {
+      console.error(err);
+      setStatus('error');
+      if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        setErrorMsg(isEs ? 'Contraseña o cédula incorrecta. Si es tu primer ingreso, tu clave es tu cédula.' : 'Incorrect password or ID. If first login, use your ID number.');
+      } else if (err.code === 'auth/user-not-found') {
+        setErrorMsg(isEs ? 'No existe una cuenta con ese correo.' : 'No account found with this email.');
+      } else {
+        setErrorMsg(err.message || (isEs ? 'Error al iniciar sesión.' : 'Error signing in.'));
+      }
+    }
+  };
+
+  // ── HANDLE REGISTER (SIN PASSWORD - CÉDULA ES CLAVE TEMPORAL) ───────────────
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.username || !form.email || !form.cedula) {
+      setErrorMsg(isEs ? 'Completa todos los campos requeridos.' : 'Please fill in all required fields.');
+      setStatus('error');
+      return;
+    }
+    if (form.username.length < 3) {
+      setErrorMsg(isEs ? 'El usuario debe tener al menos 3 caracteres.' : 'Username must be at least 3 characters.');
+      setStatus('error');
+      return;
+    }
+    if (usernameStatus === 'taken') {
+      setErrorMsg(isEs ? 'Ese usuario ya está tomado. Elige otro.' : 'That username is taken. Choose another.');
+      setStatus('error');
+      return;
+    }
+    if (form.cedula.trim().length < 6) {
+      setErrorMsg(isEs ? 'La cédula debe tener al menos 6 dígitos.' : 'ID must be at least 6 digits.');
+      setStatus('error');
+      return;
+    }
+
+    setStatus('loading');
+    setErrorMsg('');
+    setSuccessMsg('');
+
+    try {
+      let authUid = '';
+
+      // 1. Create Firebase Auth user with initial password = cedula
+      if (auth) {
+        try {
+          const userCred = await createUserWithEmailAndPassword(auth, form.email.trim().toLowerCase(), form.cedula.trim());
+          authUid = userCred.user.uid;
+          
+          try {
+            await sendEmailVerification(userCred.user);
+          } catch (mailErr) {
+            console.warn('Verification email notice:', mailErr);
+          }
+        } catch (authErr: any) {
+          if (authErr.code === 'auth/email-already-in-use') {
+            console.warn('Email already in Firebase Auth, proceeding to sync Firestore doc');
+          } else {
+            throw authErr;
+          }
+        }
+      }
+
+      // 2. Save in Firestore
+      const newAff = await registerAffiliateInFirestore({
+        username: form.username,
         email: form.email,
+        cedula: form.cedula,
         name: form.name,
         phone: form.phone,
-        sponsorCode: form.sponsorCode || undefined
+        sponsorUsername: form.sponsorUsername || undefined,
+        authUid,
       });
-      setRegisteredAffiliate(account);
+
       setStatus('success');
+      setSuccessMsg(
+        isEs
+          ? `¡Cuenta creada exitosamente! Te hemos enviado un correo de confirmación. Tu contraseña inicial para ingresar es tu cédula (${form.cedula}).`
+          : `Account created successfully! Verification email sent. Your initial login password is your ID (${form.cedula}).`
+      );
+
+      // Trigger first-login password definition modal
+      setActiveAffiliateId(newAff.id);
+      setTimeout(() => {
+        setShowForcePasswordModal(true);
+      }, 1000);
     } catch (err: any) {
       console.error(err);
       setErrorMsg(err.message || (isEs ? 'Error al registrarte. Intenta de nuevo.' : 'Registration error. Please try again.'));
@@ -86,286 +260,323 @@ export default function AffiliatesPage() {
     }
   };
 
-  const copyReferralLink = (code: string) => {
-    const link = `https://vermilionroutes.com/${locale}?ref=${code}`;
-    navigator.clipboard.writeText(link);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  const usernameIndicator = () => {
+    if (form.username.length < 3) return null;
+    if (usernameStatus === 'checking') return <span className="text-[10px] text-zinc-400">Verificando...</span>;
+    if (usernameStatus === 'available') return <span className="text-[10px] text-emerald-400">✓ Disponible</span>;
+    if (usernameStatus === 'taken') return <span className="text-[10px] text-rose-400">✗ Ya en uso</span>;
+    return null;
   };
 
   return (
-    <div className="min-h-screen bg-[#FBFBFA] dark:bg-[#1A2421] text-[#1C1F1E] dark:text-[#EAECEB] pt-32 pb-24 font-sans selection:bg-[#C49B45] selection:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-stone-950 text-zinc-300 pt-10 pb-24 font-sans selection:bg-amber-500 selection:text-white relative">
+      
+      {/* Force Password Change Modal (EnergyEngine Pattern) */}
+      <ForcePasswordChangeModal
+        isOpen={showForcePasswordModal}
+        affiliateId={activeAffiliateId}
+        onSuccess={() => {
+          setShowForcePasswordModal(false);
+          router.push(`/${locale}/affiliates/dashboard`);
+        }}
+      />
 
-      {/* Hero Section */}
-      <section className="px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center space-y-6 pb-16">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C49B45]/15 border border-[#C49B45]/30 text-[#C49B45] dark:text-[#D1A852] text-xs font-bold uppercase tracking-wider">
+      {/* Ambient background */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+
+      {/* ── HERO ──────────────────────────────────────────────────────────── */}
+      <section className="px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center space-y-6 pb-12 relative z-10">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>{isEs ? 'Comisiones Transparentes • 5 Niveles • Tope 20%' : 'Transparent Multilevel • 5 Tiers • 20% Strict Cap'}</span>
+          <span>{isEs ? 'Embajadores VIP • Plan High-Ticket' : 'VIP Ambassadors • High-Ticket Plan'}</span>
         </div>
 
-        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white leading-tight">
-          {isEs ? 'Programa de Afiliados & Red Multinivel Vermilion' : 'Vermilion Affiliate & Multilevel Network'}
+        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-light text-white leading-tight tracking-tight">
+          {isEs ? (
+            <>Club de <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">Embajadores Vermilion</span></>
+          ) : (
+            <><span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">Vermilion</span> Ambassadors Club</>
+          )}
         </h1>
 
-        <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-lg text-zinc-400 max-w-3xl mx-auto leading-relaxed">
           {isEs
-            ? 'Monetiza tu red promoviendo las expediciones más extraordinarias de Ecuador y Galápagos. Tus clientes reciben automáticamente un 10% de descuento y tú construyes un equipo de hasta 5 niveles con comisiones protegidas.'
-            : 'Monetize your network by promoting premier Galapagos & Ecuador expeditions. Your clients automatically receive a 10% discount, and you build a team up to 5 levels deep.'}
+            ? 'Monetiza tu influencia con el modelo más justo de la industria turística. Comparte tu código, regala un 10% de descuento a tus clientes en tours de lujo y accede a comisiones directas y participaciones del Fondo Global.'
+            : 'Monetize your influence with the fairest model in luxury travel. Share your code, gift 10% off to your clients, and access direct commissions and global pool shares.'}
         </p>
 
-        {/* 10% Discount Badge Banner */}
-        <div className="inline-flex items-center gap-3 p-3.5 px-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs sm:text-sm font-semibold shadow-sm">
-          <Percent className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-          <span>
-            {isEs
-              ? 'Tus clientes obtienen automáticamente 10% OFF en cualquier tour al ingresar con tu enlace único.'
-              : 'Your clients automatically receive 10% OFF any expedition when using your referral link.'}
-          </span>
+        <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+          <a
+            href={`/${locale}/affiliates/presentation`}
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-white text-xs font-bold uppercase tracking-wider transition-all"
+          >
+            <TrendingUp className="w-4 h-4 text-amber-400" />
+            <span>Ver Simulador & Plan de Compensación</span>
+            <ArrowRight className="w-4 h-4" />
+          </a>
         </div>
       </section>
 
-      {/* 5-Level Unilevel Plan Visualization */}
-      <section className="px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto pb-20">
-        <div className="text-center space-y-2 mb-10">
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white">
-            {isEs ? 'Estructura de Comisiones Base (5 Niveles = 15%)' : 'Base 5-Level Payout (15% Subtotal)'}
-          </h2>
-          <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm">
-            {isEs ? 'Ganas no solo por lo que vendes tú, sino por las ventas de todo tu equipo hacia abajo.' : 'Earn from your direct sales and from your downline team members.'}
-          </p>
-        </div>
+      {/* ── PORTAL DE ACCESO: LOGIN / REGISTRO ─────────────────────────────── */}
+      <section id="portal" className="px-4 sm:px-6 lg:px-8 max-w-xl mx-auto relative z-10 scroll-mt-24">
+        <div className="bg-black/50 backdrop-blur-xl rounded-[32px] border border-white/10 shadow-2xl p-8 sm:p-10 space-y-6">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
-          {UNILEVEL_DISPLAY.map((tier, idx) => (
-            <div
-              key={idx}
-              className="bg-white dark:bg-[#232D2A] p-5 rounded-2xl border border-zinc-200/80 dark:border-white/5 shadow-sm space-y-3 flex flex-col justify-between"
+          {/* Toggle Tabs */}
+          <div className="grid grid-cols-2 p-1 bg-zinc-900/90 rounded-2xl border border-white/5">
+            <button
+              type="button"
+              onClick={() => { setAuthMode('login'); setErrorMsg(''); setStatus('idle'); }}
+              className={`py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                authMode === 'login'
+                  ? 'bg-amber-500 text-black shadow-lg shadow-amber-900/20'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
             >
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#C49B45] dark:text-[#D1A852] block">
-                  {isEs ? tier.level : tier.levelEn}
-                </span>
-                <p className="font-serif text-3xl font-bold text-zinc-900 dark:text-white mt-1">
-                  {tier.rate}
+              <LogIn className="w-4 h-4" />
+              <span>{isEs ? 'Iniciar Sesión' : 'Sign In'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => { setAuthMode('register'); setErrorMsg(''); setStatus('idle'); }}
+              className={`py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                authMode === 'register'
+                  ? 'bg-amber-500 text-black shadow-lg shadow-amber-900/20'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
+            >
+              <UserPlus className="w-4 h-4" />
+              <span>{isEs ? 'Crear Cuenta' : 'Register'}</span>
+            </button>
+          </div>
+
+          {/* ── LOGIN FORM ────────────────────────────────────────────────── */}
+          {authMode === 'login' ? (
+            <form onSubmit={handleLogin} className="space-y-4 pt-2">
+              <div className="text-center space-y-1 mb-6">
+                <h3 className="font-serif text-2xl font-light text-white">
+                  {isEs ? 'Ingresa a tu Panel' : 'Access Your Portal'}
+                </h3>
+                <p className="text-xs text-zinc-400">
+                  {isEs ? 'Usa tu usuario (@pablo.g) o correo registrado' : 'Use your username or registered email'}
                 </p>
-              </div>
-              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                {isEs ? tier.descEs : tier.descEn}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Leadership & Mathematical Cap Note */}
-        <div className="mt-6 p-6 rounded-3xl bg-[#F1F3F2] dark:bg-[#181B1A] border border-zinc-200/80 dark:border-white/5 space-y-4">
-          <div className="flex items-center gap-2 text-zinc-900 dark:text-white font-bold text-sm">
-            <ShieldCheck className="w-5 h-5 text-[#C49B45] dark:text-[#D1A852]" />
-            <span>{isEs ? 'Bono de Liderazgo Diferencial (5% Restante) & Garantía del Tope 20%' : 'Differential Leadership Bonus (Remaining 5%) & 20% Strict Cap'}</span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-            {LEADERSHIP_TIERS.map((lead, i) => (
-              <div key={i} className="p-3.5 rounded-xl bg-white dark:bg-[#232D2A] border border-zinc-200/60 dark:border-white/5 space-y-1">
-                <div className="flex justify-between font-bold text-zinc-900 dark:text-white">
-                  <span>{lead.rank}</span>
-                  <span className="text-[#C49B45] dark:text-[#D1A852]">{lead.override}</span>
-                </div>
-                <p className="text-[11px] text-zinc-500 dark:text-zinc-400">{isEs ? lead.conditionEs : lead.conditionEn}</p>
-              </div>
-            ))}
-          </div>
-
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed border-t border-zinc-200/60 dark:border-white/5 pt-3">
-            {isEs
-              ? '⚖️ Garantía Financiera Inquebrantable: La suma del Plan Univel (15%) + el Fondo de Liderazgo Diferencial (5%) está bloqueada al 20.00% exacto del valor del tour. La empresa jamás pierde rentabilidad y los líderes siempre cobran justamente.'
-              : '⚖️ Unbreakable Math Cap: Unilevel (15%) + Leadership Pool (5%) is strictly capped at 20.00% of the booking value. Total stability guaranteed.'}
-          </p>
-        </div>
-      </section>
-
-      {/* Registration & Affiliate Dashboard Section */}
-      <section className="px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
-        <div className="bg-white dark:bg-[#232D2A] rounded-3xl border border-zinc-200/80 dark:border-white/10 shadow-xl p-6 sm:p-10 space-y-6">
-          
-          {status === 'success' && registeredAffiliate ? (
-            <div className="text-center space-y-6 animate-fade-in py-4">
-              <div className="w-16 h-16 bg-[#C49B45]/15 text-[#C49B45] dark:text-[#D1A852] border border-[#C49B45]/30 rounded-full flex items-center justify-center mx-auto shadow-md">
-                <CheckCircle2 className="w-8 h-8" />
               </div>
 
               <div className="space-y-1">
-                <h3 className="font-serif text-2xl font-bold text-zinc-900 dark:text-white">
-                  {isEs ? `¡Bienvenido a la Red, ${registeredAffiliate.name}!` : `Welcome to the Network, ${registeredAffiliate.name}!`}
-                </h3>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                  {isEs
-                    ? 'Tu cuenta de afiliado ha sido registrada exitosamente con tu correo electrónico.'
-                    : 'Your affiliate account is now active with your email address as your unique ID.'}
-                </p>
+                <label className="text-xs font-semibold text-zinc-400 flex items-center gap-1.5">
+                  <AtSign className="w-3.5 h-3.5 text-amber-500" />
+                  {isEs ? 'Usuario o Correo Electrónico *' : 'Username or Email *'}
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={loginIdentifier}
+                  onChange={(e) => setLoginIdentifier(e.target.value)}
+                  placeholder="ej: pablo.g o tu correo"
+                  className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/50 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                />
               </div>
 
-              {/* Unique Code Box */}
-              <div className="p-5 bg-[#FBFBFA] dark:bg-[#181B1A] border border-zinc-200 dark:border-white/5 rounded-2xl space-y-3 text-left">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">
-                    {isEs ? 'Tu Código Único de Afiliado' : 'Your Unique Referral Code'}
-                  </span>
-                  <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
-                    10% Buyer Discount Active
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between bg-white dark:bg-[#232D2A] p-3 rounded-xl border border-zinc-200/80 dark:border-white/10">
-                  <span className="font-mono text-lg font-bold text-[#C49B45] dark:text-[#D1A852]">
-                    {registeredAffiliate.referralCode}
-                  </span>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-zinc-400 flex items-center justify-between">
+                  <span>{isEs ? 'Contraseña o Cédula *' : 'Password or ID *'}</span>
+                  <span className="text-[10px] text-zinc-500">{isEs ? '(Cédula en tu 1er ingreso)' : '(National ID on 1st login)'}</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showLoginPassword ? 'text' : 'password'}
+                    required
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full px-4 py-3 pr-10 rounded-xl border border-white/10 bg-zinc-900/50 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                  />
                   <button
                     type="button"
-                    onClick={() => copyReferralLink(registeredAffiliate.referralCode)}
-                    className="px-3 py-1.5 bg-[#C49B45] hover:bg-[#B38A34] text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                    onClick={() => setShowLoginPassword(!showLoginPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
                   >
-                    {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                    <span>{copied ? (isEs ? '¡Copiado!' : 'Copied!') : (isEs ? 'Copiar Enlace' : 'Copy Link')}</span>
+                    {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
-
-                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 font-mono break-all">
-                  Link: https://vermilionroutes.com/{locale}?ref={registeredAffiliate.referralCode}
-                </p>
               </div>
 
-              {/* Stats Preview Card */}
-              <div className="grid grid-cols-3 gap-3 text-center">
-                <div className="p-3 bg-[#F1F3F2] dark:bg-[#181B1A] rounded-xl border border-zinc-200/60 dark:border-white/5">
-                  <span className="text-[10px] uppercase font-bold text-zinc-400 block">{isEs ? 'Balance Ganado' : 'Total Earnings'}</span>
-                  <p className="text-lg font-bold font-serif text-emerald-600 dark:text-emerald-400">$0.00</p>
+              {errorMsg && (
+                <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-900/50 text-rose-400 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{errorMsg}</span>
                 </div>
-                <div className="p-3 bg-[#F1F3F2] dark:bg-[#181B1A] rounded-xl border border-zinc-200/60 dark:border-white/5">
-                  <span className="text-[10px] uppercase font-bold text-zinc-400 block">{isEs ? 'Ventas de Red' : 'Team Sales'}</span>
-                  <p className="text-lg font-bold font-serif text-zinc-900 dark:text-white">0</p>
-                </div>
-                <div className="p-3 bg-[#F1F3F2] dark:bg-[#181B1A] rounded-xl border border-zinc-200/60 dark:border-white/5">
-                  <span className="text-[10px] uppercase font-bold text-zinc-400 block">{isEs ? 'Tu Rango' : 'Your Rank'}</span>
-                  <p className="text-lg font-bold font-serif text-[#C49B45] dark:text-[#D1A852]">Standard</p>
-                </div>
-              </div>
-            </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="w-full py-4 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-bold uppercase tracking-widest text-xs rounded-2xl transition-all shadow-md shadow-amber-900/20 flex items-center justify-center gap-2 cursor-pointer mt-6"
+              >
+                {status === 'loading' ? (
+                  <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <LogIn className="w-4 h-4" />
+                    <span>{isEs ? 'Entrar a Mi Panel' : 'Sign In to Dashboard'}</span>
+                  </>
+                )}
+              </button>
+            </form>
           ) : (
-            <>
-              <div className="text-center space-y-1.5">
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white">
-                  {isEs ? 'Regístrate como Afiliado' : 'Register as an Affiliate Partner'}
+            /* ── REGISTER FORM (SIN PASSWORD - CÉDULA ES CLAVE TEMPORAL) ────── */
+            <form onSubmit={handleRegister} className="space-y-4 pt-2">
+              <div className="text-center space-y-1 mb-6">
+                <h3 className="font-serif text-2xl font-light text-white">
+                  {isEs ? 'Únete como Embajador' : 'Become an Ambassador'}
                 </h3>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                  {isEs
-                    ? 'Tu correo será tu identificador único. Recibirás tu código personal inmediatamente.'
-                    : 'Your email address is your unique partner ID. Instant referral code generation.'}
+                <p className="text-xs text-zinc-400">
+                  {isEs ? 'Sin contraseña inicial. Tu cédula será tu clave temporal de 1er ingreso.' : 'No initial password required. Your ID is your temporary password.'}
                 </p>
               </div>
 
-              <form onSubmit={handleRegister} className="space-y-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                    {isEs ? 'Nombre Completo *' : 'Full Name *'}
-                  </label>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-zinc-400 flex items-center gap-1.5">
+                  <User className="w-3 h-3" />
+                  {isEs ? 'Nombre Completo *' : 'Full Name *'}
+                </label>
+                <input
+                  name="name"
+                  required
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder={isEs ? 'Pablo Fabricio García Flores' : 'Your full name'}
+                  className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/50 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-zinc-400 flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <AtSign className="w-3 h-3 text-amber-500" />
+                    {isEs ? 'Tu Usuario Único * (enlace público)' : 'Your Unique Username *'}
+                  </span>
+                  {usernameIndicator()}
+                </label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm font-mono">@</span>
                   <input
-                    name="name"
+                    name="username"
                     required
-                    value={form.name}
-                    onChange={handleChange}
-                    placeholder={isEs ? 'Tu Nombre Completo' : 'Your Full Name'}
-                    className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#C49B45]"
+                    value={form.username}
+                    onChange={handleUsernameChange}
+                    placeholder="pablo.g"
+                    className={`w-full pl-8 pr-4 py-3 rounded-xl border bg-zinc-900/50 text-sm text-white font-mono placeholder:text-zinc-600 focus:outline-none focus:ring-1 transition-colors
+                      ${usernameStatus === 'available' ? 'border-emerald-500/50 focus:ring-emerald-500/30' :
+                        usernameStatus === 'taken' ? 'border-rose-500/50 focus:ring-rose-500/30' :
+                        'border-white/10 focus:border-amber-500/50 focus:ring-amber-500/30'}`}
                   />
                 </div>
+              </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                      {isEs ? 'Correo Electrónico (Tu ID Único) *' : 'Email Address (Your Unique ID) *'}
-                    </label>
-                    <input
-                      name="email"
-                      type="email"
-                      required
-                      value={form.email}
-                      onChange={handleChange}
-                      placeholder="email@ejemplo.com"
-                      className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#C49B45]"
-                    />
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                      {isEs ? 'Contraseña Segura (Mínimo 8 caracteres) *' : 'Secure Password (Min 8 chars) *'}
-                    </label>
-                    <input
-                      name="password"
-                      type="password"
-                      required
-                      value={form.password}
-                      onChange={handleChange}
-                      placeholder="••••••••"
-                      className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#C49B45]"
-                    />
-                  </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-400">
+                    {isEs ? 'Correo Electrónico *' : 'Email Address *'}
+                  </label>
+                  <input
+                    name="email"
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="pablofgarciaf@gmail.com"
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/50 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                  />
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-                      {isEs ? 'WhatsApp / Teléfono' : 'Phone / WhatsApp'}
-                    </label>
-                    <input
-                      name="phone"
-                      value={form.phone}
-                      onChange={handleChange}
-                      placeholder="+593 99 000 0000"
-                      className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#C49B45]"
-                    />
-                  </div>
-
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 flex items-center justify-between">
-                      <span>{isEs ? 'Código de Patrocinador (Opcional)' : 'Sponsor Code (Optional)'}</span>
-                      <span className="text-[10px] text-zinc-400">{isEs ? 'Si alguien te invitó' : 'If invited'}</span>
-                    </label>
-                    <input
-                      name="sponsorCode"
-                      value={form.sponsorCode}
-                      onChange={handleChange}
-                      placeholder="e.g. PABLO2026"
-                      className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-xs text-zinc-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-[#C49B45] uppercase"
-                    />
-                  </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-400 flex items-center justify-between">
+                    <span>{isEs ? 'Cédula / Pasaporte *' : 'ID / Passport *'}</span>
+                  </label>
+                  <input
+                    name="cedula"
+                    required
+                    value={form.cedula}
+                    onChange={handleChange}
+                    placeholder="1721790721"
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/50 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                  />
                 </div>
+              </div>
 
-                {errorMsg && (
-                  <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-400 text-xs flex items-center gap-2">
-                    <AlertCircle className="w-4 h-4 shrink-0" />
-                    <span>{errorMsg}</span>
-                  </div>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-zinc-400">
+                  {isEs ? 'WhatsApp / Teléfono' : 'Phone'}
+                </label>
+                <input
+                  name="phone"
+                  value={form.phone}
+                  onChange={handleChange}
+                  placeholder="+593 98 399 2549"
+                  className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/50 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-zinc-400 flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <Users className="w-3 h-3" />
+                    {isEs ? 'Usuario Patrocinador (Opcional)' : 'Sponsor Username (Optional)'}
+                  </span>
+                </label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm font-mono">@</span>
+                  <input
+                    name="sponsorUsername"
+                    value={form.sponsorUsername}
+                    onChange={handleChange}
+                    placeholder="ej: pablo.g"
+                    className="w-full pl-8 pr-4 py-3 rounded-xl border border-white/10 bg-zinc-900/50 text-sm text-white font-mono placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                  />
+                </div>
+              </div>
+
+              {/* Info notice about initial password */}
+              <div className="p-3.5 rounded-2xl bg-blue-950/30 border border-blue-900/40 text-blue-300 text-xs flex items-start gap-2.5">
+                <Mail className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                <p className="leading-relaxed">
+                  Te enviaremos un correo de confirmación. Tu clave temporal de primer ingreso es tu <strong>cédula</strong>. En tu 1er acceso se te pedirá definir tu contraseña permanente.
+                </p>
+              </div>
+
+              {errorMsg && (
+                <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-900/50 text-rose-400 text-xs flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{errorMsg}</span>
+                </div>
+              )}
+
+              {successMsg && (
+                <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-900/50 text-emerald-400 text-xs flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 shrink-0" />
+                  <span>{successMsg}</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={status === 'loading' || usernameStatus === 'taken'}
+                className="w-full py-4 bg-amber-500 hover:bg-amber-600 disabled:opacity-40 disabled:cursor-not-allowed text-black font-bold uppercase tracking-widest text-xs rounded-2xl transition-all shadow-md shadow-amber-900/20 flex items-center justify-center gap-2 mt-4 cursor-pointer"
+              >
+                {status === 'loading' ? (
+                  <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    <span>{isEs ? 'Crear Mi Cuenta Ahora' : 'Create My Account Now'}</span>
+                  </>
                 )}
-
-                <button
-                  type="submit"
-                  disabled={status === 'loading'}
-                  className="w-full py-4 bg-[#C49B45] hover:bg-[#B38A34] text-white font-bold uppercase tracking-widest text-xs rounded-2xl transition-all shadow-md shadow-amber-900/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-                >
-                  {status === 'loading' ? (
-                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  ) : (
-                    <>
-                      <Sparkles className="w-4 h-4" />
-                      <span>{isEs ? 'Crear Mi Cuenta y Generar Código' : 'Create Account & Generate Code'}</span>
-                    </>
-                  )}
-                </button>
-              </form>
-            </>
+              </button>
+            </form>
           )}
+
         </div>
       </section>
-
     </div>
   );
 }

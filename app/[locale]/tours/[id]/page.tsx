@@ -6,6 +6,8 @@ import { getToursFromFirestore, getTourByIdFromFirestore } from '@/lib/tours';
 import { TourGallery } from '@/components/tours/TourGallery';
 import { TourItinerary } from '@/components/tours/TourItinerary';
 import { BookingSidebar } from '@/components/tours/BookingSidebar';
+import { TourSubNav } from '@/components/tours/TourSubNav';
+import { LuxuryThemeProvider } from '@/components/providers/LuxuryThemeProvider';
 import dynamic from 'next/dynamic';
 const TripAdvisorReviews = dynamic(
   () => import('@/components/home/TripAdvisorReviews').then(mod => mod.TripAdvisorReviews),
@@ -167,57 +169,15 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
   };
 
   return (
-    <div className="pt-36 sm:pt-40 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
+    <LuxuryThemeProvider>
+      <TourSubNav title={title} duration={duration} tour={tour} locale={locale} />
+      <div className="pt-36 sm:pt-40 pb-16 bg-zinc-50 dark:bg-zinc-950 min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(tourJsonLd) }}
       />
 
-      {/* Hero Title & Actions Header (Clean, Direct & Elegant) */}
-      <div className="space-y-4">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-3">
-            <h1 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold text-zinc-900 dark:text-white tracking-tight leading-tight">
-              {title}
-            </h1>
-
-            <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
-              <div className="flex items-center gap-1.5 font-medium">
-                <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>{duration}</span>
-              </div>
-
-              <div className="flex items-center gap-1 font-semibold text-zinc-900 dark:text-zinc-100">
-                <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                <span>{tour.rating}</span>
-                {tour.reviewsCount && (
-                  <span className="text-zinc-500 dark:text-zinc-400 font-normal">
-                    ({tour.reviewsCount} {locale === 'es' ? 'opiniones verificadas' : 'verified guest reviews'})
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Action CTAs: Contact Us + Download Itinerary */}
-          <div className="flex items-center gap-2.5 shrink-0 pt-1 md:pt-0">
-            <a
-              href={`https://wa.me/593994048458?text=${encodeURIComponent(
-                locale === 'es'
-                  ? `Hola Vermilion Routes, deseo información personalizada y reservar el tour: ${title}`
-                  : `Hello Vermilion Routes, I would like custom information and book the tour: ${title}`
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/20 transition-all hover:scale-[1.02] cursor-pointer"
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>{locale === 'es' ? 'Contáctanos' : 'Contact Us'}</span>
-            </a>
-            <DownloadPDFButton tour={tour} variant="outline" size="md" />
-          </div>
-        </div>
-      </div>
+      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
 
       {/* Main 2-Column Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
@@ -337,7 +297,7 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
         </div>
 
         {/* Right Sticky Sidebar Col */}
-        <div className="lg:col-span-4 lg:sticky lg:top-24 lg:self-start space-y-6">
+        <div className="lg:col-span-4 lg:sticky lg:top-[188px] lg:self-start space-y-6 z-10 relative">
           <BookingSidebar tour={tour} />
         </div>
       </div>
@@ -349,7 +309,9 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
           subtitle="Discover what recent travelers say about our personalized service, expert guides, and luxury stays."
         />
       </div>
-    </div>
+      </div>
+      </div>
+    </LuxuryThemeProvider>
   );
 }
 

@@ -7,9 +7,10 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { CurrencyProvider } from '@/context/CurrencyContext';
 import '../globals.css';
 import Script from 'next/script';
-import { Navbar } from '@/components/layout/Navbar';
+import { ConditionalNavbar } from '@/components/layout/ConditionalNavbar';
 import { ConditionalFooter } from '@/components/layout/ConditionalFooter';
 import { ConciergeWidget } from '@/components/ui/ConciergeWidget';
+import { AffiliateTracker } from '@/components/affiliates/AffiliateTracker';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -38,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     : 'Vermilion Routes | Bespoke Ecuador & Galapagos Luxury Travel';
   const defaultDescription = isEs
     ? 'Agencia de viajes de lujo boutique especializada en itinerarios a medida, expediciones a las Islas Galápagos, lodges en la Amazonía, y travesías volcánicas andinas en Ecuador.'
-    : 'Expert-guided bespoke tours to the Galapagos Islands, Amazon rainforest, Avenue of Volcanoes & colonial cities. Ecuador\'s premier luxury boutique travel agency.';
+    : 'Expert-guided bespoke tours to the Galapagos Islands, Amazon Rainforest, Avenue of Volcanoes & colonial cities. Ecuador\'s premier luxury boutique travel agency.';
 
   return {
     title: t('title') || defaultTitle,
@@ -50,9 +51,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       'bespoke Ecuador travel',
       'tailor-made Galapagos itineraries',
       'Cotopaxi volcano trek',
-      'Quilotoa crater lake',
-      'Amazon rainforest Ecuador',
-      'Baños Pailón del Diablo',
+      'Quilotoa Crater Lake',
+      'Amazon Rainforest Ecuador',
+      'Baños Pailón del Diablo (Devil\'s Cauldron)',
       'Quito colonial tour',
       'Vermilion Routes',
       'luxury boutique travel Ecuador',
@@ -192,10 +193,13 @@ export default async function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <CurrencyProvider>
             <NextIntlClientProvider messages={messages} locale={locale}>
-              <Navbar />
-              <main className="flex-1 w-full relative">{children}</main>
-              <ConciergeWidget />
+              <ConditionalNavbar />
+              <main className="flex-grow">
+                {children}
+              </main>
               <ConditionalFooter />
+              <ConciergeWidget />
+              <AffiliateTracker />
             </NextIntlClientProvider>
           </CurrencyProvider>
         </ThemeProvider>

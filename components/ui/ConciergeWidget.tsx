@@ -30,9 +30,9 @@ interface ChatMessage {
 export function ConciergeWidget() {
   const locale = useLocale();
   const GREETINGS_BY_LOCALE: Record<string, string> = {
-    es: '¡Hola! Soy **Pyro**, tu Concierge y asesor de viajes en Vermilion Routes.\n\nEstoy aquí para ayudarte a diseñar y personalizar tu viaje por **Ecuador Continental y las Islas Galápagos**.\n\n¿En qué destino o fechas te gustaría comenzar a planificar?',
-    en: 'Hello! I am **Pyro**, Lead Concierge at Vermilion Routes.\n\nI am here to assist you in designing and customizing your journey across **Mainland Ecuador and the Galápagos Islands**.\n\nWhat destinations or travel dates do you have in mind to get started?',
-    fr: 'Bonjour ! Je suis **Pyro**, votre Concierge et conseiller de voyage chez Vermilion Routes.\n\nJe suis là pour vous aider à concevoir votre voyage sur mesure en **Équateur Continental et aux Îles Galápagos**.\n\nQuelle destination ou quelles dates avez-vous en tête pour commencer ?',
+    es: '¡Hola! Soy **Pyro**, tu Especialista de Viajes en Vermilion Routes.\n\nEstoy aquí para ayudarte a diseñar y personalizar tu viaje por **Ecuador Continental y las Islas Galápagos**.\n\n¿En qué destino o fechas te gustaría comenzar a planificar?',
+    en: 'Hello! I am **Pyro**, Lead Travel Specialist at Vermilion Routes.\n\nI am here to assist you in designing and customizing your journey across **Mainland Ecuador and the Galápagos Islands**.\n\nWhat destinations or travel dates do you have in mind to get started?',
+    fr: 'Bonjour ! Je suis **Pyro**, votre conseiller de voyage chez Vermilion Routes.\n\nJe suis là pour vous aider à concevoir votre voyage sur mesure en **Équateur Continental et aux Îles Galápagos**.\n\nQuelle destination ou quelles dates avez-vous en tête pour commencer ?',
     de: 'Guten Tag! Ich bin **Pyro**, Ihr persönlicher Reiseberater bei Vermilion Routes.\n\nIch helfe Ihnen gerne bei der Planung Ihrer maßgeschneiderten Traumreise durch **Festland-Ecuador und die Galapagos-Inseln**.\n\nWelche Reiseziele oder Reisedaten haben Sie im Sinn?',
     it: 'Buongiorno! Sono **Pyro**, il tuo Concierge e consulente di viaggio per Vermilion Routes.\n\nSono a tua disposizione per creare il tuo viaggio su misura tra l\'**Ecuador Continentale e le Isole Galapagos**.\n\nQuale destinazione o date hai in mente per iniziare?',
     pt: 'Olá! Sou **Pyro**, seu Concierge e consultor de viagens na Vermilion Routes.\n\nEstou aqui para ajudar você a planejar sua viagem personalizada pelo **Equador Continental e Ilhas Galápagos**.\n\nQuais destinos ou datas você tem em mente para começar?',
@@ -52,9 +52,9 @@ export function ConciergeWidget() {
   };
 
   const TOOLTIP_TEXT: Record<string, string> = {
-    es: '¡Chatea con nosotros! WhatsApp & Asistente',
-    en: 'Chat with us! WhatsApp & Concierge',
-    fr: 'Discutez avec nous ! WhatsApp & Concierge',
+    es: '¡Chatea con nosotros! WhatsApp & Especialista',
+    en: 'Chat with us! WhatsApp & Travel Specialist',
+    fr: 'Discutez avec nous ! WhatsApp & Conseiller',
     de: 'Chatten Sie mit uns! WhatsApp & Assistent',
     it: 'Chatta con noi! WhatsApp & Assistente',
     pt: 'Converse conosco! WhatsApp e Assistente',
@@ -76,7 +76,8 @@ export function ConciergeWidget() {
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedProvider, setSelectedProvider] = useState<string>('nvidia');
+  const [selectedProvider, setSelectedProvider] = useState<string>('google');
+  const [sessionId] = useState(() => `session_${Date.now()}_${Math.random().toString(36).substring(2,9)}`);
   const [leadCaptured, setLeadCaptured] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -166,6 +167,7 @@ export function ConciergeWidget() {
           messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
           provider: selectedProvider,
           locale: locale || 'en',
+          sessionId,
         }),
       });
 
@@ -230,7 +232,7 @@ export function ConciergeWidget() {
                 </div>
                 <div>
                   <h4 className="font-serif text-sm font-semibold text-amber-200">
-                    Vermilion Concierge Center
+                    Vermilion Travel Specialists
                   </h4>
                   <p className="text-[11px] text-zinc-400">Choose your preferred assistance</p>
                 </div>

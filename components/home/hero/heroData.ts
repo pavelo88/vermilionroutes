@@ -21,8 +21,8 @@ export const HERO_SLIDES_DATA: SlideData[] = [
   },
   {
     place: { en: 'Pichincha - Quito', es: 'Pichincha - Quito', fr: 'Pichincha - Quito', de: 'Pichincha - Quito', it: 'Pichincha - Quito', pt: 'Pichincha - Quito', ja: 'ピチンチャ - キト', zh: '皮钦查 - 基多' },
-    title: { en: 'HISTORIC CENTER', es: 'CENTRO HISTÓRICO', fr: 'CENTRE HISTORIQUE', de: 'HISTORISCHES ZENTRUM', it: 'CENTRO STORICO', pt: 'CENTRO HISTÓRICO', ja: '世界遺産の歴史的', zh: '世界文化遗产' },
-    title2: { en: 'OF QUITO', es: 'DE QUITO', fr: 'DE QUITO', de: 'VON QUITO', it: 'DI QUITO', pt: 'DE QUITO', ja: 'キト旧市街', zh: '基多古城' },
+    title: { en: 'OLD TOWN', es: 'CENTRO HISTÓRICO', fr: 'CENTRE HISTORIQUE', de: 'HISTORISCHES ZENTRUM', it: 'CENTRO STORICO', pt: 'CENTRO HISTÓRICO', ja: '世界遺産の歴史的', zh: '世界文化遗产' },
+    title2: { en: 'QUITO', es: 'DE QUITO', fr: 'DE QUITO', de: 'VON QUITO', it: 'DI QUITO', pt: 'DE QUITO', ja: 'キト旧市街', zh: '基多古城' },
     description: {
       en: 'The first UNESCO World Cultural Heritage site in the world. Walk along preserved cobblestone streets and marvel at the golden altars of La Compañía Church.',
       es: 'El primer sitio Patrimonio Cultural de la Humanidad por la UNESCO. Recorre calles coloniales empedradas y admira los templos dorados de La Compañía.',
@@ -39,8 +39,8 @@ export const HERO_SLIDES_DATA: SlideData[] = [
   },
   {
     place: { en: 'Tungurahua - Baños', es: 'Tungurahua - Baños', fr: 'Tungurahua - Baños', de: 'Tungurahua - Baños', it: 'Tungurahua - Baños', pt: 'Tungurahua - Baños', ja: 'トゥングラワ - バニョス', zh: '通古拉瓦 - 巴尼奥斯' },
-    title: { en: 'PAILÓN', es: 'CASCADA PAILÓN', fr: 'CASCADE PAILÓN', de: 'WASSERFALL PAILÓN', it: 'CASCATA PAILÓN', pt: 'CACHOEIRA PAILÓN', ja: '大迫力の悪魔の', zh: '雷霆万钧之' },
-    title2: { en: 'DEL DIABLO', es: 'DEL DIABLO', fr: 'DU DIABLE', de: 'DEL DIABLO', it: 'DEL DIABLO', pt: 'DEL DIABLO', ja: '咽喉の滝', zh: '恶魔之咽瀑布' },
+    title: { en: "DEVIL'S", es: 'CASCADA PAILÓN', fr: 'CASCADE PAILÓN', de: 'WASSERFALL PAILÓN', it: 'CASCATA PAILÓN', pt: 'CACHOEIRA PAILÓN', ja: '大迫力の悪魔の', zh: '雷霆万钧之' },
+    title2: { en: 'CAULDRON', es: 'DEL DIABLO', fr: 'DU DIABLE', de: 'DEL DIABLO', it: 'DEL DIABLO', pt: 'DEL DIABLO', ja: '咽喉の滝', zh: '恶魔之咽瀑布' },
     description: {
       en: 'Feel the thunderous roar of Ecuador’s most famous waterfall. Experience suspension bridges, lush tropical cloud forest, and the scenic Route of the Waterfalls.',
       es: 'Siente la fuerza atronadora de la cascada más emblemática de los Andes ecuatorianos en un entorno de exuberante vegetación y puentes colgantes.',
@@ -75,8 +75,8 @@ export const HERO_SLIDES_DATA: SlideData[] = [
   },
   {
     place: { en: 'Cotopaxi - Quilotoa', es: 'Cotopaxi - Quilotoa', fr: 'Cotopaxi - Quilotoa', de: 'Cotopaxi - Quilotoa', it: 'Cotopaxi - Quilotoa', pt: 'Cotopaxi - Quilotoa', ja: 'キロトア - アンデス', zh: '基洛托阿 - 火山湖' },
-    title: { en: 'CRATER LAGOON', es: 'LAGUNA CRÁTER', fr: 'LAGUNE DE CRATÈRE', de: 'KRATERLAGUNE', it: 'LAGUNA CRATERE', pt: 'LAGUNA CRATERA', ja: 'エメラルド色の', zh: '绿松石翡翠色的' },
-    title2: { en: 'OF QUILOTOA', es: 'DEL QUILOTOA', fr: 'DU QUILOTOA', de: 'VON QUILOTOA', it: 'DEL QUILOTOA', pt: 'DO QUILOTOA', ja: 'キロトア火口湖', zh: '基洛托阿火山湖' },
+    title: { en: 'QUILOTOA', es: 'LAGUNA CRÁTER', fr: 'LAGUNE DE CRATÈRE', de: 'KRATERLAGUNE', it: 'LAGUNA CRATERE', pt: 'LAGUNA CRATERA', ja: 'エメラルド色の', zh: '绿松石翡翠色的' },
+    title2: { en: 'CRATER LAKE', es: 'DEL QUILOTOA', fr: 'DU QUILOTOA', de: 'VON QUILOTOA', it: 'DEL QUILOTOA', pt: 'DO QUILOTOA', ja: 'キロトア火口湖', zh: '基洛托阿火山湖' },
     description: {
       en: 'Marvel at the striking turquoise waters inside an ancient volcanic caldera located at 3,500 meters altitude with panoramic views of the western Andes range.',
       es: 'Maravíllate con las aguas color esmeralda dentro de la caldera volcánica a 3.500 metros de altura con vistas panorámicas de la cordillera andina.',
@@ -93,8 +93,8 @@ export const HERO_SLIDES_DATA: SlideData[] = [
   },
   {
     place: { en: 'Napo - Amazon Rainforest', es: 'Napo - Selva Amazónica', fr: 'Napo - Forêt Amazonienne', de: 'Napo - Amazonas Regenwald', it: 'Napo - Foresta Amazzonica', pt: 'Napo - Selva Amazônica', ja: 'ナポ - アマゾン熱帯雨林', zh: '纳波 - 亚马逊雨林' },
-    title: { en: 'DEEP RAINFOREST', es: 'SELVA PROFUNDA', fr: 'FORÊT PROFONDE', de: 'TIEFER REGENWALD', it: 'FORESTA PROFONDA', pt: 'SELVA PROFUNDA', ja: '手付かずの原生', zh: '原始神秘的' },
-    title2: { en: 'OF AMAZON', es: 'DEL AMAZONAS', fr: 'DE L\'AMAZONIE', de: 'DES AMAZONAS', it: 'DELL\'AMAZZONIA', pt: 'DO AMAZONAS', ja: 'アマゾン熱帯雨林', zh: '亚马逊雨林' },
+    title: { en: 'RAIN FOREST', es: 'SELVA PROFUNDA', fr: 'FORÊT PROFONDE', de: 'TIEFER REGENWALD', it: 'FORESTA PROFONDA', pt: 'SELVA PROFUNDA', ja: '手付かずの原生', zh: '原始神秘的' },
+    title2: { en: 'AMAZON JUNGLE', es: 'DEL AMAZONAS', fr: 'DE L\'AMAZONIE', de: 'DES AMAZONAS', it: 'DELL\'AMAZZONIA', pt: 'DO AMAZONAS', ja: 'アマゾン熱帯雨林', zh: '亚马逊雨林' },
     description: {
       en: 'Navigate pristine Amazonian rivers by motorized canoe, encounter native wildlife at rescue sanctuaries, and connect with authentic Kichwa indigenous families.',
       es: 'Navega en canoas motorizadas por ríos amazónicos vírgenes, descubre fauna rescatada y comparte tradiciones con comunidades ancestrales Kichwa.',
@@ -110,27 +110,27 @@ export const HERO_SLIDES_DATA: SlideData[] = [
     mobileImage: '/images/tours/9-16/amazon-waterfall-9-16.jpg'
   },
   {
-    place: { en: 'Galapagos - Isabela Island', es: 'Galápagos - Isla Isabela', fr: 'Galapagos - Île Isabela', de: 'Galapagos - Insel Isabela', it: 'Galapagos - Isola Isabela', pt: 'Galápagos - Ilha Isabela', ja: 'ガラパゴス - イサベラ島', zh: '加拉帕戈斯 - 伊莎贝拉岛' },
-    title: { en: 'TINTORERAS ISLET', es: 'ISLOTE TINTORERAS', fr: 'ÎLOT TINTORERAS', de: 'INSEL TINTORERAS', it: 'ISOLOTTO TINTORERAS', pt: 'ILHÉU TINTORERAS', ja: 'ティントレラス岩礁と', zh: '蒂恩托雷拉斯海礁与' },
-    title2: { en: '& FLAMINGOS', es: 'Y FLAMENCOS', fr: 'ET FLAMANTS', de: '& FLAMINGOS', it: 'E FENICOTTERI', pt: 'E FLAMINGOS', ja: 'フラミンゴ', zh: '火烈鸟群' },
+    place: { en: 'Imbabura - Otavalo', es: 'Imbabura - Otavalo', fr: 'Imbabura - Otavalo', de: 'Imbabura - Otavalo', it: 'Imbabura - Otavalo', pt: 'Imbabura - Otavalo', ja: 'インバブラ - オタバロ', zh: '因巴布拉 - 奥塔瓦洛' },
+    title: { en: 'INDIGENOUS', es: 'MERCADO', fr: 'MARCHÉ', de: 'INDIANER', it: 'MERCATO', pt: 'MERCADO', ja: 'アンデス最大の先住民', zh: '安第斯最大的原住民' },
+    title2: { en: 'MARKET', es: 'INDÍGENA', fr: 'INDIGÈNE', de: 'MARKT', it: 'INDIGENO', pt: 'INDÍGENA', ja: '市場', zh: '市场' },
     description: {
-      en: 'Snorkel in turquoise lava channels with white-tip reef sharks, marine iguanas, and sea turtles, and visit coastal lagoons filled with wild flamingos.',
-      es: 'Nada en canales de lava turquesa con tiburones de arrecife, iguanas marinas y tortugas, y observa flamencos en lagunas costeras protegidas.',
-      fr: 'Faites du snorkeling dans des canaux de lave avec des requins de récif et des tortues marines, et admirez les flamants roses.',
-      de: 'Schnorcheln Sie in Lavakanälen mit Riffhaien und Meeresschildkröten und beobachten Sie Flamingos in Küstenlagunen.',
-      it: 'Fai snorkeling in canali di lava turchese con squali di barriera e tartarughe e osserva i fenicotteri nelle lagune.',
-      pt: 'Mergulhe em canais de lava com tubarões e tartarugas marinhas e observe flamingos em lagoas costeiras.',
-      ja: 'ネムリブカやウミイグアナ、ウミガメと一緒に溶岩水路でシュノーケリングをし、フラミンゴのラグーンを訪れましょう。',
-      zh: '在绿松石色火山熔岩水渠中与白顶礁鲨、海鬣蜥和海龟同游，探访火烈鸟泻湖。'
+      en: 'Explore South America\'s largest indigenous market, surrounded by spectacular Andean lakes and volcanoes, and discover the ancestral craftsmanship of the Andes.',
+      es: 'Explora el mercado indígena más grande de Sudamérica, rodeado de espectaculares lagos andinos y volcanes, y descubre la artesanía ancestral de los Andes.',
+      fr: 'Explorez le plus grand marché indigène d\'Amérique du Sud, entouré de lacs et de volcans andins spectaculaires.',
+      de: 'Erkunden Sie den größten indigenen Markt Südamerikas, umgeben von spektakulären Andenseen und Vulkanen.',
+      it: 'Esplora il più grande mercato indigeno del Sud America, circondato da spettacolari laghi e vulcani andini.',
+      pt: 'Explore o maior mercado indígena da América do Sul, cercado por espetaculares lagos e vulcões andinos.',
+      ja: '壮大なアンデスの湖と火山に囲まれた南米最大の先住民市場を探索し、アンデスの伝統工芸品を発見してください。',
+      zh: '探索南美洲最大的原住民市场，周围环绕着壮丽的安第斯湖泊和火山，并发现安第斯山脉的祖先手工艺。'
     },
-    image: '/images/tours/16-9/galapagos-isabela-island-16-9.jpg',
-    desktopImage: '/images/tours/16-9/isabela-island-16-9.jpg',
-    mobileImage: '/images/tours/9-16/galapagos-flamingos-9-16.jpg'
+    image: '/images/tours/16-9/otavalo-market-16-9.jpg',
+    desktopImage: '/images/tours/16-9/otavalo-market-16-9.jpg',
+    mobileImage: '/images/tours/9-16/otavalo-market-9-16.jpg'
   },
   {
     place: { en: 'Azuay - Cuenca & Cajas', es: 'Azuay - Cuenca y Cajas', fr: 'Azuay - Cuenca & Cajas', de: 'Azuay - Cuenca & Cajas', it: 'Azuay - Cuenca e Cajas', pt: 'Azuay - Cuenca e Cajas', ja: 'クエンカ＆カハス国立公園', zh: '昆卡与卡哈斯国家公园' },
     title: { en: 'COLONIAL CUENCA', es: 'CUENCA COLONIAL', fr: 'CUENCA COLONIALE', de: 'KOLONIALES CUENCA', it: 'CUENCA COLONIALE', pt: 'CUENCA COLONIAL', ja: '世界遺産クエンカと', zh: '殖民名城昆卡与' },
-    title2: { en: '& CAJAS', es: 'Y CAJAS', fr: 'ET CAJAS', de: '& CAJAS', it: 'E CAJAS', pt: 'E CAJAS', ja: 'カハス国立公園', zh: '卡哈斯公园' },
+    title2: { en: '& CAJAS NATIONAL PARK', es: 'Y CAJAS', fr: 'ET CAJAS', de: '& CAJAS', it: 'E CAJAS', pt: 'E CAJAS', ja: 'カハス国立公園', zh: '卡哈斯公园' },
     description: {
       en: 'Discover the UNESCO-listed colonial elegance of Cuenca, handcrafted toquilla hats, and hike among the 200 glacial lakes of Cajas National Park.',
       es: 'Descubre la elegancia colonial de Cuenca (Patrimonio UNESCO), los talleres de sombreros de toquilla y los más de 200 lagos glaciares del Parque Nacional Cajas.',
@@ -148,7 +148,7 @@ export const HERO_SLIDES_DATA: SlideData[] = [
   {
     place: { en: 'Chimborazo - Andes', es: 'Chimborazo - Andes', fr: 'Chimborazo - Andes', de: 'Chimborazo - Anden', it: 'Chimborazo - Ande', pt: 'Chimborazo - Andes', ja: 'チンボラソ - アンデス', zh: '钦博拉索 - 安第斯' },
     title: { en: 'HIGHEST SUMMIT', es: 'CUMBRE DEL VOLCÁN', fr: 'SOMMET DU VOLCAN', de: 'HÖCHSTER GIPFEL', it: 'VETTA DEL VULCANO', pt: 'CUME DO VULCÃO', ja: '太陽に最も近い最高峰', zh: '离太阳最近的最高峰' },
-    title2: { en: 'OF CHIMBORAZO', es: 'CHIMBORAZO', fr: 'CHIMBORAZO', de: 'DES CHIMBORAZO', it: 'CHIMBORAZO', pt: 'CHIMBORAZO', ja: 'チンボラソ火山', zh: '钦博拉索火山' },
+    title2: { en: 'CHIMBORAZO', es: 'CHIMBORAZO', fr: 'CHIMBORAZO', de: 'DES CHIMBORAZO', it: 'CHIMBORAZO', pt: 'CHIMBORAZO', ja: 'チンボラソ火山', zh: '钦博拉索火山' },
     description: {
       en: 'The closest point on Earth to the Sun at 6,310 meters. Experience the majestic Andean reserve home to wild vicuñas and ancestral Inca mountain landscapes.',
       es: 'El punto más cercano de la Tierra al Sol a 6.310 metros. Explora la reserva de fauna andina habitada por elegantes vicuñas y paisajes ancestrales.',
