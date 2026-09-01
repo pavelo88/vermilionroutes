@@ -246,6 +246,8 @@ export function useHeroSliderAnimation(params: UseHeroSliderParams) {
       };
 
       const TORTUGAS_ORIGINAL = {
+        title: { en: 'GIANT TORTOISES', es: 'TORTUGAS GIGANTES', fr: 'TORTUES GÉANTES', de: 'RIESENSCHILD KRÖTEN', it: 'TARTARUGHE GIGANTI', pt: 'TARTARUGAS GIGANTES', ja: '古代の巨大', zh: '古老巨型' },
+        title2: { en: 'OF GALAPAGOS', es: 'DE GALÁPAGOS', fr: 'DES GALAPAGOS', de: 'DER GALAPAGOS', it: 'DELLE GALAPAGOS', pt: 'DE GALÁPAGOS', ja: 'ガラパゴスゾウガメ', zh: '加拉帕戈斯陆龟' },
         image: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
         desktopImage: '/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg',
         mobileImage: '/images/tours/9-16/galapagos-tortuga-gigante-9-16.jpg'

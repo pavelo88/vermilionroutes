@@ -9,6 +9,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendEmailVerification,
+  signOut,
 } from 'firebase/auth';
 import {
   Calculator,
