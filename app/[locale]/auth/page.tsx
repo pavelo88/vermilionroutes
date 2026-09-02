@@ -204,7 +204,7 @@ export default function AuthPage() {
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="text-center space-y-1 mb-6 flex flex-col items-center">
               <img 
-                src="/images/shared/logo-vr-gold.svg" 
+                src="/logo_inicio.png" 
                 alt="Vermilion" 
                 className="h-12 object-contain drop-shadow-md mb-2" 
                 onError={(e) => { e.currentTarget.style.display = 'none'; }} 

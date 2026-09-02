@@ -397,7 +397,7 @@ function PresentationContent() {
 
             {/* Logo Vermilion Affiliates */}
             <div className="flex flex-col items-center justify-center mb-6">
-              <img src="/images/shared/logo-vr-gold.svg" alt="Vermilion" className="h-10 object-contain drop-shadow-md mb-2" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+              <img src="/logo_inicio.png" alt="Vermilion" className="h-10 object-contain drop-shadow-md mb-2" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
               <h4 className="font-serif text-sm font-light text-white tracking-widest uppercase">
                 Vermilion <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB]">Affiliates</span>
               </h4>
@@ -835,7 +835,7 @@ function PresentationContent() {
               <div className="p-4 rounded-2xl bg-stone-100 dark:bg-black/40 border border-zinc-200/70 dark:border-white/5 space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <label className="font-semibold text-zinc-700 dark:text-zinc-300">Precio promedio del Tour (USD)</label>
-                  <span className="text-amber-700 dark:text-amber-400 font-bold font-mono text-sm" suppressHydrationWarning>${tourPrice.toLocaleString()} USD</span>
+                  <span className="text-amber-700 dark:text-amber-400 font-bold font-mono text-sm" suppressHydrationWarning>${tourPrice.toLocaleString('en-US')} USD</span>
                 </div>
                 <input 
                   type="range" min="1000" max="15000" step="500" 
@@ -903,7 +903,7 @@ function PresentationContent() {
                       <DollarSign className="w-4 h-4 text-emerald-400" />
                       <span className="text-xs text-zinc-300">Venta Directa (10% Infinito)</span>
                     </div>
-                    <span className="font-bold font-mono text-emerald-400 text-sm">${directCommission.toLocaleString()}</span>
+                    <span className="font-bold font-mono text-emerald-400 text-sm">${directCommission.toLocaleString('en-US')}</span>
                   </div>
 
                   <div className={`flex justify-between items-center p-3.5 bg-zinc-900/60 border border-white/5 rounded-2xl ${leadershipBonus > 0 ? '' : 'opacity-50'}`}>
@@ -911,7 +911,7 @@ function PresentationContent() {
                       <Users className="w-4 h-4 text-teal-400" />
                       <span className="text-xs text-zinc-300">Liderazgo Red (3% de socios)</span>
                     </div>
-                    <span className="font-bold font-mono text-teal-400 text-sm">${leadershipBonus.toLocaleString()}</span>
+                    <span className="font-bold font-mono text-teal-400 text-sm">${leadershipBonus.toLocaleString('en-US')}</span>
                   </div>
 
                   <div className="flex justify-between items-center p-3.5 bg-zinc-900/60 border border-white/5 rounded-2xl">
@@ -924,12 +924,12 @@ function PresentationContent() {
                         </span>
                       </div>
                     </div>
-                    <span className="font-bold font-mono text-amber-400 text-sm">${globalBonus.toLocaleString()}</span>
+                    <span className="font-bold font-mono text-amber-400 text-sm">${globalBonus.toLocaleString('en-US')}</span>
                   </div>
 
                   <div className="pt-3 border-t border-white/5 flex justify-between items-center text-xs text-zinc-400">
                     <span>Volumen Total Facturado</span>
-                    <span className="font-mono text-white font-bold">${totalVolume.toLocaleString()} USD</span>
+                    <span className="font-mono text-white font-bold">${totalVolume.toLocaleString('en-US')} USD</span>
                   </div>
 
                 </div>
@@ -937,7 +937,7 @@ function PresentationContent() {
 
               <div className="mt-6 p-6 bg-gradient-to-br from-emerald-950/60 via-stone-900 to-black border border-emerald-500/30 rounded-2xl text-center space-y-3">
                 <p className="text-emerald-300 text-xs font-semibold uppercase tracking-wider">Tu Ingreso Total Estimado</p>
-                <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">${totalEarnings.toLocaleString()} <span className="text-sm font-light text-zinc-400">USD/mes</span></h2>
+                <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">${totalEarnings.toLocaleString('en-US')} <span className="text-sm font-light text-zinc-400">USD/mes</span></h2>
                 
                 <div className="flex flex-col sm:flex-row gap-2 mt-4">
                   <button
