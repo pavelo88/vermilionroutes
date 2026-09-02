@@ -3,7 +3,9 @@ import {
   collection,
   doc,
   getDoc,
+  getDocFromServer,
   getDocs,
+  getDocsFromServer,
   setDoc,
   updateDoc,
   query,
@@ -122,10 +124,18 @@ export async function getAffiliateByUsername(username: string): Promise<Affiliat
   if (!username || !db) return null;
   const clean = username.trim().toLowerCase();
   try {
-    const snap = await getDoc(doc(db, AFFILIATES_COLLECTION, clean));
-    if (!snap.exists()) return null;
-    return { id: snap.id, ...snap.data() } as AffiliateAccount;
+    const snap = await getDocFromServer(doc(db, AFFILIATES_COLLECTION, clean));
+    if (snap.exists()) {
+      return { id: snap.id, ...snap.data() } as AffiliateAccount;
+    }
+    return null;
   } catch (err) {
+    try {
+      const snapCache = await getDoc(doc(db, AFFILIATES_COLLECTION, clean));
+      if (snapCache.exists()) {
+        return { id: snapCache.id, ...snapCache.data() } as AffiliateAccount;
+      }
+    } catch {}
     console.warn('getAffiliateByUsername error:', err);
     return null;
   }
@@ -143,7 +153,12 @@ export async function getAffiliateByEmail(email: string): Promise<AffiliateAccou
       collection(db, AFFILIATES_COLLECTION),
       where('email', '==', clean)
     );
-    const snap = await getDocs(q);
+    let snap;
+    try {
+      snap = await getDocsFromServer(q);
+    } catch {
+      snap = await getDocs(q);
+    }
     if (snap.empty) return null;
     return { id: snap.docs[0].id, ...snap.docs[0].data() } as AffiliateAccount;
   } catch (err) {

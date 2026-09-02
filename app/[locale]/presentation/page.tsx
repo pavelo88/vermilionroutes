@@ -110,6 +110,7 @@ function PresentationContent() {
   const [authStatus, setAuthStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [authError, setAuthError] = useState('');
   const [authSuccess, setAuthSuccess] = useState('');
+  const [loginProgressMessage, setLoginProgressMessage] = useState('');
 
   // Force password change modal state
   const [showForcePasswordModal, setShowForcePasswordModal] = useState(false);
@@ -151,6 +152,7 @@ function PresentationContent() {
 
     setAuthStatus('loading');
     setAuthError('');
+    setLoginProgressMessage(isEs ? '1/3 Conectando y verificando usuario...' : '1/3 Verifying user...');
 
     try {
       let targetEmail = loginIdentifier.trim().toLowerCase();
@@ -165,9 +167,9 @@ function PresentationContent() {
         }
         targetEmail = foundAffiliate.email;
         console.log('[Login] Resolved username to email:', targetEmail);
-      } else {
-        foundAffiliate = await getAffiliateByEmail(targetEmail);
       }
+
+      setLoginProgressMessage(isEs ? '2/3 Autenticando credenciales en Firebase...' : '2/3 Authenticating credentials in Firebase...');
 
       if (auth) {
         try {
@@ -179,20 +181,39 @@ function PresentationContent() {
         console.log('[Login] Firebase Auth success, user UID:', userCred.user.uid);
       }
 
+      setLoginProgressMessage(isEs ? '3/3 Sincronizando datos de embajador...' : '3/3 Syncing ambassador profile...');
+
+      // Triple verification delay (Energyengine pattern)
+      let attempts = 0;
+      const maxAttempts = 3;
+      while (attempts < maxAttempts) {
+        if (!foundAffiliate) {
+          foundAffiliate = await getAffiliateByEmail(targetEmail);
+        }
+        if (foundAffiliate) break;
+        attempts++;
+        if (attempts < maxAttempts) {
+          await new Promise((res) => setTimeout(res, 800));
+        }
+      }
+
       if (foundAffiliate && foundAffiliate.forcePasswordChange) {
         setActiveAffiliateId(foundAffiliate.id);
         setAuthModalOpen(false);
         setShowForcePasswordModal(true);
         setAuthStatus('idle');
+        setLoginProgressMessage('');
         return;
       }
 
       setAuthStatus('success');
-      console.log('[Login] Navigating to dashboard...');
+      setLoginProgressMessage(isEs ? '✓ ¡Acceso confirmado! Abriendo tu panel...' : '✓ Access confirmed! Opening dashboard...');
+      localStorage.setItem('vr_affiliate_user', targetEmail);
       window.location.href = `/${locale}/affiliates/dashboard`;
     } catch (err: any) {
-      console.error(err);
+      console.error('[Login Error]', err);
       setAuthStatus('error');
+      setLoginProgressMessage('');
       if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
         setAuthError(isEs ? 'Contraseña o cédula incorrecta. Si es tu 1er ingreso, usa tu cédula.' : 'Incorrect credentials.');
       } else if (err.code === 'auth/user-not-found') {
@@ -615,6 +636,13 @@ function PresentationContent() {
                   </div>
                 </div>
 
+                {loginProgressMessage && (
+                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2.5 animate-pulse">
+                    <span className="w-3.5 h-3.5 border-2 border-amber-400 border-t-transparent rounded-full animate-spin shrink-0" />
+                    <span>{loginProgressMessage}</span>
+                  </div>
+                )}
+
                 {authError && (
                   <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-900/50 text-rose-400 text-xs flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 shrink-0" />
@@ -625,7 +653,7 @@ function PresentationContent() {
                 <button
                   type="submit"
                   disabled={authStatus === 'loading'}
-                  className="w-full py-4 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:from-[#E5C158] hover:to-[#B59049] disabled:opacity-50 text-stone-950 font-extrabold uppercase tracking-wider text-xs rounded-2xl transition-all shadow-lg shadow-amber-900/30 mt-6 cursor-pointer hover:scale-[1.01] active:scale-95 border-none flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:from-[#E5C158] hover:to-[#B59049] disabled:opacity-50 text-stone-950 font-extrabold uppercase tracking-wider text-xs rounded-2xl transition-all shadow-lg shadow-amber-900/30 mt-4 cursor-pointer hover:scale-[1.01] active:scale-95 border-none flex items-center justify-center gap-2"
                 >
                   {authStatus === 'loading' ? (
                     <span className="w-4 h-4 border-2 border-stone-950 border-t-transparent rounded-full animate-spin inline-block" />

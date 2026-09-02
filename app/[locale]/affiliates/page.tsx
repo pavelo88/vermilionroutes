@@ -10,6 +10,8 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   onAuthStateChanged,
+  setPersistence,
+  browserLocalPersistence,
 } from 'firebase/auth';
 import {
   CheckCircle2,
@@ -155,6 +157,11 @@ export default function AffiliatesPage() {
 
       // Authenticate with Firebase Auth
       if (auth) {
+        try {
+          await setPersistence(auth, browserLocalPersistence);
+        } catch (pErr) {
+          console.warn('[Login] Persistence warning:', pErr);
+        }
         await signInWithEmailAndPassword(auth, targetEmail, loginPassword.trim());
       }
 
