@@ -24,14 +24,14 @@ import {
 import { getAffiliateByEmail, AffiliateAccount } from '@/lib/affiliates';
 
 const LOCALES = [
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
-  { code: 'en', label: 'English', flag: '🇺🇸' },
-  { code: 'fr', label: 'Français', flag: '🇫🇷' },
-  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
-  { code: 'it', label: 'Italiano', flag: '🇮🇹' },
-  { code: 'pt', label: 'Português', flag: '🇵🇹' },
-  { code: 'zh', label: '中文', flag: '🇨🇳' },
-  { code: 'ja', label: '日本語', flag: '🇯🇵' },
+  { code: 'es', label: 'Español', flagUrl: 'https://flagcdn.com/es.svg' },
+  { code: 'en', label: 'English', flagUrl: 'https://flagcdn.com/us.svg' },
+  { code: 'fr', label: 'Français', flagUrl: 'https://flagcdn.com/fr.svg' },
+  { code: 'de', label: 'Deutsch', flagUrl: 'https://flagcdn.com/de.svg' },
+  { code: 'it', label: 'Italiano', flagUrl: 'https://flagcdn.com/it.svg' },
+  { code: 'pt', label: 'Português', flagUrl: 'https://flagcdn.com/pt.svg' },
+  { code: 'zh', label: '中文', flagUrl: 'https://flagcdn.com/cn.svg' },
+  { code: 'ja', label: '日本語', flagUrl: 'https://flagcdn.com/jp.svg' },
 ];
 
 export default function AffiliatesSidebar() {
@@ -217,7 +217,12 @@ export default function AffiliatesSidebar() {
               className="w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-white/[0.02] border border-white/10 text-xs text-zinc-900 dark:text-white hover:bg-white/5 transition-all duration-300"
             >
               <div className="flex items-center gap-3">
-                <span className="text-base leading-none">{currentLang.flag}</span>
+                <img
+                  src={currentLang.flagUrl}
+                  alt=""
+                  aria-hidden="true"
+                  className="w-4 h-3 object-cover rounded-xs shadow-xs"
+                />
                 <span className="font-semibold uppercase tracking-widest text-[11px]">{locale}</span>
               </div>
               <ChevronDown className={`w-3.5 h-3.5 text-[#6B6B6B] transition-transform ${langOpen ? 'rotate-180' : ''}`} />
@@ -236,7 +241,7 @@ export default function AffiliatesSidebar() {
                         : 'text-[#6B6B6B] hover:bg-white/5 hover:text-white'
                     }`}
                   >
-                    <span className="text-base leading-none">{l.flag}</span>
+                    <img src={l.flagUrl} alt="" aria-hidden="true" className="w-5 h-auto rounded-[2px] shadow-sm" />
                     <span>{l.code}</span>
                   </button>
                 ))}
