@@ -242,7 +242,7 @@ export default function AffiliatesSidebar() {
                     }`}
                   >
                     <img src={l.flagUrl} alt="" aria-hidden="true" className="w-5 h-auto rounded-[2px] shadow-sm" />
-                    <span>{l.code}</span>
+                    <span>{l.label}</span>
                   </button>
                 ))}
               </div>
