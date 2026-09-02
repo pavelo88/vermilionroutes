@@ -39,7 +39,6 @@ export default function AffiliatesSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
-  const isEs = locale === 'es';
 
   const [mounted, setMounted] = useState(false);
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
@@ -87,44 +86,59 @@ export default function AffiliatesSidebar() {
 
   const currentLang = LOCALES.find((l) => l.code === locale) || LOCALES[0];
 
+  // ── TRADUCCIONES COMPLETAS DEL PANEL ──────────────────────────────────────
+  const NAV_LABELS: Record<string, Record<string, string>> = {
+    dashboard: {
+      es: 'Mi Panel', en: 'Dashboard', fr: 'Tableau de Bord',
+      de: 'Mein Panel', it: 'Il Mio Pannello', pt: 'Meu Painel',
+      zh: '我的面板', ja: 'マイパネル',
+    },
+    earnings: {
+      es: 'Mis Ventas', en: 'My Sales', fr: 'Mes Ventes',
+      de: 'Meine Verkäufe', it: 'Le Mie Vendite', pt: 'Minhas Vendas',
+      zh: '我的销售', ja: '私の売上',
+    },
+    network: {
+      es: 'Mi Red', en: 'My Network', fr: 'Mon Réseau',
+      de: 'Mein Netzwerk', it: 'La Mia Rete', pt: 'Minha Rede',
+      zh: '我的网络', ja: '私のネットワーク',
+    },
+    withdrawals: {
+      es: 'Retiros', en: 'Withdrawals', fr: 'Retraits',
+      de: 'Auszahlungen', it: 'Prelievi', pt: 'Retiradas',
+      zh: '提款', ja: '出金',
+    },
+    profile: {
+      es: 'Mi Perfil', en: 'My Profile', fr: 'Mon Profil',
+      de: 'Mein Profil', it: 'Il Mio Profilo', pt: 'Meu Perfil',
+      zh: '我的资料', ja: 'マイプロフィール',
+    },
+    resources: {
+      es: 'Recursos de Venta', en: 'Sales Resources', fr: 'Ressources de Vente',
+      de: 'Verkaufsressourcen', it: 'Risorse di Vendita', pt: 'Recursos de Venda',
+      zh: '销售资源', ja: '営業リソース',
+    },
+  };
+
+  const t = (key: string) => NAV_LABELS[key]?.[locale] || NAV_LABELS[key]?.['en'] || key;
+
   const NAV_ITEMS = [
-    {
-      labelEs: 'Mi Panel',
-      labelEn: 'Dashboard',
-      href: `/${locale}/affiliates/dashboard`,
-      icon: LayoutDashboard,
-    },
-    {
-      labelEs: 'Mis Ventas',
-      labelEn: 'My Sales',
-      href: `/${locale}/affiliates/earnings`,
-      icon: TrendingUp,
-    },
-    {
-      labelEs: 'Mi Red',
-      labelEn: 'My Network',
-      href: `/${locale}/affiliates/network`,
-      icon: Network,
-    },
-    {
-      labelEs: 'Retiros',
-      labelEn: 'Withdrawals',
-      href: `/${locale}/affiliates/withdrawals`,
-      icon: Banknote,
-    },
-    {
-      labelEs: 'Mi Perfil',
-      labelEn: 'My Profile',
-      href: `/${locale}/affiliates/profile`,
-      icon: UserCircle,
-    },
-    {
-      labelEs: 'Recursos de Venta',
-      labelEn: 'Sales Resources',
-      href: `/${locale}/affiliates/resources`,
-      icon: BookOpen,
-    },
+    { key: 'dashboard', href: `/${locale}/affiliates/dashboard`, icon: LayoutDashboard },
+    { key: 'earnings',  href: `/${locale}/affiliates/earnings`,  icon: TrendingUp },
+    { key: 'network',   href: `/${locale}/affiliates/network`,   icon: Network },
+    { key: 'withdrawals', href: `/${locale}/affiliates/withdrawals`, icon: Banknote },
+    { key: 'profile',   href: `/${locale}/affiliates/profile`,   icon: UserCircle },
+    { key: 'resources', href: `/${locale}/affiliates/resources`, icon: BookOpen },
   ];
+
+  // Traducción de textos de UI
+  const UI = {
+    portalLabel:  { es: 'Portal Embajadores', en: 'Ambassador Portal', fr: 'Portail Ambassadeurs', de: 'Botschafterportal', it: 'Portale Ambasciatori', pt: 'Portal Embaixadores', zh: '大使门户', ja: 'アンバサダーポータル' },
+    rank:         { es: 'Rango', en: 'Rank', fr: 'Rang', de: 'Rang', it: 'Rango', pt: 'Rank', zh: '等级', ja: 'ランク' },
+    logout:       { es: 'Cerrar Sesión', en: 'Sign Out', fr: 'Déconnexion', de: 'Abmelden', it: 'Disconnetti', pt: 'Sair', zh: '退出', ja: 'サインアウト' },
+    affiliates:   { es: 'Afiliados', en: 'Affiliates', fr: 'Affiliés', de: 'Partner', it: 'Affiliati', pt: 'Afiliados', zh: '联盟', ja: 'アフィリエイト' },
+  };
+  const ui = (key: keyof typeof UI) => (UI[key] as Record<string,string>)[locale] || (UI[key] as Record<string,string>)['en'];
 
   const isActive = (href: string) =>
     pathname === href || (href !== `/${locale}` && pathname.startsWith(href));
@@ -148,10 +162,10 @@ export default function AffiliatesSidebar() {
             </div>
             <div>
               <span className="font-serif text-base font-bold text-zinc-900 dark:text-white tracking-wide block">
-                Vermilion <span className="font-normal text-[#C9A84C]">Afiliados</span>
+                Vermilion <span className="font-normal text-[#C9A84C]">{ui('affiliates')}</span>
               </span>
               <span className="text-[9px] text-[#A9A9A9] uppercase tracking-[0.2em] block font-sans mt-0.5">
-                Portal Embajadores
+                {ui('portalLabel')}
               </span>
             </div>
           </Link>
@@ -175,7 +189,7 @@ export default function AffiliatesSidebar() {
             </div>
 
             <div className="pt-3 border-t border-white/10 flex items-center justify-between relative z-10">
-              <span className="text-[9px] uppercase tracking-[0.15em] text-[#6B6B6B] font-semibold">Rango</span>
+              <span className="text-[9px] uppercase tracking-[0.15em] text-[#6B6B6B] font-semibold">{ui('rank')}</span>
               <span className="text-[9px] font-bold text-[#C9A84C] uppercase tracking-wider">
                 {displayRank}
               </span>
@@ -199,7 +213,7 @@ export default function AffiliatesSidebar() {
                   }`}
                 >
                   <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-zinc-900 dark:text-white' : 'text-[#4A4A4A]'}`} />
-                  <span>{isEs ? item.labelEs : item.labelEn}</span>
+                  <span>{t(item.key)}</span>
                 </Link>
               );
             })}
@@ -265,7 +279,7 @@ export default function AffiliatesSidebar() {
               className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-2xl border border-white/5 bg-white/[0.01] text-[#6B6B6B] hover:text-white hover:bg-white/5 transition-all duration-300 text-[11px] uppercase tracking-wider font-semibold group"
             >
               <LogOut className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
-              <span>{isEs ? 'Cerrar Sesión' : 'Sign Out'}</span>
+              <span>{ui('logout')}</span>
             </button>
           </div>
         </div>
