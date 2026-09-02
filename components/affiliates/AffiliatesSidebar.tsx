@@ -223,7 +223,7 @@ export default function AffiliatesSidebar() {
                   aria-hidden="true"
                   className="w-4 h-3 object-cover rounded-xs shadow-xs"
                 />
-                <span className="font-semibold uppercase tracking-widest text-[11px]">{locale}</span>
+                <span className="font-semibold uppercase tracking-widest text-[11px]">{currentLang.label}</span>
               </div>
               <ChevronDown className={`w-3.5 h-3.5 text-[#6B6B6B] transition-transform ${langOpen ? 'rotate-180' : ''}`} />
             </button>
