@@ -53,37 +53,18 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
         return;
       }
 
-      // 2. Listener with retry buffer
-      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      // 2. Listener simple y robusto (estilo EnergyEngine)
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (!isSubscribed) return;
+        
         if (user) {
-          if (isSubscribed) {
-            setCurrentUser(user);
-            setLoading(false);
-            setAuthError(null);
-          }
+          setCurrentUser(user);
+          setLoading(false);
+          setAuthError(null);
         } else {
-          attempts++;
-          if (attempts < maxAttempts) {
-            // Wait and retry before concluding no session exists
-            await new Promise((res) => setTimeout(res, 600));
-            if (auth.currentUser && isSubscribed) {
-              setCurrentUser(auth.currentUser);
-              setLoading(false);
-              setAuthError(null);
-            }
-          } else {
-            if (isSubscribed) {
-              setLoading(false);
-              setAuthError(
-                isEs
-                  ? 'No se detectó una sesión activa en este navegador. Inicia sesión para continuar.'
-                  : 'No active session detected in this browser. Please sign in.'
-              );
-              console.warn('[Affiliates Layout] Auth state check concluded: no active user session.');
-              // REDIRECT TO AUTH IF NO SESSION
-              window.location.href = `/${locale}/auth`;
-            }
-          }
+          // No hay usuario, redirigir de inmediato
+          setLoading(false);
+          window.location.href = `/${locale}/auth`;
         }
       });
 

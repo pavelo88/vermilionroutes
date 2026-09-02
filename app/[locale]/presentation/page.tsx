@@ -59,8 +59,8 @@ function PresentationContent() {
   const isEs = locale === 'es';
 
   // Modals state
-  const [authModalOpen, setAuthModalOpen] = useState(loginParam);
-  const [modalTab, setModalTab] = useState<'register' | 'login' | 'forgot'>(loginParam ? 'login' : 'register');
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [modalTab, setModalTab] = useState<'register' | 'login' | 'forgot'>('register');
   const [resetIdentifier, setResetIdentifier] = useState('');
 
   // Simulator Sliders State
@@ -115,6 +115,12 @@ function PresentationContent() {
   // Force password change modal state
   const [showForcePasswordModal, setShowForcePasswordModal] = useState(false);
   const [activeAffiliateId, setActiveAffiliateId] = useState('');
+
+  useEffect(() => {
+    if (loginParam) {
+      router.replace(`/${locale}/auth`);
+    }
+  }, [loginParam, router, locale]);
 
   useEffect(() => {
     if (refParam) {
@@ -389,12 +395,13 @@ function PresentationContent() {
               <X className="w-5 h-5" />
             </button>
 
-            {/* Toggle Tabs */}
-            <div className="p-1.5 bg-zinc-100 dark:bg-zinc-900/90 rounded-2xl border border-zinc-200 dark:border-amber-500/20 mb-6 flex justify-center">
-              <div className="py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] text-stone-950 shadow-md shadow-amber-900/30 border border-[#F5D77F]/50">
-                <UserPlus className="w-4 h-4 shrink-0" />
-                <span>{isEs ? 'Registro Embajador' : 'Ambassador Register'}</span>
+            {/* Logo Vermilion Affiliates */}
+            <div className="flex flex-col items-center justify-center mb-6">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-900/40 border border-amber-500/30 flex items-center justify-center mb-3 shadow-lg shadow-amber-900/20">
+                <UserPlus className="w-6 h-6 text-amber-400" />
               </div>
+              <h4 className="font-serif text-lg font-light text-white tracking-wide">Vermilion <span className="font-medium text-amber-500">Affiliates</span></h4>
+              <div className="w-8 h-px bg-amber-500/30 mt-2"></div>
             </div>
 
             {/* ── REGISTER FORM ───────────────────────────────────────────── */}
