@@ -390,34 +390,11 @@ function PresentationContent() {
             </button>
 
             {/* Toggle Tabs */}
-            <div className="grid grid-cols-2 p-1.5 bg-zinc-100 dark:bg-zinc-900/90 rounded-2xl border border-zinc-200 dark:border-amber-500/20 mb-6">
-              <button
-                type="button"
-                onClick={() => { setModalTab('register'); setAuthError(''); setAuthStatus('idle'); }}
-                className={`py-2.5 px-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                  modalTab === 'register'
-                    ? 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] text-stone-950 shadow-md shadow-amber-900/30 border border-[#F5D77F]/50'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-amber-300'
-                }`}
-              >
+            <div className="p-1.5 bg-zinc-100 dark:bg-zinc-900/90 rounded-2xl border border-zinc-200 dark:border-amber-500/20 mb-6 flex justify-center">
+              <div className="py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] text-stone-950 shadow-md shadow-amber-900/30 border border-[#F5D77F]/50">
                 <UserPlus className="w-4 h-4 shrink-0" />
-                <span className="inline sm:hidden">{isEs ? 'Registro' : 'Register'}</span>
-                <span className="hidden sm:inline">{isEs ? 'Registro Embajador' : 'Ambassador Register'}</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { setModalTab('login'); setAuthError(''); setAuthStatus('idle'); }}
-                className={`py-2.5 px-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                  modalTab === 'login'
-                    ? 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] text-stone-950 shadow-md shadow-amber-900/30 border border-[#F5D77F]/50'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-amber-300'
-                }`}
-              >
-                <LogIn className="w-4 h-4 shrink-0" />
-                <span className="inline sm:hidden">{isEs ? 'Acceder' : 'Sign In'}</span>
-                <span className="hidden sm:inline">{isEs ? 'Acceder a mi Cuenta' : 'Sign In to Account'}</span>
-              </button>
+                <span>{isEs ? 'Registro Embajador' : 'Ambassador Register'}</span>
+              </div>
             </div>
 
             {/* ── REGISTER FORM ───────────────────────────────────────────── */}
@@ -773,7 +750,7 @@ function PresentationContent() {
             </button>
 
             <button
-              onClick={() => { setModalTab('login'); setAuthModalOpen(true); }}
+              onClick={() => { router.push(`/${locale}/affiliates`); }}
               className="inline-flex items-center gap-2.5 px-8 py-4 bg-white dark:bg-stone-900 hover:bg-slate-100 dark:hover:bg-stone-800 border border-[#D4AF37]/50 text-stone-900 dark:text-[#F3E5AB] font-bold uppercase tracking-wider text-xs rounded-2xl transition-all duration-300 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-sm"
             >
               <LogIn className="w-4 h-4 text-[#D4AF37] dark:text-[#F3E5AB]" />

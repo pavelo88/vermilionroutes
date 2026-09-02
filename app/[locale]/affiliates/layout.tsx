@@ -22,7 +22,6 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
   const [authError, setAuthError] = useState<string | null>(null);
 
   const isPublicPage =
-    pathname === `/${locale}/affiliates` ||
     pathname === `/${locale}/affiliates/presentation` ||
     pathname === `/${locale}/affiliates/verify` ||
     pathname === `/${locale}/presentation`;
@@ -81,6 +80,8 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
                   : 'No active session detected in this browser. Please sign in.'
               );
               console.warn('[Affiliates Layout] Auth state check concluded: no active user session.');
+              // REDIRECT TO AUTH IF NO SESSION
+              window.location.href = `/${locale}/auth`;
             }
           }
         }
@@ -112,44 +113,9 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
     );
   }
 
-  // Si no está autenticado, muestra la pantalla informativa visible con botón en lugar de rebotar
+  // Si no está autenticado, simplemente no renderizamos nada porque el useEffect ya lo redirige a /auth
   if (!currentUser) {
-    return (
-      <div className="min-h-screen bg-[#0A0A0F] text-white flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-full max-w-md bg-white/[0.03] border border-amber-500/30 rounded-[24px] p-8 shadow-2xl backdrop-blur-md space-y-5">
-          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto text-amber-400 font-bold text-xl">
-            🔒
-          </div>
-          <div>
-            <h2 className="font-serif text-2xl font-light text-white">
-              {isEs ? 'Acceso al Panel de Embajadores' : 'Ambassador Portal Access'}
-            </h2>
-            <p className="text-xs text-zinc-400 mt-2">
-              {authError || (isEs ? 'Se requiere iniciar sesión para acceder a tus comisiones y red.' : 'Authentication required.')}
-            </p>
-          </div>
-
-          <div className="pt-2 flex flex-col gap-3">
-            <button
-              onClick={() => {
-                window.location.href = `/${locale}/affiliates`;
-              }}
-              className="w-full py-3.5 px-4 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] text-stone-950 font-bold text-xs uppercase tracking-wider rounded-xl hover:opacity-95 transition-all shadow-lg cursor-pointer"
-            >
-              {isEs ? 'Iniciar Sesión' : 'Sign In'}
-            </button>
-            <button
-              onClick={() => {
-                window.location.href = `/${locale}`;
-              }}
-              className="w-full py-3 px-4 bg-zinc-900 border border-white/10 text-zinc-300 hover:text-white font-medium text-xs rounded-xl hover:bg-zinc-800 transition-all cursor-pointer"
-            >
-              {isEs ? 'Volver a la Portada' : 'Return to Home'}
-            </button>
-          </div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
