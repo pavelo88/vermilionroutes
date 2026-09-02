@@ -756,7 +756,7 @@ function PresentationContent() {
             </button>
 
             <button
-              onClick={() => { router.push(`/${locale}/affiliates`); }}
+              onClick={() => { setModalTab('login'); setAuthModalOpen(true); }}
               className="inline-flex items-center gap-2.5 px-8 py-4 bg-white dark:bg-stone-900 hover:bg-slate-100 dark:hover:bg-stone-800 border border-[#D4AF37]/50 text-stone-900 dark:text-[#F3E5AB] font-bold uppercase tracking-wider text-xs rounded-2xl transition-all duration-300 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-sm"
             >
               <LogIn className="w-4 h-4 text-[#D4AF37] dark:text-[#F3E5AB]" />

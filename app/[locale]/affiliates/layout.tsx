@@ -22,6 +22,7 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
   const [authError, setAuthError] = useState<string | null>(null);
 
   const isPublicPage =
+    pathname === `/${locale}/affiliates` ||
     pathname === `/${locale}/affiliates/presentation` ||
     pathname === `/${locale}/affiliates/verify` ||
     pathname === `/${locale}/presentation`;
