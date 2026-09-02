@@ -51,9 +51,10 @@ export default function AffiliatesPage() {
   // Sponsor referral capture from URL (?vid=pablo.g, with legacy ?ref= support)
   const refFromUrl = searchParams.get('vid') || searchParams.get('ref') || '';
 
-  // Auth mode: 'register' | 'login' | 'forgot'
-  const [authMode, setAuthMode] = useState<'register' | 'login' | 'forgot'>('register');
+  // Auth mode: default to 'login' in affiliates portal
+  const [authMode, setAuthMode] = useState<'register' | 'login' | 'forgot'>('login');
   const [resetIdentifier, setResetIdentifier] = useState('');
+  const [loginProgressMessage, setLoginProgressMessage] = useState('');
 
   // Login form state
   const [loginIdentifier, setLoginIdentifier] = useState('');
@@ -139,6 +140,7 @@ export default function AffiliatesPage() {
 
     setStatus('loading');
     setErrorMsg('');
+    setLoginProgressMessage(isEs ? '1/3 Verificando usuario...' : '1/3 Verifying user...');
 
     try {
       let targetEmail = loginIdentifier.trim().toLowerCase();
@@ -151,9 +153,9 @@ export default function AffiliatesPage() {
           throw new Error(isEs ? `No encontramos ningún usuario @${targetEmail}` : `User @${targetEmail} not found`);
         }
         targetEmail = foundAffiliate.email;
-      } else {
-        foundAffiliate = await getAffiliateByEmail(targetEmail);
       }
+
+      setLoginProgressMessage(isEs ? '2/3 Autenticando credenciales...' : '2/3 Authenticating credentials...');
 
       // Authenticate with Firebase Auth
       if (auth) {
@@ -165,19 +167,39 @@ export default function AffiliatesPage() {
         await signInWithEmailAndPassword(auth, targetEmail, loginPassword.trim());
       }
 
+      setLoginProgressMessage(isEs ? '3/3 Sincronizando datos de embajador...' : '3/3 Syncing ambassador profile...');
+
+      // Triple verification delay (Energyengine pattern)
+      let attempts = 0;
+      const maxAttempts = 3;
+      while (attempts < maxAttempts) {
+        if (!foundAffiliate) {
+          foundAffiliate = await getAffiliateByEmail(targetEmail);
+        }
+        if (foundAffiliate) break;
+        attempts++;
+        if (attempts < maxAttempts) {
+          await new Promise((res) => setTimeout(res, 800));
+        }
+      }
+
       // Check if force password change is needed
       if (foundAffiliate && foundAffiliate.forcePasswordChange) {
         setActiveAffiliateId(foundAffiliate.id);
         setShowForcePasswordModal(true);
         setStatus('idle');
+        setLoginProgressMessage('');
         return;
       }
 
       setStatus('success');
+      setLoginProgressMessage(isEs ? '✓ ¡Acceso confirmado! Abriendo tu panel...' : '✓ Access confirmed! Opening dashboard...');
+      localStorage.setItem('vr_affiliate_user', targetEmail);
       window.location.href = `/${locale}/affiliates/dashboard`;
     } catch (err: any) {
-      console.error(err);
+      console.error('[Login Error]', err);
       setStatus('error');
+      setLoginProgressMessage('');
       if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
         setErrorMsg(isEs ? 'Contraseña o cédula incorrecta. Si es tu primer ingreso, tu clave es tu cédula.' : 'Incorrect password or ID. If first login, use your ID number.');
       } else if (err.code === 'auth/user-not-found') {
@@ -469,6 +491,13 @@ export default function AffiliatesPage() {
                 </div>
               </div>
 
+              {loginProgressMessage && (
+                <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2.5 animate-pulse">
+                  <span className="w-3.5 h-3.5 border-2 border-amber-400 border-t-transparent rounded-full animate-spin shrink-0" />
+                  <span>{loginProgressMessage}</span>
+                </div>
+              )}
+
               {errorMsg && (
                 <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-900/50 text-rose-400 text-xs flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0" />
@@ -479,7 +508,7 @@ export default function AffiliatesPage() {
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full py-4 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-bold uppercase tracking-widest text-xs rounded-2xl transition-all shadow-md shadow-amber-900/20 flex items-center justify-center gap-2 cursor-pointer mt-6"
+                className="w-full py-4 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-bold uppercase tracking-widest text-xs rounded-2xl transition-all shadow-md shadow-amber-900/20 flex items-center justify-center gap-2 cursor-pointer mt-4"
               >
                 {status === 'loading' ? (
                   <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />

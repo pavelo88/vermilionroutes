@@ -132,7 +132,7 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
           <div className="pt-2 flex flex-col gap-3">
             <button
               onClick={() => {
-                window.location.href = `/${locale}/presentation?login=true`;
+                window.location.href = `/${locale}/affiliates`;
               }}
               className="w-full py-3.5 px-4 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] text-stone-950 font-bold text-xs uppercase tracking-wider rounded-xl hover:opacity-95 transition-all shadow-lg cursor-pointer"
             >
