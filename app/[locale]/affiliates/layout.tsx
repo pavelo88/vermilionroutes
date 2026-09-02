@@ -55,14 +55,17 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
 
       // 2. Listener simple y robusto (estilo EnergyEngine)
       const unsubscribe = onAuthStateChanged(auth, (user) => {
+        console.log('[Auth Gossip] onAuthStateChanged fired! User:', user ? user.email : 'null');
         if (!isSubscribed) return;
         
         if (user) {
+          console.log('[Auth Gossip] We have a user! Setting session and allowing access.');
           setCurrentUser(user);
           setLoading(false);
           setAuthError(null);
         } else {
           // No hay usuario, redirigir de inmediato
+          console.warn('[Auth Gossip] NO USER FOUND! Kicking out to /auth...');
           setLoading(false);
           window.location.href = `/${locale}/auth`;
         }

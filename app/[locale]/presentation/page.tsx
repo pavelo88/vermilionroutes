@@ -397,11 +397,10 @@ function PresentationContent() {
 
             {/* Logo Vermilion Affiliates */}
             <div className="flex flex-col items-center justify-center mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-900/40 border border-amber-500/30 flex items-center justify-center mb-3 shadow-lg shadow-amber-900/20">
-                <UserPlus className="w-6 h-6 text-amber-400" />
-              </div>
-              <h4 className="font-serif text-lg font-light text-white tracking-wide">Vermilion <span className="font-medium text-amber-500">Affiliates</span></h4>
-              <div className="w-8 h-px bg-amber-500/30 mt-2"></div>
+              <img src="/images/shared/logo-vr-gold.svg" alt="Vermilion" className="h-10 object-contain drop-shadow-md mb-2" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+              <h4 className="font-serif text-sm font-light text-white tracking-widest uppercase">
+                Vermilion <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB]">Affiliates</span>
+              </h4>
             </div>
 
             {/* ── REGISTER FORM ───────────────────────────────────────────── */}

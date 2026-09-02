@@ -127,7 +127,9 @@ export default function AuthPage() {
       setStatus('success');
       setLoginProgressMessage(isEs ? '✓ ¡Acceso confirmado! Abriendo tu panel...' : '✓ Access confirmed! Opening dashboard...');
       localStorage.setItem('vr_affiliate_user', targetEmail);
-      window.location.href = `/${locale}/affiliates/dashboard`;
+      
+      console.log('[Auth Gossip] Login success! Redirecting via router.push to prevent page reload drop.');
+      router.push(`/${locale}/affiliates/dashboard`);
     } catch (err: any) {
       console.error('[Login Error]', err);
       setStatus('error');
@@ -200,14 +202,20 @@ export default function AuthPage() {
       <div className="w-full max-w-md bg-white/[0.02] backdrop-blur-xl rounded-[32px] border border-amber-500/20 shadow-2xl p-8 sm:p-10 relative z-10">
         {authMode === 'login' ? (
           <form onSubmit={handleLogin} className="space-y-4">
-            <div className="text-center space-y-1 mb-6">
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mx-auto mb-4">
-                <LogIn className="w-5 h-5 text-amber-400" />
-              </div>
+            <div className="text-center space-y-1 mb-6 flex flex-col items-center">
+              <img 
+                src="/images/shared/logo-vr-gold.svg" 
+                alt="Vermilion" 
+                className="h-12 object-contain drop-shadow-md mb-2" 
+                onError={(e) => { e.currentTarget.style.display = 'none'; }} 
+              />
+              <h4 className="font-serif text-sm font-light text-white tracking-widest uppercase mb-4">
+                Vermilion <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB]">Affiliates</span>
+              </h4>
               <h3 className="font-serif text-2xl font-light text-white">
                 {isEs ? 'Ingresa a tu Panel' : 'Access Your Portal'}
               </h3>
-              <p className="text-xs text-zinc-400">
+              <p className="text-xs text-zinc-400 mt-1">
                 {isEs ? 'Usa tu usuario (@pablo.g) o correo registrado' : 'Use your username or registered email'}
               </p>
             </div>
