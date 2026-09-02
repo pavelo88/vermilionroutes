@@ -143,37 +143,40 @@ export default function AffiliatesSidebar() {
         <div className="space-y-6">
           {/* Brand Logo */}
           <Link href={`/${locale}/affiliates/dashboard`} className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-xl border border-white/10 flex items-center justify-center shrink-0">
               <img src="/favicon.ico" alt="Vermilion" className="w-6 h-6 object-contain" />
             </div>
             <div>
-              <span className="font-serif text-base font-bold text-zinc-900 dark:text-white tracking-tight block">
-                Vermilion <span className="text-amber-500 font-medium">Afiliados</span>
+              <span className="font-serif text-base font-bold text-zinc-900 dark:text-white tracking-wide block">
+                Vermilion <span className="font-normal text-[#C9A84C]">Afiliados</span>
               </span>
-              <span className="text-[10px] text-zinc-500 dark:text-zinc-400 uppercase tracking-widest block font-sans">
+              <span className="text-[9px] text-[#A9A9A9] uppercase tracking-[0.2em] block font-sans mt-0.5">
                 Portal Embajadores
               </span>
             </div>
           </Link>
 
           {/* Real User Profile Card */}
-          <div className="p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-900/90 border border-zinc-200/80 dark:border-white/5 space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-black font-bold text-lg shrink-0 shadow-md shadow-amber-500/20">
+          <div className="p-4 rounded-[20px] bg-white/[0.03] dark:bg-white/[0.03] border border-white/10 backdrop-blur-sm space-y-3 relative overflow-hidden group">
+            {/* Subtle glow */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-[#C9A84C]/5 to-transparent" />
+            
+            <div className="flex items-center gap-3 relative z-10">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#C9A84C] to-[#8B6914] flex items-center justify-center text-[#0A0A0F] font-serif text-lg shrink-0 shadow-lg shadow-[#C9A84C]/10">
                 {initial}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between">
                   <p className="font-semibold text-xs text-zinc-900 dark:text-white truncate">{displayName}</p>
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" title="Conectado" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] animate-pulse" title="Activo" />
                 </div>
-                <p className="text-[11px] font-mono text-amber-600 dark:text-amber-400">@{displayUsername}</p>
+                <p className="text-[10px] text-[#A9A9A9] tracking-wider font-medium">@{displayUsername}</p>
               </div>
             </div>
 
-            <div className="pt-2 border-t border-zinc-200/60 dark:border-white/5 flex items-center justify-between">
-              <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-bold">Rango</span>
-              <span className="text-[10px] font-bold text-amber-700 dark:text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-md">
+            <div className="pt-3 border-t border-white/10 flex items-center justify-between relative z-10">
+              <span className="text-[9px] uppercase tracking-[0.15em] text-[#6B6B6B] font-semibold">Rango</span>
+              <span className="text-[9px] font-bold text-[#C9A84C] uppercase tracking-wider">
                 {displayRank}
               </span>
             </div>
@@ -189,13 +192,13 @@ export default function AffiliatesSidebar() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-[11px] uppercase tracking-wide font-semibold transition-all duration-300 ${
                     active
-                      ? 'bg-amber-500 text-black shadow-md shadow-amber-900/10 font-bold'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/5'
+                      ? 'bg-white/5 dark:bg-white/10 border border-white/10 text-zinc-900 dark:text-white shadow-sm backdrop-blur-md'
+                      : 'border border-transparent text-[#6B6B6B] hover:text-zinc-900 dark:hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-black' : 'text-zinc-400 dark:text-zinc-500'}`} />
+                  <Icon className={`w-4 h-4 shrink-0 ${active ? 'text-zinc-900 dark:text-white' : 'text-[#4A4A4A]'}`} />
                   <span>{isEs ? item.labelEs : item.labelEn}</span>
                 </Link>
               );
@@ -203,37 +206,37 @@ export default function AffiliatesSidebar() {
           </nav>
         </div>
 
-        {/* Bottom Section: Language (With Flag), Theme, and Logout */}
-        <div className="space-y-3 pt-6 border-t border-zinc-200 dark:border-white/10">
+        {/* Bottom Section */}
+        <div className="space-y-3 pt-6 border-t border-white/10">
           
-          {/* Language Selector Dropdown (Con Banderita Visible) */}
+          {/* Language Selector Dropdown */}
           <div className="relative">
             <button
               type="button"
               onClick={() => setLangOpen(!langOpen)}
-              className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200/80 dark:border-white/5 text-xs text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors"
+              className="w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-white/[0.02] border border-white/10 text-xs text-zinc-900 dark:text-white hover:bg-white/5 transition-all duration-300"
             >
-              <div className="flex items-center gap-2.5">
-                <span className="text-lg leading-none">{currentLang.flag}</span>
-                <span className="font-semibold uppercase">{locale}</span>
+              <div className="flex items-center gap-3">
+                <span className="text-base leading-none grayscale contrast-125 opacity-80">{currentLang.flag}</span>
+                <span className="font-semibold uppercase tracking-wider text-[11px]">{locale}</span>
               </div>
-              <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${langOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`w-3.5 h-3.5 text-[#6B6B6B] transition-transform ${langOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {langOpen && (
-              <div className="absolute bottom-full mb-2 left-0 right-0 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 rounded-2xl shadow-xl overflow-hidden py-1.5 z-50 animate-fade-in max-h-48 overflow-y-auto">
+              <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0A0A0F] border border-white/10 rounded-[20px] shadow-2xl overflow-hidden py-2 z-50 animate-fade-in backdrop-blur-xl">
                 {LOCALES.map((l) => (
                   <button
                     key={l.code}
                     type="button"
                     onClick={() => changeLanguage(l.code)}
-                    className={`w-full flex items-center gap-2.5 px-3.5 py-2 text-xs text-left transition-colors ${
+                    className={`w-full flex items-center gap-3 px-4 py-2 text-[11px] text-left transition-colors font-medium uppercase tracking-wider ${
                       locale === l.code
-                        ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 font-bold'
-                        : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/5'
+                        ? 'bg-white/10 text-white'
+                        : 'text-[#6B6B6B] hover:bg-white/5 hover:text-white'
                     }`}
                   >
-                    <span className="text-base leading-none">{l.flag}</span>
+                    <span className="text-base leading-none grayscale contrast-125 opacity-80">{l.flag}</span>
                     <span>{l.label}</span>
                   </button>
                 ))}
@@ -243,28 +246,23 @@ export default function AffiliatesSidebar() {
 
           {/* Theme Toggle + Logout Button */}
           <div className="flex items-center gap-2">
-            {/* Theme Toggle */}
             <button
               type="button"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200/80 dark:border-white/5 text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-colors"
-              title={theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}
-              aria-label="Cambiar tema"
+              className="p-3 rounded-2xl bg-white/[0.02] border border-white/10 text-[#6B6B6B] hover:text-white hover:bg-white/5 transition-all duration-300 flex-shrink-0"
+              title="Alternar Tema"
             >
-              {mounted && theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-zinc-700" />}
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
-
-            {/* Logout Button */}
+            
             <button
-              type="button"
               onClick={handleLogout}
-              className="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border border-rose-500/30 text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 text-xs font-bold transition-colors cursor-pointer"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-2xl border border-white/5 bg-white/[0.01] text-[#6B6B6B] hover:text-white hover:bg-white/5 transition-all duration-300 text-[11px] uppercase tracking-wider font-semibold group"
             >
-              <LogOut className="w-4 h-4" />
+              <LogOut className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
               <span>{isEs ? 'Cerrar Sesión' : 'Sign Out'}</span>
             </button>
           </div>
-
         </div>
 
       </div>

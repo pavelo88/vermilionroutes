@@ -37,9 +37,9 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-stone-950 flex flex-col items-center justify-center text-zinc-400 space-y-4">
-        <div className="w-10 h-10 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-xs uppercase tracking-widest font-mono text-zinc-500">Verificando Credenciales de Embajador...</p>
+      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#0A0A0F] flex flex-col items-center justify-center space-y-4">
+        <div className="w-10 h-10 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin" />
+        <p className="text-[10px] uppercase tracking-[0.2em] font-sans text-[#A9A9A9]">Verificando Credenciales...</p>
       </div>
     );
   }
@@ -50,7 +50,7 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-stone-950 text-zinc-900 dark:text-zinc-100 flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#0A0A0F] text-zinc-900 dark:text-zinc-100 flex flex-col lg:flex-row transition-colors duration-300">
       <AffiliatesSidebar />
       <main className="flex-1 lg:pl-72 pt-16 lg:pt-0 min-h-screen">
         {children}
