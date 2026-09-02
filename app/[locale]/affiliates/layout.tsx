@@ -19,21 +19,43 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const isPublicPage =
+    pathname === `/${locale}/affiliates` ||
+    pathname === `/${locale}/affiliates/presentation` ||
+    pathname === `/${locale}/affiliates/verify` ||
+    pathname === `/${locale}/presentation`;
+
   useEffect(() => {
+    if (isPublicPage) {
+      setLoading(false);
+      return;
+    }
+
     if (!auth) {
       setLoading(false);
       return;
     }
+
+    // Check existing synchronous user
+    if (auth.currentUser) {
+      setCurrentUser(auth.currentUser);
+      setLoading(false);
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
-      if (!user) {
+      if (!user && !isPublicPage) {
         // Redirige al portal público de presentación y login si no hay sesión
         router.replace(`/${locale}/presentation?login=true`);
       }
     });
     return () => unsubscribe();
-  }, [router, locale]);
+  }, [router, locale, isPublicPage]);
+
+  if (isPublicPage) {
+    return <>{children}</>;
+  }
 
   if (loading) {
     return (

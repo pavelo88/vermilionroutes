@@ -167,7 +167,7 @@ export default function AffiliatesPage() {
       }
 
       setStatus('success');
-      router.push(`/${locale}/affiliates/dashboard`);
+      window.location.href = `/${locale}/affiliates/dashboard`;
     } catch (err: any) {
       console.error(err);
       setStatus('error');

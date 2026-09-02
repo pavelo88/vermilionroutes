@@ -177,7 +177,7 @@ export default function PresentationPage() {
       }
 
       setAuthStatus('success');
-      router.push(`/${locale}/affiliates/dashboard`);
+      window.location.href = `/${locale}/affiliates/dashboard`;
     } catch (err: any) {
       console.error(err);
       setAuthStatus('error');
