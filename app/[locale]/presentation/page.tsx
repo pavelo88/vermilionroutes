@@ -11,6 +11,8 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   signOut,
+  setPersistence,
+  browserLocalPersistence,
 } from 'firebase/auth';
 import {
   Calculator,
@@ -154,18 +156,27 @@ function PresentationContent() {
       let targetEmail = loginIdentifier.trim().toLowerCase();
       let foundAffiliate: AffiliateAccount | null = null;
 
+      console.log('[Login] Starting login for:', targetEmail);
+
       if (!targetEmail.includes('@')) {
         foundAffiliate = await getAffiliateByUsername(targetEmail);
         if (!foundAffiliate || !foundAffiliate.email) {
           throw new Error(isEs ? `No encontramos ningún usuario @${targetEmail}` : `User @${targetEmail} not found`);
         }
         targetEmail = foundAffiliate.email;
+        console.log('[Login] Resolved username to email:', targetEmail);
       } else {
         foundAffiliate = await getAffiliateByEmail(targetEmail);
       }
 
       if (auth) {
-        await signInWithEmailAndPassword(auth, targetEmail, loginPassword.trim());
+        try {
+          await setPersistence(auth, browserLocalPersistence);
+        } catch (pErr) {
+          console.warn('[Login] Persistence warning:', pErr);
+        }
+        const userCred = await signInWithEmailAndPassword(auth, targetEmail, loginPassword.trim());
+        console.log('[Login] Firebase Auth success, user UID:', userCred.user.uid);
       }
 
       if (foundAffiliate && foundAffiliate.forcePasswordChange) {
@@ -177,6 +188,7 @@ function PresentationContent() {
       }
 
       setAuthStatus('success');
+      console.log('[Login] Navigating to dashboard...');
       window.location.href = `/${locale}/affiliates/dashboard`;
     } catch (err: any) {
       console.error(err);
