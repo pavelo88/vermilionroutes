@@ -34,9 +34,6 @@ export default function DashboardPage() {
 
   const [affiliate, setAffiliate] = useState<AffiliateAccount | null>(null);
   const [loading, setLoading] = useState(true);
-  const [copiedLink1, setCopiedLink1] = useState(false);
-  const [copiedLink2, setCopiedLink2] = useState(false);
-  const [copiedLink3, setCopiedLink3] = useState(false);
 
   useEffect(() => {
     if (!auth) return;
@@ -55,15 +52,6 @@ export default function DashboardPage() {
   }, []);
 
   const username = affiliate?.username || 'embajador';
-  const bookingLink = `https://vermilionroutes.com/${locale}/booking?vid=${username}`;
-  const toursLink = `https://vermilionroutes.com/${locale}/tours?vid=${username}`;
-  const homeLink = `https://vermilionroutes.com/${locale}?vid=${username}`;
-
-  const copyToClipboard = (text: string, setCopied: (v: boolean) => void) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
 
   if (loading) {
     return (

@@ -160,7 +160,7 @@ export const HERO_SLIDES_DATA: SlideData[] = [
       zh: '海拔6310米，地球表面距离太阳最近的点。探索栖息着野生小羊驼与古老印加山地的宏伟安第斯保护区。'
     },
     image: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
-    desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.1.jpg',
+    desktopImage: '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
     mobileImage: '/images/tours/9-16/chimborazo-9-16.jpg'
   },
   {

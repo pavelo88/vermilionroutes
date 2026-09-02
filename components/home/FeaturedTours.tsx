@@ -7,9 +7,13 @@ import { Button } from '@/components/ui/Button';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
+
 export function FeaturedTours() {
   const { tours } = useToursData();
   const t = useTranslations('tours');
+  const locale = useLocale();
 
   return (
     <section id="tours" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
@@ -28,6 +32,17 @@ export function FeaturedTours() {
 
       {/* 3D Tour Carousel */}
       <TourCarousel tours={tours} />
+
+      {/* Ver Todos los Tours Button */}
+      <div className="flex justify-center pt-2">
+        <Link
+          href={`/${locale}/tours`}
+          className="inline-flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-emerald-600 hover:to-teal-500 text-white font-bold uppercase tracking-wider text-xs sm:text-sm rounded-2xl transition-all duration-300 shadow-xl shadow-emerald-900/30 hover:scale-[1.02] active:scale-95 group border-none"
+        >
+          <span>Ver Todos los Tours</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </div>
 
       {/* Tailor-Made CTA Box */}
       <div className="mt-16 bg-gradient-to-r from-zinc-900 via-zinc-900 to-emerald-950 rounded-3xl p-8 sm:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">

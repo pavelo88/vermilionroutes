@@ -118,17 +118,15 @@ export function BookingSidebar({ tour }: BookingSidebarProps) {
         </div>
 
       <div className="space-y-4">
-        <Button
-          variant="primary"
-          size="md"
+        <button
           onClick={() => {
             window.location.href = `/${locale}/booking?addTour=${tour.id}`;
           }}
-          className="w-full gap-2 shadow-lg shadow-emerald-600/20 py-3 text-sm cursor-pointer"
+          className="w-full gap-2 py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:from-[#E5C158] hover:to-[#B59049] text-stone-950 font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-amber-900/30 transition-all hover:scale-[1.02] active:scale-95 cursor-pointer border-none flex items-center justify-center"
         >
           <Sparkles className="w-4 h-4" />
           <span>{locale === 'es' ? 'Añadir a mi Expedición' : 'Add to Expedition'}</span>
-        </Button>
+        </button>
 
         {/* Quick WhatsApp Inquiry */}
         <a

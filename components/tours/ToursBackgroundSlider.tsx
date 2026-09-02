@@ -33,7 +33,7 @@ export function ToursBackgroundSlider() {
           />
         </div>
       ))}
-      <div className="absolute inset-0 bg-zinc-950/70" />
+      <div className="absolute inset-0 bg-black/40 backdrop-brightness-90" />
     </div>
   );
 }

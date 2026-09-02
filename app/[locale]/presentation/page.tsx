@@ -284,7 +284,7 @@ export default function PresentationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 text-zinc-100 font-sans selection:bg-amber-500/30 selection:text-amber-200">
+    <div className="min-h-screen bg-[#FAF8F5] dark:bg-stone-950 text-zinc-900 dark:text-zinc-100 font-sans selection:bg-amber-500/30 selection:text-amber-900 dark:selection:text-amber-200 transition-colors duration-300">
       
       {/* Force Password Change Modal */}
       <ForcePasswordChangeModal
@@ -298,42 +298,43 @@ export default function PresentationPage() {
 
       {/* ── MODAL DE AUTENTICACIÓN (REGISTRO & LOGIN) ─────────────────────── */}
       {authModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-          <div className="w-full max-w-lg bg-zinc-950 border border-white/10 rounded-[32px] p-6 sm:p-10 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+          <div className="w-full max-w-lg bg-white dark:bg-zinc-950 border border-amber-500/40 dark:border-amber-500/30 rounded-[28px] sm:rounded-[32px] p-4 sm:p-8 pt-10 sm:pt-10 shadow-2xl relative max-h-[92vh] overflow-y-auto">
             
             <button
               onClick={() => setAuthModalOpen(false)}
-              className="absolute top-6 right-6 p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-2 rounded-xl text-zinc-400 hover:text-zinc-800 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors cursor-pointer z-10"
+              aria-label="Close"
             >
               <X className="w-5 h-5" />
             </button>
 
             {/* Toggle Tabs */}
-            <div className="grid grid-cols-2 p-1 bg-zinc-900 rounded-2xl border border-white/5 mb-6">
+            <div className="grid grid-cols-2 p-1 bg-zinc-100 dark:bg-zinc-900/90 rounded-2xl border border-zinc-200 dark:border-amber-500/20 mb-6">
               <button
                 type="button"
                 onClick={() => { setModalTab('register'); setAuthError(''); setAuthStatus('idle'); }}
-                className={`py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                className={`py-2.5 px-2 rounded-xl text-[10px] sm:text-xs font-extrabold uppercase tracking-tight sm:tracking-wider flex items-center justify-center gap-1 sm:gap-2 transition-all cursor-pointer ${
                   modalTab === 'register'
-                    ? 'bg-amber-500 text-black shadow-lg shadow-amber-900/20'
-                    : 'text-zinc-400 hover:text-white'
+                    ? 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] text-stone-950 shadow-md shadow-amber-900/30 border border-[#F5D77F]/50'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-amber-300'
                 }`}
               >
-                <UserPlus className="w-4 h-4" />
-                <span>{isEs ? 'Quiero ser Embajador' : 'Register'}</span>
+                <UserPlus className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">{isEs ? 'Registro Embajador' : 'Register'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => { setModalTab('login'); setAuthError(''); setAuthStatus('idle'); }}
-                className={`py-3 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                className={`py-2.5 px-2 rounded-xl text-[10px] sm:text-xs font-extrabold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-2 transition-all cursor-pointer ${
                   modalTab === 'login'
-                    ? 'bg-amber-500 text-black shadow-lg shadow-amber-900/20'
-                    : 'text-zinc-400 hover:text-white'
+                    ? 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] text-stone-950 shadow-md shadow-amber-900/30 border border-[#F5D77F]/50'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-amber-300'
                 }`}
               >
-                <LogIn className="w-4 h-4" />
-                <span>{isEs ? 'Acceder a mi Cuenta' : 'Sign In'}</span>
+                <LogIn className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">{isEs ? 'Acceder a mi Cuenta' : 'Sign In'}</span>
               </button>
             </div>
 
@@ -341,17 +342,17 @@ export default function PresentationPage() {
             {modalTab === 'register' ? (
               <form onSubmit={handleRegister} className="space-y-4">
                 <div className="text-center space-y-1 mb-4">
-                  <h3 className="font-serif text-2xl font-light text-white">
+                  <h3 className="font-serif text-2xl font-light text-zinc-900 dark:text-white">
                     {isEs ? 'Únete como Embajador' : 'Become an Ambassador'}
                   </h3>
-                  <p className="text-xs text-zinc-400">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
                     {isEs ? 'Sin contraseña inicial. Tu cédula será tu clave temporal de 1er ingreso.' : 'Your ID will be your temporary password.'}
                   </p>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-zinc-400 flex items-center gap-1.5">
-                    <User className="w-3 h-3 text-amber-500" />
+                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-400 flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                     {isEs ? 'Nombre Completo *' : 'Full Name *'}
                   </label>
                   <input
@@ -470,10 +471,10 @@ export default function PresentationPage() {
                 <button
                   type="submit"
                   disabled={authStatus === 'loading' || usernameStatus === 'taken'}
-                  className="w-full py-3.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-bold uppercase tracking-wider text-xs rounded-xl transition-all shadow-md mt-4 cursor-pointer"
+                  className="w-full py-4 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:from-[#E5C158] hover:to-[#B59049] disabled:opacity-50 text-stone-950 font-extrabold uppercase tracking-wider text-xs rounded-2xl transition-all shadow-lg shadow-amber-900/30 mt-4 cursor-pointer hover:scale-[1.01] active:scale-95 border-none flex items-center justify-center gap-2"
                 >
                   {authStatus === 'loading' ? (
-                    <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin inline-block" />
+                    <span className="w-4 h-4 border-2 border-stone-950 border-t-transparent rounded-full animate-spin inline-block" />
                   ) : (
                     <span>Crear Mi Cuenta Ahora</span>
                   )}
@@ -540,10 +541,10 @@ export default function PresentationPage() {
                 <button
                   type="submit"
                   disabled={authStatus === 'loading'}
-                  className="w-full py-3.5 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-bold uppercase tracking-wider text-xs rounded-xl transition-all shadow-md mt-6 cursor-pointer"
+                  className="w-full py-4 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:from-[#E5C158] hover:to-[#B59049] disabled:opacity-50 text-stone-950 font-extrabold uppercase tracking-wider text-xs rounded-2xl transition-all shadow-lg shadow-amber-900/30 mt-6 cursor-pointer hover:scale-[1.01] active:scale-95 border-none flex items-center justify-center gap-2"
                 >
                   {authStatus === 'loading' ? (
-                    <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin inline-block" />
+                    <span className="w-4 h-4 border-2 border-stone-950 border-t-transparent rounded-full animate-spin inline-block" />
                   ) : (
                     <span>Entrar a Mi Panel</span>
                   )}
@@ -555,41 +556,45 @@ export default function PresentationPage() {
         </div>
       )}
 
-      {/* ── HERO SECTION ─────────────────────────────────────────────────── */}
-      <header className="relative overflow-hidden bg-gradient-to-b from-stone-900 via-stone-950 to-stone-950 border-b border-white/5 pt-12 pb-16">
+      {/* ── HERO SECTION (FONDOS METÁLICOS / OBSIDIANA Y PADDING PERFECTO BAJO EL NAVBAR) ──────────────── */}
+      <header className="-mt-24 sm:-mt-28 pt-36 sm:pt-44 pb-20 sm:pb-24 relative overflow-hidden bg-gradient-to-b from-[#F5EFE6] via-[#FAF8F5] to-[#FAF8F5] dark:from-stone-950 dark:via-zinc-950 dark:to-stone-950 border-b border-amber-500/20 dark:border-amber-500/10">
+        
+        {/* Glow de iluminación metálica dorada */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[350px] bg-amber-500/10 dark:bg-amber-400/10 rounded-full blur-[140px] pointer-events-none" />
+
         <div className="max-w-5xl mx-auto px-6 text-center relative z-10 space-y-6">
           
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider">
-            <Star className="w-3.5 h-3.5 fill-amber-400" /> El Club de Embajadores High-Ticket
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-400 text-xs font-bold uppercase tracking-widest shadow-xs">
+            <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" /> El Club de Embajadores High-Ticket
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-light tracking-tight text-white leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-light tracking-tight text-zinc-900 dark:text-white leading-tight">
             Monetiza tu influencia con <br />
-            <span className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600">
+            <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 dark:from-amber-200 dark:via-yellow-400 dark:to-amber-500 drop-shadow-xs">
               Vermilion Routes
             </span>
           </h1>
 
-          <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            El modelo más justo, transparente e inquebrantable de la industria turística. Comparte tu código, regala un <strong>10% de descuento automático</strong> a tus clientes en tours de lujo y conviértete en accionista del Fondo Global de la empresa.
+          <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto leading-relaxed font-normal">
+            Forma parte de la comunidad más exclusiva de la industria turística. Comparte tu código, regala un <strong className="text-amber-700 dark:text-amber-400">10% de descuento automático</strong> a tus clientes en expediciones de lujo y obtén un <strong className="text-amber-700 dark:text-amber-400">10% de comisión directa en efectivo</strong> más participaciones en nuestro Fondo Global de utilidades.
           </p>
 
-          {/* 2 Action Buttons in Hero */}
+          {/* 2 Action Buttons in Hero con diseño metálico dorado y platino de lujo */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <button
               onClick={() => { setModalTab('register'); setAuthModalOpen(true); }}
-              className="inline-flex items-center gap-2.5 px-8 py-4 bg-amber-500 hover:bg-amber-600 text-black font-bold uppercase tracking-wider text-xs rounded-2xl transition-all shadow-xl shadow-amber-900/30 hover:scale-[1.02] cursor-pointer"
+              className="inline-flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:from-[#E5C158] hover:to-[#B59049] text-stone-950 font-extrabold uppercase tracking-wider text-xs rounded-2xl transition-all duration-300 shadow-xl shadow-amber-900/30 hover:scale-[1.02] active:scale-95 cursor-pointer border-none"
             >
               <UserPlus className="w-4 h-4" />
-              <span>Quiero ser Embajador</span>
+              <span>Unirme a la Comunidad</span>
             </button>
 
             <button
               onClick={() => { setModalTab('login'); setAuthModalOpen(true); }}
-              className="inline-flex items-center gap-2.5 px-8 py-4 bg-zinc-900 hover:bg-zinc-800 border border-white/15 text-white font-bold uppercase tracking-wider text-xs rounded-2xl transition-all hover:scale-[1.02] cursor-pointer"
+              className="inline-flex items-center gap-2.5 px-8 py-4 bg-white dark:bg-stone-900 hover:bg-slate-100 dark:hover:bg-stone-800 border border-[#D4AF37]/50 text-stone-900 dark:text-[#F3E5AB] font-bold uppercase tracking-wider text-xs rounded-2xl transition-all duration-300 hover:scale-[1.02] active:scale-95 cursor-pointer shadow-sm"
             >
-              <LogIn className="w-4 h-4 text-amber-400" />
-              <span>Acceder a mi Cuenta</span>
+              <LogIn className="w-4 h-4 text-[#D4AF37] dark:text-[#F3E5AB]" />
+              <span>Acceder a Mi Panel</span>
             </button>
           </div>
 
@@ -599,43 +604,43 @@ export default function PresentationPage() {
       {/* ── HOW IT WORKS (3 PASOS) ───────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-6 py-16">
         <div className="text-center space-y-2 mb-12">
-          <h2 className="font-serif text-3xl font-light text-white">Cómo Funciona el Ecosistema</h2>
-          <p className="text-xs text-zinc-400">Tres pilares que blindan tu rentabilidad y la de tus clientes.</p>
+          <h2 className="font-serif text-3xl font-light text-zinc-900 dark:text-white">Cómo Funciona el Ecosistema</h2>
+          <p className="text-xs text-zinc-600 dark:text-zinc-400">Tres pilares que blindan tu rentabilidad y la de tus clientes.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-zinc-900/60 border border-white/5 p-6 rounded-3xl hover:border-amber-500/20 transition-all flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex items-center justify-center mb-4">
-                <LinkIcon className="text-amber-400 w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">1. Comparte tu Enlace</h3>
-              <p className="text-zinc-400 text-xs leading-relaxed">
-                Obtienes un enlace único (ej. <code className="text-amber-400 font-mono">?ref=pablo.g</code>). Publícalo en redes sociales o compártelo directamente con clientes interesados en expediciones privadas.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-zinc-900/60 border border-white/5 p-6 rounded-3xl hover:border-amber-500/20 transition-all flex flex-col justify-between">
+          <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200/90 dark:border-white/5 p-6 rounded-3xl hover:border-emerald-500/40 transition-all shadow-md flex flex-col justify-between">
             <div>
               <div className="w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center mb-4">
-                <DollarSign className="text-emerald-400 w-6 h-6" />
+                <LinkIcon className="text-emerald-600 dark:text-emerald-400 w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">2. Descuento Inmediato</h3>
-              <p className="text-zinc-400 text-xs leading-relaxed">
-                Tu cliente recibe un <strong>10% de descuento automático</strong> en el checkout. La venta es irresistible porque estás entregando un ahorro de cientos de dólares en tours de alto valor.
+              <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-2">1. Comparte tu Enlace</h3>
+              <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed">
+                Obtienes un enlace único (ej. <code className="text-emerald-700 dark:text-emerald-400 font-mono bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded">?ref=pablo.g</code>). Publícalo en redes sociales o compártelo directamente con clientes interesados en expediciones privadas.
               </p>
             </div>
           </div>
 
-          <div className="bg-zinc-900/60 border border-white/5 p-6 rounded-3xl hover:border-amber-500/20 transition-all flex flex-col justify-between">
+          <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200/90 dark:border-white/5 p-6 rounded-3xl hover:border-emerald-500/40 transition-all shadow-md flex flex-col justify-between">
             <div>
-              <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-2xl flex items-center justify-center mb-4">
-                <Award className="text-blue-400 w-6 h-6" />
+              <div className="w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center mb-4">
+                <DollarSign className="text-emerald-600 dark:text-emerald-400 w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">3. Comisiones & Acciones</h3>
-              <p className="text-zinc-400 text-xs leading-relaxed">
-                Cobras el <strong>10% en efectivo</strong> de cada venta directa. Además, acumulas <strong>Acciones</strong> en el Fondo Global de la empresa por cada $3,000, $7,000 y $15,000 facturados.
+              <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-2">2. Descuento Inmediato</h3>
+              <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed">
+                Tu cliente recibe un <strong className="text-emerald-700 dark:text-emerald-400">10% de descuento automático</strong> en el checkout. La venta es irresistible porque estás entregando un ahorro de cientos de dólares en tours de alto valor.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200/90 dark:border-white/5 p-6 rounded-3xl hover:border-emerald-500/40 transition-all shadow-md flex flex-col justify-between">
+            <div>
+              <div className="w-12 h-12 bg-teal-500/10 border border-teal-500/20 rounded-2xl flex items-center justify-center mb-4">
+                <Award className="text-teal-600 dark:text-teal-400 w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-2">3. Comisiones & Acciones</h3>
+              <p className="text-zinc-600 dark:text-zinc-400 text-xs leading-relaxed">
+                Cobras el <strong className="text-teal-700 dark:text-teal-400">10% en efectivo</strong> de cada venta directa. Además, acumulas <strong>Acciones</strong> en el Fondo Global de la empresa por cada $3,000, $7,000 y $15,000 facturados.
               </p>
             </div>
           </div>
@@ -644,15 +649,15 @@ export default function PresentationPage() {
 
       {/* ── SIMULATOR SECTION ─────────────────────────────────────────────── */}
       <section className="max-w-5xl mx-auto px-6 py-12">
-        <div className="bg-zinc-900/40 border border-white/10 rounded-[36px] p-6 md:p-10 shadow-2xl backdrop-blur-xl">
+        <div className="bg-white dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-white/10 rounded-[36px] p-6 md:p-10 shadow-2xl backdrop-blur-xl">
           
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
               <Calculator className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-2xl sm:text-3xl font-serif font-light text-white">Simulador de Negocio Real</h2>
-              <p className="text-xs text-zinc-400">Proyecta tus ingresos mensuales con la fórmula matemática exacta.</p>
+              <h2 className="text-2xl sm:text-3xl font-serif font-light text-zinc-900 dark:text-white">Simulador de Negocio Real</h2>
+              <p className="text-xs text-zinc-600 dark:text-zinc-400">Proyecta tus ingresos mensuales con la fórmula matemática exacta.</p>
             </div>
           </div>
           
@@ -661,57 +666,57 @@ export default function PresentationPage() {
             {/* CONTROLES */}
             <div className="space-y-6">
               
-              <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
+              <div className="p-4 rounded-2xl bg-stone-100 dark:bg-black/40 border border-zinc-200/70 dark:border-white/5 space-y-2">
                 <div className="flex justify-between items-center text-xs">
-                  <label className="font-semibold text-zinc-300">Precio promedio del Tour (USD)</label>
-                  <span className="text-amber-400 font-bold font-mono text-sm">${tourPrice.toLocaleString()} USD</span>
+                  <label className="font-semibold text-zinc-700 dark:text-zinc-300">Precio promedio del Tour (USD)</label>
+                  <span className="text-amber-700 dark:text-amber-400 font-bold font-mono text-sm" suppressHydrationWarning>${tourPrice.toLocaleString()} USD</span>
                 </div>
                 <input 
                   type="range" min="1000" max="15000" step="500" 
                   value={tourPrice} onChange={(e) => setTourPrice(Number(e.target.value))}
-                  className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                  className="w-full h-2 bg-zinc-300 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-amber-600 dark:accent-amber-500"
                 />
                 <p className="text-[10px] text-zinc-500">Expediciones Ecuador & Galápagos High-Ticket</p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
+              <div className="p-4 rounded-2xl bg-stone-100 dark:bg-black/40 border border-zinc-200/70 dark:border-white/5 space-y-2">
                 <div className="flex justify-between items-center text-xs">
-                  <label className="font-semibold text-zinc-300">Tus ventas directas al mes</label>
-                  <span className="text-emerald-400 font-bold font-mono text-sm">{personalSales} {personalSales === 1 ? 'Tour' : 'Tours'}</span>
+                  <label className="font-semibold text-zinc-700 dark:text-zinc-300">Tus ventas directas al mes</label>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold font-mono text-sm">{personalSales} {personalSales === 1 ? 'Tour' : 'Tours'}</span>
                 </div>
                 <input 
                   type="range" min="0" max="10" step="1" 
                   value={personalSales} onChange={(e) => setPersonalSales(Number(e.target.value))}
-                  className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                  className="w-full h-2 bg-zinc-300 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-600 dark:accent-emerald-500"
                 />
               </div>
 
-              <div className="pt-4 border-t border-white/5 space-y-4">
-                <h4 className="text-xs uppercase tracking-wider font-bold text-zinc-400 flex items-center gap-2">
-                  <Users className="w-3.5 h-3.5 text-blue-400" /> Crecimiento de Equipo (Opcional)
+              <div className="pt-4 border-t border-zinc-200/80 dark:border-white/5 space-y-4">
+                <h4 className="text-xs uppercase tracking-wider font-bold text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+                  <Users className="w-3.5 h-3.5 text-teal-600 dark:text-blue-400" /> Crecimiento de Equipo (Opcional)
                 </h4>
                 
-                <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2">
+                <div className="p-4 rounded-2xl bg-stone-100 dark:bg-black/40 border border-zinc-200/70 dark:border-white/5 space-y-2">
                   <div className="flex justify-between items-center text-xs">
-                    <label className="font-semibold text-zinc-300">Personas invitadas (Hijos)</label>
-                    <span className="text-blue-400 font-bold font-mono text-sm">{recruits} Socios</span>
+                    <label className="font-semibold text-zinc-700 dark:text-zinc-300">Personas invitadas (Hijos)</label>
+                    <span className="text-teal-700 dark:text-blue-400 font-bold font-mono text-sm">{recruits} Socios</span>
                   </div>
                   <input 
                     type="range" min="0" max="20" step="1" 
                     value={recruits} onChange={(e) => setRecruits(Number(e.target.value))}
-                    className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                    className="w-full h-2 bg-zinc-300 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-teal-600 dark:accent-blue-500"
                   />
                 </div>
 
-                <div className={`p-4 rounded-2xl bg-black/40 border border-white/5 space-y-2 transition-opacity duration-300 ${recruits > 0 ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
+                <div className={`p-4 rounded-2xl bg-stone-100 dark:bg-black/40 border border-zinc-200/70 dark:border-white/5 space-y-2 transition-opacity duration-300 ${recruits > 0 ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
                   <div className="flex justify-between items-center text-xs">
-                    <label className="font-semibold text-zinc-300">Promedio de ventas de cada socio</label>
-                    <span className="text-blue-400 font-bold font-mono text-sm">{recruitSales} Tours c/u</span>
+                    <label className="font-semibold text-zinc-700 dark:text-zinc-300">Promedio de ventas de cada socio</label>
+                    <span className="text-teal-700 dark:text-blue-400 font-bold font-mono text-sm">{recruitSales} Tours c/u</span>
                   </div>
                   <input 
                     type="range" min="0" max="5" step="1" 
                     value={recruitSales} onChange={(e) => setRecruitSales(Number(e.target.value))}
-                    className="w-full h-2 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                    className="w-full h-2 bg-zinc-300 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-teal-600 dark:accent-blue-500"
                   />
                 </div>
               </div>
@@ -719,7 +724,7 @@ export default function PresentationPage() {
             </div>
 
             {/* RESULTADOS */}
-            <div className="bg-black/70 border border-white/10 rounded-3xl p-6 flex flex-col justify-between">
+            <div className="bg-stone-900 dark:bg-black/70 border border-stone-800 dark:border-white/10 text-white rounded-3xl p-6 flex flex-col justify-between shadow-xl">
               <div>
                 <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-400 mb-6 text-center">
                   Proyección Mensual Estimada
@@ -737,10 +742,10 @@ export default function PresentationPage() {
 
                   <div className={`flex justify-between items-center p-3.5 bg-zinc-900/60 border border-white/5 rounded-2xl ${leadershipBonus > 0 ? '' : 'opacity-50'}`}>
                     <div className="flex items-center gap-2.5">
-                      <Users className="w-4 h-4 text-blue-400" />
+                      <Users className="w-4 h-4 text-teal-400" />
                       <span className="text-xs text-zinc-300">Liderazgo Red (3% de socios)</span>
                     </div>
-                    <span className="font-bold font-mono text-blue-400 text-sm">${leadershipBonus.toLocaleString()}</span>
+                    <span className="font-bold font-mono text-teal-400 text-sm">${leadershipBonus.toLocaleString()}</span>
                   </div>
 
                   <div className="flex justify-between items-center p-3.5 bg-zinc-900/60 border border-white/5 rounded-2xl">
@@ -764,14 +769,14 @@ export default function PresentationPage() {
                 </div>
               </div>
 
-              <div className="mt-6 p-6 bg-gradient-to-br from-amber-950/40 via-stone-900 to-black border border-amber-500/30 rounded-2xl text-center space-y-3">
-                <p className="text-amber-200 text-xs font-semibold uppercase tracking-wider">Tu Ingreso Total Estimado</p>
+              <div className="mt-6 p-6 bg-gradient-to-br from-emerald-950/60 via-stone-900 to-black border border-emerald-500/30 rounded-2xl text-center space-y-3">
+                <p className="text-emerald-300 text-xs font-semibold uppercase tracking-wider">Tu Ingreso Total Estimado</p>
                 <h2 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">${totalEarnings.toLocaleString()} <span className="text-sm font-light text-zinc-400">USD/mes</span></h2>
                 
                 <div className="flex flex-col sm:flex-row gap-2 mt-4">
                   <button
                     onClick={() => { setModalTab('register'); setAuthModalOpen(true); }}
-                    className="flex-1 bg-amber-500 hover:bg-amber-600 text-black font-bold uppercase tracking-wider text-xs py-3.5 px-4 rounded-xl transition-all flex justify-center items-center gap-2 cursor-pointer shadow-lg shadow-amber-950/50"
+                    className="flex-1 bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-emerald-600 hover:to-teal-500 text-white font-bold uppercase tracking-wider text-xs py-3.5 px-4 rounded-xl transition-all flex justify-center items-center gap-2 cursor-pointer shadow-lg shadow-emerald-950/50 border-none"
                   >
                     <span>Quiero ser Embajador</span>
                     <ArrowRight className="w-4 h-4" />
@@ -793,41 +798,41 @@ export default function PresentationPage() {
 
       {/* ── EJEMPLO MATEMÁTICO REAL DE LAS PISCINAS ──────────────────────── */}
       <section className="max-w-5xl mx-auto px-6 py-8">
-        <div className="p-8 rounded-[32px] bg-amber-500/5 border border-amber-500/20 space-y-6">
+        <div className="p-8 rounded-[32px] bg-emerald-500/5 dark:bg-amber-500/5 border border-emerald-500/20 dark:border-amber-500/20 space-y-6">
           <div className="flex items-center gap-3">
-            <TrendingUp className="w-6 h-6 text-amber-400" />
+            <TrendingUp className="w-6 h-6 text-emerald-600 dark:text-amber-400" />
             <div>
-              <h3 className="font-serif text-xl font-bold text-white">
+              <h3 className="font-serif text-xl font-bold text-zinc-900 dark:text-white">
                 Ejemplo Real: ¿Cómo se calculan y pagan las Piscinas Globales?
               </h3>
-              <p className="text-xs text-zinc-400">
+              <p className="text-xs text-zinc-600 dark:text-zinc-400">
                 La empresa destina exactamente el 2% de sus ventas globales para cada piscina. Quien más vende, más acciones acumula.
               </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-            <div className="p-5 rounded-2xl bg-black/50 border border-white/5 space-y-2">
-              <span className="text-amber-400 font-bold uppercase tracking-wider block">Paso 1: Emisión de Acciones</span>
-              <p className="text-zinc-300">
+            <div className="p-5 rounded-2xl bg-white dark:bg-black/50 border border-zinc-200/90 dark:border-white/5 space-y-2 shadow-sm">
+              <span className="text-emerald-700 dark:text-amber-400 font-bold uppercase tracking-wider block">Paso 1: Emisión de Acciones</span>
+              <p className="text-zinc-700 dark:text-zinc-300">
                 • <strong>Persona A</strong> vende <strong>$6,000 USD</strong> = Recibe <strong>2 Acciones</strong> ($6,000 / $3,000 = 2).<br />
                 • <strong>Persona B</strong> vende <strong>$3,000 USD</strong> = Recibe <strong>1 Acción</strong> ($3,000 / $3,000 = 1).<br />
                 • <strong>Total de Acciones emitidas</strong> = 3 acciones.
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-black/50 border border-white/5 space-y-2">
-              <span className="text-emerald-400 font-bold uppercase tracking-wider block">Paso 2: Valor de cada Acción</span>
-              <p className="text-zinc-300">
+            <div className="p-5 rounded-2xl bg-white dark:bg-black/50 border border-zinc-200/90 dark:border-white/5 space-y-2 shadow-sm">
+              <span className="text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider block">Paso 2: Valor de cada Acción</span>
+              <p className="text-zinc-700 dark:text-zinc-300">
                 • <strong>Total Ventas Globales</strong> = $9,000 USD.<br />
                 • <strong>Fondo del 2% (Piscina 1)</strong> = <strong>$180 USD</strong>.<br />
                 • <strong>Valor por Acción</strong> = $180 / 3 acciones = <strong>$60 USD por acción</strong>.
               </p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-black/50 border border-white/5 space-y-2">
-              <span className="text-blue-400 font-bold uppercase tracking-wider block">Paso 3: Reparto Exacto al Centavo</span>
-              <p className="text-zinc-300">
+            <div className="p-5 rounded-2xl bg-white dark:bg-black/50 border border-zinc-200/90 dark:border-white/5 space-y-2 shadow-sm">
+              <span className="text-teal-600 dark:text-blue-400 font-bold uppercase tracking-wider block">Paso 3: Reparto Exacto al Centavo</span>
+              <p className="text-zinc-700 dark:text-zinc-300">
                 • <strong>Persona A</strong> cobra: 2 × $60 = <strong>$120 USD</strong>.<br />
                 • <strong>Persona B</strong> cobra: 1 × $60 = <strong>$60 USD</strong>.<br />
                 • <strong>Total pagado</strong> = <strong>$180 USD</strong> (Exacto, cero sobregiro financiero).
@@ -835,8 +840,8 @@ export default function PresentationPage() {
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-black/60 border border-white/10 text-xs text-zinc-300 flex items-start gap-3">
-            <Shield className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+          <div className="p-4 rounded-xl bg-white dark:bg-black/60 border border-zinc-200/90 dark:border-white/10 text-xs text-zinc-700 dark:text-zinc-300 flex items-start gap-3 shadow-xs">
+            <Shield className="w-5 h-5 text-emerald-600 dark:text-amber-500 shrink-0 mt-0.5" />
             <p className="leading-relaxed">
               <strong>🛡️ Blindaje Financiero & Regla de Excedente:</strong> Si en un mes nadie califica a una piscina (ej. nadie alcanzó los $15,000 para la Piscina 3), o si quedan comisiones no reclamadas en la red, <strong>el 100% de ese valor no cobrado pasa automáticamente a Pablo (`pablo.g` - Usuario Raíz / Fundador)</strong>. ¡La empresa jamás gasta ni un centavo más del presupuesto!
             </p>
@@ -848,9 +853,9 @@ export default function PresentationPage() {
       <section className="max-w-5xl mx-auto px-6 py-12 space-y-12">
         
         <div className="text-center space-y-3">
-          <span className="text-xs font-bold uppercase tracking-widest text-amber-400">Ecosistema High-Ticket Inquebrantable</span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-light text-white">Plan de Compensación Oficial</h2>
-          <p className="text-xs text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-700 dark:text-amber-400">Ecosistema High-Ticket Inquebrantable</span>
+          <h2 className="font-serif text-3xl sm:text-4xl font-light text-zinc-900 dark:text-white">Plan de Compensación Oficial</h2>
+          <p className="text-xs text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             Transparencia total. Un modelo diseñado para premiar a los verdaderos constructores, eliminando estructuras piramidales ficticias.
           </p>
         </div>
@@ -858,18 +863,18 @@ export default function PresentationPage() {
         {/* Repartición Base & 10-3-2 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          <div className="p-6 rounded-3xl bg-zinc-900/40 border border-white/5 space-y-4">
+          <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-white/5 space-y-4 shadow-md">
             <div className="flex items-center gap-3">
-              <Percent className="w-5 h-5 text-amber-400" />
-              <h3 className="font-serif text-lg font-bold text-white">1. Repartición de Capital</h3>
+              <Percent className="w-5 h-5 text-emerald-600 dark:text-amber-400" />
+              <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white">1. Repartición de Capital</h3>
             </div>
-            <ul className="space-y-2.5 text-xs text-zinc-400">
+            <ul className="space-y-2.5 text-xs text-zinc-600 dark:text-zinc-400">
               <li className="flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-amber-500 mt-1.5 shrink-0" />
                 <span><strong>80% Fondo Operativo:</strong> Intocable. Cubre proveedores de lujo, logística y utilidad neta garantizada de Vermilion Routes.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-amber-500 mt-1.5 shrink-0" />
                 <span><strong>20% Ganancia de Red:</strong> Es el pastel comisionable destinado a pagar a vendedores y líderes.</span>
               </li>
               <li className="flex items-start gap-2">
@@ -879,18 +884,18 @@ export default function PresentationPage() {
             </ul>
           </div>
 
-          <div className="p-6 rounded-3xl bg-zinc-900/40 border border-white/5 space-y-4">
+          <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-white/5 space-y-4 shadow-md">
             <div className="flex items-center gap-3">
-              <Shield className="w-5 h-5 text-amber-400" />
-              <h3 className="font-serif text-lg font-bold text-white">2. Regla "10-3-2 Limitada"</h3>
+              <Shield className="w-5 h-5 text-emerald-600 dark:text-amber-400" />
+              <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white">2. Regla "10-3-2 Limitada"</h3>
             </div>
-            <ul className="space-y-2.5 text-xs text-zinc-400">
+            <ul className="space-y-2.5 text-xs text-zinc-600 dark:text-zinc-400">
               <li className="flex items-start gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
                 <span><strong>Vendedor (Nivel 0 - 10%):</strong> Infinito. Cobras el 10% de absolutamente todas tus ventas.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 dark:bg-blue-500 mt-1.5 shrink-0" />
                 <span><strong>Padre (Nivel 1 - 3%):</strong> Cobras sobre los primeros $10,000 USD que venda ese hijo específico.</span>
               </li>
               <li className="flex items-start gap-2">
@@ -905,33 +910,33 @@ export default function PresentationPage() {
         {/* Compresión Inversa & Fondo Global */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          <div className="p-6 rounded-3xl bg-zinc-900/40 border border-white/5 space-y-4">
+          <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-white/5 space-y-4 shadow-md">
             <div className="flex items-center gap-3">
-              <Sparkles className="w-5 h-5 text-amber-400" />
-              <h3 className="font-serif text-lg font-bold text-white">3. Compresión Inversa (Orfandad)</h3>
+              <Sparkles className="w-5 h-5 text-emerald-600 dark:text-amber-400" />
+              <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white">3. Compresión Inversa (Orfandad)</h3>
             </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
               El dinero del esfuerzo se queda en quien trabaja. Si el Padre o Abuelo no existen, están inactivos o superaron sus topes, <strong>la comisión no cobrada baja y la absorbe el Vendedor</strong>. Un vendedor sin líderes activos arriba absorbe todo y cobra el <strong>15% íntegro</strong> de sus ventas.
             </p>
           </div>
 
-          <div className="p-6 rounded-3xl bg-zinc-900/40 border border-white/5 space-y-4">
+          <div className="p-6 rounded-3xl bg-white dark:bg-zinc-900/40 border border-zinc-200/90 dark:border-white/5 space-y-4 shadow-md">
             <div className="flex items-center gap-3">
-              <Award className="w-5 h-5 text-amber-400" />
-              <h3 className="font-serif text-lg font-bold text-white">4. Fondo Global (6% Profit-Sharing)</h3>
+              <Award className="w-5 h-5 text-emerald-600 dark:text-amber-400" />
+              <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white">4. Fondo Global (6% Profit-Sharing)</h3>
             </div>
-            <div className="space-y-2 text-xs text-zinc-400">
-              <div className="flex justify-between border-b border-white/5 pb-1">
+            <div className="space-y-2 text-xs text-zinc-600 dark:text-zinc-400">
+              <div className="flex justify-between border-b border-zinc-200/80 dark:border-white/5 pb-1">
                 <span>Piscina 1 (Negocio - 2%)</span>
-                <span className="font-mono text-white">Cada $3,000 USD = 1 Acción</span>
+                <span className="font-mono text-zinc-900 dark:text-white font-bold">Cada $3,000 USD = 1 Acción</span>
               </div>
-              <div className="flex justify-between border-b border-white/5 pb-1">
+              <div className="flex justify-between border-b border-zinc-200/80 dark:border-white/5 pb-1">
                 <span>Piscina 2 (Líder - 2%)</span>
-                <span className="font-mono text-white">Cada $7,000 USD = 1 Acción</span>
+                <span className="font-mono text-zinc-900 dark:text-white font-bold">Cada $7,000 USD = 1 Acción</span>
               </div>
               <div className="flex justify-between">
                 <span>Piscina 3 (Premium - 2%)</span>
-                <span className="font-mono text-white">Cada $15,000 USD = 1 Acción</span>
+                <span className="font-mono text-zinc-900 dark:text-white font-bold">Cada $15,000 USD = 1 Acción</span>
               </div>
             </div>
           </div>
@@ -939,22 +944,22 @@ export default function PresentationPage() {
         </div>
 
         {/* Candados de Seguridad */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-zinc-900/30 border border-white/5 space-y-4">
-          <h3 className="font-serif text-lg font-bold text-white flex items-center gap-2">
-            <Lock className="w-5 h-5 text-amber-500" /> Candados de Seguridad y Antifraude
+        <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900/30 border border-zinc-200/90 dark:border-white/5 space-y-4 shadow-md">
+          <h3 className="font-serif text-lg font-bold text-zinc-900 dark:text-white flex items-center gap-2">
+            <Lock className="w-5 h-5 text-emerald-600 dark:text-amber-500" /> Candados de Seguridad y Antifraude
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-zinc-400">
-            <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-1">
-              <p className="font-bold text-white">Regla del 50%</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-zinc-600 dark:text-zinc-400">
+            <div className="p-4 rounded-2xl bg-stone-50 dark:bg-black/40 border border-zinc-200/70 dark:border-white/5 space-y-1">
+              <p className="font-bold text-zinc-900 dark:text-white">Regla del 50%</p>
               <p>Ninguna rama puede aportar más del 50% de la meta requerida para calificar a las piscinas.</p>
             </div>
-            <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-1">
-              <p className="font-bold text-white">Comisiones Diferidas</p>
+            <div className="p-4 rounded-2xl bg-stone-50 dark:bg-black/40 border border-zinc-200/70 dark:border-white/5 space-y-1">
+              <p className="font-bold text-zinc-900 dark:text-white">Comisiones Diferidas</p>
               <p>El saldo pasa a disponible cuando el turista inicia su viaje, protegiendo ante cancelaciones.</p>
             </div>
-            <div className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-1">
-              <p className="font-bold text-white">Excedentes a Pablo</p>
-              <p>Cualquier fondo no calificado o comisión no reclamada fluye al usuario raíz (<code className="text-amber-400">pablo.g</code>).</p>
+            <div className="p-4 rounded-2xl bg-stone-50 dark:bg-black/40 border border-zinc-200/70 dark:border-white/5 space-y-1">
+              <p className="font-bold text-zinc-900 dark:text-white">Excedentes a Pablo</p>
+              <p>Cualquier fondo no calificado o comisión no reclamada fluye al usuario raíz (<code className="text-emerald-700 dark:text-amber-400 font-bold">pablo.g</code>).</p>
             </div>
           </div>
         </div>
@@ -963,7 +968,7 @@ export default function PresentationPage() {
 
       {/* ── FOOTER ────────────────────────────────────────────────────────── */}
       <footer className="max-w-5xl mx-auto px-6 pb-20">
-        <div className="p-8 rounded-3xl bg-gradient-to-r from-stone-900 to-black border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+        <div className="p-8 rounded-3xl bg-gradient-to-r from-stone-900 to-black border border-stone-800 text-white flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-2xl">
           <div>
             <h4 className="font-serif text-2xl font-bold text-white">¿Listo para unirte al club?</h4>
             <p className="text-xs text-zinc-400 mt-1">Regístrate gratis o accede a tu panel de control de embajador.</p>
@@ -971,13 +976,13 @@ export default function PresentationPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => { setModalTab('register'); setAuthModalOpen(true); }}
-              className="px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-black font-bold uppercase tracking-wider text-xs rounded-xl transition-all shadow-md cursor-pointer"
+              className="px-6 py-3.5 bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-emerald-600 hover:to-teal-500 text-white font-bold uppercase tracking-wider text-xs rounded-xl transition-all duration-300 shadow-md hover:scale-[1.02] cursor-pointer border-none"
             >
               Crear Cuenta Gratis
             </button>
             <button
               onClick={() => { setModalTab('login'); setAuthModalOpen(true); }}
-              className="px-6 py-3.5 bg-zinc-900 hover:bg-zinc-800 border border-white/15 text-white font-bold uppercase tracking-wider text-xs rounded-xl transition-all cursor-pointer"
+              className="px-6 py-3.5 bg-zinc-800 hover:bg-zinc-700 border border-white/15 text-white font-bold uppercase tracking-wider text-xs rounded-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer"
             >
               Acceder
             </button>

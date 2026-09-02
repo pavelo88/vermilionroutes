@@ -62,7 +62,7 @@ export default async function ToursPage({ params }: { params: Promise<{ locale: 
       {/* ── HERO REVISTA (EDITORIAL LUXURY) ────────────────────────────────── */}
       <section className="relative pt-[146px] sm:pt-40 pb-32 border-b border-zinc-200 dark:border-white/10">
         <ToursBackgroundSlider />
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/30 via-transparent to-zinc-950/90 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/75 pointer-events-none" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
           <div className="text-center max-w-3xl mx-auto space-y-6">

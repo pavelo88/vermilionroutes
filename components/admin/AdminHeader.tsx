@@ -55,9 +55,6 @@ export function AdminHeader({ user, onSignOut, activeTab, setActiveTab, toursCou
                 priority
               />
             </Link>
-            <span className="hidden lg:flex text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-2.5 py-0.5 rounded-full font-sans font-medium items-center gap-1">
-              <ShieldCheck className="w-3 h-3" /> Live Firestore
-            </span>
           </div>
 
           {/* Desktop Tabs */}
@@ -85,16 +82,6 @@ export function AdminHeader({ user, onSignOut, activeTab, setActiveTab, toursCou
 
           {/* Right Actions */}
           <div className="hidden sm:flex items-center gap-3">
-            <Link href="/" target="_blank">
-              <Button
-                variant="outline"
-                size="sm"
-                className="h-8 text-xs gap-1.5 bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/50 hover:bg-emerald-100 text-emerald-700 dark:text-emerald-400"
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-                Ver sitio
-              </Button>
-            </Link>
             <Button
               onClick={onSignOut}
               variant="outline"

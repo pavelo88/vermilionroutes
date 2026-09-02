@@ -94,7 +94,7 @@ export function Navbar() {
         { name: tNav('fullday'), href: `/${locale}#fullday`, desc: 'Galapagos & Mainland 1-Day Tours' },
       ],
     },
-    { name: tNav('tours'), href: `/${locale}#tours` },
+    { name: tNav('tours'), href: `/${locale}/tours` },
     { name: 'Blog', href: `/${locale}/blog` },
     { name: tNav('about'), href: `/${locale}#experience` },
     { name: tNav('contact'), href: `/${locale}#contact` },
@@ -178,7 +178,7 @@ export function Navbar() {
         Main Sticky Header 
       */}
       <header
-        className={`transition-all duration-300 backdrop-blur-md border-b border-white/20 dark:border-zinc-800/30 ${isScrolled ? 'pt-2.5 shadow-sm bg-[#F9F6F0]/50 dark:bg-[#05140C]/75' : 'pt-3 bg-[#F9F6F0]/35 dark:bg-[#05140C]/55'
+        className={`transition-all duration-300 backdrop-blur-xl border-b ${isScrolled ? 'pt-2.5 shadow-md bg-[#FAF8F5]/95 dark:bg-[#05140C]/95 border-zinc-200/90 dark:border-zinc-800/90' : 'pt-3 bg-[#FAF8F5]/70 dark:bg-[#05140C]/60 border-zinc-200/30 dark:border-white/10'
           }`}
       >
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 flex items-center justify-between pb-2 sm:pb-1.5">

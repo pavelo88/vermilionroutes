@@ -681,7 +681,7 @@ const multiDayTours: Tour[] = [
       '/images/tours/16-9/laguna-quilotoa-16-9.jpg',
       '/images/tours/16-9/amazon-cuyabeno-16-9.jpg',
       '/images/tours/16-9/puyo-yanacocha-16-9.jpg',
-      '/images/tours/16-9/chimborazo-volcano-16-9.1.jpg',
+      '/images/tours/16-9/chimborazo-volcano-16-9.jpg',
       '/images/tours/16-9/quito-colonial-16-9.jpg'
     ],
     rating: 5,
