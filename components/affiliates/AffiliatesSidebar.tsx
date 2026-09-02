@@ -217,8 +217,8 @@ export default function AffiliatesSidebar() {
               className="w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-white/[0.02] border border-white/10 text-xs text-zinc-900 dark:text-white hover:bg-white/5 transition-all duration-300"
             >
               <div className="flex items-center gap-3">
-                <span className="text-base leading-none grayscale contrast-125 opacity-80">{currentLang.flag}</span>
-                <span className="font-semibold uppercase tracking-wider text-[11px]">{locale}</span>
+                <span className="text-base leading-none">{currentLang.flag}</span>
+                <span className="font-semibold uppercase tracking-widest text-[11px]">{locale}</span>
               </div>
               <ChevronDown className={`w-3.5 h-3.5 text-[#6B6B6B] transition-transform ${langOpen ? 'rotate-180' : ''}`} />
             </button>
@@ -230,14 +230,14 @@ export default function AffiliatesSidebar() {
                     key={l.code}
                     type="button"
                     onClick={() => changeLanguage(l.code)}
-                    className={`w-full flex items-center gap-3 px-4 py-2 text-[11px] text-left transition-colors font-medium uppercase tracking-wider ${
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 text-[11px] text-left transition-colors font-semibold uppercase tracking-widest ${
                       locale === l.code
                         ? 'bg-white/10 text-white'
                         : 'text-[#6B6B6B] hover:bg-white/5 hover:text-white'
                     }`}
                   >
-                    <span className="text-base leading-none grayscale contrast-125 opacity-80">{l.flag}</span>
-                    <span>{l.label}</span>
+                    <span className="text-base leading-none">{l.flag}</span>
+                    <span>{l.code}</span>
                   </button>
                 ))}
               </div>
