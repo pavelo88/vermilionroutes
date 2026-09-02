@@ -36,8 +36,8 @@ let storage: FirebaseStorage | any;
 
 try {
   app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-  // Only initialize Firestore & Storage on start; Auth is lazily loaded on demand
   if (firebaseConfig.apiKey) {
+    auth = getAuth(app);
     db = getFirestore(app, databaseId);
     storage = getStorage(app);
   } else {
@@ -47,24 +47,4 @@ try {
   console.error('Error initializing Firebase:', error);
 }
 
-/**
- * Lazy Auth getter: Prevents loading __/auth/iframe.js (93 KiB, 2.8s latency) on public routes.
- * Auth is only initialized if a user accesses an admin route or opens the login/affiliate modal.
- */
-export function getAuthService(): Auth {
-  if (!auth && app && firebaseConfig.apiKey) {
-    auth = getAuth(app);
-  }
-  return auth;
-}
-
-const authProxy = new Proxy({} as Auth, {
-  get(_target, prop) {
-    const realAuth = getAuthService();
-    if (!realAuth) return undefined;
-    const value = (realAuth as any)[prop];
-    return typeof value === 'function' ? value.bind(realAuth) : value;
-  }
-});
-
-export { app, authProxy as auth, db, storage, firebaseConfig };
+export { app, auth, db, storage, firebaseConfig };
