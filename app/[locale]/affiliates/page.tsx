@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendEmailVerification,
+  sendPasswordResetEmail,
   onAuthStateChanged,
 } from 'firebase/auth';
 import {
@@ -48,8 +49,9 @@ export default function AffiliatesPage() {
   // Sponsor referral capture from URL (?vid=pablo.g, with legacy ?ref= support)
   const refFromUrl = searchParams.get('vid') || searchParams.get('ref') || '';
 
-  // Auth mode: 'register' | 'login'
-  const [authMode, setAuthMode] = useState<'register' | 'login'>('register');
+  // Auth mode: 'register' | 'login' | 'forgot'
+  const [authMode, setAuthMode] = useState<'register' | 'login' | 'forgot'>('register');
+  const [resetIdentifier, setResetIdentifier] = useState('');
 
   // Login form state
   const [loginIdentifier, setLoginIdentifier] = useState('');
@@ -175,6 +177,50 @@ export default function AffiliatesPage() {
         setErrorMsg(isEs ? 'No existe una cuenta con ese correo.' : 'No account found with this email.');
       } else {
         setErrorMsg(err.message || (isEs ? 'Error al iniciar sesión.' : 'Error signing in.'));
+      }
+    }
+  };
+
+  // ── HANDLE FORGOT PASSWORD ──────────────────────────────────────────────────
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const idToUse = resetIdentifier.trim() || loginIdentifier.trim();
+    if (!idToUse) {
+      setErrorMsg(isEs ? 'Ingresa tu usuario o correo electrónico.' : 'Please enter your username or email.');
+      setStatus('error');
+      return;
+    }
+
+    setStatus('loading');
+    setErrorMsg('');
+    setSuccessMsg('');
+
+    try {
+      let targetEmail = idToUse.toLowerCase();
+      if (!targetEmail.includes('@')) {
+        const found = await getAffiliateByUsername(targetEmail);
+        if (!found || !found.email) {
+          throw new Error(isEs ? `No encontramos ningún usuario @${targetEmail}` : `User @${targetEmail} not found`);
+        }
+        targetEmail = found.email;
+      }
+
+      if (auth) {
+        await sendPasswordResetEmail(auth, targetEmail);
+      }
+
+      setStatus('success');
+      setSuccessMsg(isEs
+        ? `Hemos enviado un enlace de recuperación a ${targetEmail}. Revisa tu bandeja de entrada o spam.`
+        : `Password reset link sent to ${targetEmail}. Please check your inbox or spam folder.`
+      );
+    } catch (err: any) {
+      console.error(err);
+      setStatus('error');
+      if (err.code === 'auth/user-not-found') {
+        setErrorMsg(isEs ? 'No existe una cuenta registrada con ese correo.' : 'No account found with this email.');
+      } else {
+        setErrorMsg(err.message || (isEs ? 'Error al enviar el enlace de recuperación.' : 'Error sending reset email.'));
       }
     }
   };
@@ -399,6 +445,21 @@ export default function AffiliatesPage() {
                     {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
+                <div className="flex justify-end pt-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setResetIdentifier(loginIdentifier);
+                      setAuthMode('forgot');
+                      setErrorMsg('');
+                      setSuccessMsg('');
+                      setStatus('idle');
+                    }}
+                    className="text-xs text-amber-400 hover:underline cursor-pointer transition-colors"
+                  >
+                    {isEs ? '¿Olvidaste tu contraseña?' : 'Forgot your password?'}
+                  </button>
+                </div>
               </div>
 
               {errorMsg && (
@@ -423,7 +484,75 @@ export default function AffiliatesPage() {
                 )}
               </button>
             </form>
-          ) : (
+            ) : authMode === 'forgot' ? (
+              /* ── FORGOT PASSWORD FORM ───────────────────────────────────── */
+              <form onSubmit={handleResetPassword} className="space-y-4 pt-2">
+                <div className="text-center space-y-1 mb-6">
+                  <h3 className="font-serif text-2xl font-light text-white">
+                    {isEs ? 'Recuperar Contraseña' : 'Reset Password'}
+                  </h3>
+                  <p className="text-xs text-zinc-400">
+                    {isEs ? 'Ingresa tu usuario (@pablo.g) o correo para enviarte un enlace de recuperación.' : 'Enter your username or email to receive a recovery link.'}
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-400 flex items-center gap-1.5">
+                    <AtSign className="w-3.5 h-3.5 text-amber-500" />
+                    {isEs ? 'Usuario o Correo Electrónico *' : 'Username or Email *'}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={resetIdentifier}
+                    onChange={(e) => setResetIdentifier(e.target.value)}
+                    placeholder="ej: pablo.g o tu correo"
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/50 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                  />
+                </div>
+
+                {errorMsg && (
+                  <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-900/50 text-rose-400 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{errorMsg}</span>
+                  </div>
+                )}
+
+                {successMsg && (
+                  <div className="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-900/50 text-emerald-400 text-xs flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                    <span>{successMsg}</span>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="w-full py-4 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-bold uppercase tracking-widest text-xs rounded-2xl transition-all shadow-md shadow-amber-900/20 flex items-center justify-center gap-2 cursor-pointer mt-4"
+                >
+                  {status === 'loading' ? (
+                    <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <span>{isEs ? 'Enviar Enlace de Recuperación' : 'Send Recovery Link'}</span>
+                  )}
+                </button>
+
+                <div className="text-center pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAuthMode('login');
+                      setErrorMsg('');
+                      setSuccessMsg('');
+                      setStatus('idle');
+                    }}
+                    className="text-xs text-zinc-400 hover:text-white cursor-pointer transition-colors"
+                  >
+                    {isEs ? '← Volver a Iniciar Sesión' : '← Back to Sign In'}
+                  </button>
+                </div>
+              </form>
+            ) : (
             /* ── REGISTER FORM (SIN PASSWORD - CÉDULA ES CLAVE TEMPORAL) ────── */
             <form onSubmit={handleRegister} className="space-y-4 pt-2">
               <div className="text-center space-y-1 mb-6">

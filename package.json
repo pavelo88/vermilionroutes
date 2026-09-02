@@ -14,7 +14,14 @@
     "test:coverage": "vitest run --coverage",
     "seed": "tsx scripts/seed.ts",
     "seed:root": "node scripts/seed-root-affiliate.mjs",
-    "optimize": "tsx scripts/optimize-images.ts"
+    "optimize": "tsx scripts/optimize-images.ts",
+    "ops:blog": "node scripts/ops/addBlog.cjs",
+    "ops:titles": "node scripts/ops/fixTitles.cjs",
+    "ops:terms": "node scripts/ops/replaceTerms.cjs",
+    "ops:images": "node scripts/ops/fix-images.js",
+    "ops:images-db": "node scripts/ops/fix_images.mjs",
+    "ops:test-smtp": "node scripts/ops/test-email.mjs",
+    "ops:test-send": "node scripts/ops/test-send.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

@@ -9,6 +9,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendEmailVerification,
+  sendPasswordResetEmail,
   signOut,
 } from 'firebase/auth';
 import {
@@ -57,7 +58,8 @@ export default function PresentationPage() {
 
   // Modals state
   const [authModalOpen, setAuthModalOpen] = useState(loginParam);
-  const [modalTab, setModalTab] = useState<'register' | 'login'>(loginParam ? 'login' : 'register');
+  const [modalTab, setModalTab] = useState<'register' | 'login' | 'forgot'>(loginParam ? 'login' : 'register');
+  const [resetIdentifier, setResetIdentifier] = useState('');
 
   // Simulator Sliders State
   const [tourPrice, setTourPrice] = useState(5000);
@@ -185,6 +187,50 @@ export default function PresentationPage() {
         setAuthError(isEs ? 'No existe una cuenta con ese correo.' : 'Account not found.');
       } else {
         setAuthError(err.message || (isEs ? 'Error al iniciar sesión.' : 'Error signing in.'));
+      }
+    }
+  };
+
+  // ── HANDLE FORGOT PASSWORD ────────────────────────────────────────────────
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const idToUse = resetIdentifier.trim() || loginIdentifier.trim();
+    if (!idToUse) {
+      setAuthError(isEs ? 'Ingresa tu usuario o correo electrónico.' : 'Please enter your username or email.');
+      setAuthStatus('error');
+      return;
+    }
+
+    setAuthStatus('loading');
+    setAuthError('');
+    setAuthSuccess('');
+
+    try {
+      let targetEmail = idToUse.toLowerCase();
+      if (!targetEmail.includes('@')) {
+        const found = await getAffiliateByUsername(targetEmail);
+        if (!found || !found.email) {
+          throw new Error(isEs ? `No encontramos ningún usuario @${targetEmail}` : `User @${targetEmail} not found`);
+        }
+        targetEmail = found.email;
+      }
+
+      if (auth) {
+        await sendPasswordResetEmail(auth, targetEmail);
+      }
+
+      setAuthStatus('success');
+      setAuthSuccess(isEs
+        ? `Hemos enviado un enlace de recuperación a ${targetEmail}. Revisa tu bandeja de entrada o spam.`
+        : `Password reset link sent to ${targetEmail}. Please check your inbox or spam folder.`
+      );
+    } catch (err: any) {
+      console.error(err);
+      setAuthStatus('error');
+      if (err.code === 'auth/user-not-found') {
+        setAuthError(isEs ? 'No existe una cuenta registrada con ese correo.' : 'No account found with this email.');
+      } else {
+        setAuthError(err.message || (isEs ? 'Error al enviar el enlace de recuperación.' : 'Error sending reset email.'));
       }
     }
   };
@@ -489,7 +535,7 @@ export default function PresentationPage() {
                   )}
                 </button>
               </form>
-            ) : (
+            ) : modalTab === 'login' ? (
               /* ── LOGIN FORM ─────────────────────────────────────────────── */
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="text-center space-y-1 mb-4">
@@ -538,6 +584,21 @@ export default function PresentationPage() {
                       {showLoginPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
+                  <div className="flex justify-end pt-1">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setResetIdentifier(loginIdentifier);
+                        setModalTab('forgot');
+                        setAuthError('');
+                        setAuthSuccess('');
+                        setAuthStatus('idle');
+                      }}
+                      className="text-[11px] text-[#D4AF37] hover:underline cursor-pointer transition-colors"
+                    >
+                      {isEs ? '¿Olvidaste tu contraseña?' : 'Forgot your password?'}
+                    </button>
+                  </div>
                 </div>
 
                 {authError && (
@@ -555,9 +616,79 @@ export default function PresentationPage() {
                   {authStatus === 'loading' ? (
                     <span className="w-4 h-4 border-2 border-stone-950 border-t-transparent rounded-full animate-spin inline-block" />
                   ) : (
-                    <span>Entrar a Mi Panel</span>
+                    <span>{isEs ? 'Entrar a Mi Panel' : 'Sign In to My Dashboard'}</span>
                   )}
                 </button>
+              </form>
+            ) : (
+              /* ── FORGOT PASSWORD FORM ───────────────────────────────────── */
+              <form onSubmit={handleResetPassword} className="space-y-4">
+                <div className="text-center space-y-1 mb-4">
+                  <h3 className="font-serif text-2xl font-light text-white">
+                    {isEs ? 'Recuperar Contraseña' : 'Reset Password'}
+                  </h3>
+                  <p className="text-xs text-zinc-400">
+                    {isEs
+                      ? 'Ingresa tu usuario (@pablo.g) o correo para enviarte un enlace de recuperación.'
+                      : 'Enter your username or email to receive a recovery link.'}
+                  </p>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-zinc-400 flex items-center gap-1.5">
+                    <AtSign className="w-3.5 h-3.5 text-amber-500" />
+                    {isEs ? 'Usuario o Correo *' : 'Username or Email *'}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={resetIdentifier}
+                    onChange={(e) => setResetIdentifier(e.target.value)}
+                    placeholder="pablo.g o email@ejemplo.com"
+                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                  />
+                </div>
+
+                {authError && (
+                  <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-900/50 text-rose-400 text-xs flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{authError}</span>
+                  </div>
+                )}
+
+                {authSuccess && (
+                  <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-900/50 text-emerald-400 text-xs flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                    <span>{authSuccess}</span>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={authStatus === 'loading'}
+                  className="w-full py-4 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:from-[#E5C158] hover:to-[#B59049] disabled:opacity-50 text-stone-950 font-extrabold uppercase tracking-wider text-xs rounded-2xl transition-all shadow-lg shadow-amber-900/30 mt-4 cursor-pointer hover:scale-[1.01] active:scale-95 border-none flex items-center justify-center gap-2"
+                >
+                  {authStatus === 'loading' ? (
+                    <span className="w-4 h-4 border-2 border-stone-950 border-t-transparent rounded-full animate-spin inline-block" />
+                  ) : (
+                    <span>{isEs ? 'Enviar Enlace de Recuperación' : 'Send Recovery Link'}</span>
+                  )}
+                </button>
+
+                <div className="text-center pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setModalTab('login');
+                      setAuthError('');
+                      setAuthSuccess('');
+                      setAuthStatus('idle');
+                    }}
+                    className="text-xs text-zinc-400 hover:text-white cursor-pointer transition-colors"
+                  >
+                    {isEs ? '← Volver a Iniciar Sesión' : '← Back to Sign In'}
+                  </button>
+                </div>
               </form>
             )}
 

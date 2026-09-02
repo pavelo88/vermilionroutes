@@ -26,6 +26,7 @@ const nextConfig = {
   output: process.env.VERCEL ? undefined : 'standalone',
   transpilePackages: ['motion', 'framer-motion', 'motion-dom'],
   images: {
+    unoptimized: true,
     formats: ['image/avif', 'image/webp'],
     qualities: [60, 75, 80, 85, 90, 95, 100],
     remotePatterns: [

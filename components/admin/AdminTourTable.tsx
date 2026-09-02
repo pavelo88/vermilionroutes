@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Tour } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Database, Search, Plus, MapPin, Clock, Pencil, Trash2 } from 'lucide-react';
-import { BaseTourCard } from '@/components/shared/ui/BaseTourCard';
+import { BaseTourCard } from '@/components/ui/BaseTourCard';
 
 import { useLocale } from 'next-intl';
 
