@@ -177,7 +177,7 @@ export function AdminHeader({ user, onSignOut, activeTab, setActiveTab, toursCou
                 onClick={() => {
                   setActiveTab(item.id);
                   setMobileMenuOpen(false);
-                }
+                }}
                 className={`flex items-center gap-2 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${
                   activeTab === item.id
                     ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
