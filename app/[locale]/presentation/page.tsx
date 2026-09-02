@@ -209,7 +209,8 @@ function PresentationContent() {
       setAuthStatus('success');
       setLoginProgressMessage(isEs ? '✓ ¡Acceso confirmado! Abriendo tu panel...' : '✓ Access confirmed! Opening dashboard...');
       localStorage.setItem('vr_affiliate_user', targetEmail);
-      window.location.href = `/${locale}/affiliates/dashboard`;
+      setAuthModalOpen(false);
+      router.push(`/${locale}/affiliates/dashboard`);
     } catch (err: any) {
       console.error('[Login Error]', err);
       setAuthStatus('error');

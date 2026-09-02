@@ -38,6 +38,11 @@ try {
   app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
   if (firebaseConfig.apiKey) {
     auth = getAuth(app);
+    if (typeof window !== 'undefined') {
+      import('firebase/auth').then(({ setPersistence, browserLocalPersistence }) => {
+        setPersistence(auth, browserLocalPersistence).catch(() => {});
+      });
+    }
     db = getFirestore(app, databaseId);
     storage = getStorage(app);
   } else {
