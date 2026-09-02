@@ -53,7 +53,7 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
         return;
       }
 
-      // 2. Listener simple y robusto (estilo EnergyEngine)
+      // 2. Listener simple y robusto con buffer de seguridad
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         console.log('[Auth Gossip] onAuthStateChanged fired! User:', user ? user.email : 'null');
         if (!isSubscribed) return;
@@ -64,10 +64,20 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
           setLoading(false);
           setAuthError(null);
         } else {
-          // No hay usuario, redirigir de inmediato
-          console.warn('[Auth Gossip] NO USER FOUND! Kicking out to /auth...');
-          setLoading(false);
-          window.location.href = `/${locale}/auth`;
+          console.warn('[Auth Gossip] Initial user check is null. Waiting 1.5s for slow persistence on Vercel...');
+          // En Vercel / Safari, leer IndexedDB toma tiempo. Damos un respiro de 1.5 segundos.
+          setTimeout(() => {
+            if (!isSubscribed) return;
+            if (auth.currentUser) {
+              console.log('[Auth Gossip] Phew! Session loaded late. Letting them in.');
+              setCurrentUser(auth.currentUser);
+              setLoading(false);
+            } else {
+              console.error('[Auth Gossip] STILL NO USER AFTER 1.5s! Kicking out to /auth...');
+              setLoading(false);
+              router.replace(`/${locale}/auth`);
+            }
+          }, 1500);
         }
       });
 
