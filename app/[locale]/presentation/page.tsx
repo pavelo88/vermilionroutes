@@ -340,19 +340,20 @@ export default function PresentationPage() {
 
             {/* ── REGISTER FORM ───────────────────────────────────────────── */}
             {modalTab === 'register' ? (
-              <form onSubmit={handleRegister} className="space-y-4">
-                <div className="text-center space-y-1 mb-4">
-                  <h3 className="font-serif text-2xl font-light text-zinc-900 dark:text-white">
+              <form onSubmit={handleRegister} className="space-y-3">
+                <div className="text-center space-y-0.5 mb-3">
+                  <h3 className="font-serif text-xl font-light text-zinc-900 dark:text-white">
                     {isEs ? 'Únete como Embajador' : 'Become an Ambassador'}
                   </h3>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                    {isEs ? 'Sin contraseña inicial. Tu cédula será tu clave temporal de 1er ingreso.' : 'Your ID will be your temporary password.'}
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                    {isEs ? 'Sin contraseña inicial. Tu cédula será tu clave temporal.' : 'Your ID will be your temporary password.'}
                   </p>
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-400 flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                {/* Row 1: Name */}
+                <div className="space-y-0.5">
+                  <label className="text-[11px] font-semibold text-zinc-700 dark:text-zinc-400 flex items-center gap-1.5">
+                    <User className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                     {isEs ? 'Nombre Completo *' : 'Full Name *'}
                   </label>
                   <input
@@ -361,12 +362,13 @@ export default function PresentationPage() {
                     value={registerForm.name}
                     onChange={handleRegisterChange}
                     placeholder="ej: Pablo Fabricio García Flores"
-                    className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                    className="w-full px-3 py-2 rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-100 dark:bg-zinc-900/60 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
                   />
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-zinc-400 flex items-center justify-between">
+                {/* Row 2: Username */}
+                <div className="space-y-0.5">
+                  <label className="text-[11px] font-semibold text-zinc-700 dark:text-zinc-400 flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
                       <AtSign className="w-3 h-3 text-amber-500" />
                       {isEs ? 'Tu Usuario Único * (enlace público)' : 'Your Unique Username *'}
@@ -374,25 +376,26 @@ export default function PresentationPage() {
                     {usernameIndicator()}
                   </label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 text-sm font-mono">@</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm font-mono">@</span>
                     <input
                       name="username"
                       required
                       value={registerForm.username}
                       onChange={handleUsernameChange}
                       placeholder="pablo.g"
-                      className={`w-full pl-8 pr-4 py-3 rounded-xl border bg-zinc-900/60 text-sm text-white font-mono placeholder:text-zinc-600 focus:outline-none focus:ring-1 transition-colors
+                      className={`w-full pl-7 pr-3 py-2 rounded-xl border bg-zinc-100 dark:bg-zinc-900/60 text-sm text-zinc-900 dark:text-white font-mono placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-1 transition-colors
                         ${usernameStatus === 'available' ? 'border-emerald-500/50 focus:ring-emerald-500/30' :
                           usernameStatus === 'taken' ? 'border-rose-500/50 focus:ring-rose-500/30' :
-                          'border-white/10 focus:border-amber-500/50 focus:ring-amber-500/30'}`}
+                          'border-zinc-300 dark:border-white/10 focus:border-amber-500/50 focus:ring-amber-500/30'}`}
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-zinc-400">
-                      {isEs ? 'Correo Electrónico *' : 'Email Address *'}
+                {/* Row 3: Email + Cedula */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-0.5">
+                    <label className="text-[11px] font-semibold text-zinc-700 dark:text-zinc-400">
+                      {isEs ? 'Correo Electrónico *' : 'Email *'}
                     </label>
                     <input
                       name="email"
@@ -401,11 +404,11 @@ export default function PresentationPage() {
                       value={registerForm.email}
                       onChange={handleRegisterChange}
                       placeholder="email@ejemplo.com"
-                      className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                      className="w-full px-3 py-2 rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-100 dark:bg-zinc-900/60 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
                     />
                   </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-zinc-400">
+                  <div className="space-y-0.5">
+                    <label className="text-[11px] font-semibold text-zinc-700 dark:text-zinc-400">
                       {isEs ? 'Cédula / Pasaporte *' : 'ID / Passport *'}
                     </label>
                     <input
@@ -414,14 +417,15 @@ export default function PresentationPage() {
                       value={registerForm.cedula}
                       onChange={handleRegisterChange}
                       placeholder="1721790721"
-                      className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                      className="w-full px-3 py-2 rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-100 dark:bg-zinc-900/60 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-zinc-400">
+                {/* Row 4: Phone + Sponsor */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-0.5">
+                    <label className="text-[11px] font-semibold text-zinc-700 dark:text-zinc-400">
                       {isEs ? 'WhatsApp / Teléfono' : 'Phone'}
                     </label>
                     <input
@@ -429,11 +433,11 @@ export default function PresentationPage() {
                       value={registerForm.phone}
                       onChange={handleRegisterChange}
                       placeholder="+593 98 399 2549"
-                      className="w-full px-4 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                      className="w-full px-3 py-2 rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-100 dark:bg-zinc-900/60 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
                     />
                   </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-semibold text-zinc-400">
+                  <div className="space-y-0.5">
+                    <label className="text-[11px] font-semibold text-zinc-700 dark:text-zinc-400">
                       {isEs ? 'Patrocinador' : 'Sponsor'}
                     </label>
                     <div className="relative">
@@ -443,26 +447,31 @@ export default function PresentationPage() {
                         value={registerForm.sponsorUsername}
                         onChange={handleRegisterChange}
                         placeholder="pablo.g"
-                        className="w-full pl-7 pr-3 py-3 rounded-xl border border-white/10 bg-zinc-900/60 text-sm text-white font-mono placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
+                        className="w-full pl-6 pr-3 py-2 rounded-xl border border-zinc-300 dark:border-white/10 bg-zinc-100 dark:bg-zinc-900/60 text-sm text-zinc-900 dark:text-white font-mono placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 transition-colors"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-blue-950/30 border border-blue-900/40 text-blue-300 text-[11px] flex items-start gap-2">
-                  <Mail className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                  <p>Te enviaremos un correo de confirmación. Tu clave temporal de primer ingreso es tu cédula.</p>
+                {/* Info box — high contrast in both light and dark */}
+                <div className="p-2.5 rounded-xl bg-blue-600/10 border border-blue-500/30 flex items-start gap-2">
+                  <Mail className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                  <p className="text-[11px] text-blue-800 dark:text-blue-300 leading-snug">
+                    {isEs
+                      ? 'Se enviará un correo de confirmación. Tu clave temporal de primer ingreso es tu cédula.'
+                      : 'A confirmation email will be sent. Your temporary password is your ID number.'}
+                  </p>
                 </div>
 
                 {authError && (
-                  <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-900/50 text-rose-400 text-xs flex items-center gap-2">
+                  <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-700 dark:text-rose-400 text-[11px] flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 shrink-0" />
                     <span>{authError}</span>
                   </div>
                 )}
 
                 {authSuccess && (
-                  <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-900/50 text-emerald-400 text-xs flex items-center gap-2">
+                  <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-[11px] flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 shrink-0" />
                     <span>{authSuccess}</span>
                   </div>
@@ -471,12 +480,12 @@ export default function PresentationPage() {
                 <button
                   type="submit"
                   disabled={authStatus === 'loading' || usernameStatus === 'taken'}
-                  className="w-full py-4 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:from-[#E5C158] hover:to-[#B59049] disabled:opacity-50 text-stone-950 font-extrabold uppercase tracking-wider text-xs rounded-2xl transition-all shadow-lg shadow-amber-900/30 mt-4 cursor-pointer hover:scale-[1.01] active:scale-95 border-none flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] hover:from-[#E5C158] hover:to-[#B59049] disabled:opacity-50 text-stone-950 font-extrabold uppercase tracking-wider text-xs rounded-2xl transition-all shadow-lg shadow-amber-900/30 cursor-pointer hover:scale-[1.01] active:scale-95 border-none flex items-center justify-center gap-2"
                 >
                   {authStatus === 'loading' ? (
                     <span className="w-4 h-4 border-2 border-stone-950 border-t-transparent rounded-full animate-spin inline-block" />
                   ) : (
-                    <span>Crear Mi Cuenta Ahora</span>
+                    <span>{isEs ? 'Crear Mi Cuenta Ahora' : 'Create My Account'}</span>
                   )}
                 </button>
               </form>
