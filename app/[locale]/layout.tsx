@@ -181,13 +181,21 @@ export default async function RootLayout({
         />
       </head>
       <body className="paper-bg text-zinc-900 dark:text-zinc-50 font-sans antialiased selection:bg-emerald-600 selection:text-white flex flex-col min-h-screen" suppressHydrationWarning>
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-D8ZNLYMCB0" strategy="lazyOnload" />
-        <Script id="google-analytics" strategy="lazyOnload">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-D8ZNLYMCB0"
+          strategy="afterInteractive"
+          onError={() => {
+            // Silently handle if blocked by adblockers, DNS or network filters
+          }}
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-D8ZNLYMCB0');
+            try {
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-D8ZNLYMCB0');
+            } catch (e) {}
           `}
         </Script>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>

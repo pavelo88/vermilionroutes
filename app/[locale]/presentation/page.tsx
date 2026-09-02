@@ -338,7 +338,7 @@ export default function PresentationPage() {
         affiliateId={activeAffiliateId}
         onSuccess={() => {
           setShowForcePasswordModal(false);
-          router.push(`/${locale}/affiliates/dashboard`);
+          window.location.href = `/${locale}/affiliates/dashboard`;
         }}
       />
 
