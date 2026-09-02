@@ -356,31 +356,33 @@ export default function PresentationPage() {
             </button>
 
             {/* Toggle Tabs */}
-            <div className="grid grid-cols-2 p-1 bg-zinc-100 dark:bg-zinc-900/90 rounded-2xl border border-zinc-200 dark:border-amber-500/20 mb-6">
+            <div className="grid grid-cols-2 p-1.5 bg-zinc-100 dark:bg-zinc-900/90 rounded-2xl border border-zinc-200 dark:border-amber-500/20 mb-6">
               <button
                 type="button"
                 onClick={() => { setModalTab('register'); setAuthError(''); setAuthStatus('idle'); }}
-                className={`py-2.5 px-2 rounded-xl text-[10px] sm:text-xs font-extrabold uppercase tracking-tight sm:tracking-wider flex items-center justify-center gap-1 sm:gap-2 transition-all cursor-pointer ${
+                className={`py-2.5 px-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                   modalTab === 'register'
                     ? 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] text-stone-950 shadow-md shadow-amber-900/30 border border-[#F5D77F]/50'
                     : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-amber-300'
                 }`}
               >
-                <UserPlus className="w-3.5 h-3.5 shrink-0" />
-                <span className="truncate">{isEs ? 'Registro Embajador' : 'Register'}</span>
+                <UserPlus className="w-4 h-4 shrink-0" />
+                <span className="inline sm:hidden">{isEs ? 'Registro' : 'Register'}</span>
+                <span className="hidden sm:inline">{isEs ? 'Registro Embajador' : 'Ambassador Register'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => { setModalTab('login'); setAuthError(''); setAuthStatus('idle'); }}
-                className={`py-2.5 px-2 rounded-xl text-[10px] sm:text-xs font-extrabold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-2 transition-all cursor-pointer ${
+                className={`py-2.5 px-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                   modalTab === 'login'
                     ? 'bg-gradient-to-r from-[#D4AF37] via-[#F3E5AB] to-[#C5A059] text-stone-950 shadow-md shadow-amber-900/30 border border-[#F5D77F]/50'
                     : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-amber-300'
                 }`}
               >
-                <LogIn className="w-3.5 h-3.5 shrink-0" />
-                <span className="truncate">{isEs ? 'Acceder a mi Cuenta' : 'Sign In'}</span>
+                <LogIn className="w-4 h-4 shrink-0" />
+                <span className="inline sm:hidden">{isEs ? 'Acceder' : 'Sign In'}</span>
+                <span className="hidden sm:inline">{isEs ? 'Acceder a mi Cuenta' : 'Sign In to Account'}</span>
               </button>
             </div>
 

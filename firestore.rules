@@ -45,7 +45,34 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    // Deny-by-default: cualquier otra colección/documento es inaccesible
-    // (no hay catch-all permisivo)
+    // Affiliates (Embajadores): lectura pública para validar links de referidos y usernames
+    match /affiliates/{username} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if request.auth != null;
+      allow delete: if isAdmin();
+    }
+
+    // Comisiones de afiliados
+    match /affiliate_commissions/{commissionId} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Retiros de afiliados
+    match /affiliate_withdrawals/{withdrawalId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if isAdmin();
+    }
+
+    // Leads / Prospectos
+    match /leads/{leadId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Deny-by-default: cualquier otra colección/documento no listado es inaccesible
   }
 }
