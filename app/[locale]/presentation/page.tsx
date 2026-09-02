@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -48,7 +48,7 @@ import {
 } from '@/lib/affiliates';
 import ForcePasswordChangeModal from '@/components/auth/ForcePasswordChangeModal';
 
-export default function PresentationPage() {
+function PresentationContent() {
   const router = useRouter();
   const locale = useLocale();
   const searchParams = useSearchParams();
@@ -1133,5 +1133,19 @@ export default function PresentationPage() {
       </footer>
       
     </div>
+  );
+}
+
+export default function PresentationPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FAF8F5] dark:bg-stone-950 flex items-center justify-center">
+          <div className="w-10 h-10 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <PresentationContent />
+    </Suspense>
   );
 }
