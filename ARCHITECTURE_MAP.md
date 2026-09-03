@@ -1,7 +1,7 @@
 # 🗺️ VERMILION ROUTES — PLANO MAESTRO ARQUITECTÓNICO (ARCHITECTURE MAP)
 
 > **Documento:** `ARCHITECTURE_MAP.md`  
-> **Versión:** `1.2.0`  
+> **Versión:** `1.3.0`  
 > **Última Actualización:** 2026-09-03  
 > **Responsable:** Arquitecto de Sistemas de Vermilion Routes  
 > **Estado:** Activo / Vigente  
@@ -33,10 +33,10 @@ flowchart TD
 
 | Módulo | Nombre Operativo | Propósito Principal | Roles Permitidos | Directorio / Archivos Clave |
 | :--- | :--- | :--- | :--- | :--- |
-| **Módulo 1** | **cPanel (CMS)** | Gestión de contenidos estáticos y dinámicos: catálogo de Tours, Itinerarios día a día, Hero Slider de bienvenida, Destinos, Artículos de Blog, Preguntas Frecuentes (FAQs), testimonios y enlaces de Footer. | `super`, `editor` | [`app/[locale]/cpanel`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/cpanel) |
-| **Módulo 2** | **Admin (CRM & Operaciones Centrales)** | Centro de comando maestro: pipeline de leads VIP, control de bookings con saldos pendientes, aprobación de comisiones (operadores y afiliados), aprovisionamiento de personal en `usuarios`, y asignación de amenidades de lujo Pakari. | `super`, `admin` | [`app/[locale]/admin/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/admin/page.tsx)<br>[`components/crm/AdminCrmDashboard.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/components/crm/AdminCrmDashboard.tsx) |
-| **Módulo 3** | **Operator (Portal de Expediciones & Pasajeros)** | Panel de trabajo diario para guías naturalistas y concierges: control de expediciones asignadas, seguimiento de leads calificados, contacto directo por WhatsApp/Email, verificación de amenidades VIP y solicitud formal de cobro de honorarios. | `super`, `admin`, `operator` | [`app/[locale]/operator/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/operator/page.tsx)<br>[`components/crm/OperatorDashboard.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/components/crm/OperatorDashboard.tsx) |
-| **Módulo 4** | **Affiliates (Portal de Embajadores)** | Plataforma de afiliados y embajadores de ventas de ultra-lujo: registro con código de referido único, árbol genealógico unilevel ("10-3-2"), métricas de volumen personal (VP) y grupal (VG), materiales de marketing, liquidación de ganancias y solicitud de retiros bancarios. Protegido bajo el patrón arquitectónico Energyengine con verificación reactiva de sesión y modal blindado de cambio forzado de clave. | `affiliate` | [`app/[locale]/affiliates`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/affiliates)<br>[`app/[locale]/affiliates/layout.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/affiliates/layout.tsx)<br>[`app/[locale]/auth/affiliates/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/auth/affiliates/page.tsx) |
+| **Módulo 1** | **cPanel (CMS)** | Gestión de contenidos estáticos y dinámicos: catálogo de Tours, Itinerarios día a día, Hero Slider de bienvenida, Destinos, Artículos de Blog, Preguntas Frecuentes (FAQs), testimonios y enlaces de Footer. | `super`, `editor` | [`app/[locale]/cpanel/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/cpanel/page.tsx)<br>[`components/admin/AdminLoginForm.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/components/admin/AdminLoginForm.tsx) (Validación estricta en `usuarios`) |
+| **Módulo 2** | **Admin (CRM & Operaciones Centrales)** | Centro de comando maestro: pipeline de leads VIP, control de bookings con saldos pendientes, aprobación de comisiones (operadores y afiliados), aprovisionamiento de personal en `usuarios`, y asignación de amenidades de lujo Pakari. | `super`, `admin` | [`app/[locale]/admin/layout.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/admin/layout.tsx) (Layout Guard 403 Forbidden)<br>[`app/[locale]/admin/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/admin/page.tsx)<br>[`components/crm/AdminCrmDashboard.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/components/crm/AdminCrmDashboard.tsx) |
+| **Módulo 3** | **Operator (Portal de Expediciones & Pasajeros)** | Panel de trabajo diario para guías naturalistas y concierges: control de expediciones asignadas, seguimiento de leads calificados, contacto directo por WhatsApp/Email, verificación de amenidades VIP y solicitud formal de cobro de honorarios. | `super`, `admin`, `operator` | [`app/[locale]/operator/layout.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/operator/layout.tsx) (Layout Guard 403 Forbidden)<br>[`app/[locale]/operator/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/operator/page.tsx)<br>[`components/crm/OperatorDashboard.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/components/crm/OperatorDashboard.tsx) |
+| **Módulo 4** | **Affiliates (Portal de Embajadores)** | Plataforma de afiliados y embajadores de ventas de ultra-lujo: registro con código de referido único, árbol genealógico unilevel ("10-3-2"), métricas de volumen personal (VP) y grupal (VG), materiales de marketing, liquidación de ganancias y solicitud de retiros bancarios. Protegido bajo el patrón arquitectónico Energyengine con verificación reactiva de sesión, blindaje anti-adulteración de rol y modal de cambio forzado de clave. | `affiliate` | [`app/[locale]/affiliates/layout.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/affiliates/layout.tsx) (Guard Anti-Adulteración & Status)<br>[`app/[locale]/auth/affiliates/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/auth/affiliates/page.tsx) (Alertas Rojas 403) |
 
 ---
 
@@ -72,6 +72,114 @@ El sistema opera bajo un modelo estricto de control de acceso basado en roles (R
 | **Asignación Regalos VIP Pakari** | ✅ Total | ✅ Asignar | ✅ Ver en ruta | ❌ | ❌ |
 | **Configuraciones Globales (`settings`)** | ✅ Modificar | ❌ Solo lectura | ❌ | ❌ | ❌ |
 | **Visualización de Métricas Financieras** | ✅ Total P&L | ✅ Volumen/Cobrado | ❌ Honorarios propios | ❌ | ❌ Balance propio |
+
+### 2.3 Arquitectura de Layout Guards y Blindaje Anti-Adulteración (RBAC)
+
+Para garantizar que ningún usuario acceda a paneles operativos sin autorización o mediante manipulación manual de URLs/tokens, la plataforma implementa una estrategia de defensa en profundidad basada en **Layout Guards reactivos** en el App Router de Next.js (`layout.tsx`), validación de colecciones de Firestore y alertas de seguridad 403:
+
+```mermaid
+flowchart TD
+    Req([Navegación del Usuario]) --> CheckModule{Ruta Destino}
+    
+    CheckModule -->|/affiliates/*| AffGuard["Affiliates Layout Guard\n(app/[locale]/affiliates/layout.tsx)"]
+    CheckModule -->|/admin/*| AdminGuard["Admin Layout Guard\n(app/[locale]/admin/layout.tsx)"]
+    CheckModule -->|/operator/*| OpGuard["Operator Layout Guard\n(app/[locale]/operator/layout.tsx)"]
+    CheckModule -->|/cpanel/*| CPanelGuard["cPanel Page & Login Guard\n(app/[locale]/cpanel/page.tsx)"]
+    
+    %% Affiliates Guard Flow
+    AffGuard --> AuthStateAff{¿Sesión en Firebase Auth?}
+    AuthStateAff -->|No| RedirectAffAuth["Redirige a /auth/affiliates"]
+    AuthStateAff -->|Sí| SuperCheckAff{¿Es 'super' en 'usuarios'?}
+    SuperCheckAff -->|Sí| PassAff[Acceso Concedido (Auditoría)]
+    SuperCheckAff -->|No| DocAffCheck{¿Existe en 'affiliates'?}
+    DocAffCheck -->|No| ExpelAffNotFound["signOut(auth) + Redirige:\n/auth/affiliates?error=not_found"]
+    DocAffCheck -->|Sí| RoleAffCheck{¿role == 'affiliate' | 'founder'?}
+    RoleAffCheck -->|Adulterado / Inválido| ExpelAffRole["signOut(auth) + Redirige:\n/auth/affiliates?error=invalid_role"]
+    RoleAffCheck -->|Válido| StatusAffCheck{¿status == 'suspended' | 'blocked' | 'inactive'?}
+    StatusAffCheck -->|Suspendido / Inactivo| ExpelAffStatus["signOut(auth) + Redirige:\n/auth/affiliates?error=suspended"]
+    StatusAffCheck -->|Activo| ForcePwdCheckAff{¿forcePasswordChange == true?}
+    ForcePwdCheckAff -->|Sí| RedirectAffPwd["Redirige a /auth/affiliates (Cambio de Clave)"]
+    ForcePwdCheckAff -->|No| PassAff
+    
+    %% Admin Guard Flow
+    AdminGuard --> AuthStateAdmin{¿Sesión en Firebase Auth?}
+    AuthStateAdmin -->|No| DeniedAdmin["403 Forbidden\n(Pantalla Acceso Restringido)"]
+    AuthStateAdmin -->|Sí| UserDocAdmin{¿Existe en 'usuarios'?}
+    UserDocAdmin -->|No| DeniedAdmin
+    UserDocAdmin -->|Sí| RoleCheckAdmin{¿role == 'super' | 'admin'?}
+    RoleCheckAdmin -->|Sí| PassAdmin[Acceso Concedido al CRM Central]
+    RoleCheckAdmin -->|No (ej. operator, editor, affiliate)| DeniedAdmin
+    
+    %% Operator Guard Flow
+    OpGuard --> AuthStateOp{¿Sesión en Firebase Auth?}
+    AuthStateOp -->|No| DeniedOp["403 Forbidden\n(Pantalla Acceso Operativo Restringido)"]
+    AuthStateOp -->|Sí| UserDocOp{¿Existe en 'usuarios'?}
+    UserDocOp -->|No| DeniedOp
+    UserDocOp -->|Sí| RoleCheckOp{¿role == 'super' | 'admin' | 'operator'?}
+    RoleCheckOp -->|Sí| PassOp[Acceso Concedido a Expediciones]
+    RoleCheckOp -->|No (ej. editor, affiliate)| DeniedOp
+    
+    %% cPanel Guard Flow
+    CPanelGuard --> AuthStateCPanel{¿Sesión en Firebase Auth?}
+    AuthStateCPanel -->|No| ShowLoginForm["Despliega AdminLoginForm"]
+    AuthStateCPanel -->|Sí| UserDocCPanel{¿Existe en 'usuarios'?}
+    UserDocCPanel -->|No| BlockCPanel["signOut(auth) + Error 403 en Form"]
+    UserDocCPanel -->|Sí| RoleCheckCPanel{¿role == 'super' | 'editor'?}
+    RoleCheckCPanel -->|Sí| PassCPanel[Acceso Concedido al CMS]
+    RoleCheckCPanel -->|No (ej. operator, affiliate)| BlockCPanel
+```
+
+#### 1. Blindaje en `app/[locale]/affiliates/layout.tsx` (Anti-Tampering & Lifecycle Check)
+* **Archivo:** [`app/[locale]/affiliates/layout.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/affiliates/layout.tsx)
+* **Verificación Estricta de Rol:** Consulta reactiva mediante [`getAffiliateByEmail`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/lib/affiliates.ts). Se verifica de manera explícita que `rawRole === 'affiliate' || rawRole === 'founder'`.
+* **Expulsión Inmediata ante Adulteración de Rol:** Si un usuario malicioso o una cuenta con rol adulterado (ej. `"affiliat"`, `"admin"`, `"user"`, o cualquier string anómalo) intenta penetrar el portal, el guard detecta la discrepancia, registra la alerta de seguridad en consola, ejecuta `await signOut(auth)` para purgar el token en memoria, detiene el loader y expulsa al usuario redirigiendo a:
+  ```
+  /${locale}/auth/affiliates?error=invalid_role
+  ```
+* **Verificación de Estatus Activo (`status`):** Evalúa el estado operativo de la cuenta del embajador. Si `status === 'suspended'`, `status === 'blocked'` o `status === 'inactive'`, el sistema revoca inmediatamente la sesión vía `await signOut(auth)` y redirige a:
+  ```
+  /${locale}/auth/affiliates?error=suspended
+  ```
+* **Excepción de Auditoría Técnica para Super Admin:** Si la cuenta autenticada figura en la colección `usuarios` con `role === 'super'`, se le otorga bypass de visualización para propósitos de soporte técnico y auditoría sin requerir un perfil en `affiliates`.
+* **Excepciones Públicas Permitidas:** Rutas exentas de guard: `/${locale}/affiliates/presentation`, `/${locale}/affiliates/verify` y `/${locale}/presentation`.
+
+#### 2. Layout Guard Dedicado en `app/[locale]/admin/layout.tsx` (Error 403 Forbidden)
+* **Archivo:** [`app/[locale]/admin/layout.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/admin/layout.tsx)
+* **Propósito:** Blindar el Módulo 2 (Admin CRM, Finanzas, Liquidaciones, Bookings y personal corporativo).
+* **Control de Acceso:**
+  * Lee el token de sesión con `onAuthStateChanged(auth)`.
+  * Consulta el documento en `/usuarios/{cleanEmail}`.
+  * Valida que el campo `role` sea estrictamente `'super'` o `'admin'`.
+* **Respuesta ante Acceso No Autorizado (403 Forbidden):**
+  * Para usuarios sin sesión o usuarios con roles no autorizados (`operator`, `editor`, `affiliate` o cuentas ajenas a la colección `usuarios`), el layout **no monta ni expone el panel CRM**.
+  * Renderiza directamente una pantalla de seguridad `403 Forbidden · Acceso Restringido`, mostrando el rol actual del usuario en color rojo, un botón para cerrar sesión (`signOut(auth)`) y un botón para retornar al portal principal.
+
+#### 3. Layout Guard Dedicado en `app/[locale]/operator/layout.tsx` (Error 403 Forbidden)
+* **Archivo:** [`app/[locale]/operator/layout.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/operator/layout.tsx)
+* **Propósito:** Blindar el Módulo 3 (Portal de Expediciones y Pasajeros para Guías y Concierges).
+* **Control de Acceso:**
+  * Valida la existencia de la cuenta en `/usuarios/{cleanEmail}`.
+  * Autoriza exclusivamente a roles `'super'`, `'admin'` y `'operator'`.
+* **Respuesta ante Acceso No Autorizado (403 Forbidden):**
+  * Si un usuario con rol `editor`, `affiliate` o un usuario público intenta acceder, se renderiza una pantalla `403 Forbidden · Acceso Operativo Restringido` estilizada con acentos en verde azulado/teal corporativo, informando que el área está reservada a Guías y Concierges autorizados.
+
+#### 4. Control de Acceso Estricto en `app/[locale]/cpanel/page.tsx` y `AdminLoginForm.tsx`
+* **Archivos:** [`app/[locale]/cpanel/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/cpanel/page.tsx) y [`components/admin/AdminLoginForm.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/components/admin/AdminLoginForm.tsx)
+* **Propósito:** Blindar el Módulo 1 (CMS Editorial y Catálogo de Tours).
+* **Control de Acceso en Página (`AdminPage`):** Al detectar una sesión en Firebase Auth, consulta `/usuarios/{cleanEmail}` en Firestore. Solo autoriza si `role === 'super'` o `role === 'editor'`. De no coincidir, establece `currentUser = null` y bloquea la renderización del dashboard administrativo.
+* **Control de Acceso en Formulario (`AdminLoginForm`):** Durante el evento de login (`handleLogin`), tras la autenticación exitosa en Firebase Auth, consulta de inmediato el documento en `usuarios`. Si el correo no existe en la colección o si el rol no es `'super'` ni `'editor'`, purga la sesión con `signOut(auth)` y despliega en pantalla un mensaje rojo de alerta 403:
+  > *"Acceso denegado (403): Tu rol '[rol]' no tiene permisos para cPanel (requiere 'super' o 'editor')."*
+
+#### 5. Manejo de Alertas Rojas de Seguridad (403) en `app/[locale]/auth/affiliates/page.tsx`
+* **Archivo:** [`app/[locale]/auth/affiliates/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/auth/affiliates/page.tsx)
+* **Captura de Códigos de Error por URL:** El componente captura el search param `?error=` inyectado por los guards de layout:
+  * `error=invalid_role`: Despliega banner rojo de alta visibilidad:
+    > **ACCESO DENEGADO (403):** Tu cuenta no posee el rol "affiliate" autorizado en el sistema.
+  * `error=suspended`: Despliega banner rojo de advertencia:
+    > **CUENTA SUSPENDIDA:** Tu cuenta de embajador se encuentra inactiva o bloqueada.
+  * `error=not_found`: Despliega banner rojo:
+    > **CUENTA NO ENCONTRADA:** No existe registro de embajador activo para este usuario.
+* **Filtro Reactivo de Sesión Existente:** Al inicializar la página mediante `onAuthStateChanged`, si el usuario ya tiene sesión activa en el navegador, el sistema no lo redirige ciegamente al dashboard; primero valida en Firestore que su rol sea `'affiliate'` o `'founder'` y que su estado no sea suspendido. En caso de no cumplir, previene la redirección y despliega el mensaje de acceso denegado correspondiente.
 
 ---
 
@@ -318,7 +426,8 @@ flowchart LR
 ```
 
 ### 4.1 Módulo 2: Admin CRM Dashboard (`/admin`)
-* **Ruta:** [`app/[locale]/admin/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/admin/page.tsx)
+* **Ruta de Acceso:** [`app/[locale]/admin/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/admin/page.tsx)
+* **Layout Guard de Protección:** [`app/[locale]/admin/layout.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/admin/layout.tsx) (Intercepta accesos, verifica la colección `usuarios` y restringe a roles `super` y `admin`; despliega pantalla 403 Forbidden para cualquier otro usuario)
 * **Componente Núcleo:** [`components/crm/AdminCrmDashboard.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/components/crm/AdminCrmDashboard.tsx)
 * **Roles Autorizados:** `super`, `admin`
 
@@ -333,7 +442,8 @@ El Admin CRM es el centro de control financiero y logístico de Vermilion Routes
 ---
 
 ### 4.2 Módulo 3: Portal del Operador (`/operator`)
-* **Ruta:** [`app/[locale]/operator/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/operator/page.tsx)
+* **Ruta de Acceso:** [`app/[locale]/operator/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/operator/page.tsx)
+* **Layout Guard de Protección:** [`app/[locale]/operator/layout.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/operator/layout.tsx) (Intercepta accesos, valida roles `super`, `admin` y `operator` en la colección `usuarios`; despliega pantalla estilizada 403 Forbidden para usuarios no autorizados)
 * **Componente Núcleo:** [`components/crm/OperatorDashboard.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/components/crm/OperatorDashboard.tsx)
 * **Roles Autorizados:** `super`, `admin`, `operator`
 
@@ -381,7 +491,14 @@ flowchart TD
     LayoutGuard -->|onAuthStateChanged| SessionCheck{¿Sesión activa?}
     
     SessionCheck -->|No autenticado| RedirectToAuth["router.replace(/auth/affiliates)"]
-    SessionCheck -->|Autenticado| ForcePwdCheck{¿forcePasswordChange == true?}
+    SessionCheck -->|Autenticado| SuperAuditCheck{¿Es Super Admin?}
+    SuperAuditCheck -->|Sí| DashboardAccess
+    SuperAuditCheck -->|No| RoleTamperCheck{¿role == 'affiliate' | 'founder'?}
+    
+    RoleTamperCheck -->|No / Adulterado| ExpelTamper["signOut(auth) + /auth/affiliates?error=invalid_role"]
+    RoleTamperCheck -->|Sí| StatusActiveCheck{¿status activo?}
+    StatusActiveCheck -->|Inactivo / Suspendido| ExpelSuspended["signOut(auth) + /auth/affiliates?error=suspended"]
+    StatusActiveCheck -->|Activo| ForcePwdCheck{¿forcePasswordChange == true?}
     
     ForcePwdCheck -->|Sí| RedirectToAuth
     ForcePwdCheck -->|No| DashboardAccess["Acceso Concedido:\nSidebar + Dashboard (/affiliates/*)"]
@@ -400,24 +517,31 @@ flowchart TD
     end
 ```
 
-#### 1. Adopción del Flujo de Protección Energyengine en `app/[locale]/affiliates/layout.tsx`
+#### 1. Blindaje de Seguridad y Anti-Adulteración en `app/[locale]/affiliates/layout.tsx`
 * **Archivo:** [`app/[locale]/affiliates/layout.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/affiliates/layout.tsx)
 * **Comportamiento del Guard Reactivo:**
   * Intercepta la navegación hacia cualquier subruta de `/affiliates` (`/dashboard`, `/earnings`, `/network`, `/withdrawals`, `/profile`, `/resources`).
   * **Excepciones Públicas:** Permite el acceso sin autenticación estricta a rutas de difusión y verificación: `/${locale}/affiliates/presentation`, `/${locale}/affiliates/verify` y `/${locale}/presentation`.
   * **Verificación de Sesión (`onAuthStateChanged`):**
     * Si no hay sesión activa en Firebase Auth: ejecuta `router.replace('/[locale]/auth/affiliates')`.
-    * Si la sesión existe, consulta el documento en Firestore mediante `getAffiliateByEmail(firebaseUser.email)`. Si la bandera `forcePasswordChange` es `true`, redirige de inmediato a `/[locale]/auth/affiliates` impidiendo la visualización del panel hasta que el embajador defina su clave definitiva.
-    * Si el usuario está autenticado y verificado (`forcePasswordChange === false`): inicializa el estado `currentUser` y despliega la interfaz con [`AffiliatesSidebar`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/components/affiliates/AffiliatesSidebar.tsx).
+    * **Bypass de Auditoría:** Si la cuenta pertenece a un Super Admin (`usuarios/{cleanEmail}` con `role === 'super'`), se le otorga paso directo para auditoría técnica.
+    * **Verificación Estricta de Rol (Anti-Tampering):** Consulta el documento en Firestore mediante `getAffiliateByEmail(cleanEmail)`. Se valida estrictamente que `rawRole === 'affiliate' || rawRole === 'founder'`. Si el rol fue manipulado o adulterado en base de datos (ej. `"affiliat"`), expulsa al usuario inmediatamente con `await signOut(auth)` y redirige a `/${locale}/auth/affiliates?error=invalid_role`.
+    * **Verificación de Estado Operativo:** Comprueba que `status !== 'suspended'`, `status !== 'blocked'` y `status !== 'inactive'`. Si la cuenta fue suspendida, revoca la sesión con `await signOut(auth)` y redirige a `/${locale}/auth/affiliates?error=suspended`.
+    * **Validación de Cambio Inicial de Clave:** Si la bandera `forcePasswordChange` es `true`, redirige de inmediato a `/[locale]/auth/affiliates` impidiendo el acceso a métricas comerciales hasta que el embajador defina su clave definitiva.
+    * **Acceso Autorizado:** Una vez superadas todas las validaciones de rol y estatus, inicializa el estado `currentUser` y despliega la interfaz con [`AffiliatesSidebar`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/components/affiliates/AffiliatesSidebar.tsx).
 
-#### 2. Página Oficial de Autenticación de Embajadores en `app/[locale]/auth/affiliates/page.tsx`
+#### 2. Página Oficial de Autenticación & Manejo de Alertas Rojas en `app/[locale]/auth/affiliates/page.tsx`
 * **Archivo:** [`app/[locale]/auth/affiliates/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/auth/affiliates/page.tsx)
+* **Manejo de Alertas Rojas de Seguridad (403):** Captura parámetros de expulsión inyectados por los layout guards y renderiza cajas de advertencia en rojo:
+  * `?error=invalid_role`: Muestra alerta de acceso denegado (403): *"ACCESO DENEGADO (403): Tu cuenta no posee el rol 'affiliate' autorizado en el sistema."*
+  * `?error=suspended`: Muestra alerta: *"CUENTA SUSPENDIDA: Tu cuenta de embajador se encuentra inactiva o bloqueada."*
+  * `?error=not_found`: Muestra alerta: *"CUENTA NO ENCONTRADA: No existe registro de embajador activo para este usuario."*
 * **Unificación de Flujo:** Concentra en un único punto de entrada las tres operaciones críticas del embajador:
-  1. **Inicio de Sesión (`login`):** Admite ingreso indistinto por correo electrónico registrado o por nombre de usuario (`@username`). En caso de identificador de usuario, consulta Firestore vía [`getAffiliateByUsername`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/lib/affiliates.ts) para resolver el correo antes de invocar `signInWithEmailAndPassword`.
+  1. **Inicio de Sesión (`login`):** Admite ingreso indistinto por correo registrado o por nombre de usuario (`@username`). Resuelve `@username` a correo vía [`getAffiliateByUsername`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/lib/affiliates.ts), valida que el rol sea `affiliate` o `founder` y que el estatus no esté suspendido antes de conceder la entrada.
   2. **Registro de Cuentas (`register`):**
-     * **Orden de campos optimizado:** Se solicita primero el **Correo Electrónico** (`regEmail`) antes del nombre de usuario. Esto evita la apertura prematura de modales o validaciones erróneas que interrumpían el llenado del formulario.
-     * **Auto-sugerencia de Usuario Único:** Al ingresar el correo, el handler `handleEmailChange` extrae el prefijo antes del `@`, lo sanitiza en minúsculas alfanuméricas y sugiere el `@username` (`regUsername`), consultando inmediatamente su disponibilidad en tiempo real con `isUsernameAvailable`.
-     * **Persistencia de Sesión Activa Post-Registro:** El registro invoca `createUserWithEmailAndPassword(auth, cleanEmail, cleanCedula)` asignando la cédula como contraseña provisional y despacha `sendEmailVerification` **sin cerrar la sesión**. De esta manera, el usuario permanece logueado en memoria y el modal de cambio obligatorio de clave se abre de forma transparente y sin fricción.
+     * **Orden de campos optimizado:** Se solicita primero el **Correo Electrónico** (`regEmail`) antes del nombre de usuario para evitar ventanas prematuras.
+     * **Auto-sugerencia de Usuario Único:** Sanitiza el prefijo del correo y sugiere el `@username` con comprobación de disponibilidad en Firestore (`isUsernameAvailable`).
+     * **Persistencia de Sesión Activa Post-Registro:** Crea la cuenta con la cédula como clave temporal y despacha `sendEmailVerification` **sin cerrar la sesión**, abriendo el modal de cambio obligatorio de clave sin fricción.
   3. **Recuperación de Contraseña (`forgot`):** Envía un enlace seguro de restablecimiento vía `sendPasswordResetEmail(auth, targetEmail)`.
 
 #### 3. Blindaje de Seguridad en `components/auth/ForcePasswordChangeModal.tsx`
@@ -432,6 +556,16 @@ flowchart TD
 * Centraliza el tráfico genérico de autenticación redirigiendo de manera directa e incondicional hacia `/[locale]/auth/affiliates` preservando la configuración de idioma (`locale`).
 
 ---
+
+### 4.5 Módulo 1: cPanel (CMS) & Blindaje de Acceso Editorial
+* **Ruta de Acceso:** [`app/[locale]/cpanel/page.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/app/[locale]/cpanel/page.tsx)
+* **Formulario de Autenticación con Guard RBAC:** [`components/admin/AdminLoginForm.tsx`](file:///c:/Users/pablo/Desktop/clon-vermilion/vermilion/components/admin/AdminLoginForm.tsx)
+* **Roles Autorizados:** `super`, `editor`
+
+El portal cPanel controla el catálogo editorial y la configuración pública del sitio web:
+* **Validación en Página (`AdminPage`):** Al detectar la sesión en Firebase Auth, consulta en tiempo real `/usuarios/{cleanEmail}`. Solo autoriza el montaje del dashboard CMS si el rol es `'super'` o `'editor'`. Si no pertenece a la colección o posee otro rol, rechaza el acceso y mantiene visible el formulario de autenticación.
+* **Bloqueo en Formulario (`AdminLoginForm`):** Tras la validación de credenciales en Firebase Auth, comprueba de inmediato el registro en `usuarios`. Si la cuenta no posee rol `'super'` ni `'editor'`, purga la sesión mediante `signOut(auth)` y despliega una alerta roja 403:
+  > *"Acceso denegado (403): Tu rol '[rol]' no tiene permisos para cPanel (requiere 'super' o 'editor')."*
 
 ## 5. Rutas en Next.js (Inventario y Módulos)
 

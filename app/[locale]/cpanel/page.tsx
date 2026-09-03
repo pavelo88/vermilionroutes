@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { auth } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import { AdminLoginForm } from '@/components/admin/AdminLoginForm';
 import { AdminDashboard } from '@/components/admin/AdminDashboard';
 
@@ -29,9 +30,36 @@ export default function AdminPage() {
       setAuthLoading(false);
     }
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setCurrentUser(user);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user && user.email) {
+        const cleanEmail = user.email.toLowerCase().trim();
+        let isAuthorized = false;
+
+        // Validar contra colección usuarios
+        if (db) {
+          try {
+            const uSnap = await getDoc(doc(db, 'usuarios', cleanEmail));
+            if (uSnap.exists()) {
+              const r = String(uSnap.data()?.role || '').toLowerCase().trim();
+              if (r === 'super' || r === 'editor') {
+                isAuthorized = true;
+              }
+            }
+          } catch (err) {
+            console.warn('[cPanel Auth Check]', err);
+          }
+        }
+
+        if (cleanEmail === (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@vermilionroutes.com').toLowerCase().trim()) {
+          isAuthorized = true;
+        }
+
+        if (isAuthorized) {
+          setCurrentUser(user);
+        } else {
+          console.warn(`[cPanel RBAC] Acceso denegado a ${cleanEmail}: requiere rol 'super' o 'editor'.`);
+          setCurrentUser(null);
+        }
       } else {
         setCurrentUser(checkMasterSession());
       }

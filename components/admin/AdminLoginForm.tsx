@@ -6,8 +6,9 @@ import Image from 'next/image';
 import { useLocale } from 'next-intl';
 import { Button } from '@/components/ui/Button';
 import { Mail, KeyRound, Eye, EyeOff, ShieldCheck, ArrowLeft, Send, CheckCircle2, AlertCircle } from 'lucide-react';
-import { auth } from '@/lib/firebase';
-import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { auth, db } from '@/lib/firebase';
+import { signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 
 export function AdminLoginForm() {
   const locale = useLocale();
@@ -48,9 +49,38 @@ export function AdminLoginForm() {
     }
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const cred = await signInWithEmailAndPassword(auth, targetEmail, targetPassword);
+      const loggedEmail = cred.user.email?.toLowerCase().trim();
+
+      // Verificar rol en colección 'usuarios'
+      if (loggedEmail && db) {
+        const uSnap = await getDoc(doc(db, 'usuarios', loggedEmail));
+        if (!uSnap.exists()) {
+          if (auth) await signOut(auth).catch(() => {});
+          setAuthError(isEs ? 'Acceso denegado: este correo no forma parte del equipo de cPanel.' : 'Access denied: not an authorized cPanel member.');
+          return;
+        }
+
+        const role = String(uSnap.data()?.role || '').toLowerCase().trim();
+        if (role !== 'super' && role !== 'editor') {
+          if (auth) await signOut(auth).catch(() => {});
+          setAuthError(
+            isEs
+              ? `Acceso denegado (403): Tu rol "${role}" no tiene permisos para cPanel (requiere "super" o "editor").`
+              : `Access denied (403): Your role "${role}" is not authorized for cPanel.`
+          );
+          return;
+        }
+      }
     } catch (err: any) {
-      setAuthError(isEs ? 'Credenciales inválidas. Verifica tu correo y contraseña.' : 'Invalid credentials. Please check your email and password.');
+      console.error('[Admin Login Error]', err);
+      if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        setAuthError(isEs ? 'Contraseña incorrecta. Verifica tus credenciales.' : 'Invalid password.');
+      } else if (err.code === 'auth/user-not-found') {
+        setAuthError(isEs ? 'No existe cuenta registrada con ese correo.' : 'User not found.');
+      } else {
+        setAuthError(err.message || (isEs ? 'Error al iniciar sesión.' : 'Error signing in.'));
+      }
     } finally {
       setLoginLoading(false);
     }

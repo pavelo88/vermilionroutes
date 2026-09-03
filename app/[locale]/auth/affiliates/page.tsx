@@ -14,6 +14,7 @@ import {
   setPersistence,
   browserLocalPersistence,
   onAuthStateChanged,
+  signOut,
 } from 'firebase/auth';
 import {
   CheckCircle2,
@@ -69,8 +70,17 @@ function AffiliatesAuthContent() {
   const [forgotEmail, setForgotEmail] = useState('');
 
   // Status & Feedback
+  const errorParam = searchParams.get('error');
   const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState(
+    errorParam === 'invalid_role'
+      ? (isEs ? 'ACCESO DENEGADO (403): Tu cuenta no posee el rol "affiliate" autorizado en el sistema.' : 'ACCESS DENIED (403): Your account does not have the authorized "affiliate" role.')
+      : errorParam === 'suspended'
+      ? (isEs ? 'CUENTA SUSPENDIDA: Tu cuenta de embajador se encuentra inactiva o bloqueada.' : 'ACCOUNT SUSPENDED: Your ambassador account is inactive or blocked.')
+      : errorParam === 'not_found'
+      ? (isEs ? 'CUENTA NO ENCONTRADA: No existe registro de embajador activo para este usuario.' : 'ACCOUNT NOT FOUND: No active ambassador profile found for this email.')
+      : ''
+  );
   const [successMsg, setSuccessMsg] = useState('');
 
   // Force Password Change Modal
@@ -78,25 +88,40 @@ function AffiliatesAuthContent() {
   const [activeAffiliateId, setActiveAffiliateId] = useState('');
   const [activeUserEmail, setActiveUserEmail] = useState('');
 
-  // Listen to Auth State
+  // Listen to Auth State (con verificación de rol estricta)
   useEffect(() => {
     if (!auth) return;
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user && user.email) {
+      if (user && user.email && !errorParam) {
         try {
           const aff = await getAffiliateByEmail(user.email);
-          if (aff && aff.forcePasswordChange) {
+          if (!aff) return;
+
+          const rawRole = String((aff as any).role || '').toLowerCase().trim();
+          const isAllowedRole = rawRole === 'affiliate' || rawRole === 'founder';
+          if (!isAllowedRole) {
+            setErrorMsg(isEs ? `ACCESO DENEGADO: El rol asignado "${rawRole}" no está autorizado en este portal.` : `ACCESS DENIED: Assigned role "${rawRole}" is not authorized.`);
+            return;
+          }
+
+          const status = String((aff as any).status || '').toLowerCase().trim();
+          if (status === 'suspended' || status === 'blocked' || status === 'inactive') {
+            setErrorMsg(isEs ? 'CUENTA SUSPENDIDA: Tu cuenta de embajador está inactiva.' : 'ACCOUNT SUSPENDED: Your account is inactive.');
+            return;
+          }
+
+          if (aff.forcePasswordChange) {
             setActiveAffiliateId(aff.id);
             setActiveUserEmail(user.email);
             setShowForcePasswordModal(true);
-          } else if (aff) {
+          } else {
             router.replace(`/${locale}/affiliates/dashboard`);
           }
         } catch {}
       }
     });
     return () => unsubscribe();
-  }, [locale, router]);
+  }, [locale, router, errorParam, isEs]);
 
   // Auto-suggest username when user types email (so no popup interrupts before email is added)
   const handleEmailChange = (val: string) => {
@@ -164,6 +189,34 @@ function AffiliatesAuthContent() {
         if (foundAffiliate) break;
         attempts++;
         if (attempts < 3) await new Promise(r => setTimeout(r, 600));
+      }
+
+      // Validación estricta de Rol y Estatus (RBAC)
+      if (foundAffiliate) {
+        const rawRole = String((foundAffiliate as any).role || '').toLowerCase().trim();
+        const isAllowedRole = rawRole === 'affiliate' || rawRole === 'founder';
+        if (!isAllowedRole) {
+          if (auth) await signOut(auth).catch(() => {});
+          setErrorMsg(
+            isEs
+              ? `ACCESO DENEGADO (403): Tu cuenta tiene el rol "${rawRole}". Solo cuentas con rol "affiliate" pueden ingresar a este portal.`
+              : `ACCESS DENIED (403): Your account has role "${rawRole}". Only "affiliate" accounts are authorized.`
+          );
+          setLoading(false);
+          return;
+        }
+
+        const status = String((foundAffiliate as any).status || '').toLowerCase().trim();
+        if (status === 'suspended' || status === 'blocked' || status === 'inactive') {
+          if (auth) await signOut(auth).catch(() => {});
+          setErrorMsg(
+            isEs
+              ? 'CUENTA SUSPENDIDA: Tu cuenta de embajador se encuentra inactiva o suspendida.'
+              : 'ACCOUNT SUSPENDED: Your ambassador account is currently inactive.'
+          );
+          setLoading(false);
+          return;
+        }
       }
 
       // Si requiere primer cambio de clave
