@@ -58,12 +58,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         const role = String(userData?.role || '').toLowerCase().trim();
         setUserRole(role);
 
-        // Solo 'super' y 'admin' pueden entrar al CRM Maestro
-        if (role === 'super' || role === 'admin') {
+        // Permite acceso a todo el personal corporativo de la empresa
+        const allowedInternalRoles = ['super', 'admin', 'operator', 'sales', 'financial', 'concierge', 'editor'];
+        if (allowedInternalRoles.includes(role)) {
           setCurrentUser(firebaseUser);
           setDenied(false);
         } else {
-          console.error(`[Admin Guard] Intento de acceso no autorizado con rol "${role}" por ${cleanEmail}`);
+          console.error(`[Admin Guard] Intento de acceso denegado a rol externo "${role}" por ${cleanEmail}`);
           setDenied(true);
         }
       } catch (err) {

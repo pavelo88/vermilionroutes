@@ -31,7 +31,7 @@ export function OperatorDashboard() {
     users,
     updateLeadStatus,
     updateBookingStatus,
-    signalCommissionReady
+    signalTripCompleted,
   } = useCrmData();
 
   // Simulated operator identity (Carlos Mendoza or Sofia)
@@ -42,7 +42,7 @@ export function OperatorDashboard() {
   const operatorBookings = bookings.filter(b => b.assignedOperatorId === activeOperatorEmail);
 
   const handleRequestPayout = async (bookingId: string) => {
-    await signalCommissionReady(bookingId, 'operator');
+    await signalTripCompleted(bookingId, 'Carlos Mendoza');
     setSuccessNotice('¡Solicitud de pago enviada al Super Admin con éxito!');
     setTimeout(() => setSuccessNotice(''), 4000);
   };
