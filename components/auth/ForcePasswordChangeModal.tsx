@@ -2,19 +2,22 @@
 
 import React, { useState } from 'react';
 import { auth, db } from '@/lib/firebase';
-import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
+import { updatePassword, EmailAuthProvider, reauthenticateWithCredential, signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 import { ShieldCheck, Lock, Eye, EyeOff, AlertCircle, CheckCircle2, KeyRound } from 'lucide-react';
+import { getAffiliateByUsername } from '@/lib/affiliates';
 
 interface ForcePasswordChangeModalProps {
   isOpen: boolean;
   affiliateId: string;
+  email?: string;
   onSuccess: () => void;
 }
 
 export default function ForcePasswordChangeModal({
   isOpen,
   affiliateId,
+  email,
   onSuccess,
 }: ForcePasswordChangeModalProps) {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -52,30 +55,68 @@ export default function ForcePasswordChangeModal({
     setLoading(true);
 
     try {
-      if (auth && auth.currentUser && auth.currentUser.email) {
-        // Re-authenticate to ensure 'recent-login' requirement is strictly met
-        const credential = EmailAuthProvider.credential(auth.currentUser.email, currentPassword);
-        await reauthenticateWithCredential(auth.currentUser, credential);
+      let targetUser = auth?.currentUser;
 
-        // Update password
-        await updatePassword(auth.currentUser, newPassword);
-      } else {
-        throw new Error("Sesión no encontrada.");
+      // Si la sesión no está en memoria, autenticamos con la cédula ingresada
+      if (!targetUser && auth) {
+        let targetEmail = (email || affiliateId || '').trim().toLowerCase();
+        if (targetEmail && !targetEmail.includes('@')) {
+          const aff = await getAffiliateByUsername(targetEmail);
+          if (aff && aff.email) targetEmail = aff.email;
+        }
+
+        if (targetEmail) {
+          const userCred = await signInWithEmailAndPassword(auth, targetEmail, currentPassword.trim());
+          targetUser = userCred.user;
+        }
       }
 
-      if (db && affiliateId) {
-        const docRef = doc(db, 'affiliates', affiliateId.toLowerCase());
-        await updateDoc(docRef, {
-          forcePasswordChange: false,
-          updatedAt: new Date().toISOString(),
-        });
+      if (!targetUser) {
+        throw new Error("No se encontró la sesión de usuario. Ingresa tu cédula actual correctamente.");
+      }
+
+      // Actualizar la contraseña en Firebase Auth
+      try {
+        await updatePassword(targetUser, newPassword);
+      } catch (updErr: any) {
+        if (updErr.code === 'auth/requires-recent-login' && targetUser.email) {
+          const credential = EmailAuthProvider.credential(targetUser.email, currentPassword.trim());
+          await reauthenticateWithCredential(targetUser, credential);
+          await updatePassword(targetUser, newPassword);
+        } else {
+          throw updErr;
+        }
+      }
+
+      // Actualizar Firestore removiendo forcePasswordChange
+      const docId = (affiliateId || targetUser.email || '').toLowerCase();
+      if (db && docId) {
+        try {
+          const affDocRef = doc(db, 'affiliates', docId);
+          await updateDoc(affDocRef, {
+            forcePasswordChange: false,
+            updatedAt: new Date().toISOString(),
+          });
+        } catch (affErr) {
+          console.warn('Affiliate doc update notice:', affErr);
+        }
+
+        if (targetUser.email) {
+          try {
+            const userDocRef = doc(db, 'usuarios', targetUser.email.toLowerCase());
+            await updateDoc(userDocRef, {
+              forcePasswordChange: false,
+              updatedAt: new Date().toISOString(),
+            });
+          } catch {}
+        }
       }
 
       onSuccess();
     } catch (err: any) {
       console.error('Error updating initial password:', err);
       if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-        setError('La contraseña actual es incorrecta.');
+        setError('La contraseña actual (cédula) es incorrecta.');
       } else if (err.code === 'auth/requires-recent-login') {
         setError('Por favor vuelve a iniciar sesión para continuar.');
       } else {

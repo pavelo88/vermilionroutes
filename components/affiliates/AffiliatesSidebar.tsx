@@ -75,7 +75,7 @@ export default function AffiliatesSidebar() {
     }
     setAffiliateData(null);
     setCurrentUser(null);
-    router.push(`/${locale}/presentation?login=true`);
+    router.push(`/${locale}/auth/affiliates`);
   };
 
   const changeLanguage = (newLocale: string) => {

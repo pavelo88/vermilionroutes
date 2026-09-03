@@ -4,7 +4,12 @@ import { Footer } from './Footer';
 
 export function ConditionalFooter() {
   const pathname = usePathname();
-  if (pathname?.startsWith('/admin')) return null;
-  if (pathname?.includes('/affiliates')) return null;
+  if (
+    pathname?.includes('/admin') || 
+    pathname?.includes('/cpanel') || 
+    pathname?.includes('/operator') || 
+    pathname?.includes('/affiliates') || 
+    pathname?.includes('/auth')
+  ) return null;
   return <Footer />;
 }

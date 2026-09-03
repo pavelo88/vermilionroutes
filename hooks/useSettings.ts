@@ -19,7 +19,7 @@ export function useSettings() {
 
     // Performance Fix: Do not fetch from Firebase on the public site.
     // This eliminates the Firebase WebChannel listener and massive JS execution on mobile.
-    if (typeof window !== 'undefined' && !window.location.pathname.includes('/admin')) {
+    if (typeof window !== 'undefined' && !window.location.pathname.includes('/cpanel') && !window.location.pathname.includes('/admin')) {
       cachedSettings = defaultSettings;
       setSettings(defaultSettings);
       setLoading(false);

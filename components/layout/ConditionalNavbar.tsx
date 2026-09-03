@@ -4,9 +4,14 @@ import { Navbar } from './Navbar';
 
 export function ConditionalNavbar() {
   const pathname = usePathname();
-  // On affiliates, admin and auth routes, hide the public navbar
-  // No mostrar el navbar en las rutas de afiliados, auth o cpanel
-  if (pathname?.includes('/affiliates') || pathname?.includes('/admin') || pathname?.includes('/auth') || pathname?.includes('/cpanel')) return null;
+  // No mostrar el navbar en las rutas internas (affiliates, admin, cpanel, operator, auth)
+  if (
+    pathname?.includes('/affiliates') || 
+    pathname?.includes('/admin') || 
+    pathname?.includes('/cpanel') || 
+    pathname?.includes('/operator') || 
+    pathname?.includes('/auth')
+  ) return null;
   return (
     <>
       <Navbar />

@@ -13,7 +13,12 @@ import { User } from 'firebase/auth';
 const LOCALES = [
   { code: 'en', name: 'English', flagUrl: 'https://flagcdn.com/us.svg' },
   { code: 'es', name: 'Español', flagUrl: 'https://flagcdn.com/es.svg' },
+  { code: 'fr', name: 'Français', flagUrl: 'https://flagcdn.com/fr.svg' },
   { code: 'de', name: 'Deutsch', flagUrl: 'https://flagcdn.com/de.svg' },
+  { code: 'zh', name: '中文', flagUrl: 'https://flagcdn.com/cn.svg' },
+  { code: 'it', name: 'Italiano', flagUrl: 'https://flagcdn.com/it.svg' },
+  { code: 'pt', name: 'Português', flagUrl: 'https://flagcdn.com/pt.svg' },
+  { code: 'ja', name: '日本語', flagUrl: 'https://flagcdn.com/jp.svg' },
 ];
 
 interface AdminHeaderProps {
@@ -33,6 +38,7 @@ export function AdminHeader({ user, onSignOut, activeTab, setActiveTab, toursCou
   // Theme & Locale
   const { theme, setTheme } = useTheme();
   const locale = useLocale();
+  const isEs = locale === 'es';
   const router = useRouter();
   const pathname = usePathname();
   const [langOpen, setLangOpen] = useState(false);
@@ -51,8 +57,16 @@ export function AdminHeader({ user, onSignOut, activeTab, setActiveTab, toursCou
   };
 
   const navItems = [
-    { id: 'tours' as const, label: `TOUR PACKAGES (${toursCount})`, icon: Database },
-    { id: 'settings' as const, label: 'SITE CMS SETTINGS', icon: Layers }
+    {
+      id: 'tours' as const,
+      label: isEs ? `PAQUETES DE TOURS (${toursCount})` : `TOUR PACKAGES (${toursCount})`,
+      icon: Database
+    },
+    {
+      id: 'settings' as const,
+      label: isEs ? 'CONFIGURACIÓN CMS' : 'SITE CMS SETTINGS',
+      icon: Layers
+    }
   ];
 
   return (
@@ -155,7 +169,7 @@ export function AdminHeader({ user, onSignOut, activeTab, setActiveTab, toursCou
               className="h-10 px-4 text-xs font-bold gap-2 bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-600 hover:text-red-600 hover:bg-red-50 dark:text-zinc-300 dark:hover:bg-red-950/30 rounded-xl"
             >
               <LogOut className="w-4 h-4" />
-              SALIR
+              {isEs ? 'SALIR' : 'LOG OUT'}
             </Button>
           </div>
 
@@ -190,7 +204,7 @@ export function AdminHeader({ user, onSignOut, activeTab, setActiveTab, toursCou
             ))}
             <div className="h-px bg-zinc-200 dark:bg-zinc-800 my-2" />
             <Button onClick={onSignOut} variant="ghost" className="justify-start text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30">
-              <LogOut className="w-4 h-4 mr-2" /> Salir
+              <LogOut className="w-4 h-4 mr-2" /> {isEs ? 'Salir' : 'Log Out'}
             </Button>
           </div>
         )}

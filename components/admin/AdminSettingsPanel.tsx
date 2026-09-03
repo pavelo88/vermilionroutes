@@ -2,11 +2,14 @@
 
 import React, { useState } from 'react';
 import { useSettings } from '@/hooks/useSettings';
+import { useLocale } from 'next-intl';
 import { Button } from '@/components/ui/Button';
 import { getLocalizedText } from '@/utils/i18nHelper';
 import { Save, Upload, Plus, Trash2, HelpCircle, FileText, Phone, Award, Layers, Globe } from 'lucide-react';
 
 export function AdminSettingsPanel() {
+  const locale = useLocale();
+  const isEs = locale === 'es';
   const { settings, loading, error, saveSettings, uploadImage } = useSettings();
   const [localSettings, setLocalSettings] = useState(settings);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -21,25 +24,37 @@ export function AdminSettingsPanel() {
   }, [settings]);
 
   const handleTextChange = (section: string, field: string, value: string) => {
-    setLocalSettings((prev: any) => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value,
-      },
-    }));
+    setLocalSettings((prev: any) => {
+      const currentFieldValue = prev[section]?.[field];
+      const isObject = typeof currentFieldValue === 'object' && currentFieldValue !== null;
+      return {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [field]: {
+            ...(isObject ? currentFieldValue : { en: currentFieldValue || '' }),
+            [locale]: value,
+          },
+        },
+      };
+    });
   };
 
   const handleFAQChange = (index: number, field: 'question' | 'answer', value: string) => {
-    const updatedFaqs = [...(localSettings.faq || [])];
-    updatedFaqs[index] = {
-      ...updatedFaqs[index],
-      [field]: value,
-    };
-    setLocalSettings((prev: any) => ({
-      ...prev,
-      faq: updatedFaqs,
-    }));
+    setLocalSettings((prev: any) => {
+      const newFaq = [...(prev.faq || [])];
+      const currentFieldValue = newFaq[index][field];
+      const isObject = typeof currentFieldValue === 'object' && currentFieldValue !== null;
+      
+      newFaq[index] = {
+        ...newFaq[index],
+        [field]: {
+          ...(isObject ? currentFieldValue : { en: currentFieldValue || '' }),
+          [locale]: value,
+        },
+      };
+      return { ...prev, faq: newFaq };
+    });
   };
 
   const handleAddFAQ = () => {
@@ -148,8 +163,8 @@ export function AdminSettingsPanel() {
     <form onSubmit={handleSubmit} className="bg-white dark:bg-zinc-900/80 rounded-3xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-4">
         <div>
-          <h2 className="text-xl font-serif font-bold text-zinc-900 dark:text-white">Website CMS Configurator</h2>
-          <p className="text-xs text-zinc-600 dark:text-zinc-400">Manage every section, image, and contact parameter on the landing page</p>
+          <h2 className="text-xl font-serif font-bold text-zinc-900 dark:text-white">{isEs ? "Configurador CMS del Sitio Web" : "Website CMS Configurator"}</h2>
+          <p className="text-xs text-zinc-600 dark:text-zinc-400">{isEs ? "Gestiona cada secci�n, imagen y par�metro de contenido de la p�gina de inicio" : "Manage every section, image, and contact parameter on the landing page"}</p>
         </div>
         <div className="flex items-center gap-2">
           {saveSuccess && (
@@ -157,7 +172,7 @@ export function AdminSettingsPanel() {
           )}
           <Button type="submit" variant="primary" size="sm" className="gap-2">
             <Save className="w-4 h-4" />
-            <span>Save Settings</span>
+            <span>{isEs ? "Guardar Cambios" : "Save Settings"}</span>
           </Button>
         </div>
       </div>
@@ -173,7 +188,7 @@ export function AdminSettingsPanel() {
                 }`}
         >
           <Layers className="w-3.5 h-3.5" />
-          <span>Hero & Header</span>
+          <span>{isEs ? "Hero y Cabecera" : "Hero & Header"}</span>
         </button>
         <button
           type="button"
@@ -184,7 +199,7 @@ export function AdminSettingsPanel() {
                 }`}
         >
           <Award className="w-3.5 h-3.5" />
-          <span>About Us & Metrics</span>
+          <span>{isEs ? "Nosotros y M�tricas" : "About Us & Metrics"}</span>
         </button>
         <button
           type="button"
@@ -195,7 +210,7 @@ export function AdminSettingsPanel() {
                 }`}
         >
           <Phone className="w-3.5 h-3.5" />
-          <span>Contact & Footer</span>
+          <span>{isEs ? "Contacto y Footer" : "Contact & Footer"}</span>
         </button>
         <button
           type="button"
@@ -206,7 +221,7 @@ export function AdminSettingsPanel() {
                 }`}
         >
           <HelpCircle className="w-3.5 h-3.5" />
-          <span>FAQs (Also Asked)</span>
+          <span>{isEs ? "Preguntas Frecuentes (FAQs)" : "FAQs (Also Asked)"}</span>
         </button>
       </div>
 
@@ -384,7 +399,7 @@ export function AdminSettingsPanel() {
                   <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Website SEO Title (Google Search Result)</label>
                   <input
                     type="text"
-                    value={localSettings.seo?.title || ''}
+                    value={getLocalizedText(localSettings.seo?.title, locale) || ''}
                     onChange={(e) => handleTextChange('seo', 'title', e.target.value)}
                     className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                   />
@@ -392,7 +407,7 @@ export function AdminSettingsPanel() {
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">SEO Meta Description</label>
                   <textarea
-                    value={localSettings.seo?.description || ''}
+                    value={getLocalizedText(localSettings.seo?.description, locale) || ''}
                     onChange={(e) => handleTextChange('seo', 'description', e.target.value)}
                     rows={2}
                     className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
@@ -402,7 +417,7 @@ export function AdminSettingsPanel() {
                   <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">SEO Keywords (comma separated)</label>
                   <input
                     type="text"
-                    value={localSettings.seo?.keywords || ''}
+                    value={getLocalizedText(localSettings.seo?.keywords, locale) || ''}
                     onChange={(e) => handleTextChange('seo', 'keywords', e.target.value)}
                     className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                   />
@@ -417,19 +432,19 @@ export function AdminSettingsPanel() {
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Section Title</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? "T�tulo de Secci�n" : "Section Title"}</label>
                 <input
                   type="text"
-                  value={localSettings.about?.title || ''}
+                  value={getLocalizedText(localSettings.about?.title, locale) || ''}
                   onChange={(e) => handleTextChange('about', 'title', e.target.value)}
                   className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Section Subtitle</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? "Subt�tulo de Secci�n" : "Section Subtitle"}</label>
                 <input
                   type="text"
-                  value={localSettings.about?.subtitle || ''}
+                  value={getLocalizedText(localSettings.about?.subtitle, locale) || ''}
                   onChange={(e) => handleTextChange('about', 'subtitle', e.target.value)}
                   className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
@@ -438,18 +453,18 @@ export function AdminSettingsPanel() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Paragraph 1</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? "P�rrafo 1" : "Paragraph 1"}</label>
                 <textarea
-                  value={localSettings.about?.paragraph1 || ''}
+                  value={getLocalizedText(localSettings.about?.paragraph1, locale) || ''}
                   onChange={(e) => handleTextChange('about', 'paragraph1', e.target.value)}
                   rows={4}
                   className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Paragraph 2</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? "P�rrafo 2" : "Paragraph 2"}</label>
                 <textarea
-                  value={localSettings.about?.paragraph2 || ''}
+                  value={getLocalizedText(localSettings.about?.paragraph2, locale) || ''}
                   onChange={(e) => handleTextChange('about', 'paragraph2', e.target.value)}
                   rows={4}
                   className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
@@ -459,19 +474,19 @@ export function AdminSettingsPanel() {
 
             {/* Metrics Row */}
             <div className="glass-input p-5 rounded-2xl border border-zinc-800/80 space-y-4">
-              <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">Trust Metrics & Credentials</h4>
+              <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">{isEs ? "M�tricas de Confianza y Credenciales" : "Trust Metrics & Credentials"}</h4>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-zinc-500">Metric 1 Val/Label</label>
                   <input
                     type="text"
-                    value={localSettings.about?.metric1Val || ''}
+                    value={getLocalizedText(localSettings.about?.metric1Val, locale) || ''}
                     onChange={(e) => handleTextChange('about', 'metric1Val', e.target.value)}
                     className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
                   />
                   <input
                     type="text"
-                    value={localSettings.about?.metric1Lbl || ''}
+                    value={getLocalizedText(localSettings.about?.metric1Lbl, locale) || ''}
                     onChange={(e) => handleTextChange('about', 'metric1Lbl', e.target.value)}
                     className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-600 dark:text-zinc-400"
                   />
@@ -480,13 +495,13 @@ export function AdminSettingsPanel() {
                   <label className="text-[10px] font-bold text-zinc-500">Metric 2 Val/Label</label>
                   <input
                     type="text"
-                    value={localSettings.about?.metric2Val || ''}
+                    value={getLocalizedText(localSettings.about?.metric2Val, locale) || ''}
                     onChange={(e) => handleTextChange('about', 'metric2Val', e.target.value)}
                     className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
                   />
                   <input
                     type="text"
-                    value={localSettings.about?.metric2Lbl || ''}
+                    value={getLocalizedText(localSettings.about?.metric2Lbl, locale) || ''}
                     onChange={(e) => handleTextChange('about', 'metric2Lbl', e.target.value)}
                     className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-600 dark:text-zinc-400"
                   />
@@ -495,13 +510,13 @@ export function AdminSettingsPanel() {
                   <label className="text-[10px] font-bold text-zinc-500">Metric 3 Val/Label</label>
                   <input
                     type="text"
-                    value={localSettings.about?.metric3Val || ''}
+                    value={getLocalizedText(localSettings.about?.metric3Val, locale) || ''}
                     onChange={(e) => handleTextChange('about', 'metric3Val', e.target.value)}
                     className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
                   />
                   <input
                     type="text"
-                    value={localSettings.about?.metric3Lbl || ''}
+                    value={getLocalizedText(localSettings.about?.metric3Lbl, locale) || ''}
                     onChange={(e) => handleTextChange('about', 'metric3Lbl', e.target.value)}
                     className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-600 dark:text-zinc-400"
                   />
@@ -510,13 +525,13 @@ export function AdminSettingsPanel() {
                   <label className="text-[10px] font-bold text-zinc-500">Metric 4 Val/Label</label>
                   <input
                     type="text"
-                    value={localSettings.about?.metric4Val || ''}
+                    value={getLocalizedText(localSettings.about?.metric4Val, locale) || ''}
                     onChange={(e) => handleTextChange('about', 'metric4Val', e.target.value)}
                     className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-900 dark:text-white"
                   />
                   <input
                     type="text"
-                    value={localSettings.about?.metric4Lbl || ''}
+                    value={getLocalizedText(localSettings.about?.metric4Lbl, locale) || ''}
                     onChange={(e) => handleTextChange('about', 'metric4Lbl', e.target.value)}
                     className="w-full px-3 py-1.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs text-zinc-600 dark:text-zinc-400"
                   />
@@ -552,7 +567,7 @@ export function AdminSettingsPanel() {
                   <input
                     type="text"
                     readOnly
-                    value={localSettings.about?.imageUrl || ''}
+                    value={getLocalizedText(localSettings.about?.imageUrl, locale) || ''}
                     className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400 focus:outline-none"
                   />
                 </div>
@@ -574,7 +589,7 @@ export function AdminSettingsPanel() {
                 <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Contact Phone</label>
                 <input
                   type="text"
-                  value={localSettings.contact?.phone || ''}
+                  value={getLocalizedText(localSettings.contact?.phone, locale) || ''}
                   onChange={(e) => handleTextChange('contact', 'phone', e.target.value)}
                   className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
@@ -583,7 +598,7 @@ export function AdminSettingsPanel() {
                 <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Contact Email</label>
                 <input
                   type="email"
-                  value={localSettings.contact?.email || ''}
+                  value={getLocalizedText(localSettings.contact?.email, locale) || ''}
                   onChange={(e) => handleTextChange('contact', 'email', e.target.value)}
                   className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
@@ -592,7 +607,7 @@ export function AdminSettingsPanel() {
                 <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">WhatsApp Link URL</label>
                 <input
                   type="text"
-                  value={localSettings.contact?.whatsappUrl || ''}
+                  value={getLocalizedText(localSettings.contact?.whatsappUrl, locale) || ''}
                   onChange={(e) => handleTextChange('contact', 'whatsappUrl', e.target.value)}
                   className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
@@ -604,7 +619,7 @@ export function AdminSettingsPanel() {
                 <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Office Address</label>
                 <input
                   type="text"
-                  value={localSettings.contact?.address || ''}
+                  value={getLocalizedText(localSettings.contact?.address, locale) || ''}
                   onChange={(e) => handleTextChange('contact', 'address', e.target.value)}
                   className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
@@ -613,7 +628,7 @@ export function AdminSettingsPanel() {
                 <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">TripAdvisor Link</label>
                 <input
                   type="text"
-                  value={localSettings.contact?.tripadvisor || ''}
+                  value={getLocalizedText(localSettings.contact?.tripadvisor, locale) || ''}
                   onChange={(e) => handleTextChange('contact', 'tripadvisor', e.target.value)}
                   className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
@@ -625,7 +640,7 @@ export function AdminSettingsPanel() {
                 <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Facebook Link</label>
                 <input
                   type="text"
-                  value={localSettings.contact?.facebook || ''}
+                  value={getLocalizedText(localSettings.contact?.facebook, locale) || ''}
                   onChange={(e) => handleTextChange('contact', 'facebook', e.target.value)}
                   className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
@@ -634,7 +649,7 @@ export function AdminSettingsPanel() {
                 <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Instagram Link</label>
                 <input
                   type="text"
-                  value={localSettings.contact?.instagram || ''}
+                  value={getLocalizedText(localSettings.contact?.instagram, locale) || ''}
                   onChange={(e) => handleTextChange('contact', 'instagram', e.target.value)}
                   className="w-full px-4 py-2.5 glass-panel border border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
@@ -642,41 +657,41 @@ export function AdminSettingsPanel() {
             </div>
 
             <div className="glass-input p-5 rounded-2xl border border-zinc-800/80 space-y-4">
-              <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">Footer Information</h4>
+              <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">{isEs ? "Informaci�n del Pie de P�gina (Footer)" : "Footer Information"}</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Footer Logo Title</label>
+                  <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? "T�tulo del Logo en Footer" : "Footer Logo Title"}</label>
                   <input
                     type="text"
-                    value={localSettings.footer?.logoText || ''}
+                    value={getLocalizedText(localSettings.footer?.logoText, locale) || ''}
                     onChange={(e) => handleTextChange('footer', 'logoText', e.target.value)}
                     className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Footer Logo Subtitle</label>
+                  <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? "Subt�tulo del Logo en Footer" : "Footer Logo Subtitle"}</label>
                   <input
                     type="text"
-                    value={localSettings.footer?.logoSubtitle || ''}
+                    value={getLocalizedText(localSettings.footer?.logoSubtitle, locale) || ''}
                     onChange={(e) => handleTextChange('footer', 'logoSubtitle', e.target.value)}
                     className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                   />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Footer Description Copy</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? "Descripci�n del Footer" : "Footer Description Copy"}</label>
                 <textarea
-                  value={getLocalizedText(localSettings.footer?.description, 'en')}
+                  value={getLocalizedText(localSettings.footer?.description, locale) || ''}
                   onChange={(e) => handleTextChange('footer', 'description', e.target.value)}
                   rows={2}
                   className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Copyright Bar text</label>
+                <label className="text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">{isEs ? "Texto de Derechos de Autor (Copyright)" : "Copyright Bar text"}</label>
                 <input
                   type="text"
-                  value={localSettings.footer?.copyright || ''}
+                  value={getLocalizedText(localSettings.footer?.copyright, locale) || ''}
                   onChange={(e) => handleTextChange('footer', 'copyright', e.target.value)}
                   className="w-full px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-sm text-zinc-900 dark:text-white focus:outline-none"
                 />
@@ -690,8 +705,8 @@ export function AdminSettingsPanel() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">Interactive FAQs ("Also Asked" queries)</h4>
-                <p className="text-[11px] text-zinc-500">Provide direct answers to high-intent questions from Google searches</p>
+                <h4 className="text-sm font-semibold text-zinc-900 dark:text-white">{isEs ? "Preguntas Frecuentes Interactivas (FAQs)" : "Interactive FAQs (\"Also Asked\" queries)"}</h4>
+                <p className="text-[11px] text-zinc-500">{isEs ? "Respuestas directas a consultas frecuentes de Google" : "Provide direct answers to high-intent questions from Google searches"}</p>
               </div>
               <button
                 type="button"
@@ -699,7 +714,7 @@ export function AdminSettingsPanel() {
                 className="flex items-center gap-1 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-zinc-900 dark:text-white rounded-xl text-xs font-semibold cursor-pointer transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" />
-                <span>Add FAQ Item</span>
+                <span>{isEs ? "+ Agregar Pregunta" : "+ Add FAQ Item"}</span>
               </button>
             </div>
 
@@ -718,7 +733,7 @@ export function AdminSettingsPanel() {
                     <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Question #{index + 1}</label>
                     <input
                       type="text"
-                      value={faqItem.question}
+                      value={getLocalizedText(faqItem.question, locale) || ''}
                       onChange={(e) => handleFAQChange(index, 'question', e.target.value)}
                       className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm text-zinc-900 dark:text-white focus:outline-none"
                     />
@@ -727,7 +742,7 @@ export function AdminSettingsPanel() {
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Answer Content</label>
                     <textarea
-                      value={faqItem.answer}
+                      value={getLocalizedText(faqItem.answer, locale) || ''}
                       onChange={(e) => handleFAQChange(index, 'answer', e.target.value)}
                       rows={2}
                       className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm text-zinc-900 dark:text-white focus:outline-none"

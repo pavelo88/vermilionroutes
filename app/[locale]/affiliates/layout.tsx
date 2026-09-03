@@ -3,26 +3,28 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useLocale } from 'next-intl';
-import { auth } from '@/lib/firebase';
+import { auth, db } from '@/lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
+import { getAffiliateByEmail } from '@/lib/affiliates';
 import AffiliatesSidebar from '@/components/affiliates/AffiliatesSidebar';
 
 /**
- * Layout privado y protegido para la zona de afiliados.
- * - Si NO está autenticado: Bloquea el acceso y redirige a /presentation?login=true.
- * - Si ESTÁ autenticado: Muestra el Sidebar Izquierdo con los datos reales del usuario.
+ * Layout privado y protegido para la zona de afiliados (Copia fiel de la lógica Energyengine).
+ * - Si NO está autenticado: Bloquea el acceso y redirige a /[locale]/auth/affiliates.
+ * - Si ESTÁ autenticado pero requiere cambio de contraseña: Redirige a /[locale]/auth/affiliates.
+ * - Si ESTÁ autenticado y verificado: Permite el acceso y muestra el Sidebar oficial.
  */
 export default function AffiliatesLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
   const isEs = locale === 'es';
+
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [authError, setAuthError] = useState<string | null>(null);
 
+  // Páginas públicas que no requieren verificación estricta de sesión
   const isPublicPage =
-    pathname === `/${locale}/affiliates` ||
     pathname === `/${locale}/affiliates/presentation` ||
     pathname === `/${locale}/affiliates/verify` ||
     pathname === `/${locale}/presentation`;
@@ -35,63 +37,49 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
 
     if (!auth) {
       setLoading(false);
-      setAuthError('Firebase Auth no está inicializado.');
+      router.replace(`/${locale}/auth/affiliates`);
       return;
     }
 
-    let isSubscribed = true;
-    let attempts = 0;
-    const maxAttempts = 3;
+    let isMounted = true;
 
-    const checkSession = async () => {
-      // 1. Direct check
-      if (auth.currentUser) {
-        if (isSubscribed) {
-          setCurrentUser(auth.currentUser);
-          setLoading(false);
-          setAuthError(null);
-        }
+    // Listener reactivo de Firebase Auth idéntico al patrón Energyengine
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (!isMounted) return;
+
+      if (!firebaseUser) {
+        console.warn('[Affiliates Layout] No hay sesión activa. Redirigiendo a /auth/affiliates...');
+        setLoading(false);
+        router.replace(`/${locale}/auth/affiliates`);
         return;
       }
 
-      // 2. Listener simple y robusto con buffer de seguridad
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        console.log('[Auth Gossip] onAuthStateChanged fired! User:', user ? user.email : 'null');
-        if (!isSubscribed) return;
-        
-        if (user) {
-          console.log('[Auth Gossip] We have a user! Setting session and allowing access.');
-          setCurrentUser(user);
-          setLoading(false);
-          setAuthError(null);
-        } else {
-          console.warn('[Auth Gossip] Initial user check is null. Waiting 1.5s for slow persistence on Vercel...');
-          // En Vercel / Safari, leer IndexedDB toma tiempo. Damos un respiro de 1.5 segundos.
-          setTimeout(() => {
-            if (!isSubscribed) return;
-            if (auth.currentUser) {
-              console.log('[Auth Gossip] Phew! Session loaded late. Letting them in.');
-              setCurrentUser(auth.currentUser);
-              setLoading(false);
-            } else {
-              console.error('[Auth Gossip] STILL NO USER AFTER 1.5s! Kicking out to /auth...');
-              setLoading(false);
-              router.replace(`/${locale}/auth`);
-            }
-          }, 1500);
+      // Usuario autenticado en Firebase
+      try {
+        if (firebaseUser.email) {
+          const aff = await getAffiliateByEmail(firebaseUser.email);
+          if (aff && aff.forcePasswordChange) {
+            console.warn('[Affiliates Layout] Usuario requiere cambio de contraseña inicial. Redirigiendo a /auth/affiliates...');
+            setLoading(false);
+            router.replace(`/${locale}/auth/affiliates`);
+            return;
+          }
         }
-      });
 
-      return () => unsubscribe();
-    };
-
-    const cleanupPromise = checkSession();
+        setCurrentUser(firebaseUser);
+        setLoading(false);
+      } catch (err) {
+        console.warn('[Affiliates Layout] Error verificando perfil de embajador:', err);
+        setCurrentUser(firebaseUser);
+        setLoading(false);
+      }
+    });
 
     return () => {
-      isSubscribed = false;
-      cleanupPromise.then((unsub) => unsub && unsub());
+      isMounted = false;
+      unsubscribe();
     };
-  }, [router, locale, isPublicPage, isEs]);
+  }, [router, locale, isPublicPage]);
 
   if (isPublicPage) {
     return <>{children}</>;
@@ -99,16 +87,15 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#FDFBF7] dark:bg-[#0A0A0F] flex flex-col items-center justify-center space-y-4">
-        <div className="w-10 h-10 border-2 border-[#C9A84C] border-t-transparent rounded-full animate-spin" />
-        <p className="text-[10px] uppercase tracking-[0.2em] font-sans text-[#A9A9A9]">
+      <div className="min-h-screen bg-[#07110B] flex flex-col items-center justify-center space-y-4">
+        <div className="w-10 h-10 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
+        <p className="text-[10px] uppercase tracking-[0.25em] font-sans text-amber-400 font-semibold">
           {isEs ? 'Verificando Sesión de Embajador...' : 'Verifying Ambassador Session...'}
         </p>
       </div>
     );
   }
 
-  // Si no está autenticado, simplemente no renderizamos nada porque el useEffect ya lo redirige a /auth
   if (!currentUser) {
     return null;
   }
