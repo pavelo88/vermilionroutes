@@ -154,24 +154,24 @@ export function HeroDetails({ initialData, locale }: HeroDetailsProps) {
                 <h1 className="welcome-title flex flex-col items-center justify-center md:items-start mb-2.5">
                   <span className="flex gap-2 sm:gap-3 md:gap-4 font-oswald font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[68px] tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] [text-shadow:0_3px_10px_rgba(0,0,0,0.9)]">
                     <span className="flex">
-                      <span style={{ color: '#FDB913' }}>A</span>
-                      <span style={{ color: '#F58220' }}>L</span>
-                      <span style={{ color: '#F05A28' }}>L</span>
+                      <span className="text-[#FDB913]">A</span>
+                      <span className="text-[#F58220]">L</span>
+                      <span className="text-[#F05A28]">L</span>
                     </span>
                     <span className="flex">
-                      <span style={{ color: '#EF4136' }}>Y</span>
-                      <span style={{ color: '#ED1C24' }}>O</span>
-                      <span style={{ color: '#E6007E' }}>U</span>
+                      <span className="text-[#EF4136]">Y</span>
+                      <span className="text-[#ED1C24]">O</span>
+                      <span className="text-[#E6007E]">U</span>
                     </span>
                     <span className="flex">
-                      <span style={{ color: '#E91E63' }}>N</span>
-                      <span style={{ color: '#F06292' }}>E</span>
-                      <span style={{ color: '#CE93D8' }}>E</span>
-                      <span style={{ color: '#AB47BC' }}>D</span>
+                      <span className="text-[#E91E63]">N</span>
+                      <span className="text-[#F06292]">E</span>
+                      <span className="text-[#CE93D8]">E</span>
+                      <span className="text-[#AB47BC]">D</span>
                     </span>
                     <span className="flex">
-                      <span style={{ color: '#42A5F5' }}>I</span>
-                      <span style={{ color: '#29B6F6' }}>S</span>
+                      <span className="text-[#42A5F5]">I</span>
+                      <span className="text-[#29B6F6]">S</span>
                     </span>
                   </span>
                   <span className="sr-only">Vermilion Routes — {welcomeText.headline}</span>

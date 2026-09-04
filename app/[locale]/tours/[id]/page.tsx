@@ -182,7 +182,30 @@ export default async function TourDetailPage({ params }: TourDetailPageProps) {
       {/* Main 2-Column Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
         {/* Left Main Content Col */}
-        <div className="lg:col-span-8 space-y-12">
+        <div className="lg:col-span-8 space-y-8">
+          {/* Main Semantic H1 for SEO & SSR */}
+          <div className="space-y-3 pb-2">
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-light text-zinc-900 dark:text-white tracking-tight leading-tight">
+              {title}
+            </h1>
+            <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+              <span className="flex items-center gap-1.5 font-medium">
+                <Clock className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <span>{duration}</span>
+              </span>
+              <span>&bull;</span>
+              <span className="flex items-center gap-1 font-semibold text-zinc-900 dark:text-zinc-100">
+                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                <span>{tour.rating}</span>
+                {tour.reviewsCount && (
+                  <span className="text-zinc-500 font-normal">
+                    ({tour.reviewsCount} {locale === 'es' ? 'opiniones verificadas' : 'verified reviews'})
+                  </span>
+                )}
+              </span>
+            </div>
+          </div>
+
           {/* Photo Gallery */}
           <TourGallery images={galleryImages} title={title} />
 

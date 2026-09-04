@@ -32,10 +32,11 @@ export function BrandLogo({
     ? '#C49B45'
     : undefined;
 
+  const heightClass = typeof height === 'number' ? `h-[${height}px]` : height ? `h-[${height}]` : 'h-[42px]';
+
   return (
     <div
-      className={`inline-flex items-center gap-2.5 select-none ${className}`}
-      style={{ height }}
+      className={`inline-flex items-center gap-2.5 select-none ${heightClass} ${className}`}
     >
       {/* Vector Hummingbird Emblem */}
       {variant !== 'text-only' && (
@@ -80,15 +81,25 @@ export function BrandLogo({
       {variant !== 'icon-only' && (
         <div className="flex flex-col justify-center text-left leading-none">
           <span
-            className="font-serif font-black tracking-[0.18em] uppercase text-sm sm:text-base md:text-lg transition-colors text-[#1C1F1E] dark:text-[#EAECEB]"
-            style={primaryTextColor ? { color: primaryTextColor } : undefined}
+            className={`font-serif font-black tracking-[0.18em] uppercase text-sm sm:text-base md:text-lg transition-colors ${
+              isDarkForced
+                ? 'text-[#EAECEB]'
+                : isLightForced
+                ? 'text-[#1C1F1E]'
+                : 'text-[#1C1F1E] dark:text-[#EAECEB]'
+            }`}
           >
             VERMILION
           </span>
           <div className="flex items-center gap-1.5 mt-0.5">
             <span
-              className="font-sans font-bold tracking-[0.32em] uppercase text-[9px] sm:text-[10px] md:text-[11px] text-[#C49B45] dark:text-[#D1A852]"
-              style={subTextColor ? { color: subTextColor } : undefined}
+              className={`font-sans font-bold tracking-[0.32em] uppercase text-[9px] sm:text-[10px] md:text-[11px] ${
+                isDarkForced
+                  ? 'text-[#D1A852]'
+                  : isLightForced
+                  ? 'text-[#C49B45]'
+                  : 'text-[#C49B45] dark:text-[#D1A852]'
+              }`}
             >
               ROUTES
             </span>

@@ -30,9 +30,9 @@ export function TourSubNav({ title, duration, tour, locale }: TourSubNavProps) {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
-            <h1 className="font-serif text-xl sm:text-2xl font-light text-zinc-900 dark:text-white tracking-tight">
+            <div className="font-serif text-xl sm:text-2xl font-light text-zinc-900 dark:text-white tracking-tight" role="heading" aria-level={2}>
               {title}
-            </h1>
+            </div>
 
             <div className="flex flex-wrap items-center gap-4 text-xs text-zinc-600 dark:text-zinc-400">
               <div className="flex items-center gap-1.5 font-medium">

@@ -1,20 +1,49 @@
-User-agent: *
+# Robots.txt for Vermilion Routes (Luxury Boutique Travel Agency)
+# Open to Generative AI & Search Engine Crawlers
+
+User-agent: Googlebot
 Allow: /
 
-# Specifically allow AI search crawlers to index our luxury tour catalog
+User-agent: Bingbot
+Allow: /
+
 User-agent: GPTBot
 Allow: /
 
 User-agent: ChatGPT-User
 Allow: /
 
-User-agent: PerplexityBot
+User-agent: anthropic-ai
 Allow: /
 
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: PerplexityBot
+Allow: /
+
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://vermilionroutes.com/sitemap.xml
+User-agent: Applebot
+Allow: /
+
+# Block Malicious Scraping Bots
+User-agent: HTTrack
+Disallow: /
+
+User-agent: Wget
+Disallow: /
+
+User-agent: Scrapy
+Disallow: /
+
+# General Crawlers & Private Route Protection
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /cpanel/
+Disallow: /auth/
+Disallow: /api/
+
+Sitemap: https://www.vermilionroutes.com/sitemap.xml

@@ -109,35 +109,35 @@ export function SplashScreen() {
         </div>
 
         {/* "ALL YOU NEED IS" Colorful Vibrant Typo - Primary H1 for Landing Page */}
-        <h1 id="splash-text-content" className="flex flex-col items-center justify-center mb-2.5 sm:mb-3">
+        <div id="splash-text-content" className="flex flex-col items-center justify-center mb-2.5 sm:mb-3">
           <span className="flex gap-2.5 sm:gap-4 md:gap-5 font-oswald font-black text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
             {/* ALL */}
             <span className="flex">
-              <span style={{ color: '#FDB913' }}>A</span>
-              <span style={{ color: '#F58220' }}>L</span>
-              <span style={{ color: '#F05A28' }}>L</span>
+              <span className="text-[#FDB913]">A</span>
+              <span className="text-[#F58220]">L</span>
+              <span className="text-[#F05A28]">L</span>
             </span>
             {/* YOU */}
             <span className="flex">
-              <span style={{ color: '#EF4136' }}>Y</span>
-              <span style={{ color: '#ED1C24' }}>O</span>
-              <span style={{ color: '#E6007E' }}>U</span>
+              <span className="text-[#EF4136]">Y</span>
+              <span className="text-[#ED1C24]">O</span>
+              <span className="text-[#E6007E]">U</span>
             </span>
             {/* NEED */}
             <span className="flex">
-              <span style={{ color: '#D21B7E' }}>N</span>
-              <span style={{ color: '#B12285' }}>E</span>
-              <span style={{ color: '#9C27B0' }}>E</span>
-              <span style={{ color: '#673AB7' }}>D</span>
+              <span className="text-[#D21B7E]">N</span>
+              <span className="text-[#B12285]">E</span>
+              <span className="text-[#9C27B0]">E</span>
+              <span className="text-[#673AB7]">D</span>
             </span>
             {/* IS */}
             <span className="flex">
-              <span style={{ color: '#3F51B5' }}>I</span>
-              <span style={{ color: '#2196F3' }}>S</span>
+              <span className="text-[#3F51B5]">I</span>
+              <span className="text-[#2196F3]">S</span>
             </span>
           </span>
           <span className="sr-only">Vermilion Routes — {text.headline}</span>
-        </h1>
+        </div>
 
         {/* Logo Card with Glassmorphism & Subtle Glow */}
         <div

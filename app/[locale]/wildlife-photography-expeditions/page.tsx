@@ -10,8 +10,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   const isEs = locale === 'es';
   return {
-    title: isEs ? 'Expediciones de Vida Silvestre y Fotografia | Vermilion Routes' : 'Wildlife & Photography Expeditions | Vermilion Routes',
-    description: isEs ? 'Expediciones privadas para fotografos y amantes de la fauna en Galapagos y la Amazonia con guias naturalistas privados.' : 'Private wildlife expeditions for photographers. Giant tortoises, blue-footed boobies & marine life with expert naturalist guides.',
+    title: isEs
+      ? 'Vermilion Routes | Expediciones de Fotografía y Fauna'
+      : 'Vermilion Routes | Wildlife & Photography Expeditions',
+    description: isEs
+      ? 'Expediciones privadas para fotógrafos y amantes de la fauna en Galápagos y la Amazonía con guías naturalistas dedicados y soporte exclusivo 24/7.'
+      : 'Private wildlife expeditions for photographers in Galapagos & the Amazon with expert naturalist guides, prime vantage points and dedicated 24/7 support.',
     keywords: ['wildlife photography Galapagos', 'Galapagos photography tour', 'Ecuador wildlife expedition'],
     alternates: { canonical: "https://vermilionroutes.com/" + locale + "/wildlife-photography-expeditions" },
   };

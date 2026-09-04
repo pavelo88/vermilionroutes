@@ -143,7 +143,9 @@ export function ContactSection() {
               <div>
                 <span className="text-xs text-zinc-400 font-medium block">{t('emailAddress')}</span>
                 <span className="font-semibold text-zinc-900 dark:text-white text-sm group-hover:text-emerald-600 transition-colors">
-                  info@vermilionroutes.com
+                  <span>info</span>
+                  <span className="text-emerald-600 font-bold">&#64;</span>
+                  <span>vermilionroutes.com</span>
                 </span>
               </div>
             </a>

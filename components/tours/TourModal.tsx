@@ -234,8 +234,7 @@ export function TourModal({ tour, isOpen, onClose }: TourModalProps) {
               </div>
 
               {/* Right Side - Concise Summary & PDF Download */}
-              <div className="w-full md:w-3/5 flex flex-col h-full max-h-[calc(100vh-16rem)] md:max-h-[90vh] bg-white/50 dark:bg-zinc-900/50 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                <style dangerouslySetInnerHTML={{__html: `div::-webkit-scrollbar { display: none; }`}} />
+              <div className="w-full md:w-3/5 flex flex-col h-full max-h-[calc(100vh-16rem)] md:max-h-[90vh] bg-white/50 dark:bg-zinc-900/50 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 <div className="p-4 md:p-6 space-y-5 md:space-y-6 flex-1 pb-8 sm:pb-6">
                   
                   {/* Hotel Tier Selector & Price Banner */}

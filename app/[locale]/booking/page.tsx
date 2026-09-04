@@ -2,10 +2,21 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 import { BookingWizard } from '@/components/booking/BookingWizard';
 
-export const metadata: Metadata = {
-  title: 'Reservar Expedición | Vermilion Routes',
-  description: 'Reserva tu expedición de lujo a Galápagos, Ecuador y Perú con Vermilion Routes.',
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const isEs = locale === 'es';
+  return {
+    title: isEs
+      ? 'Vermilion Routes | Reserva tu Expedición de Lujo a Medida'
+      : 'Vermilion Routes | Book Your Bespoke Luxury Vacation',
+    description: isEs
+      ? 'Reserve su expedición de lujo a medida en Galápagos y Ecuador con Vermilion Routes. Asesoría de viaje personalizada 24/7 y cotizaciones exclusivas.'
+      : 'Book your bespoke luxury expedition to the Galapagos Islands & Ecuador with Vermilion Routes. Dedicated 24/7 travel designers & custom quotes.',
+    alternates: {
+      canonical: `https://www.vermilionroutes.com/${locale}/booking`,
+    },
+  };
+}
 
 export default function BookingPage() {
   return (

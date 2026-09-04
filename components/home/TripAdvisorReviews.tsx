@@ -143,8 +143,7 @@ export function TripAdvisorReviews({
         {/* Carousel Cards Layout: Horizontal scroll snap container */}
         <div 
           ref={scrollContainerRef}
-          className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {reviews.map((rev, idx) => {
             return (

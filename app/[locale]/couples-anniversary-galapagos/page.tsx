@@ -10,8 +10,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   const isEs = locale === 'es';
   return {
-    title: isEs ? 'Viajes Romanticos y Aniversarios en Galapagos | Vermilion Routes' : 'Romantic Getaways & Anniversary Trips Galapagos Ecuador | Vermilion Routes',
-    description: isEs ? 'Viajes privados a medida para parejas y aniversarios en Galapagos y Ecuador. Amanecer sobre volcanes, playas virgenes, hoteles boutique exclusivos y cenas privadas bajo las estrellas.' : 'Bespoke private travel for couples and anniversary trips in Galapagos & Ecuador. Sunrise over volcanoes, pristine beaches, exclusive boutique hotels and private starlit dinners.',
+    title: isEs
+      ? 'Vermilion Routes | Viajes Románticos en Galápagos 24/7'
+      : 'Vermilion Routes | Romantic Galapagos & Ecuador Getaways',
+    description: isEs
+      ? 'Viajes románticos a medida en Galápagos y Ecuador: atardeceres volcánicos, hoteles boutique y cenas privadas bajo las estrellas con asesoría experta 24/7.'
+      : 'Bespoke romantic getaways in Galapagos & Ecuador: volcanic sunsets, boutique luxury lodges and private starlit dinners with dedicated 24/7 travel designers.',
     keywords: ['romantic Galapagos trip', 'couples Ecuador travel', 'anniversary Galapagos', 'honeymoon Ecuador', 'romantic Ecuador vacation'],
     alternates: { canonical: "https://vermilionroutes.com/" + locale + "/couples-anniversary-galapagos" },
   };

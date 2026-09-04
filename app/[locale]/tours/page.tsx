@@ -22,9 +22,65 @@ import {
   Layers,
 } from 'lucide-react';
 
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const isEs = locale === 'es';
+  return {
+    title: isEs
+      ? 'Vermilion Routes | Catálogo de Expediciones de Lujo 24/7'
+      : 'Vermilion Routes | Bespoke Luxury Expeditions & Tours 24/7',
+    description: isEs
+      ? 'Explore nuestro catálogo exclusivo de viajes de lujo a Galápagos, la Amazonía y los Andes. Itinerarios privados a medida con atención personalizada 24/7.'
+      : 'Explore our curated catalog of luxury expeditions to Galapagos, the Amazon and Andes. Bespoke private itineraries with dedicated 24/7 travel concierge.',
+    alternates: {
+      canonical: `https://www.vermilionroutes.com/${locale}/tours`,
+    },
+    openGraph: {
+      title: isEs
+        ? 'Vermilion Routes | Catálogo de Expediciones de Lujo 24/7'
+        : 'Vermilion Routes | Bespoke Luxury Expeditions & Tours 24/7',
+      description: isEs
+        ? 'Explore nuestro catálogo exclusivo de viajes de lujo a Galápagos, la Amazonía y los Andes. Itinerarios privados a medida con atención personalizada 24/7.'
+        : 'Explore our curated catalog of luxury expeditions to Galapagos, the Amazon and Andes. Bespoke private itineraries with dedicated 24/7 travel concierge.',
+      url: `https://www.vermilionroutes.com/${locale}/tours`,
+      images: ['https://www.vermilionroutes.com/images/tours/16-9/galapagos-tortuga-gigante-16-9.jpg'],
+    },
+  };
+}
+
 export default async function ToursPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const isEs = locale === 'es';
+
+  const toursSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: isEs ? 'Catálogo de Expediciones de Lujo' : 'Curated Luxury Expeditions Catalog',
+    description: isEs
+      ? 'Catálogo de tours y expediciones boutique en Galápagos y Ecuador continental.'
+      : 'Portfolio of luxury bespoke tours and expeditions across Galapagos and mainland Ecuador.',
+    url: `https://www.vermilionroutes.com/${locale}/tours`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: mockTours.map((t, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        item: {
+          '@type': 'TouristTrip',
+          name: getLocalizedText(t.title, locale),
+          url: `https://www.vermilionroutes.com/${locale}/tours/${t.id}`,
+          image: t.mainImage || t.imageUrl,
+          offers: {
+            '@type': 'Offer',
+            price: Number((t.priceFromUSD || t.price || 1000).toString().replace(/[^0-9.]/g, '')),
+            priceCurrency: 'USD',
+          },
+        },
+      })),
+    },
+  };
 
   // ── Categorización de Tours ────────────────────────────────────────────────
   // 1. Galápagos (3 tours)
@@ -58,6 +114,10 @@ export default async function ToursPage({ params }: { params: Promise<{ locale: 
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] dark:bg-[#07130C] text-zinc-900 dark:text-zinc-100 -mt-20 sm:-mt-24 md:-mt-28 lg:-mt-[120px] font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-300 relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(toursSchema) }}
+      />
       
       {/* ── HERO REVISTA (EDITORIAL LUXURY) ────────────────────────────────── */}
       <section className="relative pt-[146px] sm:pt-40 pb-32 border-b border-zinc-200 dark:border-white/10">

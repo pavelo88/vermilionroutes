@@ -36,7 +36,7 @@ export function LeadMagnetBanner() {
 
   return (
     <div className="rounded-3xl bg-gradient-to-br from-emerald-950 to-emerald-800 p-8 sm:p-10 my-10 border border-emerald-700/40 shadow-xl relative overflow-hidden">
-      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }} />
+      <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_2px_2px,white_1px,transparent_0)] bg-[size:24px_24px]" />
       <div className="relative z-10">
         {status === 'success' ? (
           <div className="text-center space-y-3 py-4">

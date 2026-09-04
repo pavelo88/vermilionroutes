@@ -46,7 +46,7 @@ export default function PrivacyPolicyPage() {
               <p className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
                 <a href="mailto:info@vermilionroutes.com" className="text-emerald-400 hover:underline">
-                  info@vermilionroutes.com
+                  <span>info</span><span className="text-emerald-400">&#64;</span><span>vermilionroutes.com</span>
                 </a>
               </p>
               <p className="flex items-center gap-2">
@@ -75,7 +75,7 @@ export default function PrivacyPolicyPage() {
               In order to register as a User and browse Vermilion, you must be <strong>over 14 years of age</strong>. Vermilion may use personal information to verify age and ensure compliance with this restriction.
             </p>
             <p className="text-xs text-zinc-400">
-              Parents or legal guardians of minors may contact Vermilion at any time to request the blocking or deletion of personal data via <span className="text-emerald-400">info@vermilionroutes.com</span>.
+              Parents or legal guardians of minors may contact Vermilion at any time to request the blocking or deletion of personal data via <span className="text-emerald-400"><span>info</span>&#64;<span>vermilionroutes.com</span></span>.
             </p>
           </section>
 
@@ -149,7 +149,9 @@ export default function PrivacyPolicyPage() {
               At any time, you may exercise your rights of <strong>access, rectification, deletion, opposition, limitation of processing, or portability</strong> by contacting our Data Protection team at:
             </p>
             <div className="p-4 bg-zinc-950 border border-emerald-900/40 rounded-xl">
-              <p className="font-mono text-emerald-400 text-sm">info@vermilionroutes.com</p>
+              <p className="font-mono text-emerald-400 text-sm">
+                <span>info</span>&#64;<span>vermilionroutes.com</span>
+              </p>
               <p className="text-xs text-zinc-400 mt-1">
                 We respond to all verified inquiries promptly within the statutory deadline.
               </p>

@@ -68,8 +68,8 @@ export function CombinedExperienceSection() {
     <section id="experience" className="relative py-8 md:py-12 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto border-t border-zinc-200/60 dark:border-zinc-800/60 overflow-hidden">
       {/* Subtle animated background mesh to remove flatness */}
       <div className="absolute inset-0 z-0 opacity-30 dark:opacity-20 pointer-events-none">
-        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-emerald-200/50 dark:bg-emerald-900/40 blur-[100px] animate-pulse" style={{ animationDuration: '8s' }} />
-        <div className="absolute top-[40%] -right-[10%] w-[40%] h-[40%] rounded-full bg-teal-200/50 dark:bg-teal-900/40 blur-[100px] animate-pulse" style={{ animationDuration: '10s', animationDelay: '2s' }} />
+        <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-emerald-200/50 dark:bg-emerald-900/40 blur-[100px] animate-pulse [animation-duration:8s]" />
+        <div className="absolute top-[40%] -right-[10%] w-[40%] h-[40%] rounded-full bg-teal-200/50 dark:bg-teal-900/40 blur-[100px] animate-pulse [animation-duration:10s] [animation-delay:2s]" />
       </div>
 
       {/* TripAdvisor Reviews Carousel with Experience Card */}

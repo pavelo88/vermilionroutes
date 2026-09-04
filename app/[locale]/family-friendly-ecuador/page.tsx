@@ -10,8 +10,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   const isEs = locale === 'es';
   return {
-    title: isEs ? 'Aventuras Familiares en Ecuador y Galapagos | Vermilion Routes' : 'Family-Friendly Adventures Ecuador & Galapagos | Vermilion Routes',
-    description: isEs ? 'Expediciones familiares privadas a medida en Ecuador y Galapagos: tortugas gigantes, snorkel con leones marinos, volcanes y selva amazonica. Seguras, divertidas e inolvidables para toda la familia.' : 'Private bespoke family adventures in Ecuador & Galapagos: giant tortoises, sea-lion snorkeling, volcanoes & Amazon jungle. Safe, fun and unforgettable for all ages.',
+    title: isEs
+      ? 'Vermilion Routes | Aventuras Familiares en Ecuador 24/7'
+      : 'Vermilion Routes | Family Adventures in Ecuador & Galapagos',
+    description: isEs
+      ? 'Expediciones familiares en Galápagos y Ecuador: tortugas gigantes, snorkel y selva amazónica. Viajes seguros e inolvidables con atención personalizada 24/7.'
+      : 'Bespoke luxury family adventures in Galapagos and Ecuador: giant tortoises, sea-lion snorkeling and Amazon jungle lodges with 24/7 dedicated concierge service.',
     keywords: ['family Galapagos trip', 'family Ecuador vacation', 'Galapagos with kids', 'Ecuador family adventure', 'family-friendly Galapagos'],
     alternates: { canonical: "https://vermilionroutes.com/" + locale + "/family-friendly-ecuador" },
   };

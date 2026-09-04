@@ -188,7 +188,7 @@ export default function WebGLCanvas({ isDark }: { isDark: boolean }) {
     <Canvas
       dpr={[1, 1.2]}
       gl={{ alpha: true, antialias: false, powerPreference: 'high-performance' }}
-      style={{ pointerEvents: 'none' }}
+      className="pointer-events-none"
     >
       {isDark ? <DarkCanvas /> : <LightCanvas />}
     </Canvas>

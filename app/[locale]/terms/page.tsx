@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { ShieldCheck, FileCheck, MapPin, Mail, Phone, Clock, AlertTriangle, Gift, CreditCard } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Terms & Conditions of Use | Vermilion Routes - Luxury & Bespoke Travel',
+  title: 'Vermilion Routes | Terms & Conditions of Bespoke Travel',
   description: 'Official Terms and Conditions, booking policies, cancellations, and referral program of Agencia de Viajes Vermilion (RUC 1711992808001), Quito, Ecuador.',
 };
 
@@ -44,7 +44,9 @@ export default function TermsAndConditionsPage() {
             <div className="space-y-1.5">
               <p className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-emerald-400 shrink-0" />
-                <a href="mailto:info@vermilionroutes.com" className="text-emerald-400 hover:underline">info@vermilionroutes.com</a>
+                <a href="mailto:info@vermilionroutes.com" className="text-emerald-400 hover:underline">
+                  <span>info</span><span className="text-emerald-400">&#64;</span><span>vermilionroutes.com</span>
+                </a>
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-emerald-400 shrink-0" />

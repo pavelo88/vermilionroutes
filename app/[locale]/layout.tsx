@@ -35,10 +35,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: 'meta' });
   const isEs = locale === 'es';
   const defaultTitle = isEs
-    ? 'Vermilion Routes | Viajes de Lujo a Medida en Ecuador y Galápagos'
+    ? 'Vermilion Routes | Viajes de Lujo a Medida 24/7 en Ecuador'
     : 'Vermilion Routes | Bespoke Ecuador & Galapagos Luxury Travel';
   const defaultDescription = isEs
-    ? 'Agencia de viajes de lujo boutique especializada en itinerarios a medida, expediciones a las Islas Galápagos, lodges en la Amazonía, y travesías volcánicas andinas en Ecuador.'
+    ? 'Agencia de viajes de lujo boutique especializada en expediciones a medida en Galápagos, la Amazonía y los Andes. Reserve su viaje exclusivo con expertos 24/7.'
     : 'Expert-guided bespoke tours to the Galapagos Islands, Amazon Rainforest, Avenue of Volcanoes & colonial cities. Ecuador\'s premier luxury boutique travel agency.';
 
   return {
@@ -129,46 +129,81 @@ export default async function RootLayout({
   const messages = await getMessages();
   const jsonLdData = {
     '@context': 'https://schema.org',
-    '@type': 'TravelAgency',
-    name: 'Vermilion Routes - Agencia de Viajes Vermilion',
-    alternateName: 'Vermilion Routes Luxury & Bespoke Travel',
-    legalName: 'Agencia de Viajes Vermilion Cia. Ltda.',
-    taxID: '1711992808001',
-    description:
-      'Premier luxury boutique tour operator specializing in bespoke travel itineraries, Galapagos island cruises, Amazon lodges, and Andean expeditions in Ecuador.',
-    url: 'https://www.vermilionroutes.com',
-    logo: 'https://www.vermilionroutes.com/logo.png',
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
-    telephone: '+593994048458',
-    email: 'info@vermilionroutes.com',
-    priceRange: '$$$$',
-    openingHours: 'Mo,Tu,We,Th,Fr 09:00-18:00',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Simón Bolívar oe1-120 y Juan León Mera',
-      addressLocality: 'Quito',
-      addressRegion: 'Pichincha',
-      postalCode: '170150',
-      addressCountry: 'EC',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: '-0.3015',
-      longitude: '-78.4172',
-    },
-    areaServed: ['Galapagos Islands', 'Ecuador', 'Mainland Ecuador', 'Amazon Rainforest', 'Andes Mountains'],
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '5.0',
-      reviewCount: '51',
-      bestRating: '5',
-      worstRating: '1',
-    },
-    sameAs: [
-      'https://www.tripadvisor.com/Attraction_Review-g294308-d26260308-Reviews-Vermilion_Routes-Quito_Pichincha_Province.html',
-      'https://www.instagram.com/vermilionroutes',
-      'https://www.tiktok.com/@vermilionsaroutes',
-      'https://www.facebook.com/vermilionroutes',
+    '@graph': [
+      {
+        '@type': ['TravelAgency', 'Organization'],
+        '@id': 'https://www.vermilionroutes.com/#organization',
+        name: 'Vermilion Routes - Agencia de Viajes Vermilion',
+        alternateName: 'Vermilion Routes Luxury & Bespoke Travel',
+        legalName: 'Agencia de Viajes Vermilion Cia. Ltda.',
+        taxID: '1711992808001',
+        description:
+          'Premier luxury boutique tour operator specializing in bespoke travel itineraries, Galapagos island cruises, Amazon lodges, and Andean expeditions in Ecuador.',
+        url: 'https://www.vermilionroutes.com',
+        logo: 'https://www.vermilionroutes.com/logo.png',
+        image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80',
+        telephone: '+593994048458',
+        email: 'info@vermilionroutes.com',
+        priceRange: '$$$$',
+        openingHours: 'Mo,Tu,We,Th,Fr 09:00-18:00',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Simón Bolívar oe1-120 y Juan León Mera',
+          addressLocality: 'Quito',
+          addressRegion: 'Pichincha',
+          postalCode: '170150',
+          addressCountry: 'EC',
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: '-0.3015',
+          longitude: '-78.4172',
+        },
+        areaServed: [
+          'Galapagos Islands',
+          'Ecuador',
+          'Mainland Ecuador',
+          'Amazon Rainforest',
+          'Andes Mountains',
+        ],
+        contactPoint: {
+          '@type': 'ContactPoint',
+          telephone: '+593994048458',
+          contactType: 'customer service',
+          availableLanguage: ['English', 'Spanish', 'French', 'German', 'Italian', 'Portuguese'],
+          areaServed: ['EC', 'US', 'CA', 'GB', 'EU'],
+        },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: '5.0',
+          reviewCount: '51',
+          bestRating: '5',
+          worstRating: '1',
+        },
+        sameAs: [
+          'https://www.tripadvisor.com/Attraction_Review-g294308-d26260308-Reviews-Vermilion_Routes-Quito_Pichincha_Province.html',
+          'https://www.instagram.com/vermilionroutes',
+          'https://www.tiktok.com/@vermilionsaroutes',
+          'https://www.facebook.com/vermilionroutes',
+          'https://www.linkedin.com/company/vermilionroutes',
+          'https://www.youtube.com/@vermilionroutes',
+          'https://x.com/vermilionroutes',
+        ],
+      },
+      {
+        '@type': 'WebSite',
+        '@id': 'https://www.vermilionroutes.com/#website',
+        url: 'https://www.vermilionroutes.com',
+        name: 'Vermilion Routes',
+        publisher: {
+          '@id': 'https://www.vermilionroutes.com/#organization',
+        },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: 'https://www.vermilionroutes.com/search?q={search_term_string}',
+          'query-input': 'required name=search_term_string',
+        },
+      },
     ],
   };
 

@@ -1,25 +1,29 @@
 # Vermilion Routes
 
-> Luxury Boutique Travel Agency & Expert-Guided Expeditions across mainland Ecuador and the Galapagos Islands.
+> Premier Luxury Boutique Tour Operator & Bespoke Expeditions across mainland Ecuador and the Galapagos Islands.
 
-Vermilion Routes provides bespoke luxury expeditions, Galapagos island hopping, private cruises, Amazon rainforest lodges, and Avenue of the Volcanoes treks.
+Vermilion Routes provides bespoke luxury expeditions, Galapagos island hopping, private cruises, Amazon rainforest lodges, and Avenue of the Volcanoes treks with 24/7 dedicated concierge assistance.
+
+## Key Takeaways
+- **Certified Agency:** Licensed boutique tour operator registered with the Ministry of Tourism of Ecuador (RUC 1711992808001).
+- **Destinations Covered:** Galapagos Islands (Santa Cruz, Isabela, San Cristobal, Bartolome), Ecuadorian Amazon (Cuyabeno, Yasuni, Napo), Andean Volcanoes (Cotopaxi, Quilotoa, Chimborazo), and UNESCO Colonial Cities (Quito, Cuenca).
+- **Service Standard:** Private certified naturalist guides, bespoke tailor-made luxury itineraries, seamless logistics, and 24/7 VIP concierge.
+- **Secure Bookings:** Direct encrypted payments via Stripe & major credit cards, guaranteed departure dates, and 100% satisfaction commitment.
 
 ## Core Destinations & Expeditions
-
-- [Galapagos Islands](https://www.vermilionroutes.com/es#destinations): Island hopping, yacht excursions, Santa Cruz, Isabela, San Cristobal, Bartolome, Las Grietas, giant tortoises, marine wildlife.
-- [Avenue of the Volcanoes](https://www.vermilionroutes.com/es#destinations): Cotopaxi National Park, Quilotoa Crater Lagoon, Chimborazo Summit Reserve, Banos Pailon del Diablo Waterfall.
-- [Amazon Rainforest](https://www.vermilionroutes.com/es#destinations): Cuyabeno Wildlife Reserve, Yasuni National Park, Napo River motorized canoe expeditions, indigenous Kichwa communities.
-- [Colonial Heritage & Markets](https://www.vermilionroutes.com/es#destinations): Quito Historic Center (UNESCO), Cuenca Colonial, Otavalo Indigenous Market, Ingapirca Inca Ruins.
+- [Galapagos Islands](https://www.vermilionroutes.com/en#destinations): Island hopping, yacht excursions, Santa Cruz, Isabela, San Cristobal, Bartolome, Las Grietas, giant tortoises, marine wildlife.
+- [Avenue of the Volcanoes](https://www.vermilionroutes.com/en#destinations): Cotopaxi National Park, Quilotoa Crater Lagoon, Chimborazo Summit Reserve, Banos Pailon del Diablo Waterfall.
+- [Amazon Rainforest](https://www.vermilionroutes.com/en#destinations): Cuyabeno Wildlife Reserve, Yasuni National Park, Napo River motorized canoe expeditions, indigenous Kichwa communities.
+- [Colonial Heritage & Markets](https://www.vermilionroutes.com/en#destinations): Quito Historic Center (UNESCO), Cuenca Colonial, Otavalo Indigenous Market, Ingapirca Inca Ruins.
 
 ## Featured Itineraries
-
-- [Galapagos Islands 4-Day Itinerary](https://www.vermilionroutes.com/es#tours): Santa Cruz highlands, Primicias giant tortoise ranch, Isabela full-day excursion, Tintoreras snorkeling.
-- [Galapagos Islands 5-Day Itinerary](https://www.vermilionroutes.com/es#tours): Comprehensive island hopping, Charles Darwin Research Station, Santa Fe and Bartolome excursions.
-- [Ecuador: Andes and Amazon Rainforest (7 Days / 6 Nights)](https://www.vermilionroutes.com/es#tours): Historic Quito, Cotopaxi, Quilotoa, Banos waterfalls, Amazon jungle lodge.
-- [Ecuador and Galapagos Islands Master Journey (12 Days / 11 Nights)](https://www.vermilionroutes.com/es#tours): Complete luxury overland expedition and Galapagos archipelago discovery.
+- [Galapagos Islands 4-Day Itinerary](https://www.vermilionroutes.com/en#tours): Santa Cruz highlands, Primicias giant tortoise ranch, Isabela full-day excursion, Tintoreras snorkeling.
+- [Galapagos Islands 5-Day Itinerary](https://www.vermilionroutes.com/en#tours): Comprehensive island hopping, Charles Darwin Research Station, Santa Fe and Bartolome excursions.
+- [Ecuador: Andes and Amazon Rainforest (7 Days / 6 Nights)](https://www.vermilionroutes.com/en#tours): Historic Quito, Cotopaxi, Quilotoa, Banos waterfalls, Amazon jungle lodge.
+- [Ecuador and Galapagos Islands Master Journey (12 Days / 11 Nights)](https://www.vermilionroutes.com/en#tours): Complete luxury overland expedition and Galapagos archipelago discovery.
 
 ## Direct Contact & Bookings
-
-- [Official Website](https://www.vermilionroutes.com/es): Direct online inquiry and tour catalog.
-- [WhatsApp Booking Support](https://wa.me/593994048458): Instant communication with travel specialists.
-- [Email Inquiry](mailto:info@vermilionroutes.com): Detailed customized itinerary requests.
+- [Official Website](https://www.vermilionroutes.com/en): Direct online inquiry and tour catalog.
+- [Full AI Manifest](https://www.vermilionroutes.com/llms-full.txt): Complete 16-expedition portfolio and API reference.
+- [WhatsApp Booking Support](https://wa.me/593994048458): Instant 24/7 communication with travel specialists.
+- [Official Email Inquiry](mailto:info@vermilionroutes.com): Detailed customized itinerary requests.

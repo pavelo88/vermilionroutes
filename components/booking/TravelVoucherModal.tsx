@@ -198,7 +198,7 @@ export function TravelVoucherModal({
           <div className="pt-4 border-t border-zinc-800 print:border-zinc-300 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-xs text-zinc-400 print:text-zinc-600">
             <div>
               <p className="font-semibold text-white print:text-black">24/7 Concierge &amp; WhatsApp Emergency Assistance:</p>
-              <p className="text-emerald-400 print:text-emerald-700 font-mono">+593-994-048-458 &bull; info@vermilionroutes.com</p>
+              <p className="text-emerald-400 print:text-emerald-700 font-mono">+593-994-048-458 &bull; <span>info</span>&#64;<span>vermilionroutes.com</span></p>
             </div>
 
             <div className="text-right text-[10px] text-zinc-500">

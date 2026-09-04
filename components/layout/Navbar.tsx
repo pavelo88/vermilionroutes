@@ -155,11 +155,15 @@ export function Navbar() {
               <span className="text-white">{getLocalizedText(settings?.contact?.phone, locale) || '+593 99 404 8458'}</span>
             </a>
             <a
-              href={`mailto:${getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}`}
+              href="mailto:info@vermilionroutes.com"
               className="flex items-center gap-1.5 hover:text-emerald-400 transition-colors hidden sm:flex"
             >
               <Mail className="w-3.5 h-3.5 text-emerald-300" />
-              <span className="text-white">{getLocalizedText(settings?.contact?.email, locale) || 'info@vermilionroutes.com'}</span>
+              <span className="text-white">
+                <span>info</span>
+                <span className="text-emerald-300 font-bold">&#64;</span>
+                <span>vermilionroutes.com</span>
+              </span>
             </a>
           </div>
           <div className="flex items-center gap-4 text-xs">
