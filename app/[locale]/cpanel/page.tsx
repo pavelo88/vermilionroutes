@@ -50,14 +50,21 @@ export default function AdminPage() {
           }
         }
 
-        if (cleanEmail === (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@vermilionroutes.com').toLowerCase().trim()) {
+        // Fundadores y administradores maestros tienen pase directo garantizado
+        const isMaster =
+          cleanEmail === 'pablofgarciaf@gmail.com' ||
+          cleanEmail === 'info@vermilionroutes.com' ||
+          cleanEmail === (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@vermilionroutes.com').toLowerCase().trim();
+
+        if (isMaster) {
+          console.log('🕵️‍♂️ [CHISMOSO CPANEL] Acceso de Super Admin concedido a:', cleanEmail);
           isAuthorized = true;
         }
 
         if (isAuthorized) {
           setCurrentUser(user);
         } else {
-          console.warn(`[cPanel RBAC] Acceso denegado a ${cleanEmail}: requiere rol 'super' o 'editor'.`);
+          console.warn(`[CHISMOSO CPANEL] Acceso no autorizado para: ${cleanEmail}`);
           setCurrentUser(null);
         }
       } else {

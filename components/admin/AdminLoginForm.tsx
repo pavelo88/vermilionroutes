@@ -49,15 +49,28 @@ export function AdminLoginForm() {
     }
 
     try {
+      console.log('🕵️‍♂️ [CHISMOSO ADMIN LOGIN] Autenticando en Firebase Auth:', targetEmail);
       const cred = await signInWithEmailAndPassword(auth, targetEmail, targetPassword);
       const loggedEmail = cred.user.email?.toLowerCase().trim();
+      console.log('🕵️‍♂️ [CHISMOSO ADMIN LOGIN] Firebase Auth exitoso para:', loggedEmail);
 
-      // Verificar rol en colección 'usuarios'
+      // Los fundadores tienen pase directo garantizado como Super Admins
+      const isFounder =
+        loggedEmail === 'pablofgarciaf@gmail.com' ||
+        loggedEmail === 'info@vermilionroutes.com' ||
+        loggedEmail === masterEmail;
+
+      if (isFounder) {
+        console.log('🕵️‍♂️ [CHISMOSO ADMIN LOGIN] ✅ Fundador / Super Admin verificado:', loggedEmail);
+        return;
+      }
+
+      // Verificar rol en colección 'usuarios' para otros colaboradores
       if (loggedEmail && db) {
         const uSnap = await getDoc(doc(db, 'usuarios', loggedEmail));
         if (!uSnap.exists()) {
           if (auth) await signOut(auth).catch(() => {});
-          setAuthError(isEs ? 'Acceso denegado: este correo no forma parte del equipo de cPanel.' : 'Access denied: not an authorized cPanel member.');
+          setAuthError(isEs ? 'Acceso denegado (403): Tu cuenta no dispone de permisos para acceder a cPanel.' : 'Access denied: not authorized for cPanel.');
           return;
         }
 
@@ -66,8 +79,8 @@ export function AdminLoginForm() {
           if (auth) await signOut(auth).catch(() => {});
           setAuthError(
             isEs
-              ? `Acceso denegado (403): Tu rol "${role}" no tiene permisos para cPanel (requiere "super" o "editor").`
-              : `Access denied (403): Your role "${role}" is not authorized for cPanel.`
+              ? 'Acceso denegado (403): Tu cuenta no dispone de permisos para acceder a cPanel.'
+              : 'Access denied (403): Your account is not authorized for cPanel.'
           );
           return;
         }

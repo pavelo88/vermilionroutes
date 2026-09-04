@@ -132,17 +132,7 @@ export function proxy(req: NextRequest) {
   const host = req.headers.get('host') || '';
   const hostname = host.split(':')[0].toLowerCase();
 
-  // --------------------------------------------------------------------------
-  // PASO 0: Subdominio Embassy (embassy.vermilionroutes.com)
-  // --------------------------------------------------------------------------
-  if (pathname.includes('/dashboard') || pathname.includes('/network')) {
-    if (hostname !== 'embassy.vermilionroutes.com' && hostname !== 'localhost') {
-      const url = req.nextUrl.clone();
-      url.pathname = '/';
-      return NextResponse.redirect(url);
-    }
-    // Dejamos que caiga al intlMiddleware
-  }
+  // Rutas canónicas de afiliados y administración permitidas en todos los dominios autorizados
 
   // --------------------------------------------------------------------------
   // PASO 1: Interceptación y Rate Limiting / Autorización en API Routes (/api/*)

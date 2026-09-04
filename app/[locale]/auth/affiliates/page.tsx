@@ -74,11 +74,11 @@ function AffiliatesAuthContent() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(
     errorParam === 'invalid_role'
-      ? (isEs ? 'ACCESO DENEGADO (403): Tu cuenta no posee el rol "affiliate" autorizado en el sistema.' : 'ACCESS DENIED (403): Your account does not have the authorized "affiliate" role.')
+      ? (isEs ? 'ACCESO DENEGADO (403): Tu cuenta no dispone de permisos para ingresar a este portal.' : 'ACCESS DENIED (403): Your account is not authorized to access this portal.')
       : errorParam === 'suspended'
-      ? (isEs ? 'CUENTA SUSPENDIDA: Tu cuenta de embajador se encuentra inactiva o bloqueada.' : 'ACCOUNT SUSPENDED: Your ambassador account is inactive or blocked.')
+      ? (isEs ? 'CUENTA SUSPENDIDA: Tu cuenta de embajador se encuentra temporalmente inactiva. Contacta a soporte.' : 'ACCOUNT SUSPENDED: Your ambassador account is inactive.')
       : errorParam === 'not_found'
-      ? (isEs ? 'CUENTA NO ENCONTRADA: No existe registro de embajador activo para este usuario.' : 'ACCOUNT NOT FOUND: No active ambassador profile found for this email.')
+      ? (isEs ? 'CUENTA NO ENCONTRADA: No existe registro de embajador para este usuario.' : 'ACCOUNT NOT FOUND: No ambassador record found.')
       : ''
   );
   const [successMsg, setSuccessMsg] = useState('');
@@ -88,36 +88,50 @@ function AffiliatesAuthContent() {
   const [activeAffiliateId, setActiveAffiliateId] = useState('');
   const [activeUserEmail, setActiveUserEmail] = useState('');
 
-  // Listen to Auth State (con verificación de rol estricta)
+  // Listen to Auth State (Patrón EnergyEngine con Chismosos)
   useEffect(() => {
     if (!auth) return;
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log('🕵️‍♂️ [CHISMOSO AUTH FORM] Auth State Changed:', user?.email);
       if (user && user.email && !errorParam) {
         try {
           const aff = await getAffiliateByEmail(user.email);
-          if (!aff) return;
-
-          const rawRole = String((aff as any).role || '').toLowerCase().trim();
-          const isAllowedRole = rawRole === 'affiliate' || rawRole === 'founder';
-          if (!isAllowedRole) {
-            setErrorMsg(isEs ? `ACCESO DENEGADO: El rol asignado "${rawRole}" no está autorizado en este portal.` : `ACCESS DENIED: Assigned role "${rawRole}" is not authorized.`);
+          console.log('🕵️‍♂️ [CHISMOSO AUTH FORM] Perfil obtenido de Firestore:', aff);
+          if (!aff) {
+            console.warn('🕵️‍♂️ [CHISMOSO AUTH FORM] No se encontró documento de afiliado para:', user.email);
             return;
           }
 
-          const status = String((aff as any).status || '').toLowerCase().trim();
+          // En EnergyEngine, si existe en affiliates el rol por defecto es 'affiliate'
+          const rawRole = String((aff as any).role || 'affiliate').toLowerCase().trim();
+          const isAllowedRole = rawRole === 'affiliate' || rawRole === 'founder';
+          console.log('🕵️‍♂️ [CHISMOSO AUTH FORM] Rol evaluado:', rawRole, '| Autorizado:', isAllowedRole);
+
+          if (!isAllowedRole) {
+            console.error('🕵️‍♂️ [CHISMOSO AUTH FORM] Rol no autorizado. Permaneciendo en formulario.');
+            setErrorMsg(isEs ? 'ACCESO DENEGADO (403): Tu cuenta no dispone de permisos para ingresar a este portal.' : 'ACCESS DENIED (403): Your account is not authorized.');
+            return;
+          }
+
+          const status = String((aff as any).status || 'active').toLowerCase().trim();
           if (status === 'suspended' || status === 'blocked' || status === 'inactive') {
-            setErrorMsg(isEs ? 'CUENTA SUSPENDIDA: Tu cuenta de embajador está inactiva.' : 'ACCOUNT SUSPENDED: Your account is inactive.');
+            console.error('🕵️‍♂️ [CHISMOSO AUTH FORM] Cuenta inactiva/suspendida.');
+            setErrorMsg(isEs ? 'CUENTA SUSPENDIDA: Tu cuenta de embajador se encuentra inactiva.' : 'ACCOUNT SUSPENDED: Your account is inactive.');
             return;
           }
 
           if (aff.forcePasswordChange) {
+            console.log('🕵️‍♂️ [CHISMOSO AUTH FORM] Requiere cambio de contraseña. Abriendo modal...');
             setActiveAffiliateId(aff.id);
             setActiveUserEmail(user.email);
             setShowForcePasswordModal(true);
           } else {
+            console.log('🕵️‍♂️ [CHISMOSO AUTH FORM] ✅ Redirigiendo a /affiliates/dashboard');
             router.replace(`/${locale}/affiliates/dashboard`);
           }
-        } catch {}
+        } catch (err) {
+          console.error('🕵️‍♂️ [CHISMOSO AUTH FORM] Error verificando estado:', err);
+        }
       }
     });
     return () => unsubscribe();
@@ -173,12 +187,14 @@ function AffiliatesAuthContent() {
         targetEmail = foundAffiliate.email;
       }
 
+      console.log('🕵️‍♂️ [CHISMOSO LOGIN FORM] Intentando autenticar en Firebase Auth para:', targetEmail);
       if (auth) {
         try {
           await setPersistence(auth, browserLocalPersistence);
         } catch {}
         await signInWithEmailAndPassword(auth, targetEmail, loginPassword.trim());
       }
+      console.log('🕵️‍♂️ [CHISMOSO LOGIN FORM] Firebase Auth exitoso. Buscando perfil en colección affiliates...');
 
       // Buscar perfil de afiliado
       let attempts = 0;
@@ -191,22 +207,26 @@ function AffiliatesAuthContent() {
         if (attempts < 3) await new Promise(r => setTimeout(r, 600));
       }
 
-      // Validación estricta de Rol y Estatus (RBAC)
+      console.log('🕵️‍♂️ [CHISMOSO LOGIN FORM] Perfil encontrado en Firestore:', foundAffiliate);
+
+      // Validación de Rol y Estatus (Patrón EnergyEngine: por defecto 'affiliate')
       if (foundAffiliate) {
-        const rawRole = String((foundAffiliate as any).role || '').toLowerCase().trim();
+        const rawRole = String((foundAffiliate as any).role || 'affiliate').toLowerCase().trim();
         const isAllowedRole = rawRole === 'affiliate' || rawRole === 'founder';
+        console.log('🕵️‍♂️ [CHISMOSO LOGIN FORM] Rol verificado:', rawRole, '| ¿Autorizado?:', isAllowedRole);
+
         if (!isAllowedRole) {
           if (auth) await signOut(auth).catch(() => {});
           setErrorMsg(
             isEs
-              ? `ACCESO DENEGADO (403): Tu cuenta tiene el rol "${rawRole}". Solo cuentas con rol "affiliate" pueden ingresar a este portal.`
-              : `ACCESS DENIED (403): Your account has role "${rawRole}". Only "affiliate" accounts are authorized.`
+              ? 'ACCESO DENEGADO (403): Tu cuenta no dispone de permisos para ingresar a este portal.'
+              : 'ACCESS DENIED (403): Your account is not authorized to access this portal.'
           );
           setLoading(false);
           return;
         }
 
-        const status = String((foundAffiliate as any).status || '').toLowerCase().trim();
+        const status = String((foundAffiliate as any).status || 'active').toLowerCase().trim();
         if (status === 'suspended' || status === 'blocked' || status === 'inactive') {
           if (auth) await signOut(auth).catch(() => {});
           setErrorMsg(

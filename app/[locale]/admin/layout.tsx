@@ -46,9 +46,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           return;
         }
 
+        // Fundadores y administradores maestros tienen pase directo garantizado
+        const isMaster =
+          cleanEmail === 'pablofgarciaf@gmail.com' ||
+          cleanEmail === 'info@vermilionroutes.com' ||
+          cleanEmail === (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@vermilionroutes.com').toLowerCase().trim();
+
+        if (isMaster) {
+          console.log('🕵️‍♂️ [CHISMOSO ADMIN LAYOUT] ✅ Fundador / Super Admin verificado:', cleanEmail);
+          setUserRole('super');
+          setCurrentUser(firebaseUser);
+          setDenied(false);
+          return;
+        }
+
         const userSnap = await getDoc(doc(db, 'usuarios', cleanEmail));
         if (!userSnap.exists()) {
-          console.error('[Admin Guard] Usuario no encontrado en colección usuarios:', cleanEmail);
+          console.error('🕵️‍♂️ [CHISMOSO ADMIN LAYOUT] Usuario no encontrado en colección usuarios:', cleanEmail);
           setDenied(true);
           setLoading(false);
           return;
@@ -61,10 +75,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         // Permite acceso a todo el personal corporativo de la empresa
         const allowedInternalRoles = ['super', 'admin', 'operator', 'sales', 'financial', 'concierge', 'editor'];
         if (allowedInternalRoles.includes(role)) {
+          console.log('🕵️‍♂️ [CHISMOSO ADMIN LAYOUT] ✅ Personal autorizado. Rol:', role);
           setCurrentUser(firebaseUser);
           setDenied(false);
         } else {
-          console.error(`[Admin Guard] Intento de acceso denegado a rol externo "${role}" por ${cleanEmail}`);
+          console.error(`🕵️‍♂️ [CHISMOSO ADMIN LAYOUT] Acceso denegado a rol no corporativo: "${role}"`);
           setDenied(true);
         }
       } catch (err) {
@@ -89,9 +104,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (loading) {
     return (
       <div className="min-h-screen bg-[#07110B] flex flex-col items-center justify-center space-y-4">
-        <div className="w-10 h-10 border-2 border-amber-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-xs text-zinc-400 font-mono tracking-widest uppercase">
-          {isEs ? 'Verificando privilegios de administración...' : 'Verifying administrative privileges...'}
+        <div className="w-10 h-10 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+        <p className="text-[10px] uppercase tracking-[0.25em] font-sans text-emerald-400 font-semibold">
+          {isEs ? 'Verificando Credenciales de Gestión...' : 'Verifying Management Credentials...'}
         </p>
       </div>
     );
@@ -114,14 +129,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </h2>
             <p className="text-xs text-zinc-400 leading-relaxed">
               {isEs
-                ? 'El panel de CRM y Liquidación Financiera está reservado exclusivamente para roles "super" y "admin".'
-                : 'The CRM and Financial Payouts center is restricted to "super" and "admin" roles.'}
+                ? 'Este módulo empresarial está reservado exclusivamente para personal corporativo autorizado.'
+                : 'This enterprise module is strictly restricted to authorized staff.'}
             </p>
-            {userRole && (
-              <p className="text-[11px] text-zinc-500 font-mono mt-1">
-                {isEs ? 'Tu rol actual:' : 'Your current role:'} <span className="text-rose-400 font-bold uppercase">{userRole}</span>
-              </p>
-            )}
           </div>
 
           <div className="pt-2 flex flex-col gap-2">

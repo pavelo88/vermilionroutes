@@ -57,6 +57,7 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
       }
 
       const cleanEmail = firebaseUser.email.toLowerCase().trim();
+      console.log('🕵️‍♂️ [CHISMOSO AFFILIATES LAYOUT] 1. Sesión activa en Firebase:', cleanEmail);
 
       try {
         // 1. Verificar si es Super Admin con permisos maestros de auditoría
@@ -66,17 +67,19 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
             const userSnap = await getDoc(doc(db, 'usuarios', cleanEmail));
             if (userSnap.exists() && userSnap.data()?.role === 'super') {
               isSuperAdmin = true;
+              console.log('🕵️‍♂️ [CHISMOSO AFFILIATES LAYOUT] Es Super Admin (Auditoría Técnica)');
             }
           } catch (superErr) {
-            console.warn('[RBAC Affiliates] Super check notice:', superErr);
+            console.warn('[CHISMOSO AFFILIATES LAYOUT] Super check notice:', superErr);
           }
         }
 
         // 2. Obtener documento de afiliado
         const aff = await getAffiliateByEmail(cleanEmail);
+        console.log('🕵️‍♂️ [CHISMOSO AFFILIATES LAYOUT] 2. Documento Firestore encontrado:', aff);
 
         if (!aff && !isSuperAdmin) {
-          console.error('[RBAC Affiliates] Cuenta no registrada en la colección affiliates:', cleanEmail);
+          console.error('[CHISMOSO AFFILIATES LAYOUT] Cuenta no encontrada en colección affiliates:', cleanEmail);
           await signOut(auth);
           setLoading(false);
           router.replace(`/${locale}/auth/affiliates?error=not_found`);
@@ -84,12 +87,13 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
         }
 
         if (aff && !isSuperAdmin) {
-          // 3. Validación estricta del campo ROLE (prevención anti-adulteración)
-          const rawRole = String((aff as any).role || '').toLowerCase().trim();
+          // 3. Validación de ROL (Patrón EnergyEngine: Si el documento existe en affiliates, default es 'affiliate')
+          const rawRole = String((aff as any).role || 'affiliate').toLowerCase().trim();
           const isAuthorizedRole = rawRole === 'affiliate' || rawRole === 'founder';
+          console.log('🕵️‍♂️ [CHISMOSO AFFILIATES LAYOUT] 3. Rol verificado:', rawRole, '| ¿Autorizado?:', isAuthorizedRole);
 
           if (!isAuthorizedRole) {
-            console.error(`[RBAC Affiliates SECURITY ALERT] Rol no autorizado: "${rawRole}". Expulsando de inmediato.`);
+            console.error(`[CHISMOSO AFFILIATES LAYOUT ALERTA] Rol no autorizado: "${rawRole}". Expulsando al formulario.`);
             await signOut(auth);
             setLoading(false);
             router.replace(`/${locale}/auth/affiliates?error=invalid_role`);
@@ -97,9 +101,10 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
           }
 
           // 4. Validación de estado de cuenta (status)
-          const status = String((aff as any).status || '').toLowerCase().trim();
+          const status = String((aff as any).status || 'active').toLowerCase().trim();
+          console.log('🕵️‍♂️ [CHISMOSO AFFILIATES LAYOUT] 4. Estatus de cuenta:', status);
           if (status === 'suspended' || status === 'blocked' || status === 'inactive') {
-            console.error(`[RBAC Affiliates SECURITY ALERT] Cuenta de embajador inactiva/suspendida: "${status}". Expulsando.`);
+            console.error(`[CHISMOSO AFFILIATES LAYOUT ALERTA] Cuenta inactiva/suspendida: "${status}". Expulsando al formulario.`);
             await signOut(auth);
             setLoading(false);
             router.replace(`/${locale}/auth/affiliates?error=suspended`);
@@ -108,7 +113,7 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
 
           // 5. Validación de cambio obligatorio de clave
           if (aff.forcePasswordChange) {
-            console.warn('[RBAC Affiliates] Embajador requiere cambio de contraseña inicial. Redirigiendo...');
+            console.warn('[CHISMOSO AFFILIATES LAYOUT] 5. Requiere cambio de contraseña inicial. Redirigiendo al formulario...');
             setLoading(false);
             router.replace(`/${locale}/auth/affiliates`);
             return;
@@ -116,10 +121,11 @@ export default function AffiliatesLayout({ children }: { children: React.ReactNo
         }
 
         // Todas las validaciones de seguridad superadas
+        console.log('🕵️‍♂️ [CHISMOSO AFFILIATES LAYOUT] ✅ Acceso Concedido exitosamente al Dashboard de Embajadores.');
         setCurrentUser(firebaseUser);
         setLoading(false);
       } catch (err) {
-        console.error('[RBAC Affiliates] Error en verificación de seguridad:', err);
+        console.error('[CHISMOSO AFFILIATES LAYOUT] Error en verificación de seguridad:', err);
         await signOut(auth).catch(() => {});
         setLoading(false);
         router.replace(`/${locale}/auth/affiliates?error=security_check_failed`);
